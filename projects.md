@@ -1,12 +1,12 @@
 ---
 layout: page
 title: Projects
-subtitle: Spare time stuff, research, etc.
+subtitle: Things I do in my spare time.
 ---
 
 ## Community & Events
 
-**[DataHack]** - I co-founded and manage a yearly data science and machine learning hackathon (Israel's largest hackathon dedicated to these subjects).
+**[DataHack]** - I co-founded and manage DataHack, a yearly data science and machine learning hackathon (Israel's largest hackathon dedicated to these subjects).
 
 [DataHack]: http://datahack-il.com/
 
@@ -15,9 +15,9 @@ subtitle: Spare time stuff, research, etc.
 [DataTalks]: https://www.meetup.com/DataHack/
 
 
-## Open source projects
+<!--## Open source projects-->
 
-### Open source Python projects
+## Open source Python projects
 
 <!--**[pdpipe]** - Easy one-line pipelines for pandas Dataframes.
 
