@@ -8,7 +8,7 @@ subtitle: Products of my time in Academia
 
 Here is a list of research that ended in paper form.
 
-**Active Learning for Domain Adaptation in Sentiment Analysis**
+**Active Learning for Domain Adaptation in Sentiment Analysis**\s\s
 Shay Palachy and Inbar Naor
 [PDF](https://dl.dropboxusercontent.com/u/4070062/Papers/Active%20Learning%20for%20Domain%20Adaptation%20in%20Sentiment%20Analysis.pdf)  |  [code](https://github.com/shaypal5/active_learning_for_domain_adaptation_in_sentiment_analysis)
 
