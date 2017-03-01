@@ -1,8 +1,10 @@
 ---
 layout: page
-title: Welcome!
-subtitle: Shay's personal web page
+title: About
+subtitle: A little about me.
 ---
+
+{% include about.md %}
 
 <!--
 <div class="main-explain-area jumbotron">
@@ -14,7 +16,7 @@ subtitle: Shay's personal web page
 <h1> Blog posts on Open Data Science: </h1>
 -->
 
-<div class="posts-list">
+<!--<div class="posts-list">
   {% for post in paginator.posts %}
   <article class="post-preview">
     <a href="{{ post.url | prepend: site.baseurl }}">
@@ -53,4 +55,4 @@ subtitle: Shay's personal web page
   </li>
   {% endif %}
 </ul>
-{% endif %}
+{% endif %}-->
