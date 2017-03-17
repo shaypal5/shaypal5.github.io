@@ -19,9 +19,9 @@ subtitle: Things I do in my spare time.
 
 ## Open source Python projects
 
-<!--**[pdpipe]** - Easy one-line pipelines for pandas Dataframes.
+**[pdpipe]** - Easy pipelines for pandas DataFrames.
 
-[pdpipe]: https://github.com/shaypal5/pdpipe-->
+[pdpipe]: https://github.com/shaypal5/pdpipe
 
 **[holcrawl]** - A crawler for building Hollywood movies datsets.
 
