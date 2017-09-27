@@ -1,4 +1,4 @@
-**Work**: Since early 2016 I have been working as a data scientist at [Neura].
+**Work**: On September 2017 I joined [ZenCity] as its Lead Data Scientist. Before that I worked as as a data scientist at [Neura], and as a developer at Intel and [Ravello] (now Oracle Cloud).
 
 **Education**: I am finishing my Msc in computer science at The Hebrew University in Jerusalem. My research interests include machine learning, NLP, dynamic network processes, block chain systems and other areas in both data science and game theory. See more at my [research][Research] page.
 
@@ -7,7 +7,9 @@
 **Open source code**: On my spare time I have been creating some small open source tools. See more at my [projects][Projects] page.
 
 
+[ZenCity]: http://zencity.io/
 [Neura]: http://www.theneura.com/
+[Ravello]: www.ravellosystems.com
 [DataHack]: http://datahack-il.com
 [Projects]: /projects.html
 [Research]: /research.html
