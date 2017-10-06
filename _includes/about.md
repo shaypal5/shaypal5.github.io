@@ -1,4 +1,4 @@
-**Work**: On September 2017 I joined [ZenCity] as its Lead Data Scientist. Before that I worked as as a data scientist at [Neura], and as a developer at Intel and [Ravello] (now Oracle Cloud).
+**Work**: I work as the Lead Data Scientist of [ZenCity]. Before that I worked as as a data scientist at [Neura], and as a developer at Intel and [Ravello] (now Oracle Cloud).
 
 **Education**: I am finishing my Msc in computer science at The Hebrew University in Jerusalem. My research interests include machine learning, NLP, dynamic network processes, block chain systems and other areas in both data science and game theory. See more at my [research][Research] page.
 
