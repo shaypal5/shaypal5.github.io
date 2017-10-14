@@ -30,6 +30,7 @@ navbar-links:
   About: ""
   Projects: "projects.html"
   Research: "research.html"
+  Presentations: "presentations.html"
   # About: "about.html"
 #  Contact: "contact.html"
 # nav-search: search
