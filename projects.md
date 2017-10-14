@@ -23,6 +23,10 @@ subtitle: Things I do in my spare time.
 
 [pdpipe]: https://github.com/shaypal5/pdpipe
 
+**[cachier]** - Persistent, stale-free memoization decorators for Python.
+
+[cachier]: https://github.com/shaypal5/cachier
+
 **[holcrawl]** - A crawler for building Hollywood movies datsets.
 
 [holcrawl]: https://github.com/shaypal5/holcrawl
@@ -30,10 +34,6 @@ subtitle: Things I do in my spare time.
 **[morejson]** - A drop-in replacement for Python's json module that handles additional built-in and standard library Python types.
 
 [morejson]: https://github.com/shaypal5/morejson
-
-**[cachier]** - Persistent, stale-free memoization decorators for Python.
-
-[cachier]: https://github.com/shaypal5/cachier
 
 **[s3bp]** - Read and write Python objects to S3, caching them on your hard drive to avoid unnecessary IO.
 
