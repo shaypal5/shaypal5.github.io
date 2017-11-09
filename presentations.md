@@ -12,6 +12,8 @@ subtitle: Things I've presented
 
 **Quick & dirty data scienc with Python @ [DataTalks #3](https://www.meetup.com/DataHack/events/237926275/), 15.3.17** - I presented a classification challenge we had at [Neura](https://www.theneura.com/), and how we tackled it using the simplest machine learning tools and some dirty heuristics to get a working system with good results in a short amount of time. [[Event page](https://www.meetup.com/DataHack/events/237926275/)] 
 
+**[Introduction to Network Analysis (with Python)](https://github.com/shaypal5/exploring_networks_with_python_intro) @ [Data Science Summit Europe 2016](https://www.xing-events.com/dataeu2016.html) Training Day, 5.6.16** - An introduction to exploring network-structured datasets with the Python networkx package and Jupyter Notebook. [[PDF Slides](https://www.dropbox.com/s/rbmxu3u98ysuomj/Introduction%20to%20Network%20Analysis%20%5BData%20Science%20Summit%202016%20Workshop%5D.pdf?dl=0)] [[Repository](https://github.com/shaypal5/exploring_networks_with_python_intro)]
+
 
 ## Community
 
