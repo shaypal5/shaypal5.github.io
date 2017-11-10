@@ -4,7 +4,7 @@
 
 **Education**: I am finishing my Msc in computer science at The Hebrew University in Jerusalem. My research interests include machine learning, NLP, dynamic network processes, block chain systems and other areas in both data science and game theory. See more at my [research][Research] page.
 
-**DataHack**: I co-founded and manage [DataHack], a community and yearly hackathon dedicated to data science and machine learning. See more at my [projects][Projects] page.
+**Projects**: I co-founded and manage [NLPH](https://github.com/NLPH/NLPH), an initiative to bring NLP tools for Hebrew up to industry standards, and [DataHack], a community and yearly hackathon dedicated to data science and machine learning. See more at my [projects][Projects] page.
 
 **Open source code**: On my spare time I have been creating some small open source tools. See more at my [projects][Projects] page.
 
