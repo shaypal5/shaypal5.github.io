@@ -28,7 +28,8 @@ avatar: /images/prof_200_200.png
 # List of links in the navigation bar
 navbar-links:
   About: ""
-  Projects: "projects.html"
+  Community: "community.html"
+  Code: "code.html"
   Research: "research.html"
   Presentations: "presentations.html"
   # About: "about.html"

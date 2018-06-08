@@ -18,7 +18,7 @@ Shay Palachy and Aviv Zohar<br>
 [PDF](https://www.dropbox.com/s/sytcft5mwo0athl/congestion_in_block_networks.pdf?dl=0)
 
 
-**Comparing Domain-Specific  Knowledge Used to Solve Sokoban**<br>
+**Comparing Domain-Specific Knowledge Used to Solve Sokoban**<br>
 Shay Palachy and Inbar Naor<br>
 [PDF](https://www.dropbox.com/s/q56iwi4oeue26yh/Comparing%20Domain-Specific%20%20Knowledge%20Used%20to%20Solve%20Sokoban%20-%20Inbar%20Naor%20and%20Shay%20Palachy.pdf?dl=0)
 
