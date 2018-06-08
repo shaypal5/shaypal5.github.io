@@ -1,6 +1,6 @@
-I like to code, do data science, research and help create, stir and manage interesting things the require cooperation and several people to achieve. I'm learning how to do all these things, and I think I'll always be learning how to do them, so I'm trying to enjoy the practice and the process. :)
+<!-- I like to code, do data science, research and help create, stir and manage interesting things the require cooperation and several people to achieve. I'm learning how to do all these things, and I think I'll always be learning how to do them, so I'm trying to enjoy the practice and the process. :) -->
 
-**Work**: I work as the Lead Data Scientist of [ZenCity]. Before that I worked as as a data scientist at [Neura], and as a developer at Intel and [Ravello] (now Oracle Cloud).
+**Work**: I work as the Lead Data Scientist of [ZenCity]. Before that I worked as as a data scientist at [Neura], and as a developer at Intel and [Ravello]  (now Oracle Cloud).
 
 **Presentations**: I sometime talk about my research interests and community activity. See more on my [presentations](/presentations.html) page.
 
