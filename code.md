@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Code
-subtitle: Code things I do in my spare time.
+subtitle: This is where most of my typing goes to.
 ---
 
 ## Open source Python projects
