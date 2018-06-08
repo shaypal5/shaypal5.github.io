@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Projects
-subtitle: Community projects I run in my spare time.
+title: Community
+subtitle: Some projects I run in my spare time.
 ---
 
 <!-- ## Community & Events -->
