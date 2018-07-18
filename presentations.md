@@ -21,6 +21,8 @@ subtitle: Things I've presented
 
 ## Community
 
+**[Data Science in the wild](https://docs.google.com/presentation/d/1_0aIhkJCyXFfKtlfb5gW-MDBY29YkFWJN4PzWTQ77Gg/edit?usp=sharing) @ [TIP 2018](http://transdisciplinary-innovation.com/)** - I talked at the [Trans-disciplinary Innovation Program](http://transdisciplinary-innovation.com/) of The Hebrew University of Jerusalem about the actualities of practicing data science in the wild, and lessons learned from the mistakes I made. [[Google Slides](https://docs.google.com/presentation/d/1_0aIhkJCyXFfKtlfb5gW-MDBY29YkFWJN4PzWTQ77Gg/edit?usp=sharing)]
+
 **[ODsL](https://odsl.github.io/) @ [Reversim 2017](https://summit2017.reversim.com/)** - I talked at [Reversim 2017](https://summit2017.reversim.com/) about the [ODsL project](https://odsl.github.io/). [[Video](https://www.youtube.com/watch?v=a_bpEelXfG0&list=PLqXy0aX6TzQrRE_sAtkqBsJAdFQOGme8O&index=32)] [[Abstract](https://summit2017.reversim.com/session/5ffe1f3f-137a-405a-c420-08816400cc8e)] [[Google Slides](https://docs.google.com/presentation/d/1G1eonyxCapnCbklfnlfmXBpfs9r29ANcTQBWATGej28/edit?usp=sharing)] [[PDF slides](https://drive.google.com/file/d/0B3IYTOSJm0hOR2ZrVW9UMEVEZXc/view?usp=sharing)]
 
 **[Fireside chat on Big Data](https://www.dropbox.com/s/wm0li3z3w4mnpkt/ir_academia_datahack_event.pdf?dl=0) @ Ir-Acdemia, Industry-Acedmia Event #2, 24.5.16** - Co-organized and co-hosted with Inbar Naor the Big Data Panel, interviewing Prof. Yossi Matias, VP Engineering @ Google, Prof. Menahem Ben-Sasson, HUJI President, and Prof. Yair Weiss, Head of the CS school. [[Agenda](https://www.dropbox.com/s/wm0li3z3w4mnpkt/ir_academia_datahack_event.pdf?dl=0)]
