@@ -1,6 +1,6 @@
 <!-- I like to code, do data science, research and help create, stir and manage interesting things the require cooperation and several people to achieve. I'm learning how to do all these things, and I think I'll always be learning how to do them, so I'm trying to enjoy the practice and the process. :) -->
 
-**Community Projects**: I founded and manage [NLPH](https://github.com/NLPH/NLPH), an initiative to bring NLP tools for Hebrew up to industry standards, and co-founded and co-manage, with [Inbar Naor](https://www.linkedin.com/in/inbar-naor-6b973a50/), [DataHack], a non-profit / community / yearly hackathon dedicated to promoting data science and machine learning in Israel. See more at my [community][Community] page.
+**Community Projects**: I founded and manage [NLPH](https://github.com/NLPH/NLPH), an initiative to bring NLP tools for Hebrew up to industry standards. I also co-founded and co-manage, with [Inbar Naor](https://www.linkedin.com/in/inbar-naor-6b973a50/), [DataHack], a non-profit / community / yearly hackathon dedicated to promoting data science and machine learning in Israel. See more at my [community][Community] page.
 
 **Work**: I work as a machine learning / data science consultant ([contact me by email](mailto:shay.palachy@gmail.com) for consulting). Before that I worked as the Lead Data Scientist of [ZenCity], as a data scientist at [Neura], and as a developer at Intel and [Ravello]  (now Oracle Cloud).
 
