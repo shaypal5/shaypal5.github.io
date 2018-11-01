@@ -6,9 +6,9 @@ subtitle: Some projects I run in my spare time.
 
 <!-- ## Community & Events -->
 
-**[NLPH](https://github.com/NLPH/NLPH)** - I founded a joint initiative with [HaSadna](http://www.hasadna.org.il/en/) to bring Natural Language Processing capabilities in Hebrew to a level on par with international industry standards, keeping up with state-of-the-art techniques by providing open source implementations to new algorithms and tools, and making these capabilities publicly available for both public and commercial use.
+**[NLPH](https://github.com/NLPH/NLPH)** - I founded a joint community initiative with [HaSadna](http://www.hasadna.org.il/en/) to bring Natural Language Processing capabilities in Hebrew to a level on par with international industry standards, keeping up with state-of-the-art techniques by providing open source implementations to new algorithms and tools, and making these capabilities publicly available for both public and commercial use.
 
-**[DataHack]** - I co-founded and manage [DataHack], a yearly data science and machine learning hackathon (Israel's largest hackathon dedicated to these subjects).
+**[DataHack]** - I co-founded and co-manage, with [Inbar Naor](https://www.linkedin.com/in/inbar-naor-6b973a50/), [DataHack], a non-profit / community / yearly hackathon dedicated to promoting data science and machine learning in Israel. It is the largest hackathon in Israel dedicated to these subjects.
 
 [DataHack]: http://datahack-il.com/
 
