@@ -6,7 +6,7 @@ subtitle: Things I've presented
 
 ## Technical
 
-**Packaging for personal open source projects @ [PyData Tel Aviv #19 - Open-Source Sprint](https://www.meetup.com/PyData-Tel-Aviv/events/256401399/), 19.12.18** - I talked about why packaging can be important for even small and personal open source projects, focusing on Python projects, at the 19th PyData TLV meetup. Slides link TBA.
+**Packaging for personal open source projects @ [PyData Tel Aviv #19 - Open-Source Sprint](https://www.meetup.com/PyData-Tel-Aviv/events/256401399/), 19.12.18** - I talked about why packaging can be important even for small and personal open source projects, focusing on Python projects, at the 19th PyData TLV meetup. [[Google Slides](https://docs.google.com/presentation/d/1MSAMPOF1cNwWJVYnf2sof-MlmOyD5a2crHPmczB8pR8/edit?usp=sharing)] [[PDF slides](https://drive.google.com/file/d/1o10jwOxYR_6w4nDPNmWSHZbv6xwISnf4/view?usp=sharing)]
 
 **[Bot use in election period and its effect on freedom of speech](http://law.haifa.ac.il/images/eventDocs/hofeshPROG.jpg) @ [Conference on freedom of speech on the internet in election period](http://law.haifa.ac.il/images/eventDocs/hofeshPROG.jpg), 6.12.18** - I was part of a panel discussing the topic of bot use in election period and its effect on freedom of speech, providing the point of view of the AI research community and industry. Video link TBA.
 
