@@ -6,7 +6,7 @@ subtitle: Resources
 
 **[First Talk Slides](https://docs.google.com/presentation/d/1E3LmlREYxjqjAXW2x5JGUn1_4hoo6em3NVHS32agM50/edit?usp=sharing)** - A presentation on the benefits of packaging for both open-source and private Python projects.
 
-**[Second Talk Slides(https://docs.google.com/presentation/d/1z-CwK6O74J3WTr7cWGmk09SFxWaTJWlAtRp7kKt-EdE/edit?usp=sharing)** - A technical overview of Python packages.
+**[Second Talk Slides](https://docs.google.com/presentation/d/1z-CwK6O74J3WTr7cWGmk09SFxWaTJWlAtRp7kKt-EdE/edit?usp=sharing)** - A technical overview of Python packages.
 
 **Basic example repository:** [https://github.com/shaypal5/chocobo](https://github.com/shaypal5/chocobo)
 
