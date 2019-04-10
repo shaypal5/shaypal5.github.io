@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Blog
-subtitle: I don't have a blog, but I write sometimes.
+subtitle: I don't have a blog, but I do write occasionally.
 ---
 
 
