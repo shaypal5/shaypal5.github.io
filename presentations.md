@@ -6,9 +6,9 @@ subtitle: Things I've presented
 
 ## Technical
 
-**Clustering: A very rough intro @ BigPanda** - An introductory talk about clustering I gave to data team members in BigPanda as part of periodic knowledge share sessions. [[Google Slides](https://docs.google.com/presentation/d/1FRoKAo2on_WwVjRrH1UphMw9yXXhH3DV8K__izGK3nM/edit?usp=sharing)]
+**[Clustering: A very rough intro @ BigPanda](https://docs.google.com/presentation/d/1FRoKAo2on_WwVjRrH1UphMw9yXXhH3DV8K__izGK3nM/edit?usp=sharing)** - An introductory talk about clustering I gave to data team members at BigPanda as part of periodic knowledge share sessions. [[Google Slides](https://docs.google.com/presentation/d/1FRoKAo2on_WwVjRrH1UphMw9yXXhH3DV8K__izGK3nM/edit?usp=sharing)]
 
-**Data Preparation: Scaling and Normalization (A very rough intro) @ BigPanda** - An introductory talk about scaling and normalization I gave to data team members in BigPanda as part of periodic knowledge share sessions. [[Google Slides](https://docs.google.com/presentation/d/1tj3lZW9u1bz-HGMLuvuglr6Axo-CY8-1nYVraK3_pLU/edit?usp=sharing)]
+**[Data Preparation: Scaling and Normalization (A very rough intro) @ BigPanda](https://docs.google.com/presentation/d/1tj3lZW9u1bz-HGMLuvuglr6Axo-CY8-1nYVraK3_pLU/edit?usp=sharing)** - An introductory talk about scaling and normalization I gave to data team members at BigPanda as part of periodic knowledge share sessions. [[Google Slides](https://docs.google.com/presentation/d/1tj3lZW9u1bz-HGMLuvuglr6Axo-CY8-1nYVraK3_pLU/edit?usp=sharing)]
 
 **Packaging for personal open source projects @ [PyData Tel Aviv #19 - Open-Source Sprint](https://www.meetup.com/PyData-Tel-Aviv/events/256401399/), 19.12.18** - I talked about why packaging can be important even for small and personal open source projects, focusing on Python projects, at the 19th PyData TLV meetup. [[Google Slides](https://docs.google.com/presentation/d/1MSAMPOF1cNwWJVYnf2sof-MlmOyD5a2crHPmczB8pR8/edit?usp=sharing)] [[PDF slides](https://drive.google.com/file/d/1o10jwOxYR_6w4nDPNmWSHZbv6xwISnf4/view?usp=sharing)]
 
