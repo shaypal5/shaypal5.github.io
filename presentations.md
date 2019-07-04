@@ -6,6 +6,8 @@ subtitle: Things I've presented
 
 ## Technical
 
+**[Clustering Evaluation @ Check Point data science guild day](https://docs.google.com/presentation/d/1gbg8ittEJ4ZbW3pioEyLp4LEJBMQHNAjjcsrHGnjoug/edit?usp=sharing)** - An introductory talk about how to evaluate clustering methods . [[Google Slides](https://docs.google.com/presentation/d/1gbg8ittEJ4ZbW3pioEyLp4LEJBMQHNAjjcsrHGnjoug/edit?usp=sharing)]
+
 **[Clustering: A very rough intro @ BigPanda](https://docs.google.com/presentation/d/1FRoKAo2on_WwVjRrH1UphMw9yXXhH3DV8K__izGK3nM/edit?usp=sharing)** - An introductory talk about clustering I gave to data team members at BigPanda as part of periodic knowledge share sessions. [[Google Slides](https://docs.google.com/presentation/d/1FRoKAo2on_WwVjRrH1UphMw9yXXhH3DV8K__izGK3nM/edit?usp=sharing)]
 
 **[Data Preparation: Scaling and Normalization (A very rough intro) @ BigPanda](https://docs.google.com/presentation/d/1tj3lZW9u1bz-HGMLuvuglr6Axo-CY8-1nYVraK3_pLU/edit?usp=sharing)** - An introductory talk about scaling and normalization I gave to data team members at BigPanda as part of periodic knowledge share sessions. [[Google Slides](https://docs.google.com/presentation/d/1tj3lZW9u1bz-HGMLuvuglr6Axo-CY8-1nYVraK3_pLU/edit?usp=sharing)]
