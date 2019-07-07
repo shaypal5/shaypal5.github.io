@@ -20,7 +20,7 @@ subtitle: This is where most of my typing goes to.
 
 **[stationarizer]** - Smart, automatic detection and stationarization of non-stationary time series data.
 
-[stationarizer: https://github.com/shaypal5/stationarizer
+[stationarizer]: https://github.com/shaypal5/stationarizer
 
 **[birch]** - Simple hierarchical configuration for Python packages.
 
