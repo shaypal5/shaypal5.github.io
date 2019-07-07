@@ -18,6 +18,10 @@ subtitle: This is where most of my typing goes to.
 
 [cachier]: https://github.com/shaypal5/cachier
 
+**[stationarizer]** - Smart, automatic detection and stationarization of non-stationary time series data.
+
+[stationarizer]: https://github.com/shaypal5/stationarizer
+
 **[birch]** - Simple hierarchical configuration for Python packages.
 
 [birch]: https://github.com/shaypal5/birch
