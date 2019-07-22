@@ -6,6 +6,8 @@ subtitle: Things I've presented
 
 ## Technical
 
+**[Predicting Molecular Properties: Updates](https://docs.google.com/presentation/d/17qJRPay2q11QaTP6SEUHBuPoZZFMc_Xekimwcnovrg0/edit?usp=sharing) @ [Kaggle IL Meetup #3](https://www.meetup.com/DataHack/events/263196907/), 22.7.19** - Some updates from the "Predicting Molecular Properties" Kaggle competition, while it was running. [[Google Slides](https://docs.google.com/presentation/d/17qJRPay2q11QaTP6SEUHBuPoZZFMc_Xekimwcnovrg0/edit?usp=sharing)]
+
 **[Clustering Evaluation @ Check Point data science guild day](https://docs.google.com/presentation/d/1gbg8ittEJ4ZbW3pioEyLp4LEJBMQHNAjjcsrHGnjoug/edit?usp=sharing), 4.7.19** - An introductory talk about how to evaluate clustering methods . [[Google Slides](https://docs.google.com/presentation/d/1gbg8ittEJ4ZbW3pioEyLp4LEJBMQHNAjjcsrHGnjoug/edit?usp=sharing)]
 
 **[Clustering: A very rough intro @ BigPanda](https://docs.google.com/presentation/d/1FRoKAo2on_WwVjRrH1UphMw9yXXhH3DV8K__izGK3nM/edit?usp=sharing), April 2019** - An introductory talk about clustering I gave to data team members at BigPanda as part of periodic knowledge share sessions. [[Google Slides](https://docs.google.com/presentation/d/1FRoKAo2on_WwVjRrH1UphMw9yXXhH3DV8K__izGK3nM/edit?usp=sharing)]
