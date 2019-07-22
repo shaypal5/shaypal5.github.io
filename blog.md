@@ -11,4 +11,6 @@ subtitle: I don't have a blog, but I do write occasionally.
 
 **[Stationarity in time series analysis](https://towardsdatascience.com/stationarity-in-time-series-analysis-90c94f27322)**
 
+**[Detecting stationarity in time series data](https://towardsdatascience.com/detecting-stationarity-in-time-series-data-d29e0a21e638)**
+
 **[Extensive Python testing on Travis CI](https://medium.com/@shay.palachy/extensive-python-testing-on-travis-ci-4c24db9bf961)**
