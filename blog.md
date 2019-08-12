@@ -15,4 +15,4 @@ subtitle: I don't have a blog, but I do write occasionally.
 
 **[Extensive Python testing on Travis CI](https://medium.com/@shay.palachy/extensive-python-testing-on-travis-ci-4c24db9bf961)**
 
-**[Extensive Python testing on Travis CI](https://towardsdatascience.com/publishing-your-own-python-package-3762f0d268ec)**
+**[Publishing your own Python package](https://towardsdatascience.com/publishing-your-own-python-package-3762f0d268ec)**
