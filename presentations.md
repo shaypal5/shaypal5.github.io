@@ -6,7 +6,7 @@ subtitle: Things I've presented
 
 ## Technical
 
-**[Document Embeddings: A rough introduction @ BigPanda)(https://docs.google.com/presentation/d/1iAGAfrI0p4E-FIuO5wU7M4WRFvuOTXqPfddKA8TULgE/edit?usp=sharing), September 2019** - A concise overview of document embedding techniques. Assumes familiarity with word embedding techniques. Based on [my literature review on the same topic](https://towardsdatascience.com/document-embedding-techniques-fed3e7a6a25d#d742). [[Google Slides](https://docs.google.com/presentation/d/1iAGAfrI0p4E-FIuO5wU7M4WRFvuOTXqPfddKA8TULgE/edit?usp=sharing)]
+**[Document Embeddings: A rough introduction @ BigPanda](https://docs.google.com/presentation/d/1iAGAfrI0p4E-FIuO5wU7M4WRFvuOTXqPfddKA8TULgE/edit?usp=sharing), September 2019** - A concise overview of document embedding techniques. Assumes familiarity with word embedding techniques. Based on [my literature review on the same topic](https://towardsdatascience.com/document-embedding-techniques-fed3e7a6a25d#d742). [[Google Slides](https://docs.google.com/presentation/d/1iAGAfrI0p4E-FIuO5wU7M4WRFvuOTXqPfddKA8TULgE/edit?usp=sharing)]
 
 **[Word Embeddings: A rough introduction @ BigPanda](https://docs.google.com/presentation/d/1Ymp6JvIdMcdd0jiBr4yOlx4NL-KECB2QJBwKGDCWTdE/edit?usp=sharing), September 2019** - A very quick and rough introduction to word embeddings, focusing on the skip-gram model of *word2vec*. [[Google Slides](https://docs.google.com/presentation/d/1Ymp6JvIdMcdd0jiBr4yOlx4NL-KECB2QJBwKGDCWTdE/edit?usp=sharing)] [[Video](https://www.dropbox.com/sh/05dbutkykhpmlj1/AADKb0SVLDl7qY-DMYH58qZqa?dl=0)]
 
