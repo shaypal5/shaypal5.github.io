@@ -6,6 +6,8 @@ subtitle: Things I've presented
 
 ## Technical
 
+**[Document Embeddings: A concise literature review @ BigPanda](https://docs.google.com/presentation/d/1iAGAfrI0p4E-FIuO5wU7M4WRFvuOTXqPfddKA8TULgE/edit?usp=sharing), September 2019** - A concise overview of document embedding techniques. Assumes familiarity with word embedding techniques. Based on [my literature review on the same topic](https://towardsdatascience.com/document-embedding-techniques-fed3e7a6a25d#d742). [[Google Slides](https://docs.google.com/presentation/d/1iAGAfrI0p4E-FIuO5wU7M4WRFvuOTXqPfddKA8TULgE/edit?usp=sharing)]
+
 **[Word Embeddings: A rough introduction @ BigPanda](https://docs.google.com/presentation/d/1Ymp6JvIdMcdd0jiBr4yOlx4NL-KECB2QJBwKGDCWTdE/edit?usp=sharing), September 2019** - A very quick and rough introduction to word embeddings, focusing on the skip-gram model of *word2vec*. [[Google Slides](https://docs.google.com/presentation/d/1Ymp6JvIdMcdd0jiBr4yOlx4NL-KECB2QJBwKGDCWTdE/edit?usp=sharing)] [[Video](https://www.dropbox.com/sh/05dbutkykhpmlj1/AADKb0SVLDl7qY-DMYH58qZqa?dl=0)]
 
 **[DataLearn 2019: Introduction to Machine Learning](https://github.com/DataHackIL/DataLearn-ML-Intro-2019) @ [DataLearn Prep Night 2019](https://www.meetup.com/DataHack/events/263740425/), 25.8.19** - A hands-on introductory workshop to machine learning, focusing on supervised classification, for the participants of the DataLearn track at Datahack 2019. [[Github repository](https://github.com/DataHackIL/DataLearn-ML-Intro-2019)] [[Google Slides](https://docs.google.com/presentation/d/1l91BYDG6NeWRj7KChI9BjxNTaWWBorEnNGp3SMIMUkw/edit?usp=sharin://docs.google.com/presentation/d/1l91BYDG6NeWRj7KChI9BjxNTaWWBorEnNGp3SMIMUkw/edit?usp=sharing)]
