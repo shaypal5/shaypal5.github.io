@@ -16,11 +16,11 @@ subtitle: This is where most of my typing goes to.
 
 **[birch](https://github.com/shaypal5/birch){:target="_blank"}** - Simple hierarchical configuration for Python packages.
 
+**[s3bp](https://github.com/shaypal5/s3bp){:target="_blank"}** - Read and write Python objects to S3, caching them on your hard drive to avoid unnecessary IO.
+
 **[holcrawl](https://github.com/shaypal5/holcrawl){:target="_blank"}** - A crawler for building Hollywood movies datsets.
 
 **[morejson](https://github.com/shaypal5/morejson){:target="_blank"}** - A drop-in replacement for Python's json module that handles additional built-in and standard library Python types.
-
-**[s3bp](https://github.com/shaypal5/s3bp){:target="_blank"}** - Read and write Python objects to S3, caching them on your hard drive to avoid unnecessary IO.
 
 
 <!--### Other research-related stuff
