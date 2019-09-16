@@ -6,40 +6,24 @@ subtitle: This is where most of my typing goes to.
 
 ## Open source Python projects
 
-**[pdpipe]** - Easy pipelines for pandas DataFrames.
+**[pdpipe](https://github.com/shaypal5/pdpipe){:target="_blank"}** - Easy pipelines for pandas DataFrames.
 
-[pdpipe]: https://github.com/shaypal5/pdpipe
+**[skift](https://github.com/shaypal5/skift){:target="_blank"}** - scikit-learn wrappers for Python fastText.
 
-**[skift]** - scikit-learn wrappers for Python fastText.
+**[cachier](https://github.com/shaypal5/cachier){:target="_blank"}** - Persistent, stale-free memoization decorators for Python.
 
-[skift]: https://github.com/shaypal5/skift
+**[stationarizer](https://github.com/shaypal5/stationarizer){:target="_blank"}** - Smart, automatic detection and stationarization of non-stationary time series data.
 
-**[cachier]** - Persistent, stale-free memoization decorators for Python.
+**[birch](https://github.com/shaypal5/birch){:target="_blank"}** - Simple hierarchical configuration for Python packages.
 
-[cachier]: https://github.com/shaypal5/cachier
+**[s3bp](https://github.com/shaypal5/s3bp){:target="_blank"}** - Read and write Python objects to S3, caching them on your hard drive to avoid unnecessary IO.
 
-**[stationarizer]** - Smart, automatic detection and stationarization of non-stationary time series data.
+**[holcrawl](https://github.com/shaypal5/holcrawl){:target="_blank"}** - A crawler for building Hollywood movies datsets.
 
-[stationarizer]: https://github.com/shaypal5/stationarizer
-
-**[birch]** - Simple hierarchical configuration for Python packages.
-
-[birch]: https://github.com/shaypal5/birch
-
-**[holcrawl]** - A crawler for building Hollywood movies datsets.
-
-[holcrawl]: https://github.com/shaypal5/holcrawl
-
-**[morejson]** - A drop-in replacement for Python's json module that handles additional built-in and standard library Python types.
-
-[morejson]: https://github.com/shaypal5/morejson
-
-**[s3bp]** - Read and write Python objects to S3, caching them on your hard drive to avoid unnecessary IO.
-
-[s3bp]: https://github.com/shaypal5/s3bp
+**[morejson](https://github.com/shaypal5/morejson){:target="_blank"}** - A drop-in replacement for Python's json module that handles additional built-in and standard library Python types.
 
 
 <!--### Other research-related stuff
 
-* [Aalto homepage](http://users.ics.aalto.fi/japarkki/)-->
+* [Aalto homepage](http://users.ics.aalto.fi/japarkki/){:target="_blank"}-->
 
