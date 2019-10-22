@@ -5,9 +5,9 @@ subtitle: I don't have a blog, but I do write occasionally.
 ---
 
 
-**[Data Science Project Flow for Startups](https://towardsdatascience.com/data-science-project-flow-for-startups-282a93d4508d?source=friends_link&sk=7c29bb9683e4c3564d92d89d31a666d1){:target="_blank"}** [[KDnuggets](https://www.kdnuggets.com/2019/10/beyond-word-embedding-document-embedding.html){:target="_blank"}]
+**[Data Science Project Flow for Startups](https://towardsdatascience.com/data-science-project-flow-for-startups-282a93d4508d?source=friends_link&sk=7c29bb9683e4c3564d92d89d31a666d1){:target="_blank"}**
 
-**[Document Embedding Techniques: A review of notable literature on the topic](https://towardsdatascience.com/document-embedding-techniques-fed3e7a6a25d?source=friends_link&sk=158194696b5fe4cad9605f4648eb2a83){:target="_blank"}**
+**[Document Embedding Techniques: A review of notable literature on the topic](https://towardsdatascience.com/document-embedding-techniques-fed3e7a6a25d?source=friends_link&sk=158194696b5fe4cad9605f4648eb2a83){:target="_blank"}** [[KDnuggets](https://www.kdnuggets.com/2019/10/beyond-word-embedding-document-embedding.html){:target="_blank"}]
 
 **[Understanding the scaling of L² regularization in the context of neural networks](https://towardsdatascience.com/understanding-the-scaling-of-l%C2%B2-regularization-in-the-context-of-neural-networks-e3d25f8b50db?source=friends_link&sk=134172b5e9624f873ba6421197fb7bd6){:target="_blank"}**
 
