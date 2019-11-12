@@ -19,6 +19,7 @@ subtitle: I don't have a blog, but I do write occasionally.
 
 **[Publishing your own Python package](https://towardsdatascience.com/publishing-your-own-python-package-3762f0d268ec?source=friends_link&sk=2367f72c162c26862b1b843aa3b0ed95){:target="_blank"}**
 
+|
 
 ## News items on InfoQ
 
