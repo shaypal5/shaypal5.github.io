@@ -18,3 +18,10 @@ subtitle: I don't have a blog, but I do write occasionally.
 **[Extensive Python testing on Travis CI](https://towardsdatascience.com/extensive-python-testing-on-travis-ci-4c24db9bf961?source=friends_link&sk=1f802db87726e285bc92b2f78c523045){:target="_blank"}**
 
 **[Publishing your own Python package](https://towardsdatascience.com/publishing-your-own-python-package-3762f0d268ec?source=friends_link&sk=2367f72c162c26862b1b843aa3b0ed95){:target="_blank"}**
+
+|
+
+## News items on InfoQ
+
+
+**[Dropbox Predicts What File You Need Next With Content-Specific ML Pipelines](https://www.infoq.com/news/2019/11/dropbox-ml-pipelines/){:target="_blank"}**
