@@ -9,6 +9,8 @@ subtitle: I don't have a blog, but I do write occasionally.
 
 **[Document Embedding Techniques: A review of notable literature on the topic](https://towardsdatascience.com/document-embedding-techniques-fed3e7a6a25d?source=friends_link&sk=158194696b5fe4cad9605f4648eb2a83){:target="_blank"}** [[KDnuggets](https://www.kdnuggets.com/2019/10/beyond-word-embedding-document-embedding.html){:target="_blank"}]
 
+**[Inferring causality in time series data: A concise review of the major approaches](https://medium.com/@shay.palachy/inferring-causality-in-time-series-data-b8b75fe52c46?source=friends_link&sk=37de8f0c1ab78e04d3a5cf1cdc5f3282){:target="_blank"}**
+
 **[Understanding the scaling of L² regularization in the context of neural networks](https://towardsdatascience.com/understanding-the-scaling-of-l%C2%B2-regularization-in-the-context-of-neural-networks-e3d25f8b50db?source=friends_link&sk=134172b5e9624f873ba6421197fb7bd6){:target="_blank"}**
 
 **[Stationarity in time series analysis](https://towardsdatascience.com/stationarity-in-time-series-analysis-90c94f27322?source=friends_link&sk=df86eb7d8554c811da2e5dc77b72f53b){:target="_blank"}**
