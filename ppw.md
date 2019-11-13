@@ -8,6 +8,10 @@ subtitle: Resources
 
 **[Second Talk Slides](https://docs.google.com/presentation/d/1z-CwK6O74J3WTr7cWGmk09SFxWaTJWlAtRp7kKt-EdE/edit?usp=sharing)** - A technical overview of Python packages.
 
+**[First complementary blog post: Publishing your own Python package](https://towardsdatascience.com/publishing-your-own-python-package-3762f0d268ec?source=friends_link&sk=2367f72c162c26862b1b843aa3b0ed95){:target="_blank"}**
+
+**[Second complementary blog post: Extensive Python testing on Travis CI](https://towardsdatascience.com/extensive-python-testing-on-travis-ci-4c24db9bf961?source=friends_link&sk=1f802db87726e285bc92b2f78c523045){:target="_blank"}**
+
 **Basic example repository:** [https://github.com/shaypal5/chocobo](https://github.com/shaypal5/chocobo)
 
 **Advanced example repository:** [https://github.com/shaypal5/catlolzer](https://github.com/shaypal5/catlolzer)
