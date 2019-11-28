@@ -6,6 +6,8 @@ subtitle: Things I've presented
 
 ## Technical
 
+**[How to run a Data Science project: An Overview for Managers](https://docs.google.com/presentation/d/1pqmFSv1pJjdp1NhSa0x6ILxWTGuCFtfs9G8Ztent9ZM/edit?usp=sharing){:target="_blank"} @ SWC Consulting, 28.11.19** - An introduction to data science in action, written as an overview for managers, business people and product managers aiming to manage or work with data scientists. [[Google Slides](https://docs.google.com/presentation/d/1pqmFSv1pJjdp1NhSa0x6ILxWTGuCFtfs9G8Ztent9ZM/edit?usp=sharing){:target="_blank"}]
+
 **[Unsupervised Document Embedding Techniques: A Status Report](https://docs.google.com/presentation/d/1ioqsXmnAfyev5qDU7azLpxKtxZ1Q05SXwizyk2hWSoA/edit?usp=sharing){:target="_blank"} @ [CodeteCON #KRK5, Krakow, Poland](https://codetecon.pl/en/){:target="_blank"}, 15.11.19** - A survey of modern techniques for unsupervised (and some supervised) document embedding, including takeways and a status report from the industry. [[Google Slides](https://docs.google.com/presentation/d/1ioqsXmnAfyev5qDU7azLpxKtxZ1Q05SXwizyk2hWSoA/edit?usp=sharing){:target="_blank"}]
 
 **[ASHRAE Great Energy Predictor III: The Kickoff](https://docs.google.com/presentation/d/1SR8Yyp76Wq8lKpunOl59MiSWnWEo7NaGNaJ4l3GiC60/edit?usp=sharing){:target="_blank"} @ [Kaggle IL Meetup #6](https://www.meetup.com/DataHack/events/264844784/){:target="_blank"}, 29.10.19** - Kickoff presentation for the [ASHRAE Great Energy Predictor III Kaggle competition](https://www.kaggle.com/c/ashrae-energy-prediction){:target="_blank"}, while it was running. [[Google Slides](https://docs.google.com/presentation/d/1SR8Yyp76Wq8lKpunOl59MiSWnWEo7NaGNaJ4l3GiC60/edit?usp=sharing){:target="_blank"}]
