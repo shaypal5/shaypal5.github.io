@@ -6,7 +6,7 @@ subtitle: This is where most of my typing goes to.
 
 ## Open source Python projects
 
-**[pdpipe](https://github.com/shaypal5/pdpipe){:target="_blank"}** - Easy pipelines for pandas DataFrames.
+**[pdpipe](https://pdpipe.github.io/pdpipe/){:target="_blank"}** - Easy pipelines for pandas DataFrames. [[website]](https://pdpipe.github.io/pdpipe/){:target="_blank"} [[documentation]](https://pdpipe.github.io/pdpipe/doc/pdpipe/){:target="_blank"} [[github]](https://github.com/pdpipe/pdpipe){:target="_blank"}
 
 **[skift](https://github.com/shaypal5/skift){:target="_blank"}** - scikit-learn wrappers for Python fastText.
 
