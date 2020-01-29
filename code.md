@@ -8,6 +8,8 @@ subtitle: This is where most of my typing goes to.
 
 **[pdpipe](https://pdpipe.github.io/pdpipe/){:target="_blank"}** - Easy pipelines for pandas DataFrames. [[website]](https://pdpipe.github.io/pdpipe/){:target="_blank"} [[documentation]](https://pdpipe.github.io/pdpipe/doc/pdpipe/){:target="_blank"} [[github]](https://github.com/pdpipe/pdpipe){:target="_blank"}
 
+**[pulearn](https://pulearn.github.io/pulearn/){:target="_blank"}** - Positive-unlabeled learning with Python. [[website]](https://pulearn.github.io/pulearn/){:target="_blank"} [[documentation]](https://pulearn.github.io/pulearn/doc/pulearn/){:target="_blank"} [[github]](https://github.com/pulearn/pulearn){:target="_blank"}
+
 **[skift](https://github.com/shaypal5/skift){:target="_blank"}** - scikit-learn wrappers for Python fastText.
 
 **[cachier](https://github.com/shaypal5/cachier){:target="_blank"}** - Persistent, stale-free memoization decorators for Python.
