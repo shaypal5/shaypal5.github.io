@@ -4,7 +4,7 @@ title: Presentations
 subtitle: Things I've presented
 ---
 
-**[Data Science Research Review](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"} @ BigPanda, 8.3.2020** - A layout for a research review process for data sciece projects. Based on [the great list prepared by Philip Tannor](https://medium.com/@ptannor/checklist-for-data-science-research-review-8a817b50697b). [[Google Slides](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"}]
+**[Data Science Research Review](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"} @ BigPanda, 8.3.2020** - A layout for a research review process for data sciece projects. Based on [the great list prepared by Philip Tannor](https://medium.com/@ptannor/checklist-for-data-science-research-review-8a817b50697b){:target="_blank"}. [[Google Slides](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"}]
 
 **[Introduction to Word2Vec](https://docs.google.com/presentation/d/1EXOBaV7rg_KQXpEJU9XnQkkxHOT50PV2ATeau5tdjRY/edit?usp=sharing){:target="_blank"} @ DataNigts #2, 5.2.2020** - An introduction to word embeddings in general, and the Word2Vec technique in particular. Given as part of the second cohort of DataHack's DataNights program. [[Google Slides](https://docs.google.com/presentation/d/1EXOBaV7rg_KQXpEJU9XnQkkxHOT50PV2ATeau5tdjRY/edit?usp=sharing){:target="_blank"}] [[Jupyter Notebooks and a home exercise](https://github.com/shaypal5/datanights_word2vec){:target="_blank"}]
 
