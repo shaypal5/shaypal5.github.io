@@ -31,3 +31,6 @@ subtitle: I don't have a blog, but I do write occasionally.
 **[Dropbox Predicts What File You Need Next With Content-Specific ML Pipelines](https://www.infoq.com/news/2019/11/dropbox-ml-pipelines/){:target="_blank"}**
 
 **[LG Releases New Hyperparameter Optimization Framework Called Auptimizer](https://www.infoq.com/news/2019/12/lg-framework-auptimizer/){:target="_blank"}**
+
+**[Data Science Community Reacts to COVID-19 Pandemic](https://www.infoq.com/news/2020/03/data-science-covid-19/){:target="_blank"}**
+
