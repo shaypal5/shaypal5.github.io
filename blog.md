@@ -7,7 +7,7 @@ subtitle: I don't have a blog, but I do write occasionally.
 
 **[Data Science Project Flow for Startups](https://towardsdatascience.com/data-science-project-flow-for-startups-282a93d4508d?source=friends_link&sk=7c29bb9683e4c3564d92d89d31a666d1){:target="_blank"}**
 
-**[Peer Reviewing Data Science Projects](https://medium.com/@shay.palachy/peer-reviewing-data-science-projects-7bfbc2919724?source=friends_link&sk=914d618224f713cbcabf1f6ead3ba3d9){:target="_blank"}** [[KDnuggets](https://www.kdnuggets.com/2020/04/peer-reviewing-data-science-projects.html){:target="_blank"]
+**[Peer Reviewing Data Science Projects](https://medium.com/@shay.palachy/peer-reviewing-data-science-projects-7bfbc2919724?source=friends_link&sk=914d618224f713cbcabf1f6ead3ba3d9){:target="_blank"}** [[KDnuggets](https://www.kdnuggets.com/2020/04/peer-reviewing-data-science-projects.html){:target="_blank"}]
 
 **[Document Embedding Techniques: A review of notable literature on the topic](https://towardsdatascience.com/document-embedding-techniques-fed3e7a6a25d?source=friends_link&sk=158194696b5fe4cad9605f4648eb2a83){:target="_blank"}** [[KDnuggets](https://www.kdnuggets.com/2019/10/beyond-word-embedding-document-embedding.html){:target="_blank"}]
 
