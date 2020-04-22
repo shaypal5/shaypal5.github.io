@@ -4,6 +4,9 @@ title: Presentations
 subtitle: Things I've presented
 ---
 
+**[Python Testing with pytest](https://docs.google.com/presentation/d/1Oc379L9Bmz57KhbZqYPyGpmCl-ChPiedax_C6m0vGGc/edit?usp=sharing){:target="_blank"} @ BigPanda, April 2020** - An introduction to testing Python code with pytest. [[Google Slides](https://docs.google.com/presentation/d/1Oc379L9Bmz57KhbZqYPyGpmCl-ChPiedax_C6m0vGGc/edit?usp=sharing){:target="_blank"}]
+
+
 **[Detecting Stationarity in Time Series Data](https://docs.google.com/presentation/d/1XXBwOTujB2XBf4Y-1B_fzP0VM0f5JXPmYBLS4eAUGKM/edit?usp=sharing){:target="_blank"} @ BigPanda, 2.4.2020** - A short review of the different ways to detect stationarity in time series data. Based on my [blog post of the same name](https://towardsdatascience.com/detecting-stationarity-in-time-series-data-d29e0a21e638?source=friends_link&sk=20318fcda95bc6be337f3d0740bc97d0){:target="_blank"}. [[Google Slides](https://docs.google.com/presentation/d/1XXBwOTujB2XBf4Y-1B_fzP0VM0f5JXPmYBLS4eAUGKM/edit?usp=sharing){:target="_blank"}]
 
 **[Data Science Peer Review](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"} @ BigPanda, 8.3.2020** - A layout for a peer review process for the different phases of data sciece projects. [[Google Slides](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"}]
