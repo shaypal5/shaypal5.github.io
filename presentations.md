@@ -4,6 +4,8 @@ title: Presentations
 subtitle: Things I've presented
 ---
 
+**[Introduction to Word2Vec](https://docs.google.com/presentation/d/1EXOBaV7rg_KQXpEJU9XnQkkxHOT50PV2ATeau5tdjRY/edit?usp=sharing){:target="_blank"} @ DataNigts #3, 10.5.2020** - An introduction to word embeddings in general, and the Word2Vec technique in particular. Given as part of the third cohort of DataHack's DataNights program. [[Video](https://us02web.zoom.us/rec/play/uZwkd-n5-Dk3TtSdswSDCvV8W9XpLKis13MX-PINxUy9UHIANFHyYrsRMOfeA1WbFwEsga3EzPRCLat1?startTime=1588864172000&_x_zm_rtaid=shpREbwRReGBvNOR6pThrg.1589094640961.224d9644ae8769f248aed3a3715bac04&_x_zm_rhtaid=939)] [[Google Slides](https://docs.google.com/presentation/d/1EXOBaV7rg_KQXpEJU9XnQkkxHOT50PV2ATeau5tdjRY/edit?usp=sharing){:target="_blank"}] [[Jupyter Notebooks and a home exercise](https://github.com/shaypal5/datanights_word2vec){:target="_blank"}]
+
 **[Python Testing with pytest](https://docs.google.com/presentation/d/1Oc379L9Bmz57KhbZqYPyGpmCl-ChPiedax_C6m0vGGc/edit?usp=sharing){:target="_blank"} @ BigPanda, April 2020** - An introduction to testing Python code with pytest. [[Google Slides](https://docs.google.com/presentation/d/1Oc379L9Bmz57KhbZqYPyGpmCl-ChPiedax_C6m0vGGc/edit?usp=sharing){:target="_blank"}]
 
 
