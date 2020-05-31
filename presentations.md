@@ -2,7 +2,7 @@
 layout: page
 title: Presentations
 subtitle: Things I've presented
--
+---
 
 **[Data Science Peer Review](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"} @ Outbrain, 23.4.2020** - A layout for a peer review process for the different phases of data sciece projects. Given as part of a data science guild day at Outbrain. [[Google Slides](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"}]
 
