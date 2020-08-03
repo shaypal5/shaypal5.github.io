@@ -4,7 +4,7 @@ title: Presentations
 subtitle: Things I've presented
 ---
 
-**[Data Cleaning for Machine Learning](https://docs.google.com/presentation/d/1RaU1r6uZ7QT1d7bsN1U45PZka8KM8eTBIftKo52qvAw/edit?usp=sharing){:target="_blank"} @ DataNights #4, 2.8.2020** - A review of common data cleaning principles, techniques and methods. [[Google Slides](https://docs.google.com/presentation/d/1RaU1r6uZ7QT1d7bsN1U45PZka8KM8eTBIftKo52qvAw/edit?usp=sharing){:target="_blank"}]
+**[Data Cleaning for Machine Learning](https://docs.google.com/presentation/d/1RaU1r6uZ7QT1d7bsN1U45PZka8KM8eTBIftKo52qvAw/edit?usp=sharing){:target="_blank"} @ DataNights #4, 2.8.2020** - A review of common data cleaning principles, techniques and methods. Given as part of the forth cohort of DataHack's DataNights program. [[Google Slides](https://docs.google.com/presentation/d/1RaU1r6uZ7QT1d7bsN1U45PZka8KM8eTBIftKo52qvAw/edit?usp=sharing){:target="_blank"}]
 
 **[Introduction to PU Learning](https://docs.google.com/presentation/d/1reAifZKvSy0FlxuOYiAksjYeAoLzn1wdI2d21LQ-COk/edit?usp=sharing){:target="_blank"} @ BigPanda, 11.5.2020** - An introduction to the semi-supervised classification scenario of Positive-Unlabeled learning. Covers theoretical definitions, performance metrics for the scenario and solution approaches. [[Google Slides](https://docs.google.com/presentation/d/1reAifZKvSy0FlxuOYiAksjYeAoLzn1wdI2d21LQ-COk/edit?usp=sharing){:target="_blank"}]
 
