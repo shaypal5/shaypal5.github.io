@@ -4,6 +4,10 @@ title: Presentations
 subtitle: Things I've presented
 ---
 
+**[KPI-Objective Alignment in Data Science Projects](https://www.aidatasummit.com/){:target="_blank"} @ AI & Data Virtual Summit, 5.1.2021** - A discussion of the ways we align and misalign technical and mathematicl objectives of data science techniques to business and product KPIs. [[Google Slides](https://docs.google.com/presentation/d/1h0s1MkIzAVwfltQVWXeNiKD51OoP0qelEpKhr_v7Pz8/edit?usp=sharing){:target="_blank"}]
+
+**[Introduction to Advanced Concepts in Neural Networks](https://docs.google.com/presentation/d/19kzdMq-Mj3PaQF3pxBa3zPbxaEYs9kpb1kAkRcyhGlo/edit?usp=sharing){:target="_blank"} @ Forter, 18.11.2020** - A lecture meant to follow a general introduction to feed-forward neural networks, and thus delves intro more advanced concepts such as convolutional NNs, sequence models and graph NNs. [[Google Slides](https://docs.google.com/presentation/d/19kzdMq-Mj3PaQF3pxBa3zPbxaEYs9kpb1kAkRcyhGlo/edit?usp=sharing){:target="_blank"}]
+
 **[Data Cleaning for Machine Learning](https://docs.google.com/presentation/d/1RaU1r6uZ7QT1d7bsN1U45PZka8KM8eTBIftKo52qvAw/edit?usp=sharing){:target="_blank"} @ DataNights #4, 2.8.2020** - A review of common data cleaning principles, techniques and methods. Given as part of the forth cohort of DataHack's DataNights program. [[Google Slides](https://docs.google.com/presentation/d/1RaU1r6uZ7QT1d7bsN1U45PZka8KM8eTBIftKo52qvAw/edit?usp=sharing){:target="_blank"}]
 
 **[Introduction to PU Learning](https://docs.google.com/presentation/d/1reAifZKvSy0FlxuOYiAksjYeAoLzn1wdI2d21LQ-COk/edit?usp=sharing){:target="_blank"} @ BigPanda, 11.5.2020** - An introduction to the semi-supervised classification scenario of Positive-Unlabeled learning. Covers theoretical definitions, performance metrics for the scenario and solution approaches. [[Google Slides](https://docs.google.com/presentation/d/1reAifZKvSy0FlxuOYiAksjYeAoLzn1wdI2d21LQ-COk/edit?usp=sharing){:target="_blank"}]
