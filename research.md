@@ -4,6 +4,13 @@ title: Research
 subtitle: Things I do in academia.
 ---
 
+### Presentations
+
+Here is some unpublished research that ended up in presentation form:
+
+**[Fuzzy Credit Networks](https://www.youtube.com/watch?v=a_bpEelXfG0){:target="_blank"} @ [Reversim 2017](https://summit2017.reversim.com/){:target="_blank"}** - A talk I gave at [Reversim 2017](https://summit2017.reversim.com/){:target="_blank"} about a variant I came up with to the concept of credit networks. [[Video](https://www.youtube.com/watch?v=a_bpEelXfG0){:target="_blank"}] [[Abstract](https://summit2017.reversim.com/session/3c0885c7-3857-b68b-d283-24ed216a316f){:target="_blank"}] [[Google Slides](https://docs.google.com/presentation/d/1e4WdkVnXWdrg7isx73lDnr1cu_oIKi0AwJxw3eja3GA/edit?usp=sharing){:target="_blank"}] [[PDF slides](https://drive.google.com/file/d/0B3IYTOSJm0hOUWRMeEE0ZlhFVkk/view?usp=sharing){:target="_blank"}]
+
+
 ### Unpublished Papers
 
 Here is some unpublished research that ended up in paper form:
