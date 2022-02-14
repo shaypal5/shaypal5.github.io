@@ -6,7 +6,7 @@ subtitle: This is where most of my typing goes to.
 
 ## Open source Python projects
 
-**[pdpipe](https://pdpipe.github.io/pdpipe/){:target="_blank"}** - Easy pipelines for pandas DataFrames. [[website]](https://pdpipe.github.io/pdpipe/){:target="_blank"} [[documentation]](https://pdpipe.github.io/pdpipe/doc/pdpipe/){:target="_blank"} [[github]](https://github.com/pdpipe/pdpipe){:target="_blank"}
+**[pdpipe](https://pdpipe.readthedocs.io/en/latest/){:target="_blank"}** - Easy pipelines for pandas DataFrames. [[website]](https://pdpipe.readthedocs.io/en/latest/){:target="_blank"}  [[github]](https://github.com/pdpipe/pdpipe){:target="_blank"}
 
 **[pulearn](https://pulearn.github.io/pulearn/){:target="_blank"}** - Positive-unlabeled learning with Python. [[website]](https://pulearn.github.io/pulearn/){:target="_blank"} [[documentation]](https://pulearn.github.io/pulearn/doc/pulearn/){:target="_blank"} [[github]](https://github.com/pulearn/pulearn){:target="_blank"}
 
