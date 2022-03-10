@@ -32,7 +32,7 @@ navbar-links:
   Code: "code.html"
   Blog: "blog.html"
   # Research: "research.html"
-  Presentations: "presentations.html"
+  Talks: "talks.html"
   # About: "about.html"
 #  Contact: "contact.html"
 # nav-search: search

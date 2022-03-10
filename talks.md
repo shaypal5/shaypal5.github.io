@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Presentations
-subtitle: Things I've presented
+title: Talks 
+subtitle: Talks I gave at various opportunities 
 ---
 
 **[KPI-Objective Alignment in Data Science Projects](https://www.aidatasummit.com/){:target="_blank"} @ AI & Data Virtual Summit, 5.1.2021** - A discussion of the ways we align and misalign technical and mathematicl objectives of data science techniques to business and product KPIs. [[Google Slides](https://docs.google.com/presentation/d/1h0s1MkIzAVwfltQVWXeNiKD51OoP0qelEpKhr_v7Pz8/edit?usp=sharing){:target="_blank"}]

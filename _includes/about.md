@@ -4,7 +4,7 @@
 
 **Work**: I work as an independent machine learning / data science consultant ([contact me by email](mailto:shay.palachy@gmail.com){:target="_blank"} for consulting). Before that I worked as the Lead Data Scientist of [ZenCity](https://zencity.io/){:target="_blank"}, as a data scientist at [Neura](https://www.theneura.com/){:target="_blank"}, and as a developer at Intel and [Ravello](https://www.ravellosystems.com/){:target="_blank"}  (now Oracle Cloud).
 
-**Blog & Presentations**: I often talk and write about my work, research interests and community activity. See more on my [presentations](/presentations.html) page and my [blog](/blog.html) page.
+**Blog posts & Talks**: I often talk and write about my work, research interests and community activity. See more on my [talks](/talks.html) page and my [blog](/blog.html) page.
 
 **Education**: I'm currently studying for an MBA at the [Coller School of Management](https://en-coller.tau.ac.il/) at Tel Aviv University. I've have also completed my studies for a BSc (in computer science and philosopy) and an  MSc in computer science at [The Hebrew University of Jerusalem](https://www.cs.huji.ac.il/) (though I have never submitted my thesis). My research interests during that time included machine learning, NLP, dynamic network processes, block chain systems and other areas in both data science and game theory. See more at my [research](/research.html) page.
 

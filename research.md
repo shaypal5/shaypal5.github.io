@@ -4,7 +4,7 @@ title: Research
 subtitle: Things I do in academia.
 ---
 
-### Presentations
+### Talks 
 
 Here is some unpublished research that ended up in presentation form:
 
