@@ -4,6 +4,8 @@ title: Talks
 subtitle: Talks I gave at various opportunities 
 ---
 
+**[Data Science in the Wild: How it’s done (in startups)](https://docs.google.com/presentation/d/1onbCYpS0myqh6UGUqYQ4rU0HRzOgkLbJgEZ3Cb66V5s/edit?usp=sharing){:target="_blank"} @ NAYA College, 7.4.2022** - A review of how data science work actually looks like in startups, and some usefull tools and methodologies to succeeed in it. [[Google Slides](https://docs.google.com/presentation/d/1onbCYpS0myqh6UGUqYQ4rU0HRzOgkLbJgEZ3Cb66V5s/edit?usp=sharing){:target="_blank"}]
+
 **[KPI-Objective Alignment in Data Science Projects](https://www.aidatasummit.com/){:target="_blank"} @ AI & Data Virtual Summit, 5.1.2021** - A discussion of the ways we align and misalign technical and mathematicl objectives of data science techniques to business and product KPIs. [[Google Slides](https://docs.google.com/presentation/d/1h0s1MkIzAVwfltQVWXeNiKD51OoP0qelEpKhr_v7Pz8/edit?usp=sharing){:target="_blank"}]
 
 **[Introduction to Advanced Concepts in Neural Networks](https://docs.google.com/presentation/d/19kzdMq-Mj3PaQF3pxBa3zPbxaEYs9kpb1kAkRcyhGlo/edit?usp=sharing){:target="_blank"} @ Forter, 18.11.2020** - A lecture meant to follow a general introduction to feed-forward neural networks, and thus delves intro more advanced concepts such as convolutional NNs, sequence models and graph NNs. [[Google Slides](https://docs.google.com/presentation/d/19kzdMq-Mj3PaQF3pxBa3zPbxaEYs9kpb1kAkRcyhGlo/edit?usp=sharing){:target="_blank"}]
