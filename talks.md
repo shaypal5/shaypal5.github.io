@@ -4,6 +4,8 @@ title: Talks
 subtitle: Talks I gave at various opportunities 
 ---
 
+**[Data Science Peer Review](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"} @ Voyantis, 25.4.2022** - A layout for a peer review process for the different phases of data sciece projects. Given as part of the data science tribe meeting at Voyantis. [[Google Slides](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"}]
+
 **[Introduction to PU Learning](https://docs.google.com/presentation/d/1reAifZKvSy0FlxuOYiAksjYeAoLzn1wdI2d21LQ-COk/edit?usp=sharing){:target="_blank"} @ DiSCo is a data science community at Ben-Gurion University of the Negev, 10.4.2022** - An introduction to the semi-supervised classification scenario of Positive-Unlabeled learning. Covers theoretical definitions, performance metrics for the scenario and solution approaches. [[Google Slides](https://docs.google.com/presentation/d/1reAifZKvSy0FlxuOYiAksjYeAoLzn1wdI2d21LQ-COk/edit?usp=sharing){:target="_blank"}]
 
 **[Data Science in the Wild: How it’s done (in startups)](https://docs.google.com/presentation/d/1onbCYpS0myqh6UGUqYQ4rU0HRzOgkLbJgEZ3Cb66V5s/edit?usp=sharing){:target="_blank"} @ NAYA College, 7.4.2022** - A review of how data science work actually looks like in startups, and some usefull tools and methodologies to succeeed in it. [[Google Slides](https://docs.google.com/presentation/d/1onbCYpS0myqh6UGUqYQ4rU0HRzOgkLbJgEZ3Cb66V5s/edit?usp=sharing){:target="_blank"}]
