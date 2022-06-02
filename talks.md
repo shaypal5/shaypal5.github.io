@@ -4,6 +4,8 @@ title: Talks
 subtitle: Talks I gave at various opportunities 
 ---
 
+**[Deep Learning Approaches for Time Series Forecasting](https://docs.google.com/presentation/d/1UUqC-JgK-9JrUU_4GnU3vDssxoo7gZRxTtyHvoMkx9w/edit?usp=sharing){:target="_blank"} @ Y-DATA, 3.6.2022** - A guest lecture at the Y-DATA program, covering neural network approaches to time series forecasting, including practical aspects and state-of-the-art techniques. [[Google Slides](https://docs.google.com/presentation/d/1UUqC-JgK-9JrUU_4GnU3vDssxoo7gZRxTtyHvoMkx9w/edit?usp=sharing){:target="_blank"}]
+
 **[Data Science Peer Review](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"} @ Voyantis, 25.4.2022** - A layout for a peer review process for the different phases of data sciece projects. Given as part of the data science tribe meeting at Voyantis. [[Google Slides](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"}]
 
 **[Introduction to PU Learning](https://docs.google.com/presentation/d/1reAifZKvSy0FlxuOYiAksjYeAoLzn1wdI2d21LQ-COk/edit?usp=sharing){:target="_blank"} @ DiSCo is a data science community at Ben-Gurion University of the Negev, 10.4.2022** - An introduction to the semi-supervised classification scenario of Positive-Unlabeled learning. Covers theoretical definitions, performance metrics for the scenario and solution approaches. [[Google Slides](https://docs.google.com/presentation/d/1reAifZKvSy0FlxuOYiAksjYeAoLzn1wdI2d21LQ-COk/edit?usp=sharing){:target="_blank"}]
