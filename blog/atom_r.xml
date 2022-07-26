@@ -10,7 +10,7 @@ layout: null
  <updated>{{ site.time | date_to_xmlschema }}</updated>
  <id>http://shaypal5.github.io/blog</id>
  <author>
-   <name>Shay Palachy</name>
+   <name>Shay Palachy-Affek</name>
    <email>shay.palachy@gmail.com</email>
  </author>
 

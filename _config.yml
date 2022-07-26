@@ -14,7 +14,7 @@ baseurl: ""
 # Of course don't forget to change the username and projectname to YOUR username and project
 
 # Name of website
-title: "Shay Palachy"
+title: "Shay Palachy-Affek"
 
 # Short description of your site
 description: "Shay's personal web page"
@@ -42,7 +42,7 @@ navbar-links:
 # Change all these values or delete the ones you don't want.
 # Important: you must keep the "name" parameter, everything else you can remove
 author:
-  name: Shay Palachy
+  name: Shay Palachy-Affek
   email: "shay.palachy@gmail.com"
   github: shaypal5    # eg. daattali
   # stackoverflow: 781531/shaypal5  # eg. "users/3943160/daattali"
