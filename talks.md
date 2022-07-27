@@ -4,6 +4,10 @@ title: Talks
 subtitle: Talks I gave at various opportunities 
 ---
 
+**[DeBERTa: An Introduction](https://docs.google.com/presentation/d/1gML5cQuBYbsLMHtV1aG1zSGr7IDGWz4kQ8mlh1tl5Ks/edit?usp=sharing){:target="_blank"} @ [Kaggle IL Meetup #11](https://www.meetup.com/datahack/events/286868671/){:target="_blank"}, 26.07.2022** - A quick overview of the novelties the DeBERTa model introduced to the tranformer architecture. [[Google Slides](https://docs.google.com/presentation/d/1gML5cQuBYbsLMHtV1aG1zSGr7IDGWz4kQ8mlh1tl5Ks/edit?usp=sharing){:target="_blank"}]
+
+**[Feedback Prize - Predicting Effective Arguments: The Kickoff](https://docs.google.com/presentation/d/1oy_3xdezx-U76yvSDn8uj-uEVwD73uNl1vFNoBgupJ8/edit?usp=sharing){:target="_blank"} @ [Kaggle IL Meetup #11](https://www.meetup.com/datahack/events/286868671/){:target="_blank"}, 26.07.2022** - Kickoff presentation for the [Feedback Prize Kaggle competition](https://www.kaggle.com/competitions/feedback-prize-effectiveness/overview){:target="_blank"}, while it was running. [[Google Slides](https://docs.google.com/presentation/d/1oy_3xdezx-U76yvSDn8uj-uEVwD73uNl1vFNoBgupJ8/edit?usp=sharing){:target="_blank"}]
+
 **[Deep Learning Approaches for Time Series Forecasting](https://docs.google.com/presentation/d/1UUqC-JgK-9JrUU_4GnU3vDssxoo7gZRxTtyHvoMkx9w/edit?usp=sharing){:target="_blank"} @ Y-DATA, 3.6.2022** - A guest lecture at the Y-DATA program, covering neural network approaches to time series forecasting, including practical aspects and state-of-the-art techniques. [[Google Slides](https://docs.google.com/presentation/d/1UUqC-JgK-9JrUU_4GnU3vDssxoo7gZRxTtyHvoMkx9w/edit?usp=sharing){:target="_blank"}]
 
 **[Data Science Peer Review](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"} @ Voyantis, 25.4.2022** - A layout for a peer review process for the different phases of data sciece projects. Given as part of the data science tribe meeting at Voyantis. [[Google Slides](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"}]
