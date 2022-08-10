@@ -4,6 +4,8 @@ title: Talks
 subtitle: Talks I gave at various opportunities 
 ---
 
+**[Data Science Projects: Workflows and Playbooks](https://docs.google.com/presentation/d/1OUm_3kBzIWwzPmu7c8tBKWBZxPSz4hxt-B4TkN8ho3I/edit?usp=sharing){:target="_blank"} @ [DataNights DS Management](https://datanights-il.github.io/programs/dsmgmt/){:target="_blank"}, 10.08.2022** - A few frameworks to handle data science project challenges. [[Google Slides](https://docs.google.com/presentation/d/1OUm_3kBzIWwzPmu7c8tBKWBZxPSz4hxt-B4TkN8ho3I/edit?usp=sharing){:target="_blank"}]
+
 **[DeBERTa: An Introduction](https://docs.google.com/presentation/d/1gML5cQuBYbsLMHtV1aG1zSGr7IDGWz4kQ8mlh1tl5Ks/edit?usp=sharing){:target="_blank"} @ [Kaggle IL Meetup #11](https://www.meetup.com/datahack/events/286868671/){:target="_blank"}, 26.07.2022** - A quick overview of the novelties the DeBERTa model introduced to the tranformer architecture. [[Google Slides](https://docs.google.com/presentation/d/1gML5cQuBYbsLMHtV1aG1zSGr7IDGWz4kQ8mlh1tl5Ks/edit?usp=sharing){:target="_blank"}]
 
 **[Feedback Prize - Predicting Effective Arguments: The Kickoff](https://docs.google.com/presentation/d/1oy_3xdezx-U76yvSDn8uj-uEVwD73uNl1vFNoBgupJ8/edit?usp=sharing){:target="_blank"} @ [Kaggle IL Meetup #11](https://www.meetup.com/datahack/events/286868671/){:target="_blank"}, 26.07.2022** - Kickoff presentation for the [Feedback Prize Kaggle competition](https://www.kaggle.com/competitions/feedback-prize-effectiveness/overview){:target="_blank"}, while it was running. [[Google Slides](https://docs.google.com/presentation/d/1oy_3xdezx-U76yvSDn8uj-uEVwD73uNl1vFNoBgupJ8/edit?usp=sharing){:target="_blank"}]
