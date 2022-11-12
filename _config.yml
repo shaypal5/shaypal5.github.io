@@ -33,6 +33,7 @@ navbar-links:
   Blog: "blog.html"
   # Research: "research.html"
   Talks: "talks.html"
+  Teaching: "teaching.html"
   # About: "about.html"
 #  Contact: "contact.html"
 # nav-search: search
@@ -65,6 +66,9 @@ footer-links-active:
 url-pretty: "shaypalachy.com"
 
 # --- Misc --- #
+
+kramdown:
+  parse_block_html: true
 
 # Fill in your Disqus shortname (NOT the userid) if you want to support Disqus comments
 # disqus: "shaypal5"
