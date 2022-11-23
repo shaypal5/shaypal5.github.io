@@ -37,3 +37,5 @@ TBA
 **[TA Session #2: Exercise Notebook](https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/641847842086486/3461678632093851/2401823435593520/latest.html){:target="_blank"}**
 
 **[TA Session #2: Solution Notebook](https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/641847842086486/4375712867049050/2401823435593520/latest.html){:target="_blank"}**
+
+**[Exercise #3: PySpark MapReduce and SparkSQL](https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/641847842086486/3976615900918655/2401823435593520/latest.html){:target="_blank"}**
