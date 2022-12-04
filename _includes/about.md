@@ -6,7 +6,7 @@
 
 **Blog posts & Talks**: I often talk and write about my work, research interests and community activity. See more on my [talks](/talks.html) page and my [blog](/blog.html) page.
 
-**Education**: I've recently completed an MBA at the [Coller School of Management](https://en-coller.tau.ac.il/) at Tel Aviv University, and I will be TA-ing (assisting in teaching) some of the data science courses there throughout the 2022-2023 academic year. I've have also completed my studies for a BSc (in computer science and philosopy) and an  MSc in computer science at [The Hebrew University of Jerusalem](https://www.cs.huji.ac.il/) (though I have never submitted my thesis), where I've also organized the AI seminar. My research interests during that time included machine learning, NLP, dynamic network processes, block chain systems and other areas in both data science and game theory.
+**Education**: I've recently completed an MBA at the [Coller School of Management](https://en-coller.tau.ac.il/) at Tel Aviv University, and I will be teaching the Data Visualization course and TA-ing (assisting in teaching) some of the data science courses there throughout the 2022-2023 academic year. I've have also completed my studies for a BSc (in computer science and philosopy) and an  MSc in computer science at [The Hebrew University of Jerusalem](https://www.cs.huji.ac.il/) (though I have never submitted my thesis), where I've also organized the AI seminar. My research interests during that time included machine learning, NLP, dynamic network processes, block chain systems and other areas in both data science and game theory.
 
 <!-- See more at my [research](/research.html) page. -->
 
