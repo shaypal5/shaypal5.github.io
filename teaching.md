@@ -12,7 +12,7 @@ subtitle: I teach from time to time
 
 I lecture on data visualization at The Coller School of Management at Tel Aviv University for both semesters of the 22'-23' academic year.
 
-*Content to be added*
+[Course page is here](/teaching/datavis22)
 
 |
 
