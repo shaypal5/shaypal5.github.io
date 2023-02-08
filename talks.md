@@ -4,6 +4,8 @@ title: Talks
 subtitle: Talks I gave at various opportunities 
 ---
 
+**[Text Embedding & Representation](https://docs.google.com/presentation/d/1Tt42LTyKxvo7SuyCkOYRsTJt77k3T0uwMJ32z7ddieA/edit?usp=sharing){:target="_blank"} @ Harmonya, 25.01.2023** - An overview of classic methods for word and document embedding in NLP, and the basic concepts of text representation in machine learning. [[Google Slides](t){:target="_blank"}]
+
 **[About the DataCoach Technion Program](https://docs.google.com/presentation/d/1evZW2EAvxwep1BAy-umm_L_MhF-4bBGUFn14SJefvaU/edit?usp=sharing){:target="_blank"} @ DataCoach Expose Event, The Technion, 18.01.2023** - A presentation of the DataCoach Technion program by the Datahack nonprofit. [[Google Slides](https://docs.google.com/presentation/d/1evZW2EAvxwep1BAy-umm_L_MhF-4bBGUFn14SJefvaU/edit?usp=sharing){:target="_blank"}]
 
 **[The Hard Case of Why: A Causal Inference Case Study of Data Science Projects in Startups](https://docs.google.com/presentation/d/1UhQNz-IoYNUueSXB1BLqsQvMXQJ67XUxntSZRUo4rOY/edit?usp=sharing){:target="_blank"} @ Faculty Seminar, Industrial Engineering & Management, Azrieli College AI Product course, 22.11.2022** - A case study for data science projects as they are done in small startups, meant to provide students with insights about work in the data science industry. [[Google Slides](https://docs.google.com/presentation/d/1UhQNz-IoYNUueSXB1BLqsQvMXQJ67XUxntSZRUo4rOY/edit?usp=sharing){:target="_blank"}]
