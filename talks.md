@@ -4,6 +4,8 @@ title: Talks
 subtitle: Talks I gave at various opportunities 
 ---
 
+**[Deep Learning Approaches for Time Series Forecasting](https://docs.google.com/presentation/d/1UUqC-JgK-9JrUU_4GnU3vDssxoo7gZRxTtyHvoMkx9w/edit?usp=sharing){:target="_blank"} @ [DataTalks #38](https://www.meetup.com/datahack/events/292153871/){:target="_blank"}, 29.3.2023** - An introductory talk covering neural network approaches to time series forecasting, including practical aspects and state-of-the-art techniques. [[Google Slides](https://docs.google.com/presentation/d/1UUqC-JgK-9JrUU_4GnU3vDssxoo7gZRxTtyHvoMkx9w/edit?usp=sharing){:target="_blank"}] [[Event page](https://www.meetup.com/datahack/events/292153871/){:target="_blank"}]
+
 **[Text Embedding & Representation](https://docs.google.com/presentation/d/1Tt42LTyKxvo7SuyCkOYRsTJt77k3T0uwMJ32z7ddieA/edit?usp=sharing){:target="_blank"} @ Harmonya, 25.01.2023** - An overview of classic methods for word and document embedding in NLP, and the basic concepts of text representation in machine learning. [[Google Slides](t){:target="_blank"}]
 
 **[About the DataCoach Technion Program](https://docs.google.com/presentation/d/1evZW2EAvxwep1BAy-umm_L_MhF-4bBGUFn14SJefvaU/edit?usp=sharing){:target="_blank"} @ DataCoach Expose Event, The Technion, 18.01.2023** - A presentation of the DataCoach Technion program by the Datahack nonprofit. [[Google Slides](https://docs.google.com/presentation/d/1evZW2EAvxwep1BAy-umm_L_MhF-4bBGUFn14SJefvaU/edit?usp=sharing){:target="_blank"}]
