@@ -3,6 +3,9 @@ layout: page
 title: Talks 
 subtitle: Talks I gave at various opportunities 
 ---
+**[Text Embedding and Representation - Part 2](https://docs.google.com/presentation/d/1I0c0yG0uhpUdRPDP2JaDym_tNI5prbMzW_4l6iE0OlE/edit?usp=sharing){:target="_blank"} @ DataCoach, 18.12.2023** - A deep overview of how the issue of text representation in machine learning has been tackled with throughout the history of the field. Part 2 continued the first part by covering various early attempts to use deep learning to solve the problem of learning good text representations, and concluding with Sentence Transformers and LLM-based embeddings. [[Google Slides](https://docs.google.com/presentation/d/1I0c0yG0uhpUdRPDP2JaDym_tNI5prbMzW_4l6iE0OlE/edit?usp=sharing){:target="_blank"}]
+
+**[Text Embedding and Representation - Part 1](https://docs.google.com/presentation/d/1zI5s4T52bfTZXtpa5kY5NScQpUzWWz7ZEMeoareDiYs/edit?usp=sharing){:target="_blank"} @ DataCoach, 11.12.2023** - A deep overview of how the issue of text representation in machine learning has been tackled with throughout the history of the field. Part 1 covered everything from bag-of-words up to document-level variations on Word2Vec, up until deep learning technique became prominent in learning text embeddings. [[Google Slides](https://docs.google.com/presentation/d/1zI5s4T52bfTZXtpa5kY5NScQpUzWWz7ZEMeoareDiYs/edit?usp=sharing){:target="_blank"}]
 
 **[What is MLOps?](https://docs.google.com/presentation/d/1W1bfJE_MUTega9PMALCKseXp6ACV7XNGZ__F64vnfjo/edit?usp=sharing){:target="_blank"} @ Harmonya, 6.09.2023** - A concise review of what types and categories of MLOps toosl are out there. [[Google Slides](https://docs.google.com/presentation/d/1W1bfJE_MUTega9PMALCKseXp6ACV7XNGZ__F64vnfjo/edit?usp=sharing){:target="_blank"}]
 
