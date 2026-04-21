@@ -1,0 +1,58 @@
+# Repository Index
+
+Repo: `shaypal5.github.io`
+Purpose: personal Jekyll site plus local Python automation for teaching-content sync/render/validation.
+
+## Core Tree
+- `_config.yml`: Jekyll config and deploy exclusions.
+- `.github/`
+  - `workflows/teaching-validation.yml`: CI producer, coverage artifacts, Jekyll build, PR agent context caller.
+  - `workflows/pr-agent-context-refresh.yml`: append-mode refresh flow for later PR signals.
+  - `pr-agent-context-template.md`: caller-side PR context template.
+- `automation/`
+  - `cli.py`: entrypoint for `courses backfill|sync|render|validate|plan`.
+  - `config.py`: repo paths, markers, env contract, typed errors.
+  - `google_drive.py`: OAuth refresh and Drive listing.
+  - `naming.py`: folder/material inference heuristics.
+  - `data_io.py`: YAML load/save.
+  - `models.py`: course/material schemas.
+  - `rendering.py`: deterministic markdown generation.
+  - `repository.py`: repo render/write orchestration.
+  - `validation.py`: schema/link/staleness validation.
+  - `publish.py`: local git/PR publish helpers.
+- `data/teaching/`
+  - `courses.yml`: canonical course registry.
+  - `materials/*.yml`: canonical per-course material lists.
+- `teaching/`: generated course pages.
+- `teaching.md`: teaching index with managed generated block.
+- `tests/`
+  - `test_naming.py`
+  - `test_render_validate.py`
+  - `test_validation.py`
+- `docs/`
+  - `project_overview.md`
+  - `system_architecture.md`
+  - `implementation_plan.md`
+  - `data_model.md`
+  - `operations.md`
+  - `review_workflow.md`
+
+## Schemas And Contracts
+- Course schema: `automation/models.py`, `docs/data_model.md`, `data/teaching/courses.yml`
+- Material schema: `automation/models.py`, `docs/data_model.md`, `data/teaching/materials/*.yml`
+- Managed-file markers: `automation/config.py`
+- CLI contract: `automation/cli.py`
+- Env vars: `automation/config.py`, `docs/operations.md`
+
+## Internal APIs
+- Render flow: `automation/repository.py` -> `automation/rendering.py`
+- Validation flow: `automation/validation.py`
+- Drive discovery flow: `automation/google_drive.py` + `automation/naming.py`
+- Publish flow: `automation/publish.py`
+
+## Commands
+- Tests: `python3 -m unittest discover -s tests`
+- Render: `python3 -m automation.cli courses render`
+- Validate: `python3 -m automation.cli courses validate`
+- Plan diff: `python3 -m automation.cli courses plan`
+- Build: `bundle exec jekyll build`
