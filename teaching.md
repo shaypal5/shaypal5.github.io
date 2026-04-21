@@ -11,30 +11,45 @@ I'm teaching Deep Learning, Natural Language Processing and Data Visualization (
 
 |
 
-## Intro to Machine Learning @ MTA, 25'
+<!-- BEGIN GENERATED: teaching-courses -->
 
-I lecture on machine learning for B.Sc. students of Economics and Management at the The Academic College of Tel Aviv-Yaffo.
+#### Courses
+
+* [Intro to ML @ MTA](/teaching/econml25)
+* [Managing Data Science Teams @ DataNights](/teaching/datanights22)
+* [Big Data Technologies TA @ TAU](/teaching/bigdata22)
+* [Data Vis @ TAU](/teaching/datavis22)
+
+|
+
+## Intro to ML @ MTA
+
+I lecture on machine learning for B.Sc. students of Economics and Management at The Academic College of Tel Aviv-Yaffo.
 
 [Course page is here](/teaching/econml25)
 
 |
 
-## Data Viz @ Tel Aviv University, 22'-23'
+## Managing Data Science Teams @ DataNights
+
+I taught a course on managing data science teams as part of the DataNights program.
+
+[Course page is here](/teaching/datanights22)
+
+|
+
+## Big Data Technologies TA @ TAU
+
+I served as a Teaching Assistant for the Intro to Big Data Technologies course at Tel Aviv University during the 22'-23' academic year.
+
+[Course page is here](/teaching/bigdata22)
+
+|
+
+## Data Vis @ TAU
 
 I lecture on data visualization at The Coller School of Management at Tel Aviv University for both semesters of the 22'-23' academic year.
 
 [Course page is here](/teaching/datavis22)
 
-|
-
-## Managing Data Science Teams @ DataNights, 22'
-
-TBA
-
-|
-
-## TA, Intro to Big Data Technologies, @ Tel Aviv University, 22'-23'
-
-I served as a Teaching Assistant for the Intro to Big Data Technologies course at Tel Aviv University during the 22'-23' academic year.
-
-[Course page is here](/teaching/bigdata22)
+<!-- END GENERATED: teaching-courses -->

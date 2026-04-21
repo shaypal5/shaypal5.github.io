@@ -1,0 +1,73 @@
+courses:
+  - slug: bigdata22
+    title: Big Data Technologies TA @ TAU
+    subtitle: Course page for Tel Aviv University, 22'-23'
+    institution: Tel Aviv University
+    role: Teaching Assistant
+    academic_period: 22'-23'
+    status: archived
+    source_drive_folder_id: manual-bigdata22
+    source_drive_folder_name: Big Data Technologies TAU 22-23 CF
+    summary: I served as a Teaching Assistant for the Intro to Big Data Technologies course at Tel Aviv University during the 22'-23' academic year.
+    visibility: public
+    syllabus_url: ""
+    hero_note: ""
+    tags:
+      - big-data
+      - teaching-assistant
+    manual_overrides: {}
+    review_notes: Migrated from the legacy manually maintained page.
+  - slug: datanights22
+    title: Managing Data Science Teams @ DataNights
+    subtitle: Course page for DataNights, 22'
+    institution: DataNights
+    role: Instructor
+    academic_period: 22'
+    status: archived
+    source_drive_folder_id: manual-datanights22
+    source_drive_folder_name: Managing Data Science Teams 22 CF
+    summary: I taught a course on managing data science teams as part of the DataNights program.
+    visibility: public
+    syllabus_url: https://datanights-il.github.io/dsmgmt/
+    hero_note: This course page starts sparse and is intended to be backfilled from Drive by the automation workflow.
+    tags:
+      - leadership
+      - datanights
+    manual_overrides: {}
+    review_notes: Seed record created for v1 automation rollout.
+  - slug: datavis22
+    title: Data Vis @ TAU
+    subtitle: Course page for Tel Aviv University, 22'-23', Semester A
+    institution: Tel Aviv University
+    role: Instructor
+    academic_period: 22'-23'
+    status: archived
+    source_drive_folder_id: manual-datavis22
+    source_drive_folder_name: Data Vis TAU 22-23 CF
+    summary: I lecture on data visualization at The Coller School of Management at Tel Aviv University for both semesters of the 22'-23' academic year.
+    visibility: public
+    syllabus_url: https://drive.google.com/file/d/15Wk3zcdud3Ibo5kKxI2RU6AIL6YGbpz7/view?usp=share_link
+    hero_note: ""
+    tags:
+      - data-visualization
+      - tau
+    manual_overrides: {}
+    review_notes: Migrated from the legacy manually maintained page.
+  - slug: econml25
+    title: Intro to ML @ MTA
+    subtitle: Course page for MTA, Semester B
+    institution: The Academic College of Tel Aviv-Yaffo
+    role: Instructor
+    academic_period: 25'
+    status: active
+    source_drive_folder_id: manual-econml25
+    source_drive_folder_name: Intro to ML MTA 25 CF
+    summary: I lecture on machine learning for B.Sc. students of Economics and Management at The Academic College of Tel Aviv-Yaffo.
+    visibility: public
+    syllabus_url: ""
+    hero_note: ""
+    tags:
+      - machine-learning
+      - mta
+    manual_overrides: {}
+    review_notes: Migrated from the legacy manually maintained page.
