@@ -18,6 +18,7 @@ class NamingTests(unittest.TestCase):
         parsed = parse_course_folder_name("Intro to ML @ MTA 25 CF")
         self.assertEqual(parsed["institution"], "The Academic College of Tel Aviv-Yaffo")
         self.assertEqual(parsed["academic_period"], "25")
+        self.assertEqual(parsed["title"], "Intro to ML")
         self.assertTrue(parsed["slug"].startswith("intro-to-ml"))
 
     def test_parse_course_folder_name_ta_and_unknown_institution(self) -> None:
@@ -84,4 +85,3 @@ class NamingTests(unittest.TestCase):
         )
         self.assertEqual(material.url, "https://example.com/content.txt")
         self.assertEqual(material.kind, "resource")
-

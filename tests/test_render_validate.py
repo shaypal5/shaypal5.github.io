@@ -9,7 +9,7 @@ from automation.data_io import load_courses, load_materials
 from automation.models import Material
 from automation.rendering import file_diff_summary, inject_managed_block, render_course_page, render_teaching_block
 from automation.repository import current_state, render_repository, write_data
-from automation.validation import validate_repository
+from automation.validation import validate_generated_files, validate_repository
 
 
 class RenderValidateTests(unittest.TestCase):
@@ -87,6 +87,31 @@ class RenderValidateTests(unittest.TestCase):
         self.assertIn(GENERATED_HEADER, page)
         self.assertNotIn("Hidden draft", page)
 
+        general_page = render_course_page(
+            course,
+            [
+                Material(
+                    title="Week 1 slide deck",
+                    url="https://example.com/week-1",
+                    kind="slides",
+                    week=1,
+                    section="Course Materials",
+                    published=True,
+                    sort_key="01-week-1",
+                ),
+                Material(
+                    title="General syllabus handout",
+                    url="https://example.com/general",
+                    kind="resource",
+                    week=None,
+                    section="Course Materials",
+                    published=True,
+                    sort_key="00-general",
+                )
+            ],
+        )
+        self.assertIn("### General Materials", general_page)
+
         empty_course_page = render_course_page(courses[1], [])
         self.assertIn("TBA", empty_course_page)
 
@@ -105,3 +130,12 @@ class RenderValidateTests(unittest.TestCase):
             write_data(paths, courses, materials_by_slug)
             save_courses.assert_called_once_with(paths, courses)
             self.assertEqual(save_materials.call_count, len(materials_by_slug))
+
+    def test_validate_generated_files_reports_missing_markers(self) -> None:
+        paths = build_paths(self.repo_root)
+        courses = load_courses(paths)
+        materials_by_slug = {course.slug: load_materials(paths, course.slug) for course in courses}
+        render_repository(paths, courses, materials_by_slug, dry_run=False)
+        paths.teaching_index.write_text("no managed markers here", encoding="utf-8")
+        errors = validate_generated_files(paths, courses, materials_by_slug)
+        self.assertTrue(any("invalid managed block markers" in error for error in errors))

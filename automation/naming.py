@@ -25,7 +25,7 @@ def slugify(text: str) -> str:
 def parse_course_folder_name(folder_name: str) -> dict[str, str]:
     base = folder_name.removesuffix(COURSE_SUFFIX).strip()
     no_year = re.sub(r"\b(20\d{2}|[0-9]{2}'-[0-9]{2}'|[0-9]{2}')\b", "", base).strip(" -_,")
-    title_part = base
+    title_part = no_year
     role = "Instructor"
     if " TA " in f" {base} " or base.upper().startswith("TA "):
         role = "Teaching Assistant"
@@ -36,7 +36,7 @@ def parse_course_folder_name(folder_name: str) -> dict[str, str]:
             break
     period_match = re.search(r"(20\d{2}|[0-9]{2}'-[0-9]{2}'|[0-9]{2}'?|[0-9]{2})", base)
     academic_period = period_match.group(1) if period_match else "TBD"
-    title_part = re.sub(r"\s*@\s*[A-Za-z'. -]+", "", title_part).strip()
+    title_part = re.sub(r"\s*@\s*[A-Za-z0-9'. -]+", "", title_part).strip()
     title_part = re.sub(r"\b(?:TAU|MTA|DataNights)\b", "", title_part, flags=re.IGNORECASE).strip(" -_,")
     title_part = re.sub(r"\b(?:TA)\b", "", title_part, flags=re.IGNORECASE).strip(" -_,")
     title = title_part or no_year or base

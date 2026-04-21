@@ -103,9 +103,13 @@ def validate_generated_files(paths: Paths, courses: list[Course], materials_by_s
         if content != expected:
             errors.append(f"{target}: stale generated content. Run courses render.")
     teaching_current = paths.teaching_index.read_text(encoding="utf-8")
-    teaching_expected = inject_managed_block(teaching_current, render_teaching_block(courses))
-    if teaching_current != teaching_expected:
-        errors.append(f"{paths.teaching_index}: stale generated course listing. Run courses render.")
+    try:
+        teaching_expected = inject_managed_block(teaching_current, render_teaching_block(courses))
+    except ValueError as exc:
+        errors.append(f"{paths.teaching_index}: invalid managed block markers: {exc}")
+    else:
+        if teaching_current != teaching_expected:
+            errors.append(f"{paths.teaching_index}: stale generated course listing. Run courses render.")
     return errors
 
 

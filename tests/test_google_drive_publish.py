@@ -93,6 +93,11 @@ class GoogleDrivePublishTests(unittest.TestCase):
         ), mock.patch("automation.google_drive.drive_roots", return_value=[]):
             self.assertEqual(client.discover_course_folders(limit=3), [{"id": "1"}, {"id": "2"}, {"id": "3"}])
 
+        with mock.patch.object(client, "_get") as get, \
+            mock.patch("automation.google_drive.drive_roots", return_value=[]):
+            self.assertEqual(client.discover_course_folders(limit=0), [])
+            get.assert_not_called()
+
         with mock.patch.object(
             client,
             "_get",
@@ -140,6 +145,11 @@ class GoogleDrivePublishTests(unittest.TestCase):
         success = subprocess.CompletedProcess(args=["gh"], returncode=0, stdout="https://example.com/pr\n", stderr="")
         with mock.patch("automation.publish.subprocess.run", return_value=success):
             self.assertEqual(create_pull_request("T", "B"), "https://example.com/pr")
+
+        empty_success = subprocess.CompletedProcess(args=["gh"], returncode=0, stdout=" \n", stderr="")
+        with mock.patch("automation.publish.subprocess.run", return_value=empty_success):
+            with self.assertRaises(PublishError):
+                create_pull_request("T", "B")
 
         failure = subprocess.CompletedProcess(args=["gh"], returncode=1, stdout="", stderr="boom")
         with mock.patch("automation.publish.subprocess.run", return_value=failure):

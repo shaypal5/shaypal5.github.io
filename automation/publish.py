@@ -66,7 +66,10 @@ def create_pull_request(title: str, body: str, label: str = "teaching") -> str:
     )
     if result.returncode != 0:
         raise PublishError(result.stderr.strip() or result.stdout.strip() or "gh pr create failed")
-    return result.stdout.strip().splitlines()[-1]
+    stdout = result.stdout.strip()
+    if not stdout:
+        raise PublishError("gh pr create succeeded but produced no output")
+    return stdout.splitlines()[-1]
 
 
 def publish_changes(branch: str, title: str, body: str, commit_message: str) -> PublishResult:
