@@ -7,12 +7,15 @@
 - `automation/rendering.py`: generates deterministic markdown for course pages and the teaching index.
 - `automation/validation.py`: checks schema presence, link validity, generated-file freshness, and internal references.
 - `automation/publish.py`: wraps local git plus `gh` PR creation for end-to-end local publishing.
+- `.github/workflows/teaching-validation.yml`: acts as the CI producer for validation, coverage artifacts, and PR agent context generation.
+- `.github/workflows/pr-agent-context-refresh.yml`: reruns PR context assembly on later review and check signals using append-mode refreshes.
 
 ## Boundaries
 - Google integration is read-only.
 - YAML in `data/teaching/` is the canonical repo-side source of truth.
 - Markdown under `teaching/` and the managed block in `teaching.md` are generated artifacts.
 - CI validates; it does not discover or sync from Drive.
+- `pr-agent-context` consumes CI coverage artifacts and GitHub PR state; it does not mutate repository files.
 
 ## Data Flow
 ```mermaid

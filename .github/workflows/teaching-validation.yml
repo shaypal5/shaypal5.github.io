@@ -1,12 +1,17 @@
-name: Teaching Validation
+name: CI
 
 on:
   push:
+    branches: ["master"]
   pull_request:
+    branches: ["master"]
 
 jobs:
   validate:
+    name: "Validate"
     runs-on: ubuntu-latest
+    env:
+      COVERAGE_FILE: .coverage.py312
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -17,10 +22,21 @@ jobs:
           python-version: "3.12"
 
       - name: Install automation dependencies
-        run: pip install .
+        run: |
+          pip install .
+          pip install coverage[toml]
 
-      - name: Run unit tests
-        run: python -m unittest discover -s tests
+      - name: Run unit tests with coverage
+        run: python -m coverage run -m unittest discover -s tests
+
+      - name: Upload raw coverage artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-agent-context-coverage-py312
+          path: .coverage*
+          include-hidden-files: true
+          if-no-files-found: ignore
 
       - name: Run teaching validation
         run: python -m automation.cli courses validate
@@ -33,3 +49,73 @@ jobs:
 
       - name: Build Jekyll site
         run: bundle exec jekyll build
+
+  coverage:
+    name: "Coverage"
+    runs-on: ubuntu-latest
+    needs: [validate]
+    if: always()
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install coverage
+        run: pip install coverage[toml]
+
+      - name: Download raw coverage artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: pr-agent-context-coverage-*
+          path: coverage-data
+          merge-multiple: true
+
+      - name: Combine coverage and generate reports
+        run: |
+          python -m coverage combine coverage-data/
+          python -m coverage report | tee coverage-report.txt
+          python -m coverage xml -o coverage.xml
+
+      - name: Publish coverage summary
+        run: |
+          {
+            echo '## Coverage report'
+            echo '```text'
+            cat coverage-report.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload combined coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-xml
+          path: |
+            coverage.xml
+            coverage-report.txt
+          if-no-files-found: warn
+
+  pr-agent-context:
+    name: "PR agent context"
+    if: ${{ always() && github.event_name == 'pull_request' }}
+    needs: [validate, coverage]
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: write
+    uses: shaypal5/pr-agent-context/.github/workflows/pr-agent-context.yml@v4.0.18
+    with:
+      tool_ref: v4.0.18
+      target_patch_coverage: "100"
+      include_review_comments: true
+      include_failing_checks: true
+      include_patch_coverage: true
+      patch_coverage_source_mode: coverage_xml_artifact
+      coverage_report_artifact_name: coverage-xml
+      coverage_report_filename: coverage.xml
+      coverage_source_workflows: CI
+      prompt_template_file: .github/pr-agent-context-template.md
+      debug_artifacts: true

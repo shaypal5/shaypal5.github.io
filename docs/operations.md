@@ -20,6 +20,11 @@ python -m automation.cli courses backfill --dry-run
 python -m automation.cli courses backfill --publish-pr
 ```
 
+## PR Agent Context
+- `CI` uploads raw `.coverage*` data, combines it into `coverage.xml`, and publishes both artifact outputs for downstream PR context analysis.
+- `pr-agent-context` runs as part of `CI` on pull requests and uses `coverage-xml` to compute patch coverage commentary.
+- `pr-agent-context-refresh` reruns on review and later check signals with `publish_mode: append`, reusing the latest `coverage-xml` artifact from the matching `CI` run when possible.
+
 ## Typical Backfill Flow
 1. Export credentials through `direnv`.
 2. Run `courses backfill --dry-run` to inspect the planned changes.
