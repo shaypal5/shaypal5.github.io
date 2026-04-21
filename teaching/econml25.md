@@ -1,19 +1,18 @@
 ---
 layout: page
 title: Intro to ML @ MTA
-subtitle: Course page for MTA, Semester B 
+subtitle: Course page for MTA, Semester B
 ---
 
-## Course Outline
+<!-- GENERATED: edit data/teaching or automation/templates instead of this file. -->
 
-TBA
+## Intro to ML @ MTA
+
+I lecture on machine learning for B.Sc. students of Economics and Management at The Academic College of Tel Aviv-Yaffo.
 
 ## Course Materials
 
-Materials here are ordered by week.
-
-### Week 1 - Course Intro 
-
+### Week 1
 
 **[S0 - Course Intro - Lecture Slides](https://docs.google.com/presentation/d/1XekhFoQT-4tXStgCY3QgINRi5E3Q2ka3z1lDHNu_JYI/edit?usp=sharing){:target="_blank"}**
 

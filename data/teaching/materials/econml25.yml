@@ -1,0 +1,22 @@
+course: econml25
+materials:
+  - title: S0 - Course Intro - Lecture Slides
+    url: https://docs.google.com/presentation/d/1XekhFoQT-4tXStgCY3QgINRi5E3Q2ka3z1lDHNu_JYI/edit?usp=sharing
+    kind: slides
+    week: 1
+    section: Course Materials
+    source_file_id: manual-econml25-001
+    source_mime_type: application/vnd.google-apps.presentation
+    published: true
+    sort_key: 01-s0-course-intro-lecture-slides
+    notes: ""
+  - title: S1 - Classification and Churn Prediction
+    url: https://docs.google.com/presentation/d/1ACvkbelcUEb_In_gmr34CbgusW06tYsxOUVM5utV03c/edit?usp=drive_link
+    kind: slides
+    week: 1
+    section: Course Materials
+    source_file_id: manual-econml25-002
+    source_mime_type: application/vnd.google-apps.presentation
+    published: true
+    sort_key: 01-s1-classification-and-churn-prediction
+    notes: ""

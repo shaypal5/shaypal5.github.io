@@ -104,6 +104,12 @@ exclude:
   - CNAME
   - LICENSE
   - README.md
+  - automation
+  - docs
+  - tests
+  - pyproject.toml
+  - uv.lock
+  - .github
 
 # prose.io options
 prose:

@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shaypal5-site-automation"
+version = "0.1.0"
+description = "Local automation tooling for shaypalachy.com content workflows."
+requires-python = ">=3.12"
+dependencies = [
+  "PyYAML>=6.0.1,<7",
+  "requests>=2.32.0,<3",
+]
+
+[project.optional-dependencies]
+dev = []
+
+[tool.setuptools]
+packages = ["automation"]
