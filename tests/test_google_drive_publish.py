@@ -1,0 +1,119 @@
+import subprocess
+import unittest
+from types import SimpleNamespace
+from unittest import mock
+
+from automation.config import AuthConfigError, DiscoveryError, PublishError
+from automation.google_drive import DriveClient
+from automation.publish import commit_all, create_pull_request, ensure_branch, publish_changes, push_branch, run_git
+
+
+class GoogleDrivePublishTests(unittest.TestCase):
+    def test_drive_client_from_env_and_requests(self) -> None:
+        response = mock.Mock(status_code=200)
+        response.json.return_value = {"access_token": "token-1"}
+        with mock.patch("automation.google_drive.required_google_env", return_value={
+            "GOOGLE_OAUTH_CLIENT_ID": "id",
+            "GOOGLE_OAUTH_CLIENT_SECRET": "secret",
+            "GOOGLE_OAUTH_REFRESH_TOKEN": "refresh",
+            "GOOGLE_OAUTH_TOKEN_URI": "https://oauth.example/token",
+        }), mock.patch("automation.google_drive.requests.post", return_value=response) as post:
+            client = DriveClient.from_env()
+            self.assertEqual(client.access_token, "token-1")
+            post.assert_called_once()
+
+        bad_response = mock.Mock(status_code=400, text="bad")
+        bad_response.json.return_value = {}
+        with mock.patch("automation.google_drive.required_google_env", return_value={
+            "GOOGLE_OAUTH_CLIENT_ID": "id",
+            "GOOGLE_OAUTH_CLIENT_SECRET": "secret",
+            "GOOGLE_OAUTH_REFRESH_TOKEN": "refresh",
+            "GOOGLE_OAUTH_TOKEN_URI": "https://oauth.example/token",
+        }), mock.patch("automation.google_drive.requests.post", return_value=bad_response):
+            with self.assertRaises(AuthConfigError):
+                DriveClient.from_env()
+
+        empty_response = mock.Mock(status_code=200)
+        empty_response.json.return_value = {}
+        with mock.patch("automation.google_drive.required_google_env", return_value={
+            "GOOGLE_OAUTH_CLIENT_ID": "id",
+            "GOOGLE_OAUTH_CLIENT_SECRET": "secret",
+            "GOOGLE_OAUTH_REFRESH_TOKEN": "refresh",
+            "GOOGLE_OAUTH_TOKEN_URI": "https://oauth.example/token",
+        }), mock.patch("automation.google_drive.requests.post", return_value=empty_response):
+            with self.assertRaises(AuthConfigError):
+                DriveClient.from_env()
+
+    def test_drive_client_get_and_queries(self) -> None:
+        client = DriveClient(access_token="token")
+        ok = mock.Mock(status_code=200)
+        ok.json.return_value = {"files": [{"id": "1"}]}
+        with mock.patch("automation.google_drive.requests.get", return_value=ok) as get, \
+            mock.patch("automation.google_drive.drive_roots", return_value=["root-a", "root-b"]):
+            folders = client.discover_course_folders(limit=1)
+            self.assertEqual(folders, [{"id": "1"}])
+            params = get.call_args.kwargs["params"]
+            self.assertIn("'root-a' in parents", params["q"])
+            items = client.list_folder_items("folder-1")
+            self.assertEqual(items, [{"id": "1"}])
+        with mock.patch("automation.google_drive.requests.get", return_value=ok), \
+            mock.patch("automation.google_drive.drive_roots", return_value=[]):
+            self.assertEqual(client.discover_course_folders(limit=None), [{"id": "1"}])
+
+        bad = mock.Mock(status_code=500, text="nope")
+        bad.json.return_value = {}
+        with mock.patch("automation.google_drive.requests.get", return_value=bad):
+            with self.assertRaises(DiscoveryError):
+                client._get("files", {})
+
+    def test_publish_helpers(self) -> None:
+        good = subprocess.CompletedProcess(args=["git"], returncode=0, stdout="ok\n", stderr="")
+        with mock.patch("automation.publish.subprocess.run", return_value=good):
+            self.assertEqual(run_git(["status"]), "ok")
+
+        bad = subprocess.CompletedProcess(args=["git"], returncode=1, stdout="", stderr="failed")
+        with mock.patch("automation.publish.subprocess.run", return_value=bad):
+            with self.assertRaises(PublishError):
+                run_git(["status"])
+
+        with mock.patch("automation.publish.run_git") as run:
+            run.side_effect = ["other-branch", ""]
+            ensure_branch("target")
+            run.assert_any_call(["checkout", "-B", "target"])
+
+        with mock.patch("automation.publish.run_git") as run:
+            run.side_effect = ["target"]
+            ensure_branch("target")
+            self.assertEqual(run.call_count, 1)
+
+        with mock.patch("automation.publish.run_git") as run:
+            run.side_effect = ["", ""]
+            commit_all("msg")
+            run.assert_any_call(["add", "automation", "data", "docs", "tests", ".github", "teaching", "teaching.md", "_config.yml", ".gitignore", "pyproject.toml"])
+        with mock.patch("automation.publish.run_git") as run:
+            run.side_effect = ["", "M changed", ""]
+            commit_all("msg")
+            run.assert_any_call(["commit", "-m", "msg"])
+
+        with mock.patch("automation.publish.run_git") as run:
+            push_branch("branch")
+            run.assert_called_with(["push", "-u", "origin", "branch"])
+
+        success = subprocess.CompletedProcess(args=["gh"], returncode=0, stdout="https://example.com/pr\n", stderr="")
+        with mock.patch("automation.publish.subprocess.run", return_value=success):
+            self.assertEqual(create_pull_request("T", "B"), "https://example.com/pr")
+
+        failure = subprocess.CompletedProcess(args=["gh"], returncode=1, stdout="", stderr="boom")
+        with mock.patch("automation.publish.subprocess.run", return_value=failure):
+            with self.assertRaises(PublishError):
+                create_pull_request("T", "B")
+
+        with mock.patch("automation.publish.ensure_branch") as ensure, \
+            mock.patch("automation.publish.commit_all") as commit, \
+            mock.patch("automation.publish.push_branch") as push, \
+            mock.patch("automation.publish.create_pull_request", return_value="https://example.com/pr"):
+            result = publish_changes("branch", "Title", "Body", "Commit")
+            ensure.assert_called_once_with("branch")
+            commit.assert_called_once_with("Commit")
+            push.assert_called_once_with("branch")
+            self.assertEqual(result.pr_url, "https://example.com/pr")

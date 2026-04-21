@@ -27,7 +27,11 @@ jobs:
           pip install coverage[toml]
 
       - name: Run unit tests with coverage
-        run: python -m coverage run -m unittest discover -s tests
+        run: |
+          python -m coverage erase
+          for test_file in tests/test_*.py; do
+            python -m coverage run --append --source=automation -m unittest discover -s tests -p "$(basename "$test_file")"
+          done
 
       - name: Upload raw coverage artifact
         if: always()
@@ -44,11 +48,14 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "2.6"
-          bundler-cache: true
+          ruby-version: "3.3"
+          bundler-cache: false
 
       - name: Build Jekyll site
-        run: bundle exec jekyll build
+        run: |
+          mv Gemfile.lock Gemfile.lock.ci.bak
+          bundle install
+          bundle exec jekyll build
 
   coverage:
     name: "Coverage"
