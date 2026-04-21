@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import re
 from urllib.parse import urlparse
 
 from automation.config import GENERATED_HEADER, Paths
@@ -15,10 +16,25 @@ SUPPORTED_HOSTS = {
     "github.com",
     "databricks-prod-cloudfront.cloud.databricks.com",
 }
+ALLOW_EMPTY_REQUIRED_FIELDS = {"notes"}
+
+
+SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 
 def _missing_fields(payload: dict, required_fields: list[str]) -> list[str]:
-    return [field for field in required_fields if field not in payload]
+    missing: list[str] = []
+    for field in required_fields:
+        if field not in payload:
+            missing.append(field)
+            continue
+        value = payload[field]
+        if value is None:
+            missing.append(field)
+            continue
+        if isinstance(value, str) and field not in ALLOW_EMPTY_REQUIRED_FIELDS and not value.strip():
+            missing.append(field)
+    return missing
 
 
 def _valid_url(url: str) -> bool:
@@ -45,6 +61,10 @@ def validate_courses(courses: list[Course]) -> list[str]:
         missing = _missing_fields(payload, REQUIRED_COURSE_FIELDS)
         if missing:
             errors.append(f"{course.slug}: missing course fields: {', '.join(missing)}")
+        if not course.slug.strip():
+            errors.append("Course slug must be non-empty.")
+        elif not SLUG_PATTERN.fullmatch(course.slug):
+            errors.append(f"{course.slug}: invalid slug format.")
         if course.slug in seen:
             errors.append(f"Duplicate course slug: {course.slug}")
         seen.add(course.slug)

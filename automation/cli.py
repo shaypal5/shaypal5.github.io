@@ -4,6 +4,7 @@ import argparse
 import json
 import sys
 from dataclasses import replace
+from typing import TYPE_CHECKING
 
 from automation.config import (
     AuthConfigError,
@@ -17,6 +18,10 @@ from automation.naming import infer_course_from_folder, material_from_drive_item
 from automation.publish import publish_changes
 from automation.repository import render_repository, write_data
 from automation.validation import validate_repository
+
+if TYPE_CHECKING:
+    from automation.google_drive import DriveClient
+    from automation.models import Course, Material
 
 
 def _print_json(payload: dict) -> None:
@@ -52,7 +57,7 @@ def cmd_validate(_: argparse.Namespace) -> int:
     return 0
 
 
-def _merged_course(existing_by_id: dict[str, object], folder: dict) -> object:
+def _merged_course(existing_by_id: dict[str, "Course"], folder: dict[str, str]) -> "Course":
     current = existing_by_id.get(folder["id"])
     inferred = infer_course_from_folder(folder["id"], folder["name"])
     if current is None:
@@ -67,7 +72,7 @@ def _merged_course(existing_by_id: dict[str, object], folder: dict) -> object:
     return current
 
 
-def _discover_materials(client: DriveClient, folder_id: str) -> list:
+def _discover_materials(client: "DriveClient", folder_id: str) -> list["Material"]:
     items = client.list_folder_items(folder_id)
     return [material_from_drive_item(item) for item in items if item.get("mimeType") != "application/vnd.google-apps.folder"]
 
@@ -90,7 +95,14 @@ def _backfill(args: argparse.Namespace, incremental: bool = False) -> int:
         selected_slugs = {course.slug for course in selected}
         courses = [course for course in existing_courses if course.slug not in selected_slugs] + selected
     else:
-        preserved = [course for course in existing_courses if course.source_drive_folder_id and course.source_drive_folder_id not in {item.source_drive_folder_id for item in selected}]
+        selected_drive_folder_ids = {
+            item.source_drive_folder_id for item in selected if item.source_drive_folder_id
+        }
+        preserved = [
+            course
+            for course in existing_courses
+            if not course.source_drive_folder_id or course.source_drive_folder_id not in selected_drive_folder_ids
+        ]
         courses = preserved + selected
     materials_by_slug = {course.slug: _discover_materials(client, course.source_drive_folder_id) for course in selected}
     for course in existing_courses:
@@ -140,7 +152,6 @@ def build_parser() -> argparse.ArgumentParser:
     shared_drive.add_argument("--dry-run", action="store_true")
     shared_drive.add_argument("--limit", type=int)
     shared_drive.add_argument("--slug")
-    shared_drive.add_argument("--since")
     shared_drive.add_argument("--publish-pr", action="store_true")
     shared_drive.add_argument("--branch", default="codex/teaching-backfill")
     shared_drive.add_argument("--commit-message", default="Add teaching automation outputs")

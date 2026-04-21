@@ -18,7 +18,7 @@ materials:
     source_file_id: manual-bigdata22-002
     source_mime_type: application/vnd.google-apps.presentation
     published: true
-    sort_key: 01-ta-session-1-intro-to-sparksql-google-slides
+    sort_key: 01-10-ta-session-1-intro-to-sparksql-google-slides
     notes: ""
   - title: "TA Session #1: Exercise Notebook"
     url: https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/641847842086486/2394472453390739/2401823435593520/latest.html
@@ -28,7 +28,7 @@ materials:
     source_file_id: manual-bigdata22-003
     source_mime_type: text/html
     published: true
-    sort_key: 01-ta-session-1-exercise-notebook
+    sort_key: 01-20-ta-session-1-exercise-notebook
     notes: ""
   - title: "TA Session #1: Solution Notebook"
     url: https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/641847842086486/2394472453390761/2401823435593520/latest.html
@@ -38,7 +38,7 @@ materials:
     source_file_id: manual-bigdata22-004
     source_mime_type: text/html
     published: true
-    sort_key: 01-ta-session-1-solution-notebook
+    sort_key: 01-30-ta-session-1-solution-notebook
     notes: ""
   - title: "TA Session #2: Intro to PySpark MapReduce - Google Slides"
     url: https://docs.google.com/presentation/d/1x1DxEU-b0qEbtY8NGnXaUAOstz4ePP-pLPJq-9b-SIk/edit?usp=sharing
@@ -48,7 +48,7 @@ materials:
     source_file_id: manual-bigdata22-005
     source_mime_type: application/vnd.google-apps.presentation
     published: true
-    sort_key: 02-ta-session-2-intro-to-pyspark-mapreduce-google-slides
+    sort_key: 02-10-ta-session-2-intro-to-pyspark-mapreduce-google-slides
     notes: ""
   - title: "TA Session #2: Exercise Notebook"
     url: https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/641847842086486/3461678632093851/2401823435593520/latest.html
@@ -58,7 +58,7 @@ materials:
     source_file_id: manual-bigdata22-006
     source_mime_type: text/html
     published: true
-    sort_key: 02-ta-session-2-exercise-notebook
+    sort_key: 02-20-ta-session-2-exercise-notebook
     notes: ""
   - title: "TA Session #2: Solution Notebook"
     url: https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/641847842086486/4375712867049050/2401823435593520/latest.html
@@ -68,7 +68,7 @@ materials:
     source_file_id: manual-bigdata22-007
     source_mime_type: text/html
     published: true
-    sort_key: 02-ta-session-2-solution-notebook
+    sort_key: 02-30-ta-session-2-solution-notebook
     notes: ""
   - title: "Exercise #3: PySpark MapReduce and SparkSQL"
     url: https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/641847842086486/3976615900918655/2401823435593520/latest.html

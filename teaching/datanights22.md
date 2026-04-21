@@ -4,7 +4,7 @@ title: Managing Data Science Teams @ DataNights
 subtitle: Course page for DataNights, 22'
 ---
 
-<!-- GENERATED: edit data/teaching or automation/templates instead of this file. -->
+<!-- GENERATED: edit data/teaching or automation sources instead of this file. -->
 
 ## Managing Data Science Teams @ DataNights
 

@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 TOKEN_URI_DEFAULT = "https://oauth2.googleapis.com/token"
-GENERATED_HEADER = "<!-- GENERATED: edit data/teaching or automation/templates instead of this file. -->"
+GENERATED_HEADER = "<!-- GENERATED: edit data/teaching or automation sources instead of this file. -->"
 TEACHING_MARKER_START = "<!-- BEGIN GENERATED: teaching-courses -->"
 TEACHING_MARKER_END = "<!-- END GENERATED: teaching-courses -->"
 
@@ -38,7 +38,6 @@ class Paths:
     materials_root: Path
     teaching_root: Path
     teaching_index: Path
-    templates_root: Path
 
 
 def repo_root() -> Path:
@@ -53,7 +52,6 @@ def build_paths(root: Path | None = None) -> Paths:
         materials_root=resolved / "data" / "teaching" / "materials",
         teaching_root=resolved / "teaching",
         teaching_index=resolved / "teaching.md",
-        templates_root=resolved / "automation" / "templates",
     )
 
 

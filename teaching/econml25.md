@@ -4,7 +4,7 @@ title: Intro to ML @ MTA
 subtitle: Course page for MTA, Semester B
 ---
 
-<!-- GENERATED: edit data/teaching or automation/templates instead of this file. -->
+<!-- GENERATED: edit data/teaching or automation sources instead of this file. -->
 
 ## Intro to ML @ MTA
 

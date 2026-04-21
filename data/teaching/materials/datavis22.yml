@@ -1,15 +1,5 @@
 course: datavis22
 materials:
-  - title: Course Syllabus
-    url: https://drive.google.com/file/d/15Wk3zcdud3Ibo5kKxI2RU6AIL6YGbpz7/view?usp=share_link
-    kind: syllabus
-    week: null
-    section: Course Outline
-    source_file_id: manual-datavis22-000
-    source_mime_type: application/pdf
-    published: true
-    sort_key: 00-course-syllabus
-    notes: ""
   - title: C1 - Course Intro - Lecture Slides
     url: https://docs.google.com/presentation/d/16yKgJgeo-hCZwcFztOoF-YpPU3XUo4JkcA77TfVOeLQ/edit?usp=share_link
     kind: slides
@@ -68,7 +58,7 @@ materials:
     source_file_id: manual-datavis22-006
     source_mime_type: application/vnd.google-apps.presentation
     published: true
-    sort_key: 02-dv2-data-abstraction-lecture-slides
+    sort_key: 02-20-dv2-data-abstraction-lecture-slides
     notes: ""
   - title: DV2.5 - Data Prep - Lecture Slides
     url: https://docs.google.com/presentation/d/1XZT0IdbXp_7wqs-nE1V5iPg5jVReFJ-Dc-uiTExvK4E/edit?usp=sharing
@@ -78,7 +68,7 @@ materials:
     source_file_id: manual-datavis22-007
     source_mime_type: application/vnd.google-apps.presentation
     published: true
-    sort_key: 02-dv2-5-data-prep-lecture-slides
+    sort_key: 02-30-dv2-5-data-prep-lecture-slides
     notes: ""
   - title: DV3 - Task Abstraction - Lecture Slides
     url: https://docs.google.com/presentation/d/1ibZWjX7kZJWnNthf11FsEqh6TqoY9Z_oPm82Ux9RG6E/edit?usp=sharing

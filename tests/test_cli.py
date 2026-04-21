@@ -103,7 +103,6 @@ class CliTests(unittest.TestCase):
             pr_title="PR",
             pr_body="Body",
             commit_message="Commit",
-            since=None,
         )
         fake_client = mock.Mock()
         fake_client.discover_course_folders.return_value = [
@@ -158,7 +157,6 @@ class CliTests(unittest.TestCase):
             pr_title="PR",
             pr_body="Body",
             commit_message="Commit",
-            since=None,
         )
         fake_client = mock.Mock()
         fake_client.discover_course_folders.return_value = [
@@ -183,6 +181,7 @@ class CliTests(unittest.TestCase):
         args = parser.parse_args(["courses", "backfill", "--limit", "1", "--dry-run"])
         self.assertEqual(args.limit, 1)
         self.assertTrue(args.dry_run)
+        self.assertFalse(hasattr(args, "since"))
 
         for exc, expected in [
             (ValidationError("bad"), 1),
@@ -208,3 +207,33 @@ class CliTests(unittest.TestCase):
             backfill.assert_called_with(args, incremental=False)
             self.assertEqual(cli.cmd_sync(args), 11)
             backfill.assert_called_with(args, incremental=True)
+
+    def test_backfill_preserves_manual_courses_without_drive_folder_id(self) -> None:
+        manual = sample_course(slug="manual", folder_id="")
+        existing = sample_course(slug="existing", folder_id="existing-folder")
+        discovered_course = sample_course(slug="fresh", folder_id="folder-1")
+        args = argparse.Namespace(
+            limit=None,
+            slug=None,
+            dry_run=False,
+            publish_pr=False,
+            branch="codex/test",
+            pr_title="PR",
+            pr_body="Body",
+            commit_message="Commit",
+        )
+        fake_client = mock.Mock()
+        fake_client.discover_course_folders.return_value = [{"id": "folder-1", "name": "Fresh CF"}]
+        with mock.patch("automation.google_drive.DriveClient.from_env", return_value=fake_client), \
+            mock.patch.object(cli, "build_paths", return_value=object()), \
+            mock.patch.object(cli, "load_courses", return_value=[manual, existing]), \
+            mock.patch.object(cli, "_merged_course", return_value=discovered_course), \
+            mock.patch.object(cli, "_discover_materials", return_value=[]), \
+            mock.patch.object(cli, "load_materials", return_value=[]), \
+            mock.patch.object(cli, "write_data") as write_data, \
+            mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
+            mock.patch.object(cli, "validate_repository", return_value=[]), \
+            mock.patch.object(cli, "_print_json"):
+            self.assertEqual(cli._backfill(args, incremental=False), 0)
+        written_courses = write_data.call_args.args[1]
+        self.assertEqual([course.slug for course in written_courses], ["manual", "existing", "fresh"])

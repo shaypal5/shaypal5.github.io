@@ -63,6 +63,7 @@ class ValidationTests(unittest.TestCase):
 
     def test_validation_helpers_and_error_paths(self) -> None:
         self.assertEqual(_missing_fields({"a": 1}, ["a", "b"]), ["b"])
+        self.assertEqual(_missing_fields({"a": "   ", "b": None}, ["a", "b"]), ["a", "b"])
         self.assertTrue(_valid_url("https://example.com"))
         self.assertFalse(_valid_url("not-a-url"))
         self.assertTrue(_supported_google_pattern("https://example.com/page"))
@@ -80,6 +81,10 @@ class ValidationTests(unittest.TestCase):
         errors = validate_courses([course])
         self.assertTrue(any("only public courses are supported" in error for error in errors))
         self.assertTrue(any("invalid syllabus_url" in error for error in errors))
+        self.assertTrue(any("Course slug must be non-empty" in error for error in errors))
+        course.slug = "Not Valid"
+        errors = validate_courses([course])
+        self.assertTrue(any("invalid slug format" in error for error in errors))
         missing_course = mock.Mock(slug="broken-course", visibility="public", syllabus_url="")
         missing_course.to_dict.return_value = {}
         errors = validate_courses([missing_course])
@@ -91,6 +96,21 @@ class ValidationTests(unittest.TestCase):
         missing_material = mock.Mock(title="broken-material", url="", published=False)
         missing_material.to_dict.return_value = {}
         errors = validate_materials("course", [missing_material])
+        self.assertTrue(any("missing material fields" in error for error in errors))
+        blank_material = mock.Mock(title="broken-material", url="", published=False)
+        blank_material.to_dict.return_value = {
+            "title": "  ",
+            "url": "",
+            "kind": "slides",
+            "week": 1,
+            "section": "Course Materials",
+            "source_file_id": "x",
+            "source_mime_type": "application/pdf",
+            "published": False,
+            "sort_key": "01",
+            "notes": "",
+        }
+        errors = validate_materials("course", [blank_material])
         self.assertTrue(any("missing material fields" in error for error in errors))
 
         google_material = Material(

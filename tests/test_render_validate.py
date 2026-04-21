@@ -47,6 +47,13 @@ class RenderValidateTests(unittest.TestCase):
         materials_by_slug = {course.slug: load_materials(paths, course.slug) for course in courses}
         render_repository(paths, courses, materials_by_slug, dry_run=False)
         self.assertEqual(validate_repository(paths), [])
+        datavis_page = (paths.teaching_root / "datavis22.md").read_text(encoding="utf-8")
+        self.assertEqual(datavis_page.count("Course Syllabus"), 1)
+        bigdata_page = (paths.teaching_root / "bigdata22.md").read_text(encoding="utf-8")
+        self.assertLess(
+            bigdata_page.index("TA Session #1: Intro to SparkSQL - Google Slides"),
+            bigdata_page.index("TA Session #1: Exercise Notebook"),
+        )
 
     def test_render_helpers_and_current_state(self) -> None:
         paths = build_paths(self.repo_root)

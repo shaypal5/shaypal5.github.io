@@ -49,6 +49,6 @@ python -m automation.cli courses backfill --publish-pr
 - Exit code `4`: git push or `gh pr create` failed.
 
 ## Repairing Partial Runs
-- Re-run `courses render` after editing YAML or templates.
+- Re-run `courses render` after editing YAML or automation rendering logic.
 - Re-run `courses validate` before committing.
 - If a sync partially succeeded, inspect `data/teaching/` and rerun `courses backfill --slug <slug>` for the affected course.

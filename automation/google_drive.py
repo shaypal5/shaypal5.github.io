@@ -52,32 +52,56 @@ class DriveClient:
         if roots:
             quoted = " or ".join(f"'{root}' in parents" for root in roots)
             queries.append(f"({quoted})")
-        payload = self._get(
-            "files",
-            {
-                "q": " and ".join(queries),
-                "fields": "files(id,name,modifiedTime,webViewLink)",
-                "pageSize": min(limit or 200, 200),
-                "orderBy": "name_natural",
-                "supportsAllDrives": "true",
-                "includeItemsFromAllDrives": "true",
-            },
-        )
-        files = payload.get("files", [])
+        params = {
+            "q": " and ".join(queries),
+            "fields": "nextPageToken,files(id,name,modifiedTime,webViewLink)",
+            "pageSize": 200,
+            "orderBy": "name_natural",
+            "supportsAllDrives": "true",
+            "includeItemsFromAllDrives": "true",
+        }
+        files: list[dict] = []
+        page_token: str | None = None
+        while True:
+            remaining = None if limit is None else limit - len(files)
+            if remaining is not None and remaining <= 0:
+                break
+            params["pageSize"] = min(remaining or 200, 200)
+            if page_token:
+                params["pageToken"] = page_token
+            else:
+                params.pop("pageToken", None)
+            payload = self._get(
+                "files",
+                params.copy(),
+            )
+            files.extend(payload.get("files", []))
+            page_token = payload.get("nextPageToken")
+            if not page_token:
+                break
         if limit is not None:
             return files[:limit]
         return files
 
     def list_folder_items(self, folder_id: str) -> list[dict]:
-        payload = self._get(
-            "files",
-            {
-                "q": f"'{folder_id}' in parents and trashed=false",
-                "fields": "files(id,name,mimeType,webViewLink,webContentLink,modifiedTime)",
-                "pageSize": 500,
-                "orderBy": "folder,name_natural",
-                "supportsAllDrives": "true",
-                "includeItemsFromAllDrives": "true",
-            },
-        )
-        return payload.get("files", [])
+        params = {
+            "q": f"'{folder_id}' in parents and trashed=false",
+            "fields": "nextPageToken,files(id,name,mimeType,webViewLink,webContentLink,modifiedTime)",
+            "pageSize": 500,
+            "orderBy": "folder,name_natural",
+            "supportsAllDrives": "true",
+            "includeItemsFromAllDrives": "true",
+        }
+        files: list[dict] = []
+        page_token: str | None = None
+        while True:
+            if page_token:
+                params["pageToken"] = page_token
+            else:
+                params.pop("pageToken", None)
+            payload = self._get("files", params.copy())
+            files.extend(payload.get("files", []))
+            page_token = payload.get("nextPageToken")
+            if not page_token:
+                break
+        return files

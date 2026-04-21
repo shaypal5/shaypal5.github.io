@@ -19,7 +19,7 @@ Acceptance criteria:
 - Each published course page maps to one canonical course record.
 
 ## Phase 3: Rendering And Validation
-- Generate `teaching/<slug>.md` from templates and normalized data.
+- Generate `teaching/<slug>.md` from normalized data and deterministic automation rendering.
 - Replace the dynamic portion of `teaching.md` through explicit managed markers.
 - Add validator checks for duplicate slugs, broken generated state, and supported URL patterns.
 

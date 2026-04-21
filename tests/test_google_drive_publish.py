@@ -66,6 +66,44 @@ class GoogleDrivePublishTests(unittest.TestCase):
             with self.assertRaises(DiscoveryError):
                 client._get("files", {})
 
+    def test_drive_client_paginates_folder_queries(self) -> None:
+        client = DriveClient(access_token="token")
+        with mock.patch.object(
+            client,
+            "_get",
+            side_effect=[
+                {"files": [{"id": "1"}, {"id": "2"}], "nextPageToken": "page-2"},
+                {"files": [{"id": "3"}]},
+            ],
+        ) as get, mock.patch("automation.google_drive.drive_roots", return_value=[]):
+            self.assertEqual(
+                client.discover_course_folders(limit=None),
+                [{"id": "1"}, {"id": "2"}, {"id": "3"}],
+            )
+            self.assertNotIn("pageToken", get.call_args_list[0].args[1])
+            self.assertEqual(get.call_args_list[1].args[1]["pageToken"], "page-2")
+
+        with mock.patch.object(
+            client,
+            "_get",
+            side_effect=[
+                {"files": [{"id": "1"}, {"id": "2"}], "nextPageToken": "page-2"},
+                {"files": [{"id": "3"}, {"id": "4"}]},
+            ],
+        ), mock.patch("automation.google_drive.drive_roots", return_value=[]):
+            self.assertEqual(client.discover_course_folders(limit=3), [{"id": "1"}, {"id": "2"}, {"id": "3"}])
+
+        with mock.patch.object(
+            client,
+            "_get",
+            side_effect=[
+                {"files": [{"id": "a"}], "nextPageToken": "page-2"},
+                {"files": [{"id": "b"}]},
+            ],
+        ) as get:
+            self.assertEqual(client.list_folder_items("folder-1"), [{"id": "a"}, {"id": "b"}])
+            self.assertEqual(get.call_args_list[1].args[1]["pageToken"], "page-2")
+
     def test_publish_helpers(self) -> None:
         good = subprocess.CompletedProcess(args=["git"], returncode=0, stdout="ok\n", stderr="")
         with mock.patch("automation.publish.subprocess.run", return_value=good):
