@@ -378,3 +378,58 @@ class CliTests(unittest.TestCase):
                 self.assertEqual(cli._backfill(args, incremental=False), 0)
             written_courses = write_data.call_args.args[1]
             self.assertEqual([course.slug for course in written_courses], ["manual", "existing", "fresh"])
+
+    def test_backfill_synthesizes_generalized_parent_for_multiple_iterations(self) -> None:
+        course_a = sample_course(slug="deep-learning-24b", folder_id="folder-a")
+        course_a.title = "Deep Learning"
+        course_a.subtitle = "Course page for teaching materials, 24/25 (Section B)"
+        course_a.academic_period = "24/25"
+        course_a.course_family = "deep-learning"
+        course_a.section = "B"
+
+        course_b = sample_course(slug="deep-learning-25b", folder_id="folder-b")
+        course_b.title = "Deep Learning"
+        course_b.subtitle = "Course page for teaching materials, 25/26 (Section B)"
+        course_b.academic_period = "25/26"
+        course_b.course_family = "deep-learning"
+        course_b.section = "B"
+
+        args = argparse.Namespace(
+            limit=None,
+            slug=None,
+            dry_run=False,
+            publish_pr=False,
+            branch="codex/test",
+            pr_title="PR",
+            pr_body="Body",
+            commit_message="Commit",
+        )
+        fake_client = mock.Mock()
+        fake_client.discover_course_folders.return_value = [
+            {"id": "folder-a", "name": "Deep Learning 24/5B CF"},
+            {"id": "folder-b", "name": "Deep Learning 25/6B CF"},
+        ]
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_paths(Path(tmp))
+            paths.teaching_index.write_text(
+                "\n".join(["---", "layout: page", "title: Teaching", "---", "", "<!-- BEGIN GENERATED: teaching-courses -->", "<!-- END GENERATED: teaching-courses -->", ""]),
+                encoding="utf-8",
+            )
+            with mock.patch("automation.google_drive.DriveClient.from_env", return_value=fake_client), \
+                mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "load_courses", return_value=[]), \
+                mock.patch.object(cli, "_merged_course", side_effect=[course_a, course_b]), \
+                mock.patch.object(cli, "_discover_materials", return_value=[]), \
+                mock.patch.object(cli, "load_materials", return_value=[]), \
+                mock.patch.object(cli, "write_data") as write_data, \
+                mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
+                mock.patch.object(cli, "validate_repository", return_value=[]), \
+                mock.patch.object(cli, "_print_json"):
+                self.assertEqual(cli._backfill(args, incremental=False), 0)
+            written_courses = write_data.call_args.args[1]
+            written_slugs = [course.slug for course in written_courses]
+            self.assertIn("deep-learning", written_slugs)
+            synthesized = next(course for course in written_courses if course.slug == "deep-learning")
+            self.assertTrue(synthesized.is_generalized)
+            self.assertEqual(synthesized.course_family, "deep-learning")
+            self.assertTrue(synthesized.manual_overrides["hide_empty_materials"])

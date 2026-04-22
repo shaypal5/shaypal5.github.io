@@ -110,6 +110,47 @@ def _discover_materials(client: "DriveClient", course: "Course") -> list["Materi
     ]
 
 
+def _ensure_generalized_parents(courses: list["Course"]) -> list["Course"]:
+    from automation.models import Course
+
+    generalized_by_family = {
+        course.course_family: course
+        for course in courses
+        if course.is_generalized and course.course_family
+    }
+    family_members: dict[str, list[Course]] = {}
+    for course in courses:
+        if course.is_generalized or not course.course_family:
+            continue
+        family_members.setdefault(course.course_family, []).append(course)
+    synthesized: list[Course] = []
+    for family, members in family_members.items():
+        if family in generalized_by_family or len(members) < 2:
+            continue
+        exemplar = sorted(members, key=lambda item: (item.academic_period, item.slug))[0]
+        synthesized.append(
+            Course(
+                slug=family,
+                title=exemplar.title,
+                subtitle=f"{exemplar.title} across course iterations",
+                institution=exemplar.institution,
+                role=exemplar.role,
+                academic_period="TBD",
+                status="active" if any(item.status == "active" for item in members) else "archived",
+                source_drive_folder_id=f"synthetic-generalized-{family}",
+                source_drive_folder_name=f"{exemplar.title} - Generalized (synthetic)",
+                summary=f"Teaching materials extracted from multiple Google Drive course folders for {exemplar.title}.",
+                visibility="public",
+                manual_overrides={"hide_empty_materials": True},
+                review_notes="Synthetic generalized parent created automatically from multiple course iterations.",
+                course_family=family,
+                section="",
+                is_generalized=True,
+            )
+        )
+    return courses + synthesized
+
+
 def _backfill(args: argparse.Namespace, incremental: bool = False) -> int:
     from automation.google_drive import DriveClient
 
@@ -163,6 +204,7 @@ def _backfill(args: argparse.Namespace, incremental: bool = False) -> int:
             if not course.source_drive_folder_id or course.source_drive_folder_id not in selected_drive_folder_ids
         ]
         courses = preserved + selected
+    courses = _ensure_generalized_parents(courses)
     materials_by_slug = {}
     for course in selected:
         _log(f"Listing materials for {course.slug} from folder {course.source_drive_folder_id}.")
