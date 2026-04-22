@@ -18,7 +18,6 @@ I'm teaching Deep Learning, Natural Language Processing and Data Visualization (
 * [Intro to ML @ MTA](/teaching/econml25)
 * [Managing Data Science Teams @ DataNights](/teaching/datanights)
 * [Big Data Technologies TA @ TAU](/teaching/bigdata22)
-* [Data Vis @ TAU](/teaching/datavis22)
 
 |
 
@@ -43,13 +42,5 @@ DataNights' Data Science Management program is a cohort-based course for current
 I served as a Teaching Assistant for the Intro to Big Data Technologies course at Tel Aviv University during the 22'-23' academic year.
 
 [Course page is here](/teaching/bigdata22)
-
-|
-
-## Data Vis @ TAU
-
-I lecture on data visualization at The Coller School of Management at Tel Aviv University for both semesters of the 22'-23' academic year.
-
-[Course page is here](/teaching/datavis22)
 
 <!-- END GENERATED: teaching-courses -->

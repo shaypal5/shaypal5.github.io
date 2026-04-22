@@ -9,6 +9,7 @@ from automation.data_io import load_courses, load_materials
 from automation.models import Course, Material
 from automation.rendering import file_diff_summary, inject_managed_block, render_course_page, render_teaching_block
 from automation.repository import clean_preview_repository, current_state, render_repository, write_data, write_preview_repository
+from automation.syllabus import render_syllabus_markdown, select_syllabus_material, syllabus_export_mime
 from automation.validation import validate_generated_files, validate_repository
 
 
@@ -45,10 +46,26 @@ class RenderValidateTests(unittest.TestCase):
         paths = build_paths(self.repo_root)
         courses = load_courses(paths)
         materials_by_slug = {course.slug: load_materials(paths, course.slug) for course in courses}
+        orphan_page = paths.teaching_root / "orphan-generated.md"
+        orphan_page.write_text(
+            "\n".join(
+                [
+                    "---",
+                    "layout: page",
+                    "title: Orphan",
+                    "---",
+                    "",
+                    GENERATED_HEADER,
+                    "",
+                    "old",
+                    "",
+                ]
+            ),
+            encoding="utf-8",
+        )
         render_repository(paths, courses, materials_by_slug, dry_run=False)
         self.assertEqual(validate_repository(paths), [])
-        datavis_page = (paths.teaching_root / "datavis22.md").read_text(encoding="utf-8")
-        self.assertEqual(datavis_page.count("Course Syllabus"), 1)
+        self.assertFalse(orphan_page.exists())
         bigdata_page = (paths.teaching_root / "bigdata22.md").read_text(encoding="utf-8")
         self.assertLess(
             bigdata_page.index("TA Session #1: Intro to SparkSQL - Google Slides"),
@@ -141,6 +158,7 @@ class RenderValidateTests(unittest.TestCase):
                         "description": "On getting ML into production.",
                     }
                 ],
+                "syllabus_markdown": "* Week 1: Foundations\n* Week 2: Hiring",
                 "hide_empty_materials": True,
             },
         )
@@ -149,7 +167,23 @@ class RenderValidateTests(unittest.TestCase):
         self.assertIn("## Lectures", override_page)
         self.assertIn("Make It Worth - Inbal Budowski-Tal", override_page)
         self.assertIn("This cohort ran weekly in Tel Aviv.", override_page)
+        self.assertIn("* Week 1: Foundations", override_page)
         self.assertNotIn("## Course Materials", override_page)
+
+        outline_page = render_course_page(
+            override_course,
+            [
+                Material(
+                    title="Course Outline",
+                    url="https://example.com/outline",
+                    kind="outline",
+                    published=True,
+                    section="Course Outline",
+                    sort_key="00-outline",
+                )
+            ],
+        )
+        self.assertEqual(outline_page.count("Course Outline"), 1)
 
         generalized = Course(
             slug="data-vis",
@@ -220,6 +254,35 @@ class RenderValidateTests(unittest.TestCase):
         self.assertIn("## Shared Course Materials", generalized_page)
         self.assertIn("Week 1 lecture slides", generalized_page)
         self.assertLess(generalized_page.index("Section B"), generalized_page.index("Section A"))
+
+    def test_syllabus_helpers(self) -> None:
+        doc_material = Material(
+            title="Course details",
+            url="https://example.com/doc",
+            kind="outline",
+            source_file_id="doc-id",
+            source_mime_type="application/vnd.google-apps.document",
+            sort_key="01-doc",
+        )
+        sheet_material = Material(
+            title="Outline sheet",
+            url="https://example.com/sheet",
+            kind="outline",
+            source_file_id="sheet-id",
+            source_mime_type="application/vnd.google-apps.spreadsheet",
+            sort_key="02-sheet",
+        )
+        self.assertIs(select_syllabus_material([sheet_material, doc_material]), doc_material)
+        self.assertEqual(syllabus_export_mime(doc_material), "text/plain")
+        self.assertEqual(syllabus_export_mime(sheet_material), "text/tab-separated-values")
+        self.assertEqual(
+            render_syllabus_markdown(doc_material, "Intro\n\n• First topic\n2. Second topic\n"),
+            "Intro\n\n* First topic\n* Second topic",
+        )
+        self.assertEqual(
+            render_syllabus_markdown(sheet_material, "Week\tTopic\n1\tIntro\n"),
+            "| Week | Topic |\n| --- | --- |\n| 1 | Intro |",
+        )
 
         generalized_without_materials = render_course_page(
             Course(

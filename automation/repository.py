@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 import shutil
 
 from automation.config import Paths
@@ -12,6 +13,17 @@ from automation.rendering import file_diff_summary, inject_managed_block, render
 @dataclass
 class RenderResult:
     changed_files: list[str]
+
+
+def _stale_generated_pages(paths: Paths, active_slugs: set[str]) -> list[Path]:
+    stale_paths: list[Path] = []
+    for page_path in paths.teaching_root.glob("*.md"):
+        if page_path.stem in active_slugs:
+            continue
+        content = page_path.read_text(encoding="utf-8")
+        if "<!-- GENERATED: edit data/teaching or automation sources instead of this file. -->" in content:
+            stale_paths.append(page_path)
+    return stale_paths
 
 
 def current_state(paths: Paths) -> tuple[list[Course], dict[str, list[Material]]]:
@@ -33,6 +45,7 @@ def render_repository(
     dry_run: bool = False,
 ) -> RenderResult:
     changes: list[str] = []
+    active_slugs = {course.slug for course in courses}
     for course in courses:
         rendered = render_course_page(course, materials_by_slug.get(course.slug, []), courses=courses)
         target = paths.teaching_root / f"{course.slug}.md"
@@ -42,6 +55,11 @@ def render_repository(
         if not dry_run:
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_text(rendered, encoding="utf-8")
+
+    for stale_path in _stale_generated_pages(paths, active_slugs):
+        changes.append(f"D {stale_path.as_posix()}")
+        if not dry_run:
+            stale_path.unlink()
 
     teaching_existing = paths.teaching_index.read_text(encoding="utf-8")
     teaching_rendered = inject_managed_block(teaching_existing, render_teaching_block(courses))

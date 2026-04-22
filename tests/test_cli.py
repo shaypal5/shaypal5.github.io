@@ -153,6 +153,30 @@ class CliTests(unittest.TestCase):
         client.list_folder_items.assert_not_called()
         client.list_folder_items_recursive.assert_called_once()
 
+    def test_attach_syllabus_content(self) -> None:
+        client = mock.Mock()
+        client.export_file_text.return_value = "Week\tTopic\n1\tIntro\n"
+        course = sample_course(slug="data-vis-22b")
+        materials = [
+            Material(
+                title="Outline sheet",
+                url="https://example.com/outline",
+                kind="outline",
+                source_file_id="sheet-1",
+                source_mime_type="application/vnd.google-apps.spreadsheet",
+                published=True,
+                sort_key="01-outline",
+            )
+        ]
+        enriched = cli._attach_syllabus_content(client, course, materials)
+        self.assertEqual(enriched.syllabus_url, "https://example.com/outline")
+        self.assertIn("| Week | Topic |", enriched.manual_overrides["syllabus_markdown"])
+
+        client.export_file_text.side_effect = DiscoveryError("bad export")
+        fallback = cli._attach_syllabus_content(client, course, materials)
+        self.assertEqual(fallback.syllabus_url, "https://example.com/outline")
+        self.assertNotIn("syllabus_markdown", fallback.manual_overrides)
+
     def test_backfill_dry_run_incremental_and_publish(self) -> None:
         existing = sample_course(slug="existing", folder_id="existing-folder")
         discovered_course = sample_course(slug="fresh", folder_id="folder-1")

@@ -48,6 +48,17 @@ class DriveClient:
             raise DiscoveryError(f"Google Drive API request failed for {path}: {response.text}")
         return response.json()
 
+    def export_file_text(self, file_id: str, mime_type: str) -> str:
+        response = requests.get(
+            f"https://www.googleapis.com/drive/v3/files/{file_id}/export",
+            headers={"Authorization": f"Bearer {self.access_token}"},
+            params={"mimeType": mime_type},
+            timeout=30,
+        )
+        if response.status_code != 200:
+            raise DiscoveryError(f"Google Drive export failed for {file_id}: {response.text}")
+        return response.text
+
     def discover_course_folders(self, limit: int | None = None) -> list[dict]:
         queries = ["mimeType='application/vnd.google-apps.folder'", "trashed=false", "name contains ' CF'"]
         roots = drive_roots()

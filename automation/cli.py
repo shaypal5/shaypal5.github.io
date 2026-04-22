@@ -23,6 +23,7 @@ from automation.naming import (
 )
 from automation.publish import publish_changes
 from automation.repository import clean_preview_repository, render_repository, write_data, write_preview_repository
+from automation.syllabus import render_syllabus_markdown, select_syllabus_material, syllabus_export_mime
 from automation.validation import validate_repository
 
 if TYPE_CHECKING:
@@ -110,6 +111,34 @@ def _discover_materials(client: "DriveClient", course: "Course") -> list["Materi
     ]
 
 
+def _attach_syllabus_content(client: "DriveClient", course: "Course", materials: list["Material"]) -> "Course":
+    if course.is_generalized:
+        return course
+    syllabus_material = select_syllabus_material(materials)
+    if syllabus_material is None:
+        return course
+    manual_overrides = dict(course.manual_overrides)
+    if not course.syllabus_url:
+        course = replace(course, syllabus_url=syllabus_material.url)
+    if manual_overrides.get("syllabus_markdown"):
+        return course
+    if not syllabus_material.source_file_id:
+        return course
+    export_mime = syllabus_export_mime(syllabus_material)
+    if export_mime is None:
+        return course
+    try:
+        exported_text = client.export_file_text(syllabus_material.source_file_id, export_mime)
+    except DiscoveryError as exc:
+        _log(f"Skipping syllabus extraction for {course.slug}: {exc}")
+        return course
+    syllabus_markdown = render_syllabus_markdown(syllabus_material, exported_text)
+    if not syllabus_markdown:
+        return course
+    manual_overrides["syllabus_markdown"] = syllabus_markdown
+    return replace(course, manual_overrides=manual_overrides)
+
+
 def _ensure_generalized_parents(courses: list["Course"]) -> list["Course"]:
     from automation.models import Course
 
@@ -191,6 +220,24 @@ def _backfill(args: argparse.Namespace, incremental: bool = False) -> int:
             continue
         selected.append(course)
     _log(f"Selected {len(selected)} course(s) for processing.")
+    materials_by_slug = {}
+    selected_with_syllabus = []
+    for course in selected:
+        _log(f"Listing materials for {course.slug} from folder {course.source_drive_folder_id}.")
+        materials = _discover_materials(client, course)
+        course = _attach_syllabus_content(client, course, materials)
+        materials_by_slug[course.slug] = materials
+        selected_with_syllabus.append(course)
+        _log(f"Found {len(materials)} material item(s) for {course.slug}.")
+        for index, material in enumerate(materials, start=1):
+            _log(
+                f"Material {index} for {course.slug}: title={material.title!r}, kind={material.kind}, "
+                f"week={material.week}, section={material.section!r}, published={material.published}, "
+                f"url={_preview(material.url)}."
+            )
+        if course.manual_overrides.get("syllabus_markdown"):
+            _log(f"Extracted inline syllabus markdown for {course.slug}.")
+    selected = selected_with_syllabus
     if incremental:
         selected_slugs = {course.slug for course in selected}
         courses = [course for course in existing_courses if course.slug not in selected_slugs] + selected
@@ -205,18 +252,6 @@ def _backfill(args: argparse.Namespace, incremental: bool = False) -> int:
         ]
         courses = preserved + selected
     courses = _ensure_generalized_parents(courses)
-    materials_by_slug = {}
-    for course in selected:
-        _log(f"Listing materials for {course.slug} from folder {course.source_drive_folder_id}.")
-        materials = _discover_materials(client, course)
-        materials_by_slug[course.slug] = materials
-        _log(f"Found {len(materials)} material item(s) for {course.slug}.")
-        for index, material in enumerate(materials, start=1):
-            _log(
-                f"Material {index} for {course.slug}: title={material.title!r}, kind={material.kind}, "
-                f"week={material.week}, section={material.section!r}, published={material.published}, "
-                f"url={_preview(material.url)}."
-            )
     for course in existing_courses:
         materials_by_slug.setdefault(course.slug, load_materials(paths, course.slug))
     if not args.dry_run:

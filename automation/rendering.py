@@ -149,22 +149,22 @@ def render_course_page(course: Course, materials: list[Material], courses: list[
                 lines.append("")
         else:
             lines.extend(["TBA", ""])
-    if course.syllabus_url:
-        lines.extend(
-            [
-                "## Course Outline",
-                "",
-                f"**[Course Syllabus]({course.syllabus_url}){{:target=\"_blank\"}}**",
-                "",
-            ]
-        )
-    else:
-        syllabus_note = str(course.manual_overrides.get("syllabus_note", "") or "").strip()
-        if syllabus_note:
-            lines.extend(["## Course Outline", "", syllabus_note, ""])
+    syllabus_markdown = str(course.manual_overrides.get("syllabus_markdown", "") or "").strip()
+    syllabus_note = str(course.manual_overrides.get("syllabus_note", "") or "").strip()
+    if course.syllabus_url or syllabus_markdown or syllabus_note:
+        lines.extend(["## Course Outline", ""])
+        if course.syllabus_url:
+            lines.extend([f"**[Course Syllabus]({course.syllabus_url}){{:target=\"_blank\"}}**", ""])
+        if syllabus_markdown:
+            lines.extend(syllabus_markdown.splitlines())
+            lines.append("")
+        elif syllabus_note:
+            lines.extend([syllabus_note, ""])
     grouped: dict[tuple[int | None, str], list[Material]] = defaultdict(list)
     for material in sort_materials(materials):
         if not material.published:
+            continue
+        if material.kind in {"outline", "syllabus"}:
             continue
         grouped[(material.week, material.section or "Course Materials")].append(material)
     hide_empty_materials = bool(course.manual_overrides.get("hide_empty_materials", False))

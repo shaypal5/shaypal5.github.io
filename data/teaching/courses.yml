@@ -280,27 +280,6 @@ courses:
     course_family: datanights
     section: ""
     is_generalized: false
-  - slug: datavis22
-    title: Data Vis @ TAU
-    subtitle: Course page for Tel Aviv University, 22'-23', Semester A
-    institution: Tel Aviv University
-    role: Instructor
-    academic_period: 22'-23'
-    status: archived
-    source_drive_folder_id: manual-datavis22
-    source_drive_folder_name: Data Vis TAU 22-23 CF
-    summary: I lecture on data visualization at The Coller School of Management at Tel Aviv University for both semesters of the 22'-23' academic year.
-    visibility: public
-    syllabus_url: https://drive.google.com/file/d/15Wk3zcdud3Ibo5kKxI2RU6AIL6YGbpz7/view?usp=share_link
-    hero_note: ""
-    tags:
-      - data-visualization
-      - tau
-    manual_overrides: {}
-    review_notes: Migrated from the legacy manually maintained page.
-    course_family: data-vis
-    section: ""
-    is_generalized: false
   - slug: econml25
     title: Intro to ML @ MTA
     subtitle: Course page for MTA, Semester B
