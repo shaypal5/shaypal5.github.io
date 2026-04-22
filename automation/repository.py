@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import shutil
 
 from automation.config import Paths
 from automation.data_io import load_courses, load_materials, save_courses, save_materials
@@ -50,3 +51,30 @@ def render_repository(
     if not dry_run:
         paths.teaching_index.write_text(teaching_rendered, encoding="utf-8")
     return RenderResult(changed_files=changes)
+
+
+def write_preview_repository(
+    paths: Paths,
+    courses: list[Course],
+    materials_by_slug: dict[str, list[Material]],
+) -> list[str]:
+    preview_changes: list[str] = []
+    if paths.preview_root.exists():
+        shutil.rmtree(paths.preview_root)
+    paths.preview_teaching_root.mkdir(parents=True, exist_ok=True)
+    for course in courses:
+        rendered = render_course_page(course, materials_by_slug.get(course.slug, []), courses=courses)
+        target = paths.preview_teaching_root / f"{course.slug}.md"
+        target.write_text(rendered, encoding="utf-8")
+        preview_changes.append(target.as_posix())
+    teaching_rendered = inject_managed_block(paths.teaching_index.read_text(encoding="utf-8"), render_teaching_block(courses))
+    paths.preview_teaching_index.write_text(teaching_rendered, encoding="utf-8")
+    preview_changes.append(paths.preview_teaching_index.as_posix())
+    return preview_changes
+
+
+def clean_preview_repository(paths: Paths) -> bool:
+    if not paths.preview_root.exists():
+        return False
+    shutil.rmtree(paths.preview_root)
+    return True

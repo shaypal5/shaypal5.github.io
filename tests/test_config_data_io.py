@@ -14,6 +14,8 @@ class ConfigDataIoTests(unittest.TestCase):
         self.assertTrue((root / "automation").exists())
         paths = build_paths(Path("/tmp/example"))
         self.assertEqual(paths.teaching_index.as_posix(), "/tmp/example/teaching.md")
+        self.assertEqual(paths.preview_root.as_posix(), "/tmp/example/.automation-preview")
+        self.assertEqual(paths.preview_teaching_index.as_posix(), "/tmp/example/.automation-preview/teaching.md")
         self.assertFalse(hasattr(paths, "templates_root"))
 
     def test_required_google_env_and_drive_roots(self) -> None:

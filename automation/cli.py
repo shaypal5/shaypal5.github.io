@@ -16,7 +16,7 @@ from automation.config import (
 from automation.data_io import load_courses, load_materials
 from automation.naming import COURSE_SUFFIX, infer_course_from_folder, is_valid_course_folder_name, material_from_drive_item
 from automation.publish import publish_changes
-from automation.repository import render_repository, write_data
+from automation.repository import clean_preview_repository, render_repository, write_data, write_preview_repository
 from automation.validation import validate_repository
 
 if TYPE_CHECKING:
@@ -64,6 +64,13 @@ def cmd_validate(_: argparse.Namespace) -> int:
             print(error, file=sys.stderr)
         return 1
     _print_json({"action": "validate", "status": "ok"})
+    return 0
+
+
+def cmd_clean_preview(_: argparse.Namespace) -> int:
+    paths = build_paths()
+    removed = clean_preview_repository(paths)
+    _print_json({"action": "clean-preview", "removed": removed, "preview_root": paths.preview_root.as_posix()})
     return 0
 
 
@@ -186,7 +193,17 @@ def _backfill(args: argparse.Namespace, incremental: bool = False) -> int:
             return 0
     _log("Computing dry-run render diff.")
     result = render_repository(paths, courses, materials_by_slug, dry_run=True)
-    _print_json({"action": "backfill", "courses": [course.slug for course in selected], "changed_files": result.changed_files})
+    preview_files = write_preview_repository(paths, courses, materials_by_slug)
+    _log(f"Wrote {len(preview_files)} preview file(s) under {paths.preview_root}.")
+    _print_json(
+        {
+            "action": "backfill",
+            "courses": [course.slug for course in selected],
+            "changed_files": result.changed_files,
+            "preview_root": paths.preview_root.as_posix(),
+            "preview_files": preview_files,
+        }
+    )
     return 0
 
 
@@ -233,6 +250,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     validate = course_cmds.add_parser("validate")
     validate.set_defaults(handler=cmd_validate)
+
+    clean_preview = course_cmds.add_parser("clean-preview")
+    clean_preview.set_defaults(handler=cmd_clean_preview)
 
     plan = course_cmds.add_parser("plan")
     plan.set_defaults(handler=cmd_plan)

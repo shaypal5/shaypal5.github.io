@@ -8,7 +8,7 @@ from automation.config import GENERATED_HEADER, TEACHING_MARKER_END, TEACHING_MA
 from automation.data_io import load_courses, load_materials
 from automation.models import Course, Material
 from automation.rendering import file_diff_summary, inject_managed_block, render_course_page, render_teaching_block
-from automation.repository import current_state, render_repository, write_data
+from automation.repository import clean_preview_repository, current_state, render_repository, write_data, write_preview_repository
 from automation.validation import validate_generated_files, validate_repository
 
 
@@ -197,6 +197,18 @@ class RenderValidateTests(unittest.TestCase):
             write_data(paths, courses, materials_by_slug)
             save_courses.assert_called_once_with(paths, courses)
             self.assertEqual(save_materials.call_count, len(materials_by_slug))
+
+    def test_write_and_clean_preview_repository(self) -> None:
+        paths = build_paths(self.repo_root)
+        courses = load_courses(paths)
+        materials_by_slug = {course.slug: load_materials(paths, course.slug) for course in courses}
+        preview_files = write_preview_repository(paths, courses, materials_by_slug)
+        self.assertTrue((paths.preview_teaching_root / f"{courses[0].slug}.md").exists())
+        self.assertTrue(paths.preview_teaching_index.exists())
+        self.assertIn(paths.preview_teaching_index.as_posix(), preview_files)
+        self.assertTrue(clean_preview_repository(paths))
+        self.assertFalse(paths.preview_root.exists())
+        self.assertFalse(clean_preview_repository(paths))
 
     def test_validate_generated_files_reports_missing_markers(self) -> None:
         paths = build_paths(self.repo_root)

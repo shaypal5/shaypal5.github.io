@@ -12,3 +12,4 @@ _site/
 __pycache__/
 *.pyc
 .envrc
+.automation-preview/
