@@ -14,7 +14,7 @@ from automation.config import (
     build_paths,
 )
 from automation.data_io import load_courses, load_materials
-from automation.naming import infer_course_from_folder, material_from_drive_item
+from automation.naming import COURSE_SUFFIX, infer_course_from_folder, is_valid_course_folder_name, material_from_drive_item
 from automation.publish import publish_changes
 from automation.repository import render_repository, write_data
 from automation.validation import validate_repository
@@ -26,6 +26,16 @@ if TYPE_CHECKING:
 
 def _print_json(payload: dict) -> None:
     print(json.dumps(payload, indent=2, sort_keys=True))
+
+
+def _log(message: str) -> None:
+    print(f"[teaching-automation] {message}")
+
+
+def _preview(value: str, limit: int = 120) -> str:
+    if len(value) <= limit:
+        return value
+    return value[: limit - 3] + "..."
 
 
 def cmd_render(_: argparse.Namespace) -> int:
@@ -81,16 +91,42 @@ def _backfill(args: argparse.Namespace, incremental: bool = False) -> int:
     from automation.google_drive import DriveClient
 
     paths = build_paths()
+    _log("Refreshing Google OAuth access token.")
     client = DriveClient.from_env()
+    _log(
+        "Discovering Drive course folders"
+        + (f" (limit={args.limit})" if args.limit is not None else "")
+        + (f" filtered to slug={args.slug}" if args.slug else "")
+        + "."
+    )
     discovered = client.discover_course_folders(limit=args.limit)
+    _log(f"Discovered {len(discovered)} candidate course folder(s).")
+    for index, folder in enumerate(discovered, start=1):
+        _log(
+            f"Candidate {index}: name={folder['name']!r}, id={folder['id']}, "
+            f"modified={folder.get('modifiedTime', 'unknown')}."
+        )
     existing_courses = load_courses(paths)
     existing_by_id = {course.source_drive_folder_id: course for course in existing_courses if course.source_drive_folder_id}
     selected = []
     for folder in discovered:
+        _log(f"Inspecting folder: {folder['name']} ({folder['id']})")
+        if not is_valid_course_folder_name(folder["name"]):
+            _log(
+                f"Skipping folder {folder['name']} because it does not match the required "
+                f"naming scheme: <non-empty title>{COURSE_SUFFIX!r}."
+            )
+            continue
         course = _merged_course(existing_by_id, folder)
+        _log(
+            f"Parsed folder into course slug={course.slug}, title={course.title!r}, "
+            f"period={course.academic_period!r}."
+        )
         if args.slug and course.slug != args.slug:
+            _log(f"Skipping {folder['name']} because slug {course.slug} does not match requested slug {args.slug}.")
             continue
         selected.append(course)
+    _log(f"Selected {len(selected)} course(s) for processing.")
     if incremental:
         selected_slugs = {course.slug for course in selected}
         courses = [course for course in existing_courses if course.slug not in selected_slugs] + selected
@@ -104,16 +140,30 @@ def _backfill(args: argparse.Namespace, incremental: bool = False) -> int:
             if not course.source_drive_folder_id or course.source_drive_folder_id not in selected_drive_folder_ids
         ]
         courses = preserved + selected
-    materials_by_slug = {course.slug: _discover_materials(client, course.source_drive_folder_id) for course in selected}
+    materials_by_slug = {}
+    for course in selected:
+        _log(f"Listing materials for {course.slug} from folder {course.source_drive_folder_id}.")
+        materials = _discover_materials(client, course.source_drive_folder_id)
+        materials_by_slug[course.slug] = materials
+        _log(f"Found {len(materials)} material item(s) for {course.slug}.")
+        for index, material in enumerate(materials, start=1):
+            _log(
+                f"Material {index} for {course.slug}: title={material.title!r}, kind={material.kind}, "
+                f"week={material.week}, section={material.section!r}, url={_preview(material.url)}."
+            )
     for course in existing_courses:
         materials_by_slug.setdefault(course.slug, load_materials(paths, course.slug))
     if not args.dry_run:
+        _log("Writing structured teaching data to the repository.")
         write_data(paths, courses, materials_by_slug)
+        _log("Rendering teaching pages from structured data.")
         render_repository(paths, courses, materials_by_slug, dry_run=False)
+        _log("Running repository validation.")
         errors = validate_repository(paths)
         if errors:
             raise ValidationError("\n".join(errors))
         if args.publish_pr:
+            _log(f"Publishing changes through branch {args.branch}.")
             publish = publish_changes(
                 branch=args.branch,
                 title=args.pr_title,
@@ -129,6 +179,7 @@ def _backfill(args: argparse.Namespace, incremental: bool = False) -> int:
                 }
             )
             return 0
+    _log("Computing dry-run render diff.")
     result = render_repository(paths, courses, materials_by_slug, dry_run=True)
     _print_json({"action": "backfill", "courses": [course.slug for course in selected], "changed_files": result.changed_files})
     return 0

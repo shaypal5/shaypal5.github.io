@@ -51,6 +51,21 @@ class CliTests(unittest.TestCase):
             cli._print_json({"b": 2, "a": 1})
         self.assertIn('"a": 1', buffer.getvalue())
 
+    def test_log_and_preview_helpers(self) -> None:
+        buffer = io.StringIO()
+        with contextlib.redirect_stdout(buffer):
+            cli._log("hello")
+        self.assertIn("[teaching-automation] hello", buffer.getvalue())
+        self.assertEqual(cli._preview("short"), "short")
+        self.assertTrue(cli._preview("x" * 130).endswith("..."))
+        self.assertTrue(cli.is_valid_course_folder_name("Big Data CF"))
+        self.assertFalse(cli.is_valid_course_folder_name("cf"))
+        self.assertFalse(cli.is_valid_course_folder_name("CF"))
+        self.assertFalse(cli.is_valid_course_folder_name("Cf"))
+        self.assertFalse(cli.is_valid_course_folder_name("cF"))
+        self.assertFalse(cli.is_valid_course_folder_name("Big Data Cf"))
+        self.assertFalse(cli.is_valid_course_folder_name(" CF"))
+
     def test_cmd_render_plan_and_validate(self) -> None:
         with mock.patch.object(cli, "build_paths", return_value=object()), \
             mock.patch.object(cli, "load_courses", return_value=[sample_course()]), \
@@ -173,6 +188,42 @@ class CliTests(unittest.TestCase):
             mock.patch.object(cli, "validate_repository", return_value=["broken"]):
             with self.assertRaises(ValidationError):
                 cli._backfill(args, incremental=False)
+
+    def test_backfill_skips_invalid_course_folder_names(self) -> None:
+        args = argparse.Namespace(
+            limit=None,
+            slug=None,
+            dry_run=True,
+            publish_pr=False,
+            branch="codex/test",
+            pr_title="PR",
+            pr_body="Body",
+            commit_message="Commit",
+        )
+        fake_client = mock.Mock()
+        fake_client.discover_course_folders.return_value = [
+            {"id": "placeholder-folder-1", "name": "cf"},
+            {"id": "placeholder-folder-2", "name": "Legacy Cf"},
+            {"id": "placeholder-folder-3", "name": " CF"},
+            {"id": "real-folder", "name": "Real Course 25 CF"},
+        ]
+        real_course = sample_course(slug="real-course-25", folder_id="real-folder")
+        with mock.patch("automation.google_drive.DriveClient.from_env", return_value=fake_client), \
+            mock.patch.object(cli, "build_paths", return_value=object()), \
+            mock.patch.object(cli, "load_courses", return_value=[]), \
+            mock.patch.object(cli, "_merged_course", return_value=real_course) as merged_course, \
+            mock.patch.object(cli, "_discover_materials", return_value=[]), \
+            mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=["A teaching/real-course-25.md"])), \
+            mock.patch.object(cli, "_print_json") as print_json:
+            self.assertEqual(cli._backfill(args, incremental=False), 0)
+        merged_course.assert_called_once_with({}, {"id": "real-folder", "name": "Real Course 25 CF"})
+        print_json.assert_called_with(
+            {
+                "action": "backfill",
+                "courses": ["real-course-25"],
+                "changed_files": ["A teaching/real-course-25.md"],
+            }
+        )
 
     def test_build_parser_and_main_dispatch(self) -> None:
         parser = cli.build_parser()

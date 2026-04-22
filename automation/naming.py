@@ -7,12 +7,48 @@ from automation.models import Course, Material
 
 
 COURSE_SUFFIX = " CF"
+ACADEMIC_RANGE_PATTERN = re.compile(
+    r"(?P<start>(?:20)?\d{2})\s*[/\-]\s*(?P<end>(?:20)?\d{1,2})(?P<section>[A-Za-z])?$"
+)
+SINGLE_YEAR_PATTERN = re.compile(r"(20\d{2}|[0-9]{2}'-[0-9]{2}'|[0-9]{2}'?|[0-9]{2})")
 
 INSTITUTION_HINTS = {
     "TAU": "Tel Aviv University",
     "MTA": "The Academic College of Tel Aviv-Yaffo",
     "DATANIGHTS": "DataNights",
 }
+
+
+def is_valid_course_folder_name(folder_name: str) -> bool:
+    if not folder_name.endswith(COURSE_SUFFIX):
+        return False
+    base = folder_name.removesuffix(COURSE_SUFFIX)
+    return bool(base.strip())
+
+
+def _normalize_year_token(token: str) -> str:
+    digits = token.strip().replace("'", "")
+    if len(digits) == 4:
+        return digits[-2:]
+    return digits
+
+
+def _normalize_academic_range(start: str, end: str) -> str:
+    start_token = _normalize_year_token(start)
+    end_token = _normalize_year_token(end)
+    if len(end_token) < len(start_token):
+        end_token = start_token[: len(start_token) - len(end_token)] + end_token
+    return f"{start_token}/{end_token}"
+
+
+def _build_course_slug(title: str, academic_period: str, section: str) -> str:
+    base_slug = slugify(title)
+    if academic_period == "TBD":
+        return base_slug
+    range_match = re.fullmatch(r"(\d{2})/(\d{2})", academic_period)
+    period_token = range_match.group(1) if range_match else academic_period.replace("/", "-").replace("'", "")
+    section_token = section.lower()
+    return slugify(f"{title}-{period_token}{section_token}")
 
 
 def slugify(text: str) -> str:
@@ -24,8 +60,17 @@ def slugify(text: str) -> str:
 
 def parse_course_folder_name(folder_name: str) -> dict[str, str]:
     base = folder_name.removesuffix(COURSE_SUFFIX).strip()
-    no_year = re.sub(r"\b(20\d{2}|[0-9]{2}'-[0-9]{2}'|[0-9]{2}')\b", "", base).strip(" -_,")
-    title_part = no_year
+    period_match = ACADEMIC_RANGE_PATTERN.search(base)
+    section = ""
+    if period_match:
+        academic_period = _normalize_academic_range(period_match.group("start"), period_match.group("end"))
+        section = (period_match.group("section") or "").upper()
+        title_part = base[: period_match.start()].strip(" -_,")
+    else:
+        single_year_match = SINGLE_YEAR_PATTERN.search(base)
+        academic_period = _normalize_year_token(single_year_match.group(1)) if single_year_match else "TBD"
+        title_part = SINGLE_YEAR_PATTERN.sub("", base).strip(" -_,")
+    no_year = title_part
     role = "Instructor"
     if " TA " in f" {base} " or base.upper().startswith("TA "):
         role = "Teaching Assistant"
@@ -34,14 +79,16 @@ def parse_course_folder_name(folder_name: str) -> dict[str, str]:
         if hint.lower() in base.lower():
             institution = expanded
             break
-    period_match = re.search(r"(20\d{2}|[0-9]{2}'-[0-9]{2}'|[0-9]{2}'?|[0-9]{2})", base)
-    academic_period = period_match.group(1) if period_match else "TBD"
     title_part = re.sub(r"\s*@\s*[A-Za-z0-9'. -]+", "", title_part).strip()
     title_part = re.sub(r"\b(?:TAU|MTA|DataNights)\b", "", title_part, flags=re.IGNORECASE).strip(" -_,")
     title_part = re.sub(r"\b(?:TA)\b", "", title_part, flags=re.IGNORECASE).strip(" -_,")
     title = title_part or no_year or base
-    slug = slugify(title + "-" + academic_period.replace("'", ""))
-    subtitle = f"Course page for {institution or 'teaching materials'}, {academic_period}"
+    slug = _build_course_slug(title, academic_period, section)
+    subtitle = f"Course page for {institution or 'teaching materials'}"
+    if academic_period != "TBD":
+        subtitle += f", {academic_period}"
+    if section:
+        subtitle += f" (Section {section})"
     return {
         "slug": slug,
         "title": title,
@@ -74,6 +121,8 @@ def classify_material_kind(name: str, mime_type: str) -> str:
     lowered = f"{name} {mime_type}".lower()
     if "syllabus" in lowered:
         return "syllabus"
+    if "outline" in lowered or "details" in lowered or "פרטים" in lowered:
+        return "outline"
     if "slide" in lowered or "presentation" in lowered:
         return "slides"
     if "notebook" in lowered or "colab" in lowered or "ipynb" in lowered:
@@ -111,7 +160,7 @@ def infer_section(name: str, kind: str) -> str:
         return "Weekly Materials"
     if "session" in lowered:
         return "Sessions"
-    if kind == "syllabus":
+    if kind in {"syllabus", "outline"}:
         return "Course Outline"
     if kind in {"slides", "notebook", "exercise", "solution", "form"}:
         return "Course Materials"

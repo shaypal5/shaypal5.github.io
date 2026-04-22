@@ -5,6 +5,7 @@ from dataclasses import dataclass
 import requests
 
 from automation.config import AuthConfigError, DiscoveryError, drive_roots, required_google_env
+from automation.naming import is_valid_course_folder_name
 
 
 TOKEN_SCOPES = "https://www.googleapis.com/auth/drive.readonly"
@@ -52,10 +53,11 @@ class DriveClient:
         if roots:
             quoted = " or ".join(f"'{root}' in parents" for root in roots)
             queries.append(f"({quoted})")
+        page_size = 200 if limit is None else min(max(limit, 1), 200)
         params = {
             "q": " and ".join(queries),
             "fields": "nextPageToken,files(id,name,modifiedTime,webViewLink)",
-            "pageSize": 200,
+            "pageSize": page_size,
             "orderBy": "name_natural",
             "supportsAllDrives": "true",
             "includeItemsFromAllDrives": "true",
@@ -66,7 +68,6 @@ class DriveClient:
             remaining = None if limit is None else limit - len(files)
             if remaining is not None and remaining <= 0:
                 break
-            params["pageSize"] = min(remaining or 200, 200)
             if page_token:
                 params["pageToken"] = page_token
             else:
@@ -75,7 +76,10 @@ class DriveClient:
                 "files",
                 params.copy(),
             )
-            files.extend(payload.get("files", []))
+            page_files = [
+                item for item in payload.get("files", []) if is_valid_course_folder_name(item.get("name", ""))
+            ]
+            files.extend(page_files)
             page_token = payload.get("nextPageToken")
             if not page_token:
                 break

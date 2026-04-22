@@ -21,11 +21,30 @@ class NamingTests(unittest.TestCase):
         self.assertEqual(parsed["title"], "Intro to ML")
         self.assertTrue(parsed["slug"].startswith("intro-to-ml"))
 
+    def test_parse_course_folder_name_with_academic_range_and_section(self) -> None:
+        parsed = parse_course_folder_name("Data Vis 22/23A CF")
+        self.assertEqual(parsed["title"], "Data Vis")
+        self.assertEqual(parsed["academic_period"], "22/23")
+        self.assertEqual(parsed["slug"], "data-vis-22a")
+        self.assertIn("Section A", parsed["subtitle"])
+
+    def test_parse_course_folder_name_generalized_without_period(self) -> None:
+        parsed = parse_course_folder_name("Data Vis - Generalized CF")
+        self.assertEqual(parsed["title"], "Data Vis - Generalized")
+        self.assertEqual(parsed["academic_period"], "TBD")
+        self.assertEqual(parsed["slug"], "data-vis-generalized")
+
+    def test_parse_course_folder_name_short_second_year(self) -> None:
+        parsed = parse_course_folder_name("Data Vis 23/4B CF")
+        self.assertEqual(parsed["academic_period"], "23/24")
+        self.assertEqual(parsed["slug"], "data-vis-23b")
+        self.assertIn("Section B", parsed["subtitle"])
+
     def test_parse_course_folder_name_ta_and_unknown_institution(self) -> None:
         parsed = parse_course_folder_name("TA Deep Learning Bootcamp 2024 CF")
         self.assertEqual(parsed["role"], "Teaching Assistant")
         self.assertEqual(parsed["institution"], "Unknown institution")
-        self.assertEqual(parsed["academic_period"], "2024")
+        self.assertEqual(parsed["academic_period"], "24")
 
     def test_slugify_and_infer_course(self) -> None:
         self.assertEqual(slugify("Café & ML"), "cafe-ml")
@@ -36,6 +55,8 @@ class NamingTests(unittest.TestCase):
 
     def test_classify_material_kind(self) -> None:
         self.assertEqual(classify_material_kind("Course Syllabus", "application/pdf"), "syllabus")
+        self.assertEqual(classify_material_kind("Data Vis 2022 - Outline", "application/vnd.google-apps.spreadsheet"), "outline")
+        self.assertEqual(classify_material_kind("קורס ויזואליזציה - פרטים", "application/vnd.google-apps.document"), "outline")
         self.assertEqual(
             classify_material_kind("Week 2 - Lecture Slides", "application/vnd.google-apps.presentation"),
             "slides",
@@ -57,6 +78,7 @@ class NamingTests(unittest.TestCase):
         self.assertEqual(infer_section("Week 1 slides", "slides"), "Weekly Materials")
         self.assertEqual(infer_section("Session 1 notebook", "notebook"), "Sessions")
         self.assertEqual(infer_section("Course syllabus", "syllabus"), "Course Outline")
+        self.assertEqual(infer_section("Course outline", "outline"), "Course Outline")
         self.assertEqual(infer_section("Lecture deck", "slides"), "Course Materials")
         self.assertEqual(infer_section("Reference link", "resource"), "Additional Materials")
         self.assertEqual(infer_sort_key("Lecture 1", None), "99-lecture-1")

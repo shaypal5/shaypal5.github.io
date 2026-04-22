@@ -47,18 +47,18 @@ class GoogleDrivePublishTests(unittest.TestCase):
     def test_drive_client_get_and_queries(self) -> None:
         client = DriveClient(access_token="token")
         ok = mock.Mock(status_code=200)
-        ok.json.return_value = {"files": [{"id": "1"}]}
+        ok.json.return_value = {"files": [{"id": "1", "name": "Valid Course 24 CF"}]}
         with mock.patch("automation.google_drive.requests.get", return_value=ok) as get, \
             mock.patch("automation.google_drive.drive_roots", return_value=["root-a", "root-b"]):
             folders = client.discover_course_folders(limit=1)
-            self.assertEqual(folders, [{"id": "1"}])
+            self.assertEqual(folders, [{"id": "1", "name": "Valid Course 24 CF"}])
             params = get.call_args.kwargs["params"]
             self.assertIn("'root-a' in parents", params["q"])
             items = client.list_folder_items("folder-1")
-            self.assertEqual(items, [{"id": "1"}])
+            self.assertEqual(items, [{"id": "1", "name": "Valid Course 24 CF"}])
         with mock.patch("automation.google_drive.requests.get", return_value=ok), \
             mock.patch("automation.google_drive.drive_roots", return_value=[]):
-            self.assertEqual(client.discover_course_folders(limit=None), [{"id": "1"}])
+            self.assertEqual(client.discover_course_folders(limit=None), [{"id": "1", "name": "Valid Course 24 CF"}])
 
         bad = mock.Mock(status_code=500, text="nope")
         bad.json.return_value = {}
@@ -72,13 +72,22 @@ class GoogleDrivePublishTests(unittest.TestCase):
             client,
             "_get",
             side_effect=[
-                {"files": [{"id": "1"}, {"id": "2"}], "nextPageToken": "page-2"},
-                {"files": [{"id": "3"}]},
+                {
+                    "files": [
+                        {"id": "1", "name": "cf"},
+                        {"id": "2", "name": "Real Course 24 CF"},
+                    ],
+                    "nextPageToken": "page-2",
+                },
+                {"files": [{"id": "3", "name": "Real Course 25 CF"}]},
             ],
         ) as get, mock.patch("automation.google_drive.drive_roots", return_value=[]):
             self.assertEqual(
                 client.discover_course_folders(limit=None),
-                [{"id": "1"}, {"id": "2"}, {"id": "3"}],
+                [
+                    {"id": "2", "name": "Real Course 24 CF"},
+                    {"id": "3", "name": "Real Course 25 CF"},
+                ],
             )
             self.assertNotIn("pageToken", get.call_args_list[0].args[1])
             self.assertEqual(get.call_args_list[1].args[1]["pageToken"], "page-2")
@@ -87,11 +96,29 @@ class GoogleDrivePublishTests(unittest.TestCase):
             client,
             "_get",
             side_effect=[
-                {"files": [{"id": "1"}, {"id": "2"}], "nextPageToken": "page-2"},
-                {"files": [{"id": "3"}, {"id": "4"}]},
+                {
+                    "files": [
+                        {"id": "1", "name": "cf"},
+                        {"id": "2", "name": "Real Course 24 CF"},
+                    ],
+                    "nextPageToken": "page-2",
+                },
+                {
+                    "files": [
+                        {"id": "3", "name": "Real Course 25 CF"},
+                        {"id": "4", "name": "Real Course 26 CF"},
+                    ]
+                },
             ],
         ), mock.patch("automation.google_drive.drive_roots", return_value=[]):
-            self.assertEqual(client.discover_course_folders(limit=3), [{"id": "1"}, {"id": "2"}, {"id": "3"}])
+            self.assertEqual(
+                client.discover_course_folders(limit=3),
+                [
+                    {"id": "2", "name": "Real Course 24 CF"},
+                    {"id": "3", "name": "Real Course 25 CF"},
+                    {"id": "4", "name": "Real Course 26 CF"},
+                ],
+            )
 
         with mock.patch.object(client, "_get") as get, \
             mock.patch("automation.google_drive.drive_roots", return_value=[]):

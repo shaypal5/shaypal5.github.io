@@ -11,3 +11,4 @@ _site/
 .venv
 __pycache__/
 *.pyc
+.envrc

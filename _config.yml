@@ -108,6 +108,7 @@ exclude:
   - llms.txt
   - .agent-plan.md
   - automation
+  - scripts
   - docs
   - tests
   - pyproject.toml
