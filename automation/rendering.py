@@ -15,6 +15,15 @@ def sort_courses(courses: list[Course]) -> list[Course]:
     return sorted(courses, key=key)
 
 
+def visible_courses(courses: list[Course]) -> list[Course]:
+    generalized_families = {course.course_family for course in courses if course.is_generalized and course.course_family}
+    return [
+        course
+        for course in sort_courses(courses)
+        if not course.course_family or course.is_generalized or course.course_family not in generalized_families
+    ]
+
+
 def sort_materials(materials: list[Material]) -> list[Material]:
     return sorted(
         materials,
@@ -28,7 +37,14 @@ def sort_materials(materials: list[Material]) -> list[Material]:
     )
 
 
-def render_course_page(course: Course, materials: list[Material]) -> str:
+def _iteration_label(course: Course) -> str:
+    label = course.academic_period or "TBD"
+    if course.section:
+        label += f" Section {course.section}"
+    return label
+
+
+def render_course_page(course: Course, materials: list[Material], courses: list[Course] | None = None) -> str:
     lines = [
         "---",
         "layout: page",
@@ -43,6 +59,19 @@ def render_course_page(course: Course, materials: list[Material]) -> str:
         course.summary,
         "",
     ]
+    if course.is_generalized and courses:
+        iterations = [
+            item
+            for item in sort_courses(courses)
+            if item.course_family == course.course_family and not item.is_generalized
+        ]
+        lines.extend(["## Course Iterations", ""])
+        if iterations:
+            for item in iterations:
+                lines.append(f"* [{_iteration_label(item)}](/teaching/{item.slug})")
+            lines.append("")
+        else:
+            lines.extend(["TBA", ""])
     if course.hero_note:
         lines.extend([course.hero_note, ""])
     if course.syllabus_url:
@@ -59,7 +88,8 @@ def render_course_page(course: Course, materials: list[Material]) -> str:
         if not material.published:
             continue
         grouped[(material.week, material.section or "Course Materials")].append(material)
-    lines.extend(["## Course Materials", ""])
+    material_heading = "## Shared Course Materials" if course.is_generalized else "## Course Materials"
+    lines.extend([material_heading, ""])
     if not grouped:
         lines.append("TBA")
         lines.append("")
@@ -75,15 +105,19 @@ def render_course_page(course: Course, materials: list[Material]) -> str:
         if section and section not in {"Course Materials", "Weekly Materials"}:
             lines.extend([f"#### {section}", ""])
         for item in section_items:
-            note = f" ({item.notes})" if item.notes else ""
-            lines.append(f"**[{item.title}]({item.url}){{:target=\"_blank\"}}**{note}")
+            trailing = ""
+            if item.description:
+                trailing = f" - {item.description}"
+            elif item.notes:
+                trailing = f" ({item.notes})"
+            lines.append(f"**[{item.title}]({item.url}){{:target=\"_blank\"}}**{trailing}")
             lines.append("")
     return "\n".join(lines).rstrip() + "\n"
 
 
 def render_teaching_block(courses: list[Course]) -> str:
     rendered = [TEACHING_MARKER_START, "", "#### Courses", ""]
-    ordered = sort_courses(courses)
+    ordered = visible_courses(courses)
     for course in ordered:
         rendered.append(f"* [{course.title}](/teaching/{course.slug})")
     rendered.extend(["", "|", ""])

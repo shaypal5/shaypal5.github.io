@@ -43,6 +43,7 @@ class Material:
     published: bool = True
     sort_key: str = ""
     notes: str = ""
+    description: str = ""
 
     @classmethod
     def from_dict(cls, payload: dict) -> "Material":
@@ -57,6 +58,7 @@ class Material:
             published=bool(payload.get("published", False)),
             sort_key=str(payload.get("sort_key", "") or ""),
             notes=payload.get("notes", "") or "",
+            description=payload.get("description", "") or "",
         )
 
     def to_dict(self) -> dict:
@@ -71,6 +73,7 @@ class Material:
             "published": self.published,
             "sort_key": self.sort_key,
             "notes": self.notes,
+            "description": self.description,
         }
 
 
@@ -92,6 +95,9 @@ class Course:
     tags: list[str] = field(default_factory=list)
     manual_overrides: dict = field(default_factory=dict)
     review_notes: str = ""
+    course_family: str = ""
+    section: str = ""
+    is_generalized: bool = False
 
     @classmethod
     def from_dict(cls, payload: dict) -> "Course":
@@ -112,6 +118,9 @@ class Course:
             tags=list(payload.get("tags", []) or []),
             manual_overrides=dict(payload.get("manual_overrides", {}) or {}),
             review_notes=payload.get("review_notes", "") or "",
+            course_family=payload.get("course_family", "") or "",
+            section=payload.get("section", "") or "",
+            is_generalized=bool(payload.get("is_generalized", False)),
         )
 
     def to_dict(self) -> dict:
@@ -132,4 +141,7 @@ class Course:
             "tags": self.tags,
             "manual_overrides": self.manual_overrides,
             "review_notes": self.review_notes,
+            "course_family": self.course_family,
+            "section": self.section,
+            "is_generalized": self.is_generalized,
         }

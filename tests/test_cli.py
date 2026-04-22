@@ -102,7 +102,7 @@ class CliTests(unittest.TestCase):
             {"mimeType": "application/vnd.google-apps.folder"},
             {"id": "f", "name": "Deck", "mimeType": "application/pdf", "webViewLink": "https://example.com"},
         ]
-        materials = cli._discover_materials(client, "folder-1")
+        materials = cli._discover_materials(client, sample_course(folder_id="folder-1"))
         self.assertEqual(len(materials), 1)
         self.assertEqual(materials[0].title, "Deck")
 

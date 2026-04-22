@@ -33,7 +33,7 @@ def render_repository(
 ) -> RenderResult:
     changes: list[str] = []
     for course in courses:
-        rendered = render_course_page(course, materials_by_slug.get(course.slug, []))
+        rendered = render_course_page(course, materials_by_slug.get(course.slug, []), courses=courses)
         target = paths.teaching_root / f"{course.slug}.md"
         summary = file_diff_summary(target, rendered)
         if summary:

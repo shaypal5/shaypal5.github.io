@@ -82,9 +82,13 @@ def _merged_course(existing_by_id: dict[str, "Course"], folder: dict[str, str]) 
     return current
 
 
-def _discover_materials(client: "DriveClient", folder_id: str) -> list["Material"]:
-    items = client.list_folder_items(folder_id)
-    return [material_from_drive_item(item) for item in items if item.get("mimeType") != "application/vnd.google-apps.folder"]
+def _discover_materials(client: "DriveClient", course: "Course") -> list["Material"]:
+    items = client.list_folder_items(course.source_drive_folder_id)
+    return [
+        material_from_drive_item(item, is_generalized_course=course.is_generalized)
+        for item in items
+        if item.get("mimeType") != "application/vnd.google-apps.folder"
+    ]
 
 
 def _backfill(args: argparse.Namespace, incremental: bool = False) -> int:
@@ -143,13 +147,14 @@ def _backfill(args: argparse.Namespace, incremental: bool = False) -> int:
     materials_by_slug = {}
     for course in selected:
         _log(f"Listing materials for {course.slug} from folder {course.source_drive_folder_id}.")
-        materials = _discover_materials(client, course.source_drive_folder_id)
+        materials = _discover_materials(client, course)
         materials_by_slug[course.slug] = materials
         _log(f"Found {len(materials)} material item(s) for {course.slug}.")
         for index, material in enumerate(materials, start=1):
             _log(
                 f"Material {index} for {course.slug}: title={material.title!r}, kind={material.kind}, "
-                f"week={material.week}, section={material.section!r}, url={_preview(material.url)}."
+                f"week={material.week}, section={material.section!r}, published={material.published}, "
+                f"url={_preview(material.url)}."
             )
     for course in existing_courses:
         materials_by_slug.setdefault(course.slug, load_materials(paths, course.slug))

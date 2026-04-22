@@ -7,8 +7,10 @@ from automation.naming import (
     infer_section,
     infer_sort_key,
     infer_week,
+    is_valid_course_folder_name,
     material_from_drive_item,
     parse_course_folder_name,
+    should_publish_material,
     slugify,
 )
 
@@ -26,13 +28,17 @@ class NamingTests(unittest.TestCase):
         self.assertEqual(parsed["title"], "Data Vis")
         self.assertEqual(parsed["academic_period"], "22/23")
         self.assertEqual(parsed["slug"], "data-vis-22a")
+        self.assertEqual(parsed["course_family"], "data-vis")
+        self.assertEqual(parsed["section"], "A")
+        self.assertFalse(parsed["is_generalized"])
         self.assertIn("Section A", parsed["subtitle"])
 
     def test_parse_course_folder_name_generalized_without_period(self) -> None:
         parsed = parse_course_folder_name("Data Vis - Generalized CF")
-        self.assertEqual(parsed["title"], "Data Vis - Generalized")
+        self.assertEqual(parsed["title"], "Data Vis")
         self.assertEqual(parsed["academic_period"], "TBD")
-        self.assertEqual(parsed["slug"], "data-vis-generalized")
+        self.assertEqual(parsed["slug"], "data-vis")
+        self.assertTrue(parsed["is_generalized"])
 
     def test_parse_course_folder_name_short_second_year(self) -> None:
         parsed = parse_course_folder_name("Data Vis 23/4B CF")
@@ -52,6 +58,9 @@ class NamingTests(unittest.TestCase):
         self.assertIsInstance(course, Course)
         self.assertEqual(course.source_drive_folder_id, "folder-1")
         self.assertEqual(course.visibility, "public")
+        generalized = infer_course_from_folder("folder-2", "Data Vis - Generalized CF")
+        self.assertTrue(generalized.is_generalized)
+        self.assertEqual(generalized.course_family, "data-vis")
 
     def test_classify_material_kind(self) -> None:
         self.assertEqual(classify_material_kind("Course Syllabus", "application/pdf"), "syllabus")
@@ -70,6 +79,14 @@ class NamingTests(unittest.TestCase):
             "sheet",
         )
         self.assertEqual(classify_material_kind("Reference URL", "text/plain"), "resource")
+
+    def test_valid_course_folder_name_and_publish_rules(self) -> None:
+        self.assertTrue(is_valid_course_folder_name("Data Vis 22/23A CF"))
+        self.assertFalse(is_valid_course_folder_name("Data Vis 22/23A Cf"))
+        self.assertFalse(should_publish_material("Course Exercise 1", "exercise", is_generalized_course=False))
+        self.assertFalse(should_publish_material("לוח שנה תשפד - לוח 3.pdf", "resource", is_generalized_course=False))
+        self.assertTrue(should_publish_material("Week 1 slides", "slides", is_generalized_course=True))
+        self.assertFalse(should_publish_material("Data Vis 2022 - Outline", "outline", is_generalized_course=True))
 
     def test_infer_week_section_sort_and_material_from_drive_item(self) -> None:
         self.assertEqual(infer_week("Week 3 - Task Abstraction"), 3)
@@ -95,6 +112,7 @@ class NamingTests(unittest.TestCase):
         self.assertEqual(material.kind, "notebook")
         self.assertEqual(material.week, 4)
         self.assertTrue(material.published)
+        self.assertEqual(material.description, "Week 4 lecture notebook")
 
     def test_material_from_drive_item_falls_back_to_content_link(self) -> None:
         material = material_from_drive_item(
@@ -107,3 +125,4 @@ class NamingTests(unittest.TestCase):
         )
         self.assertEqual(material.url, "https://example.com/content.txt")
         self.assertEqual(material.kind, "resource")
+        self.assertFalse(material.published)

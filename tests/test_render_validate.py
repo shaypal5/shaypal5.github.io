@@ -6,7 +6,7 @@ from unittest import mock
 
 from automation.config import GENERATED_HEADER, TEACHING_MARKER_END, TEACHING_MARKER_START, build_paths
 from automation.data_io import load_courses, load_materials
-from automation.models import Material
+from automation.models import Course, Material
 from automation.rendering import file_diff_summary, inject_managed_block, render_course_page, render_teaching_block
 from automation.repository import current_state, render_repository, write_data
 from automation.validation import validate_generated_files, validate_repository
@@ -114,6 +114,73 @@ class RenderValidateTests(unittest.TestCase):
 
         empty_course_page = render_course_page(courses[1], [])
         self.assertIn("TBA", empty_course_page)
+
+        generalized = Course(
+            slug="data-vis",
+            title="Data Vis",
+            subtitle="Shared materials",
+            institution="Unknown institution",
+            role="Instructor",
+            academic_period="TBD",
+            status="active",
+            source_drive_folder_id="generalized-folder",
+            source_drive_folder_name="Data Vis - Generalized CF",
+            summary="Shared materials across iterations.",
+            visibility="public",
+            course_family="data-vis",
+            is_generalized=True,
+        )
+        concrete_a = Course(
+            slug="data-vis-22a",
+            title="Data Vis",
+            subtitle="Course page for teaching materials, 22/23 (Section A)",
+            institution="Unknown institution",
+            role="Instructor",
+            academic_period="22/23",
+            status="active",
+            source_drive_folder_id="folder-a",
+            source_drive_folder_name="Data Vis 22/23A CF",
+            summary="A section.",
+            visibility="public",
+            course_family="data-vis",
+            section="A",
+        )
+        concrete_b = Course(
+            slug="data-vis-22b",
+            title="Data Vis",
+            subtitle="Course page for teaching materials, 22/23 (Section B)",
+            institution="Unknown institution",
+            role="Instructor",
+            academic_period="22/23",
+            status="active",
+            source_drive_folder_id="folder-b",
+            source_drive_folder_name="Data Vis 22/23B CF",
+            summary="B section.",
+            visibility="public",
+            course_family="data-vis",
+            section="B",
+        )
+        generalized_page = render_course_page(
+            generalized,
+            [
+                Material(
+                    title="Lecture 1 Slides",
+                    url="https://example.com/slides",
+                    kind="slides",
+                    week=1,
+                    section="Course Materials",
+                    published=True,
+                    sort_key="01-slides",
+                    description="Week 1 lecture slides",
+                )
+            ],
+            courses=[generalized, concrete_a, concrete_b],
+        )
+        self.assertIn("## Course Iterations", generalized_page)
+        self.assertIn("/teaching/data-vis-22a", generalized_page)
+        self.assertIn("/teaching/data-vis-22b", generalized_page)
+        self.assertIn("## Shared Course Materials", generalized_page)
+        self.assertIn("Week 1 lecture slides", generalized_page)
 
         target = self.repo_root / "teaching" / "new-course.md"
         self.assertTrue(file_diff_summary(target, "content").startswith("A "))
