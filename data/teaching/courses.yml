@@ -19,22 +19,267 @@ courses:
     review_notes: Migrated from the legacy manually maintained page.
   - slug: datanights22
     title: Managing Data Science Teams @ DataNights
-    subtitle: Course page for DataNights, 22'
+    subtitle: Cohort 1, Summer 2022
     institution: DataNights
     role: Instructor
     academic_period: 22'
     status: archived
     source_drive_folder_id: manual-datanights22
-    source_drive_folder_name: Managing Data Science Teams 22 CF
-    summary: I taught a course on managing data science teams as part of the DataNights program.
+    source_drive_folder_name: DS Mgmgt - Cohort #1
+    summary: The first DataNights Data Science Management cohort focused on the practical realities of leading data science teams, from project roadmaps and product work to recruiting, feedback, and peer review.
     visibility: public
-    syllabus_url: https://datanights-il.github.io/dsmgmt/
-    hero_note: This course page starts sparse and is intended to be backfilled from Drive by the automation workflow.
+    syllabus_url: https://docs.google.com/document/d/1EjaA6QbHYEFnSq1S_Sn4yLXOpXrYwCEL1r0bRybfd4M/edit
+    hero_note: ""
     tags:
       - leadership
       - datanights
-    manual_overrides: {}
-    review_notes: Seed record created for v1 automation rollout.
+      - management
+    manual_overrides:
+      iteration_label: "Cohort 1 · Summer 2022"
+      iteration_sort_key: "01"
+      opening_paragraph: "The first cohort ran from August 3, 2022 through September 14, 2022 in weekly evening sessions, hosted by Forter in Tel Aviv."
+      organizing_team:
+        - name: Shay Palachy Affek
+          role: Program lead and instructor
+          company: DataNights / DataHack
+        - name: DataNights / DataHack volunteer organizing team
+          role: Cohort operations and community support
+      lectures:
+        - title: "5 Things I Learned as a DS Manager"
+          speaker: Ilana Klovatch
+          description: Lessons on methodology, team strengths, and leading people with different skill profiles.
+          link: https://docs.google.com/presentation/d/1IlTpBmAKRTYyzgTV4rizDJhrYGW079_1/edit?usp=drivesdk
+        - title: "Make It Worth: How to Successfully Deliver ML to Production"
+          speaker: Inbal Budowski-Tal
+          description: A practical talk about the production pitfalls that keep ML projects from delivering real business impact.
+        - title: "Data Science Project Workflow + DS Playbooks for DS Teams"
+          speaker: Shay Palachy Affek
+          description: Frameworks and workflow patterns for structuring data science projects and team practices.
+        - title: "Data Science and Product Management: Function or Dysfunction, There Is No Try"
+          speaker: Adina Lederhendler
+          description: A talk about how data science leaders can work effectively with product managers despite uncertainty and technical translation gaps.
+        - title: "Objective-KPI Alignment in Data Science Projects"
+          speaker: Shay Palachy Affek
+          description: A discussion of how technical objectives in data science work align or misalign with business and product KPIs.
+          link: https://docs.google.com/presentation/d/1h0s1MkIzAVwfltQVWXeNiKD51OoP0qelEpKhr_v7Pz8/edit?usp=sharing
+        - title: "Building a Data Science Team: How to Get the Right People and Make Them Work Together Efficiently"
+          speaker: Nurit Vatnik
+          description: On selecting from diverse backgrounds and shaping a team that collaborates well.
+          link: https://drive.google.com/file/d/1sP9CPCnO2hqWeYhY5THMTDQSCA9YmTud/view?usp=drivesdk
+        - title: "Interview Templates for Different Seniority Levels of Data Scientist"
+          speaker: Shay Palachy Affek
+          description: A practical framework for adapting technical data science interviews to different seniority levels.
+        - title: "DS Archetypes & DS Tech Interviews"
+          speaker: The cohort
+          description: A hands-on group activity that turned the archetype and interview frameworks into concrete hiring changes.
+          link: https://docs.google.com/presentation/d/1U7VwvOC_aMmbJw4PseQhJNEjqcal-bh7nO9HeFlFheA/edit?usp=drivesdk
+        - title: "The Imposter Syndrome: Managing Senior Data Scientists, and Keeping Up with Team Knowledge When You Are Not Hands-On"
+          speaker: Adi Nesher
+          description: A talk about leading experienced researchers and senior practitioners without needing to outsmart them.
+        - title: "The Right Project Mixture: Maintaining What's Working While Delivering Innovation"
+          speaker: Amit Weil
+          description: How data science leaders balance model maintenance responsibilities with delivering novel work.
+        - title: "Data Science, Validated: Testing & Monitoring ML Projects"
+          speaker: Shir Chorev
+          description: Model monitoring, failure detection, and how to keep production ML systems healthy over time.
+        - title: "The Secret Sauce of Data Science Management"
+          speaker: Shir Meir-Lador
+          description: Lessons on building teams that thrive while still delivering winning results for the organization.
+          link: https://docs.google.com/presentation/d/1gVXtk9-fzuM-2-nFdfYqhV72CYxW3jTY6zfmWGGubB4/edit
+        - title: "Peer Review in Data Science Projects"
+          speaker: Shay Palachy Affek
+          description: A talk about adapting peer-review practices to data science work to improve decision making and output quality.
+        - title: "Participants Takeaways"
+          speaker: The cohort
+          description: A closing session for participants to share what they had already applied from the program.
+        - title: "Lecture Workshop"
+          speaker: The cohort
+          description: A collaborative workshop on ideas and possible additions for future cohorts.
+      hide_empty_materials: true
+    review_notes: Backfilled from the first DataNights DS Management cohort syllabus and participant materials.
+    course_family: datanights
+    section: ""
+    is_generalized: false
+  - slug: datanights
+    title: Managing Data Science Teams @ DataNights
+    subtitle: DataNights program overview
+    institution: DataNights
+    role: Instructor
+    academic_period: TBD
+    status: active
+    source_drive_folder_id: manual-datanights-program
+    source_drive_folder_name: DS Mgmt Program
+    summary: DataNights' Data Science Management program is a cohort-based course for current and aspiring data science leaders, built around real management challenges, experienced guest speakers, and practical frameworks for leading teams and projects.
+    visibility: public
+    syllabus_url: ""
+    hero_note: "This page serves as the home for the overall program. Each cohort has its own page with the concrete lecture lineup, organizing details, and syllabus for that run."
+    tags:
+      - leadership
+      - datanights
+      - management
+    manual_overrides:
+      hide_empty_materials: true
+    review_notes: Program-level landing page for the DataNights Data Science Management cohorts.
+    course_family: datanights
+    section: ""
+    is_generalized: true
+  - slug: datanights23
+    title: Managing Data Science Teams @ DataNights
+    subtitle: Cohort 2, Summer 2023
+    institution: DataNights
+    role: Instructor
+    academic_period: 23'
+    status: archived
+    source_drive_folder_id: manual-datanights23
+    source_drive_folder_name: DS Mgmt - Cohort #2
+    summary: The second DataNights Data Science Management cohort refined the original program into a seven-session run with a stronger speaker lineup, more structured workshops, and a clearer through-line from product mindset to hiring, scale, and organizational influence.
+    visibility: public
+    syllabus_url: https://docs.google.com/document/d/1SQeJBjjXsgcNDgIQsD0-_JLRkd0q86ScUbhOvdC6Vcg/edit
+    hero_note: ""
+    tags:
+      - leadership
+      - datanights
+      - management
+    manual_overrides:
+      iteration_label: "Cohort 2 · Summer 2023"
+      iteration_sort_key: "02"
+      opening_paragraph: "The second cohort ran from May 10, 2023 through June 21, 2023 in weekly evening sessions, co-hosted by Check Point in Tel Aviv."
+      organizing_team:
+        - name: Shay Palachy Affek
+          role: Program lead and instructor
+          company: DataNights / DataHack
+        - name: DataNights volunteer staff
+          role: Cohort operations, hosting, and session support
+          company: "Topaz, Hila, Nurit, and Tal"
+      lectures:
+        - title: Intro Session
+          speaker: Shay Palachy Affek
+          description: An opening discussion where participants introduced themselves and surfaced the management challenges they were currently facing.
+        - title: "Make It Worth: How to Successfully Deliver ML to Production"
+          speaker: Dr. Inbal Budowski-Tal
+          description: A framework for increasing the odds that machine learning initiatives will deliver real production value.
+        - title: MVP for Data Scientists
+          speaker: Topaz Gilad
+          description: Product mindset, iterative delivery, and how to define a useful MVP for a data science team.
+        - title: "The Bird's Eye View on DS Management"
+          speaker: Tal Rosenwein
+          description: Lessons from managing an entire AI and algorithms group and positioning data science as an organizational function.
+        - title: "Managing a Data Science DREAM Team"
+          speaker: Nurit Vatnik
+          description: A framework for understanding different team archetypes and using that understanding to shape future hiring.
+        - title: Interview Templates for Data Science
+          speaker: Shay Palachy Affek
+          description: Tradeoffs between common interview formats and how to choose the right one for a given hiring need.
+        - title: DS Hiring Workshop
+          speaker: Nurit Vatnik and Shay Palachy Affek
+          description: A working session that turned the DREAM framework and interview templates into a custom hiring plan.
+        - title: Hiring and Managing Juniors
+          speaker: Alice Fridberg
+          description: How to onboard and develop junior data scientists with the right feedback cadence and training roadmap.
+        - title: "The Secret Sauce of Data Science Management"
+          speaker: Shir Meir-Lador
+          description: Managing up, down, and across while choosing the right projects to maximize the organization's data science value.
+        - title: Data Science at Scale
+          speaker: Mor Hananovitz
+          description: The practical risks that appear when a promising proof of concept meets larger-scale production reality.
+        - title: Corporate Dynamics
+          speaker: Shay Yahal
+          description: Building coalitions inside organizations and growing the influence needed to get cross-functional work done.
+        - title: Data Science Frameworks
+          speaker: Shay Palachy Affek
+          description: Frameworks for scoping, structuring, and shipping ambiguous data science work.
+        - title: Frameworks Practice
+          speaker: Shay Palachy Affek
+          description: A workshop for participants to adapt the framework ideas to their own teams and projects.
+      hide_empty_materials: true
+    review_notes: Backfilled from the second DataNights DS Management cohort syllabus and planning materials.
+    course_family: datanights
+    section: ""
+    is_generalized: false
+  - slug: datanights-cohort3
+    title: Managing Data Science Teams @ DataNights
+    subtitle: Cohort 3, in preparation
+    institution: DataNights
+    role: Instructor
+    academic_period: TBD
+    status: active
+    source_drive_folder_id: manual-datanights-cohort3
+    source_drive_folder_name: DS Mgmt - Cohort #3
+    summary: The third DataNights Data Science Management cohort is currently being assembled, with a refreshed session pool that leans more heavily into AI-era management, LLMOps, hiring in a changing landscape, and organizational influence.
+    visibility: public
+    syllabus_url: ""
+    hero_note: ""
+    tags:
+      - leadership
+      - datanights
+      - management
+    manual_overrides:
+      iteration_label: "Cohort 3 · in preparation"
+      iteration_sort_key: "03"
+      opening_paragraph: "Cohort 3 is currently in preparation. Dates, final venue, and the hosting company will be added here once the cohort is finalized."
+      organizing_team:
+        - name: Shay Palachy Affek
+          role: Program lead
+          company: DataNights / DataHack
+        - name: DataNights / DataHack organizing team
+          role: Cohort planning, speaker coordination, and operations
+      lectures_heading: "## Current Session Pool"
+      lectures_note: "The speaker lineup and final syllabus are still being finalized. The items below reflect the current session pool driving the next cohort."
+      lectures:
+        - title: Make It Worth It
+          speaker: Inbal Budowski-Tal
+          description: A returning opening lecture about what it means for data science to matter in production and in the business.
+          status: returning candidate
+        - title: LLMOps for DS Managers
+          speaker: TBD
+          description: What a data science manager needs to understand about modern LLM pipelines, evaluation, latency, and cost.
+          status: candidate
+        - title: Code Assistance & the New Code Review
+          speaker: TBD
+          description: Managing code quality, ownership, and standards when AI tools write the first draft.
+          status: candidate
+        - title: Build, Buy, or Fine-Tune?
+          speaker: TBD
+          description: A practical framework for choosing between building from scratch, buying, fine-tuning, or using RAG.
+          status: candidate
+        - title: The MVP Mindset
+          speaker: Topaz Gilad
+          description: A returning session on iterative product thinking and defining success before building.
+          status: returning candidate
+        - title: The False Promise of Easy POCs
+          speaker: Mica Rubinson
+          description: Why AI prototypes are easy to demo but much harder to turn into systems that actually deliver.
+          status: candidate
+        - title: The Interview Framework
+          speaker: Shay Palachy Affek
+          description: A structured approach to hiring and evaluating data scientists across different interview formats.
+          status: returning candidate
+        - title: DREAM - Team Archetypes
+          speaker: Nurit Vatnik
+          description: Using archetypes and team composition ideas to decide what kind of people a data science group actually needs.
+          status: returning candidate
+        - title: Managing Juniors
+          speaker: Alice Fridberg
+          description: How to build better onboarding, autonomy, and feedback loops for junior data scientists.
+          status: returning candidate
+        - title: The Secret Sauce
+          speaker: Shir Meir-Lador
+          description: A candid look at what distinguishes great data science managers from merely competent ones.
+          status: returning candidate
+        - title: Building the Coalition
+          speaker: Shay Palachy Affek
+          description: Working across a larger organization when you do not directly control the people or priorities you depend on.
+          status: returning candidate
+        - title: The DS Project Frameworks
+          speaker: Shay Palachy Affek
+          description: A practical framework for scoping, running, and closing ambiguous data science initiatives.
+          status: returning candidate
+      syllabus_note: "The final syllabus is still being assembled for cohort 3. This page will link to it as soon as it is ready."
+      hide_empty_materials: true
+    review_notes: Structured placeholder for the third cohort, seeded from the current session-pool and FAQ documents so it can be finalized without changing the page model.
+    course_family: datanights
+    section: ""
+    is_generalized: false
   - slug: datavis22
     title: Data Vis @ TAU
     subtitle: Course page for Tel Aviv University, 22'-23', Semester A

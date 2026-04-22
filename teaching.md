@@ -16,7 +16,7 @@ I'm teaching Deep Learning, Natural Language Processing and Data Visualization (
 #### Courses
 
 * [Intro to ML @ MTA](/teaching/econml25)
-* [Managing Data Science Teams @ DataNights](/teaching/datanights22)
+* [Managing Data Science Teams @ DataNights](/teaching/datanights)
 * [Big Data Technologies TA @ TAU](/teaching/bigdata22)
 * [Data Vis @ TAU](/teaching/datavis22)
 
@@ -32,9 +32,9 @@ I lecture on machine learning for B.Sc. students of Economics and Management at 
 
 ## Managing Data Science Teams @ DataNights
 
-I taught a course on managing data science teams as part of the DataNights program.
+DataNights' Data Science Management program is a cohort-based course for current and aspiring data science leaders, built around real management challenges, experienced guest speakers, and practical frameworks for leading teams and projects.
 
-[Course page is here](/teaching/datanights22)
+[Course page is here](/teaching/datanights)
 
 |
 

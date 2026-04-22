@@ -112,8 +112,44 @@ class RenderValidateTests(unittest.TestCase):
         )
         self.assertIn("### General Materials", general_page)
 
-        empty_course_page = render_course_page(courses[1], [])
+        empty_course_page = render_course_page(courses[0], [])
         self.assertIn("TBA", empty_course_page)
+
+        override_course = Course(
+            slug="datanights23",
+            title="Managing Data Science Teams @ DataNights",
+            subtitle="Cohort 2, Summer 2023",
+            institution="DataNights",
+            role="Instructor",
+            academic_period="23'",
+            status="archived",
+            source_drive_folder_id="manual-datanights23",
+            source_drive_folder_name="DS Mgmt - Cohort #2",
+            summary="Second cohort summary.",
+            visibility="public",
+            syllabus_url="https://example.com/syllabus",
+            manual_overrides={
+                "iteration_label": "Cohort 2 · Summer 2023",
+                "opening_paragraph": "This cohort ran weekly in Tel Aviv.",
+                "organizing_team": [
+                    {"name": "Shay Palachy Affek", "role": "Program lead", "company": "DataNights / DataHack"}
+                ],
+                "lectures": [
+                    {
+                        "title": "Make It Worth",
+                        "speaker": "Inbal Budowski-Tal",
+                        "description": "On getting ML into production.",
+                    }
+                ],
+                "hide_empty_materials": True,
+            },
+        )
+        override_page = render_course_page(override_course, [])
+        self.assertIn("## Organizing Team", override_page)
+        self.assertIn("## Lectures", override_page)
+        self.assertIn("Make It Worth - Inbal Budowski-Tal", override_page)
+        self.assertIn("This cohort ran weekly in Tel Aviv.", override_page)
+        self.assertNotIn("## Course Materials", override_page)
 
         generalized = Course(
             slug="data-vis",
@@ -144,6 +180,7 @@ class RenderValidateTests(unittest.TestCase):
             visibility="public",
             course_family="data-vis",
             section="A",
+            manual_overrides={"iteration_sort_key": "02"},
         )
         concrete_b = Course(
             slug="data-vis-22b",
@@ -159,6 +196,7 @@ class RenderValidateTests(unittest.TestCase):
             visibility="public",
             course_family="data-vis",
             section="B",
+            manual_overrides={"iteration_sort_key": "01"},
         )
         generalized_page = render_course_page(
             generalized,
@@ -181,6 +219,63 @@ class RenderValidateTests(unittest.TestCase):
         self.assertIn("/teaching/data-vis-22b", generalized_page)
         self.assertIn("## Shared Course Materials", generalized_page)
         self.assertIn("Week 1 lecture slides", generalized_page)
+        self.assertLess(generalized_page.index("Section B"), generalized_page.index("Section A"))
+
+        generalized_without_materials = render_course_page(
+            Course(
+                slug="datanights",
+                title="Managing Data Science Teams @ DataNights",
+                subtitle="Program overview",
+                institution="DataNights",
+                role="Instructor",
+                academic_period="TBD",
+                status="active",
+                source_drive_folder_id="manual-datanights-program",
+                source_drive_folder_name="DS Mgmt Program",
+                summary="Program summary.",
+                visibility="public",
+                course_family="datanights",
+                is_generalized=True,
+                manual_overrides={"hide_empty_materials": True},
+            ),
+            [],
+            courses=[
+                Course(
+                    slug="datanights",
+                    title="Managing Data Science Teams @ DataNights",
+                    subtitle="Program overview",
+                    institution="DataNights",
+                    role="Instructor",
+                    academic_period="TBD",
+                    status="active",
+                    source_drive_folder_id="manual-datanights-program",
+                    source_drive_folder_name="DS Mgmt Program",
+                    summary="Program summary.",
+                    visibility="public",
+                    course_family="datanights",
+                    is_generalized=True,
+                    manual_overrides={"hide_empty_materials": True},
+                ),
+                Course(
+                    slug="datanights22",
+                    title="Managing Data Science Teams @ DataNights",
+                    subtitle="Cohort 1",
+                    institution="DataNights",
+                    role="Instructor",
+                    academic_period="22'",
+                    status="archived",
+                    source_drive_folder_id="manual-datanights22",
+                    source_drive_folder_name="DS Mgmt - Cohort #1",
+                    summary="Cohort 1.",
+                    visibility="public",
+                    course_family="datanights",
+                    manual_overrides={"iteration_label": "Cohort 1 · Summer 2022"},
+                ),
+            ],
+        )
+        self.assertIn("## Course Iterations", generalized_without_materials)
+        self.assertIn("Cohort 1 · Summer 2022", generalized_without_materials)
+        self.assertNotIn("## Shared Course Materials", generalized_without_materials)
 
         target = self.repo_root / "teaching" / "new-course.md"
         self.assertTrue(file_diff_summary(target, "content").startswith("A "))

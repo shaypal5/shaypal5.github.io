@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from pathlib import Path
+from typing import Any
 
 from automation.config import GENERATED_HEADER, TEACHING_MARKER_END, TEACHING_MARKER_START
 from automation.models import Course, Material
@@ -38,10 +39,59 @@ def sort_materials(materials: list[Material]) -> list[Material]:
 
 
 def _iteration_label(course: Course) -> str:
+    manual_label = str(course.manual_overrides.get("iteration_label", "") or "").strip()
+    if manual_label:
+        return manual_label
     label = course.academic_period or "TBD"
     if course.section:
         label += f" Section {course.section}"
     return label
+
+
+def _iteration_sort_key(course: Course) -> tuple[int, str]:
+    manual_key = course.manual_overrides.get("iteration_sort_key")
+    if manual_key is not None:
+        return (0, str(manual_key))
+    return (1, f"{course.academic_period.lower()}::{course.title.lower()}::{course.section.lower()}")
+
+
+def _render_named_list_item(item: Any) -> str:
+    if isinstance(item, dict):
+        name = str(item.get("name", "") or "").strip()
+        role = str(item.get("role", "") or "").strip()
+        company = str(item.get("company", "") or "").strip()
+        details = ", ".join(part for part in [role, company] if part)
+        if name and details:
+            return f"* **{name}** - {details}"
+        if name:
+            return f"* {name}"
+        if details:
+            return f"* {details}"
+        return ""
+    text = str(item or "").strip()
+    return f"* {text}" if text else ""
+
+
+def _render_lecture_item(item: Any) -> list[str]:
+    if not isinstance(item, dict):
+        text = str(item or "").strip()
+        return [f"* {text}"] if text else []
+    title = str(item.get("title", "") or "").strip()
+    speaker = str(item.get("speaker", "") or "").strip()
+    description = str(item.get("description", "") or "").strip()
+    link = str(item.get("link", "") or "").strip()
+    status = str(item.get("status", "") or "").strip()
+    label = title or "Untitled session"
+    if link:
+        label = f"[{label}]({link}){{:target=\"_blank\"}}"
+    if speaker:
+        label = f"{label} - {speaker}"
+    if status:
+        label = f"{label} ({status})"
+    lines = [f"* {label}"]
+    if description:
+        lines.append(f"  {description}")
+    return lines
 
 
 def render_course_page(course: Course, materials: list[Material], courses: list[Course] | None = None) -> str:
@@ -65,6 +115,7 @@ def render_course_page(course: Course, materials: list[Material], courses: list[
             for item in sort_courses(courses)
             if item.course_family == course.course_family and not item.is_generalized
         ]
+        iterations = sorted(iterations, key=_iteration_sort_key)
         lines.extend(["## Course Iterations", ""])
         if iterations:
             for item in iterations:
@@ -72,8 +123,32 @@ def render_course_page(course: Course, materials: list[Material], courses: list[
             lines.append("")
         else:
             lines.extend(["TBA", ""])
+    opening_paragraph = str(course.manual_overrides.get("opening_paragraph", "") or "").strip()
+    if opening_paragraph:
+        lines.extend([opening_paragraph, ""])
     if course.hero_note:
         lines.extend([course.hero_note, ""])
+    organizing_team = course.manual_overrides.get("organizing_team", []) or []
+    if organizing_team:
+        lines.extend(["## Organizing Team", ""])
+        for item in organizing_team:
+            rendered = _render_named_list_item(item)
+            if rendered:
+                lines.append(rendered)
+        lines.append("")
+    lectures = course.manual_overrides.get("lectures", []) or []
+    lectures_heading = str(course.manual_overrides.get("lectures_heading", "## Lectures") or "## Lectures").strip()
+    lectures_note = str(course.manual_overrides.get("lectures_note", "") or "").strip()
+    if lectures or lectures_note:
+        lines.extend([lectures_heading, ""])
+        if lectures_note:
+            lines.extend([lectures_note, ""])
+        if lectures:
+            for item in lectures:
+                lines.extend(_render_lecture_item(item))
+                lines.append("")
+        else:
+            lines.extend(["TBA", ""])
     if course.syllabus_url:
         lines.extend(
             [
@@ -83,11 +158,18 @@ def render_course_page(course: Course, materials: list[Material], courses: list[
                 "",
             ]
         )
+    else:
+        syllabus_note = str(course.manual_overrides.get("syllabus_note", "") or "").strip()
+        if syllabus_note:
+            lines.extend(["## Course Outline", "", syllabus_note, ""])
     grouped: dict[tuple[int | None, str], list[Material]] = defaultdict(list)
     for material in sort_materials(materials):
         if not material.published:
             continue
         grouped[(material.week, material.section or "Course Materials")].append(material)
+    hide_empty_materials = bool(course.manual_overrides.get("hide_empty_materials", False))
+    if not grouped and hide_empty_materials:
+        return "\n".join(lines).rstrip() + "\n"
     material_heading = "## Shared Course Materials" if course.is_generalized else "## Course Materials"
     lines.extend([material_heading, ""])
     if not grouped:
