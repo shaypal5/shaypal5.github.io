@@ -298,6 +298,9 @@ courses:
       - tau
     manual_overrides: {}
     review_notes: Migrated from the legacy manually maintained page.
+    course_family: data-vis
+    section: ""
+    is_generalized: false
   - slug: econml25
     title: Intro to ML @ MTA
     subtitle: Course page for MTA, Semester B
