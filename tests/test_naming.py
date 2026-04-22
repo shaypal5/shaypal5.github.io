@@ -10,6 +10,7 @@ from automation.naming import (
     is_valid_course_folder_name,
     material_from_drive_item,
     parse_course_folder_name,
+    should_descend_into_material_folder,
     should_publish_material,
     slugify,
 )
@@ -87,6 +88,10 @@ class NamingTests(unittest.TestCase):
         self.assertFalse(should_publish_material("לוח שנה תשפד - לוח 3.pdf", "resource", is_generalized_course=False))
         self.assertTrue(should_publish_material("Week 1 slides", "slides", is_generalized_course=True))
         self.assertFalse(should_publish_material("Data Vis 2022 - Outline", "outline", is_generalized_course=True))
+        self.assertTrue(should_descend_into_material_folder("Slides", is_generalized_course=True))
+        self.assertTrue(should_descend_into_material_folder("DV @ TAU - Lectures Archive", is_generalized_course=True))
+        self.assertFalse(should_descend_into_material_folder("Admin", is_generalized_course=True))
+        self.assertFalse(should_descend_into_material_folder("Slides", is_generalized_course=False))
 
     def test_infer_week_section_sort_and_material_from_drive_item(self) -> None:
         self.assertEqual(infer_week("Week 3 - Task Abstraction"), 3)

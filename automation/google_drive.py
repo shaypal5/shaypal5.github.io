@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Callable
 
 import requests
 
@@ -108,4 +109,26 @@ class DriveClient:
             page_token = payload.get("nextPageToken")
             if not page_token:
                 break
+        return files
+
+    def list_folder_items_recursive(
+        self,
+        folder_id: str,
+        should_descend: Callable[[dict], bool],
+    ) -> list[dict]:
+        files: list[dict] = []
+        pending: list[str] = [folder_id]
+        seen: set[str] = set()
+        while pending:
+            current_folder = pending.pop()
+            if current_folder in seen:
+                continue
+            seen.add(current_folder)
+            for item in self.list_folder_items(current_folder):
+                if item.get("mimeType") == "application/vnd.google-apps.folder":
+                    child_folder_id = item.get("id", "")
+                    if child_folder_id and should_descend(item):
+                        pending.append(child_folder_id)
+                    continue
+                files.append(item)
         return files

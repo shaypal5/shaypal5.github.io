@@ -12,6 +12,19 @@ ACADEMIC_RANGE_PATTERN = re.compile(
 )
 SINGLE_YEAR_PATTERN = re.compile(r"(20\d{2}|[0-9]{2}'-[0-9]{2}'|[0-9]{2}'?|[0-9]{2})")
 GENERALIZED_SUFFIX_PATTERN = re.compile(r"\s*-\s*generalized$", re.IGNORECASE)
+GENERALIZED_MATERIAL_FOLDER_TERMS = (
+    "slide",
+    "slides",
+    "presentation",
+    "presentations",
+    "lecture",
+    "lectures",
+    "material",
+    "materials",
+    "notebook",
+    "notebooks",
+    "archive",
+)
 
 INSTITUTION_HINTS = {
     "TAU": "Tel Aviv University",
@@ -94,6 +107,13 @@ def should_publish_material(name: str, kind: str, is_generalized_course: bool) -
         return False
     allowed_kinds = {"slides", "notebook"} if is_generalized_course else {"slides", "notebook", "outline", "syllabus"}
     return kind in allowed_kinds
+
+
+def should_descend_into_material_folder(name: str, is_generalized_course: bool) -> bool:
+    if not is_generalized_course:
+        return False
+    lowered = name.casefold()
+    return any(term in lowered for term in GENERALIZED_MATERIAL_FOLDER_TERMS)
 
 
 def slugify(text: str) -> str:

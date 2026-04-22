@@ -136,6 +136,36 @@ class GoogleDrivePublishTests(unittest.TestCase):
             self.assertEqual(client.list_folder_items("folder-1"), [{"id": "a"}, {"id": "b"}])
             self.assertEqual(get.call_args_list[1].args[1]["pageToken"], "page-2")
 
+    def test_drive_client_lists_folder_items_recursively(self) -> None:
+        client = DriveClient(access_token="token")
+        with mock.patch.object(
+            client,
+            "list_folder_items",
+            side_effect=[
+                [
+                    {"id": "slides-folder", "name": "Slides", "mimeType": "application/vnd.google-apps.folder"},
+                    {"id": "admin-folder", "name": "Admin", "mimeType": "application/vnd.google-apps.folder"},
+                    {"id": "root-file", "name": "Root deck", "mimeType": "application/pdf"},
+                ],
+                [
+                    {"id": "nested-file", "name": "Lecture deck", "mimeType": "application/pdf"},
+                ],
+            ],
+        ) as list_items:
+            items = client.list_folder_items_recursive(
+                "folder-1",
+                should_descend=lambda item: item.get("name") == "Slides",
+            )
+        self.assertEqual(
+            items,
+            [
+                {"id": "root-file", "name": "Root deck", "mimeType": "application/pdf"},
+                {"id": "nested-file", "name": "Lecture deck", "mimeType": "application/pdf"},
+            ],
+        )
+        self.assertEqual(list_items.call_args_list[0].args[0], "folder-1")
+        self.assertEqual(list_items.call_args_list[1].args[0], "slides-folder")
+
     def test_publish_helpers(self) -> None:
         good = subprocess.CompletedProcess(args=["git"], returncode=0, stdout="ok\n", stderr="")
         with mock.patch("automation.publish.subprocess.run", return_value=good):

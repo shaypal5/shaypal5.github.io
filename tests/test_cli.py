@@ -139,6 +139,19 @@ class CliTests(unittest.TestCase):
         materials = cli._discover_materials(client, sample_course(folder_id="folder-1"))
         self.assertEqual(len(materials), 1)
         self.assertEqual(materials[0].title, "Deck")
+        client.list_folder_items_recursive.assert_not_called()
+
+        generalized_course = sample_course(slug="data-vis", folder_id="folder-2")
+        generalized_course.is_generalized = True
+        client = mock.Mock()
+        client.list_folder_items_recursive.return_value = [
+            {"id": "f", "name": "Lecture Deck", "mimeType": "application/vnd.google-apps.presentation", "webViewLink": "https://example.com/deck"},
+        ]
+        materials = cli._discover_materials(client, generalized_course)
+        self.assertEqual(len(materials), 1)
+        self.assertEqual(materials[0].title, "Lecture Deck")
+        client.list_folder_items.assert_not_called()
+        client.list_folder_items_recursive.assert_called_once()
 
     def test_backfill_dry_run_incremental_and_publish(self) -> None:
         existing = sample_course(slug="existing", folder_id="existing-folder")
