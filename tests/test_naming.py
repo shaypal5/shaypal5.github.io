@@ -86,6 +86,7 @@ class NamingTests(unittest.TestCase):
         self.assertFalse(is_valid_course_folder_name("Data Vis 22/23A Cf"))
         self.assertTrue(should_publish_material("Course Exercise 1", "exercise", is_generalized_course=False))
         self.assertTrue(should_publish_material("Solution Notebook", "solution", is_generalized_course=False))
+        self.assertFalse(should_publish_material("Student Feedback Notes", "resource", is_generalized_course=False))
         self.assertFalse(should_publish_material("לוח שנה תשפד - לוח 3.pdf", "resource", is_generalized_course=False))
         self.assertTrue(should_publish_material("Week 1 slides", "slides", is_generalized_course=True))
         self.assertFalse(should_publish_material("Data Vis 2022 - Outline", "outline", is_generalized_course=True))

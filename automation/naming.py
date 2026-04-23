@@ -90,6 +90,7 @@ def should_publish_material(name: str, kind: str, is_generalized_course: bool) -
         "submissions",
         "student",
         "students",
+        "feedback",
         "attendance",
         "roster",
         "calendar",
