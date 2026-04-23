@@ -7,6 +7,15 @@ from typing import Any
 from automation.config import GENERATED_HEADER, TEACHING_MARKER_END, TEACHING_MARKER_START
 from automation.models import Course, Material
 
+PINNED_TEACHING_INDEX_ORDER = {
+    "deep-learning": "01",
+    "text-mining": "02",
+    "econml": "03",
+    "datanights": "04",
+    "data-vis": "05",
+    "bigdata22": "06",
+}
+
 
 def sort_courses(courses: list[Course]) -> list[Course]:
     def key(course: Course) -> tuple[int, str, str]:
@@ -16,13 +25,32 @@ def sort_courses(courses: list[Course]) -> list[Course]:
     return sorted(courses, key=key)
 
 
+def _academic_period_sort_value(course: Course) -> tuple[int, int, str]:
+    digits = "".join(char for char in course.academic_period if char.isdigit())
+    if not digits:
+        return (1, 0, course.academic_period.casefold())
+    return (0, -int(digits[:4]), course.academic_period.casefold())
+
+
+def _teaching_index_sort_key(course: Course) -> tuple[int, str, int, int, int, str]:
+    manual_key = course.manual_overrides.get("teaching_index_sort_key")
+    pinned_key = PINNED_TEACHING_INDEX_ORDER.get(course.course_family or course.slug)
+    explicit_key = manual_key if manual_key is not None else pinned_key
+    if explicit_key is not None:
+        return (0, str(explicit_key), 0, 0, 0, course.title.casefold())
+    current_rank = 0 if course.status == "active" else 1
+    period_missing, period_value, period_label = _academic_period_sort_value(course)
+    return (1, "", current_rank, period_missing, period_value, f"{period_label}::{course.title.casefold()}")
+
+
 def visible_courses(courses: list[Course]) -> list[Course]:
     generalized_families = {course.course_family for course in courses if course.is_generalized and course.course_family}
-    return [
+    visible = [
         course
         for course in sort_courses(courses)
         if not course.course_family or course.is_generalized or course.course_family not in generalized_families
     ]
+    return sorted(visible, key=_teaching_index_sort_key)
 
 
 def sort_materials(materials: list[Material]) -> list[Material]:

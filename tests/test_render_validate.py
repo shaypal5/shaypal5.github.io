@@ -7,7 +7,7 @@ from unittest import mock
 from automation.config import GENERATED_HEADER, TEACHING_MARKER_END, TEACHING_MARKER_START, build_paths
 from automation.data_io import load_courses, load_materials
 from automation.models import Course, Material
-from automation.rendering import file_diff_summary, inject_managed_block, render_course_page, render_teaching_block
+from automation.rendering import file_diff_summary, inject_managed_block, render_course_page, render_teaching_block, visible_courses
 from automation.repository import clean_preview_repository, current_state, render_repository, write_data, write_preview_repository
 from automation.syllabus import render_syllabus_markdown, select_syllabus_material, syllabus_export_mime
 from automation.validation import validate_generated_files, validate_repository
@@ -254,6 +254,57 @@ class RenderValidateTests(unittest.TestCase):
         self.assertIn("## Shared Course Materials", generalized_page)
         self.assertIn("Week 1 lecture slides", generalized_page)
         self.assertLess(generalized_page.index("Section B"), generalized_page.index("Section A"))
+
+        ordered_courses = visible_courses(
+            [
+                Course(
+                    slug="data-vis",
+                    title="Data Vis",
+                    subtitle="Shared materials",
+                    institution="Unknown institution",
+                    role="Instructor",
+                    academic_period="TBD",
+                    status="active",
+                    source_drive_folder_id="generalized-folder",
+                    source_drive_folder_name="Data Vis - Generalized CF",
+                    summary="Shared materials across iterations.",
+                    visibility="public",
+                    course_family="data-vis",
+                    is_generalized=True,
+                ),
+                Course(
+                    slug="deep-learning",
+                    title="Deep Learning",
+                    subtitle="Shared materials",
+                    institution="Unknown institution",
+                    role="Instructor",
+                    academic_period="TBD",
+                    status="active",
+                    source_drive_folder_id="deep-learning-folder",
+                    source_drive_folder_name="Deep Learning - Generalized CF",
+                    summary="Deep Learning summary.",
+                    visibility="public",
+                    course_family="deep-learning",
+                    is_generalized=True,
+                ),
+                Course(
+                    slug="new-course",
+                    title="New Course",
+                    subtitle="Course home",
+                    institution="Unknown institution",
+                    role="Instructor",
+                    academic_period="26/27",
+                    status="active",
+                    source_drive_folder_id="new-course-folder",
+                    source_drive_folder_name="New Course 26/7 CF",
+                    summary="New course summary.",
+                    visibility="public",
+                    course_family="new-course",
+                    is_generalized=True,
+                ),
+            ]
+        )
+        self.assertEqual([course.slug for course in ordered_courses], ["deep-learning", "data-vis", "new-course"])
 
     def test_syllabus_helpers(self) -> None:
         doc_material = Material(
