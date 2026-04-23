@@ -97,13 +97,10 @@ def _merged_course(existing_by_id: dict[str, "Course"], folder: dict[str, str]) 
 
 
 def _discover_materials(client: "DriveClient", course: "Course") -> list["Material"]:
-    if course.is_generalized:
-        items = client.list_folder_items_recursive(
-            course.source_drive_folder_id,
-            should_descend=lambda item: should_descend_into_material_folder(item.get("name", ""), True),
-        )
-    else:
-        items = client.list_folder_items(course.source_drive_folder_id)
+    items = client.list_folder_items_recursive(
+        course.source_drive_folder_id,
+        should_descend=lambda item: should_descend_into_material_folder(item.get("name", ""), course.is_generalized),
+    )
     return [
         material_from_drive_item(item, is_generalized_course=course.is_generalized)
         for item in items

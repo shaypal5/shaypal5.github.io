@@ -166,6 +166,18 @@ class GoogleDrivePublishTests(unittest.TestCase):
         self.assertEqual(list_items.call_args_list[0].args[0], "folder-1")
         self.assertEqual(list_items.call_args_list[1].args[0], "slides-folder")
 
+    def test_drive_client_export_file_text(self) -> None:
+        client = DriveClient(access_token="token")
+        ok = mock.Mock(status_code=200, text="hello")
+        with mock.patch("automation.google_drive.requests.get", return_value=ok) as get:
+            self.assertEqual(client.export_file_text("file-1", "text/plain"), "hello")
+            self.assertIn("/files/file-1/export", get.call_args.args[0])
+
+        bad = mock.Mock(status_code=404, text="missing")
+        with mock.patch("automation.google_drive.requests.get", return_value=bad):
+            with self.assertRaises(DiscoveryError):
+                client.export_file_text("file-1", "text/plain")
+
     def test_publish_helpers(self) -> None:
         good = subprocess.CompletedProcess(args=["git"], returncode=0, stdout="ok\n", stderr="")
         with mock.patch("automation.publish.subprocess.run", return_value=good):

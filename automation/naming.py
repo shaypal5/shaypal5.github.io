@@ -12,7 +12,7 @@ ACADEMIC_RANGE_PATTERN = re.compile(
 )
 SINGLE_YEAR_PATTERN = re.compile(r"(20\d{2}|[0-9]{2}'-[0-9]{2}'|[0-9]{2}'?|[0-9]{2})")
 GENERALIZED_SUFFIX_PATTERN = re.compile(r"\s*-\s*generalized$", re.IGNORECASE)
-GENERALIZED_MATERIAL_FOLDER_TERMS = (
+MATERIAL_FOLDER_TERMS = (
     "slide",
     "slides",
     "presentation",
@@ -23,6 +23,10 @@ GENERALIZED_MATERIAL_FOLDER_TERMS = (
     "materials",
     "notebook",
     "notebooks",
+    "exercise",
+    "exercises",
+    "solution",
+    "solutions",
     "archive",
 )
 
@@ -95,8 +99,6 @@ def should_publish_material(name: str, kind: str, is_generalized_course: bool) -
         "final",
         "homework",
         "assignment",
-        "exercise",
-        "solution",
         "לוח שנה",
         "ציונים",
         "הגשות",
@@ -105,15 +107,19 @@ def should_publish_material(name: str, kind: str, is_generalized_course: bool) -
     )
     if any(term in lowered for term in blacklist_terms):
         return False
-    allowed_kinds = {"slides", "notebook"} if is_generalized_course else {"slides", "notebook", "outline", "syllabus"}
+    allowed_kinds = (
+        {"slides", "notebook"}
+        if is_generalized_course
+        else {"slides", "notebook", "outline", "syllabus", "exercise", "solution", "form"}
+    )
     return kind in allowed_kinds
 
 
 def should_descend_into_material_folder(name: str, is_generalized_course: bool) -> bool:
-    if not is_generalized_course:
-        return False
     lowered = name.casefold()
-    return any(term in lowered for term in GENERALIZED_MATERIAL_FOLDER_TERMS)
+    if is_generalized_course:
+        return any(term in lowered for term in MATERIAL_FOLDER_TERMS if term not in {"exercise", "exercises", "solution", "solutions"})
+    return any(term in lowered for term in MATERIAL_FOLDER_TERMS)
 
 
 def slugify(text: str) -> str:
