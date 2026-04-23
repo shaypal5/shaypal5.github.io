@@ -280,6 +280,28 @@ courses:
     course_family: datanights
     section: ""
     is_generalized: false
+  - slug: econml
+    title: Intro to ML @ MTA
+    subtitle: Course home across academic iterations
+    institution: The Academic College of Tel Aviv-Yaffo
+    role: Instructor
+    academic_period: TBD
+    status: active
+    source_drive_folder_id: manual-econml-program
+    source_drive_folder_name: EconML generalized course
+    summary: I lecture on machine learning for B.Sc. students of Economics and Management at The Academic College of Tel Aviv-Yaffo.
+    visibility: public
+    syllabus_url: ""
+    hero_note: "This page serves as the home for the course across academic iterations."
+    tags:
+      - machine-learning
+      - mta
+    manual_overrides:
+      hide_empty_materials: true
+    review_notes: Program-level landing page for the Intro to ML @ MTA course across semester iterations.
+    course_family: econml
+    section: ""
+    is_generalized: true
   - slug: econml25
     title: Intro to ML @ MTA
     subtitle: Course page for MTA, Semester B
@@ -298,3 +320,6 @@ courses:
       - mta
     manual_overrides: {}
     review_notes: Migrated from the legacy manually maintained page.
+    course_family: econml
+    section: ""
+    is_generalized: false

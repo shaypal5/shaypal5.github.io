@@ -15,7 +15,7 @@ I'm teaching Deep Learning, Natural Language Processing and Data Visualization (
 
 #### Courses
 
-* [Intro to ML @ MTA](/teaching/econml25)
+* [Intro to ML @ MTA](/teaching/econml)
 * [Managing Data Science Teams @ DataNights](/teaching/datanights)
 * [Big Data Technologies TA @ TAU](/teaching/bigdata22)
 
@@ -25,7 +25,7 @@ I'm teaching Deep Learning, Natural Language Processing and Data Visualization (
 
 I lecture on machine learning for B.Sc. students of Economics and Management at The Academic College of Tel Aviv-Yaffo.
 
-[Course page is here](/teaching/econml25)
+[Course page is here](/teaching/econml)
 
 |
 
