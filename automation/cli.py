@@ -14,6 +14,7 @@ from automation.config import (
     ValidationError,
     build_paths,
 )
+from automation.course_family_content import GENERALIZED_COURSE_CONTENT, apply_generalized_course_content
 from automation.data_io import load_courses, load_materials
 from automation.naming import (
     COURSE_SUFFIX,
@@ -25,7 +26,7 @@ from automation.naming import (
 from automation.publish import publish_changes
 from automation.repository import clean_preview_repository, render_repository, write_data, write_preview_repository
 from automation.site_preview import build_preview_site, serve_preview_site
-from automation.syllabus import render_syllabus_markdown, select_syllabus_material, syllabus_export_mime
+from automation.syllabus import render_syllabus_markdown, select_syllabus_material
 from automation.validation import validate_repository
 
 if TYPE_CHECKING:
@@ -140,7 +141,7 @@ def _merged_course(existing_by_id: dict[str, "Course"], folder: dict[str, str]) 
     )
     if not current.summary:
         current = replace(current, summary=inferred.summary)
-    return current
+    return apply_generalized_course_content(current)
 
 
 def _discover_materials(client: "DriveClient", course: "Course") -> list["Material"]:
@@ -168,11 +169,11 @@ def _attach_syllabus_content(client: "DriveClient", course: "Course", materials:
         return course
     if not syllabus_material.source_file_id:
         return course
-    export_mime = syllabus_export_mime(syllabus_material)
-    if export_mime is None:
-        return course
     try:
-        exported_text = client.export_file_text(syllabus_material.source_file_id, export_mime)
+        exported_text = client.read_syllabus_source_text(
+            syllabus_material.source_file_id,
+            syllabus_material.source_mime_type,
+        )
     except DiscoveryError as exc:
         _log(f"Skipping syllabus extraction for {course.slug}: {exc}")
         return course
@@ -198,11 +199,14 @@ def _ensure_generalized_parents(courses: list["Course"]) -> list["Course"]:
         family_members.setdefault(course.course_family, []).append(course)
     synthesized: list[Course] = []
     for family, members in family_members.items():
-        if family in generalized_by_family or len(members) < 2:
+        if family in generalized_by_family:
+            continue
+        if len(members) < 2 and family not in GENERALIZED_COURSE_CONTENT:
             continue
         exemplar = sorted(members, key=lambda item: (item.academic_period, item.slug))[0]
         synthesized.append(
-            Course(
+            apply_generalized_course_content(
+                Course(
                 slug=family,
                 title=exemplar.title,
                 subtitle=f"{exemplar.title} across course iterations",
@@ -219,6 +223,7 @@ def _ensure_generalized_parents(courses: list["Course"]) -> list["Course"]:
                 course_family=family,
                 section="",
                 is_generalized=True,
+                )
             )
         )
     return courses + synthesized

@@ -182,6 +182,60 @@ class GoogleDrivePublishTests(unittest.TestCase):
             with self.assertRaises(DiscoveryError):
                 client.export_file_text("file-1", "text/plain")
 
+    def test_drive_client_download_and_read_syllabus_source_text(self) -> None:
+        client = DriveClient(access_token="token")
+        ok = mock.Mock(status_code=200, content=b"payload")
+        with mock.patch("automation.google_drive.requests.get", return_value=ok) as get:
+            self.assertEqual(client.download_file_bytes("file-1"), b"payload")
+            self.assertIn("/files/file-1", get.call_args.args[0])
+            self.assertEqual(get.call_args.kwargs["params"]["alt"], "media")
+
+        bad = mock.Mock(status_code=404, text="missing")
+        with mock.patch("automation.google_drive.requests.get", return_value=bad):
+            with self.assertRaises(DiscoveryError):
+                client.download_file_bytes("file-2")
+
+        with mock.patch.object(client, "export_file_text", return_value="doc text") as export:
+            self.assertEqual(
+                client.read_syllabus_source_text("doc-1", "application/vnd.google-apps.document"),
+                "doc text",
+            )
+            export.assert_called_once_with("doc-1", "text/plain")
+
+        with mock.patch.object(client, "export_file_text", return_value="sheet text") as export:
+            self.assertEqual(
+                client.read_syllabus_source_text("sheet-1", "application/vnd.google-apps.spreadsheet"),
+                "sheet text",
+            )
+            export.assert_called_once_with("sheet-1", "text/tab-separated-values")
+
+        with mock.patch.object(client, "download_file_bytes") as download:
+            from io import BytesIO
+            from zipfile import ZipFile
+
+            buffer = BytesIO()
+            with ZipFile(buffer, "w") as archive:
+                archive.writestr(
+                    "word/document.xml",
+                    (
+                        '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+                        "<w:body>"
+                        "<w:p><w:r><w:t>Intro</w:t></w:r></w:p>"
+                        "<w:p><w:r><w:t>Bullet 1</w:t></w:r></w:p>"
+                        "</w:body></w:document>"
+                    ),
+                )
+            download.return_value = buffer.getvalue()
+            self.assertEqual(
+                client.read_syllabus_source_text(
+                    "docx-1",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                ),
+                "Intro\n\nBullet 1",
+            )
+
+        self.assertEqual(client.read_syllabus_source_text("x", "application/pdf"), "")
+
     def test_publish_helpers(self) -> None:
         good = subprocess.CompletedProcess(args=["git"], returncode=0, stdout="ok\n", stderr="")
         with mock.patch("automation.publish.subprocess.run", return_value=good):

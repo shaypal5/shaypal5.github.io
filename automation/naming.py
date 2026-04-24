@@ -3,6 +3,7 @@ from __future__ import annotations
 import re
 import unicodedata
 
+from automation.course_family_content import apply_generalized_course_content
 from automation.models import Course, Material
 
 
@@ -200,7 +201,7 @@ def infer_course_from_folder(folder_id: str, folder_name: str) -> Course:
                 f"(Section {parsed['section']})",
                 f"(Semester {parsed['section']})",
             )
-    return Course(
+    course = Course(
         slug=parsed["slug"],
         title=parsed["title"],
         subtitle=parsed["subtitle"],
@@ -217,6 +218,7 @@ def infer_course_from_folder(folder_id: str, folder_name: str) -> Course:
         section=parsed["section"],
         is_generalized=bool(parsed["is_generalized"]),
     )
+    return apply_generalized_course_content(course)
 
 
 def classify_material_kind(name: str, mime_type: str) -> str:

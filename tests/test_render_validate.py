@@ -318,6 +318,14 @@ class RenderValidateTests(unittest.TestCase):
             source_mime_type="application/vnd.google-apps.document",
             sort_key="01-doc",
         )
+        docx_material = Material(
+            title="Course details docx",
+            url="https://example.com/docx",
+            kind="syllabus",
+            source_file_id="docx-id",
+            source_mime_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            sort_key="00-docx",
+        )
         sheet_material = Material(
             title="Outline sheet",
             url="https://example.com/sheet",
@@ -332,6 +340,10 @@ class RenderValidateTests(unittest.TestCase):
         self.assertEqual(
             render_syllabus_markdown(doc_material, "Intro\n\n• First topic\n2. Second topic\n\nhttps://example.com/form"),
             "Intro\n\n* First topic\n* Second topic",
+        )
+        self.assertEqual(
+            render_syllabus_markdown(docx_material, "Intro\n\n• First topic"),
+            "Intro\n\n* First topic",
         )
         self.assertEqual(
             render_syllabus_markdown(sheet_material, "Week\tTopic\n1\tIntro\n"),

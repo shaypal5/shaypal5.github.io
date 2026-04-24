@@ -10,6 +10,7 @@ from automation.models import Material
 
 GOOGLE_DOC_MIME = "application/vnd.google-apps.document"
 GOOGLE_SHEET_MIME = "application/vnd.google-apps.spreadsheet"
+DOCX_MIME = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 
 
 def select_syllabus_material(materials: list[Material]) -> Material | None:
@@ -40,7 +41,7 @@ def syllabus_export_mime(material: Material) -> str | None:
 
 
 def render_syllabus_markdown(material: Material, exported_text: str) -> str:
-    if material.source_mime_type == GOOGLE_DOC_MIME:
+    if material.source_mime_type in {GOOGLE_DOC_MIME, DOCX_MIME}:
         return _doc_text_to_markdown(exported_text)
     if material.source_mime_type == GOOGLE_SHEET_MIME:
         return _tsv_to_markdown(exported_text)

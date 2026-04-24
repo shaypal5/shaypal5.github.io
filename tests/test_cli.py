@@ -201,6 +201,11 @@ class CliTests(unittest.TestCase):
         inferred = cli._merged_course({}, {"id": "folder-2", "name": "Other CF"})
         self.assertEqual(inferred.source_drive_folder_id, "folder-2")
 
+        generalized = cli._merged_course({}, {"id": "folder-3", "name": "Deep Learning - Generalized CF"})
+        self.assertEqual(generalized.slug, "deep-learning")
+        self.assertIn("modern neural networks", generalized.summary)
+        self.assertIn("opening_paragraph", generalized.manual_overrides)
+
         client = mock.Mock()
         client.list_folder_items_recursive.return_value = [
             {"mimeType": "application/vnd.google-apps.folder"},
@@ -226,7 +231,7 @@ class CliTests(unittest.TestCase):
 
     def test_attach_syllabus_content(self) -> None:
         client = mock.Mock()
-        client.export_file_text.return_value = "Week\tTopic\n1\tIntro\n"
+        client.read_syllabus_source_text.return_value = "Week\tTopic\n1\tIntro\n"
         course = sample_course(slug="data-vis-22b")
         materials = [
             Material(
@@ -243,7 +248,7 @@ class CliTests(unittest.TestCase):
         self.assertEqual(enriched.syllabus_url, "https://example.com/outline")
         self.assertIn('<table class="course-outline-table">', enriched.manual_overrides["syllabus_markdown"])
 
-        client.export_file_text.side_effect = DiscoveryError("bad export")
+        client.read_syllabus_source_text.side_effect = DiscoveryError("bad export")
         fallback = cli._attach_syllabus_content(client, course, materials)
         self.assertEqual(fallback.syllabus_url, "https://example.com/outline")
         self.assertNotIn("syllabus_markdown", fallback.manual_overrides)
@@ -528,3 +533,49 @@ class CliTests(unittest.TestCase):
             self.assertTrue(synthesized.is_generalized)
             self.assertEqual(synthesized.course_family, "deep-learning")
             self.assertTrue(synthesized.manual_overrides["hide_empty_materials"])
+            self.assertIn("modern neural networks", synthesized.summary)
+            self.assertIn("syllabus_markdown", synthesized.manual_overrides)
+
+    def test_backfill_synthesizes_known_generalized_family_from_single_iteration(self) -> None:
+        course = sample_course(slug="text-mining-24a", folder_id="folder-a")
+        course.title = "Text Mining"
+        course.subtitle = "Course page for teaching materials, 24/25 (Section A)"
+        course.academic_period = "24/25"
+        course.course_family = "text-mining"
+        course.section = "A"
+
+        args = argparse.Namespace(
+            limit=None,
+            slug=None,
+            dry_run=False,
+            publish_pr=False,
+            branch="codex/test",
+            pr_title="PR",
+            pr_body="Body",
+            commit_message="Commit",
+        )
+        fake_client = mock.Mock()
+        fake_client.discover_course_folders.return_value = [
+            {"id": "folder-a", "name": "Text Mining 24/5A CF"},
+        ]
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_paths(Path(tmp))
+            paths.teaching_index.write_text(
+                "\n".join(["---", "layout: page", "title: Teaching", "---", "", "<!-- BEGIN GENERATED: teaching-courses -->", "<!-- END GENERATED: teaching-courses -->", ""]),
+                encoding="utf-8",
+            )
+            with mock.patch("automation.google_drive.DriveClient.from_env", return_value=fake_client), \
+                mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "load_courses", return_value=[]), \
+                mock.patch.object(cli, "_merged_course", return_value=course), \
+                mock.patch.object(cli, "_discover_materials", return_value=[]), \
+                mock.patch.object(cli, "load_materials", return_value=[]), \
+                mock.patch.object(cli, "write_data") as write_data, \
+                mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
+                mock.patch.object(cli, "validate_repository", return_value=[]), \
+                mock.patch.object(cli, "_print_json"):
+                self.assertEqual(cli._backfill(args, incremental=False), 0)
+            written_courses = write_data.call_args.args[1]
+            synthesized = next(course for course in written_courses if course.slug == "text-mining")
+            self.assertTrue(synthesized.is_generalized)
+            self.assertIn("classical NLP", synthesized.summary)
