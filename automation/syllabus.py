@@ -3,6 +3,7 @@ from __future__ import annotations
 import csv
 import io
 import re
+from html import escape
 
 from automation.models import Material
 
@@ -59,6 +60,8 @@ def _doc_text_to_markdown(text: str) -> str:
                 rendered.append("")
             previous_blank = True
             continue
+        if re.fullmatch(r"https?://\S+", line):
+            continue
         bullet = re.match(r"^(?:[*\-•]\s+|\d+[.)]\s+)(.+)$", line)
         if bullet:
             rendered.append(f"* {bullet.group(1).strip()}")
@@ -79,10 +82,40 @@ def _tsv_to_markdown(text: str) -> str:
     width = max(len(row) for row in rows)
     padded = [row + [""] * (width - len(row)) for row in rows]
     header = padded[0]
-    lines = [
-        "| " + " | ".join(header) + " |",
-        "| " + " | ".join("---" for _ in header) + " |",
-    ]
+    body_rows: list[list[str]] = []
     for row in padded[1:]:
-        lines.append("| " + " | ".join(row) + " |")
+        if body_rows and not row[0]:
+            merged = body_rows[-1]
+            for index, cell in enumerate(row):
+                if not cell:
+                    continue
+                merged[index] = f"{merged[index]}<br>{escape(cell)}" if merged[index] else escape(cell)
+            continue
+        body_rows.append([escape(cell) for cell in row])
+
+    lines = [
+        '<table class="course-outline-table">',
+        "  <thead>",
+        "    <tr>",
+    ]
+    for cell in header:
+        lines.append(f"      <th>{escape(cell)}</th>")
+    lines.extend(
+        [
+            "    </tr>",
+            "  </thead>",
+            "  <tbody>",
+        ]
+    )
+    for row in body_rows:
+        lines.append("    <tr>")
+        for cell in row:
+            lines.append(f"      <td>{cell}</td>")
+        lines.append("    </tr>")
+    lines.extend(
+        [
+            "  </tbody>",
+            "</table>",
+        ]
+    )
     return "\n".join(lines).strip()

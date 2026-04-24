@@ -12,6 +12,6 @@ I lecture on machine learning for B.Sc. students of Economics and Management at 
 
 ## Course Iterations
 
-* [25'](/teaching/econml25)
+* [24/25](/teaching/econml-24)
 
 This page serves as the home for the course across academic iterations.

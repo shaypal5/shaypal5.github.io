@@ -62,19 +62,25 @@ class NamingTests(unittest.TestCase):
         generalized = infer_course_from_folder("folder-2", "Data Vis - Generalized CF")
         self.assertTrue(generalized.is_generalized)
         self.assertEqual(generalized.course_family, "data-vis")
+        datavis = infer_course_from_folder("folder-3", "Data Vis 22/23A CF")
+        self.assertEqual(datavis.manual_overrides["section_label"], "Semester")
+        self.assertIn("(Semester A)", datavis.subtitle)
 
     def test_classify_material_kind(self) -> None:
         self.assertEqual(classify_material_kind("Course Syllabus", "application/pdf"), "syllabus")
+        self.assertEqual(classify_material_kind("סילבוס - כריית טקסט.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"), "syllabus")
         self.assertEqual(classify_material_kind("Data Vis 2022 - Outline", "application/vnd.google-apps.spreadsheet"), "outline")
         self.assertEqual(classify_material_kind("קורס ויזואליזציה - פרטים", "application/vnd.google-apps.document"), "outline")
         self.assertEqual(
             classify_material_kind("Week 2 - Lecture Slides", "application/vnd.google-apps.presentation"),
             "slides",
         )
+        self.assertEqual(classify_material_kind("S0: Course Intro", "application/vnd.google-apps.presentation"), "slides")
         self.assertEqual(classify_material_kind("Notebook.ipynb", "text/plain"), "notebook")
         self.assertEqual(classify_material_kind("Exercise 1", "text/plain"), "exercise")
         self.assertEqual(classify_material_kind("Solution 1", "text/plain"), "solution")
         self.assertEqual(classify_material_kind("Poll Form", "text/plain"), "form")
+        self.assertEqual(classify_material_kind("Course Survey", "text/plain"), "form")
         self.assertEqual(
             classify_material_kind("Results", "application/vnd.google-apps.spreadsheet"),
             "sheet",
@@ -87,6 +93,9 @@ class NamingTests(unittest.TestCase):
         self.assertTrue(should_publish_material("Course Exercise 1", "exercise", is_generalized_course=False))
         self.assertTrue(should_publish_material("Solution Notebook", "solution", is_generalized_course=False))
         self.assertFalse(should_publish_material("Student Feedback Notes", "resource", is_generalized_course=False))
+        self.assertFalse(should_publish_material("Slides from Inbal", "slides", is_generalized_course=False))
+        self.assertFalse(should_publish_material("Student Survey Results", "resource", is_generalized_course=False))
+        self.assertFalse(should_publish_material("שאלון קורס", "resource", is_generalized_course=False))
         self.assertFalse(should_publish_material("לוח שנה תשפד - לוח 3.pdf", "resource", is_generalized_course=False))
         self.assertTrue(should_publish_material("Week 1 slides", "slides", is_generalized_course=True))
         self.assertFalse(should_publish_material("Data Vis 2022 - Outline", "outline", is_generalized_course=True))
@@ -94,6 +103,8 @@ class NamingTests(unittest.TestCase):
         self.assertTrue(should_descend_into_material_folder("DV @ TAU - Lectures Archive", is_generalized_course=True))
         self.assertFalse(should_descend_into_material_folder("Exercises", is_generalized_course=True))
         self.assertFalse(should_descend_into_material_folder("Admin", is_generalized_course=True))
+        self.assertFalse(should_descend_into_material_folder("Slides from Inbal", is_generalized_course=False))
+        self.assertFalse(should_descend_into_material_folder("Course Polls", is_generalized_course=False))
         self.assertTrue(should_descend_into_material_folder("Slides", is_generalized_course=False))
         self.assertTrue(should_descend_into_material_folder("Exercises", is_generalized_course=False))
 

@@ -168,10 +168,14 @@ class GoogleDrivePublishTests(unittest.TestCase):
 
     def test_drive_client_export_file_text(self) -> None:
         client = DriveClient(access_token="token")
-        ok = mock.Mock(status_code=200, text="hello")
+        ok = mock.Mock(status_code=200, text="garbled", content="hello".encode("utf-8"))
         with mock.patch("automation.google_drive.requests.get", return_value=ok) as get:
             self.assertEqual(client.export_file_text("file-1", "text/plain"), "hello")
             self.assertIn("/files/file-1/export", get.call_args.args[0])
+
+        bom = mock.Mock(status_code=200, text="garbled", content=b"\xef\xbb\xbf\xd7\xa9\xd7\x9c\xd7\x95\xd7\x9d")
+        with mock.patch("automation.google_drive.requests.get", return_value=bom):
+            self.assertEqual(client.export_file_text("file-2", "text/plain"), "שלום")
 
         bad = mock.Mock(status_code=404, text="missing")
         with mock.patch("automation.google_drive.requests.get", return_value=bad):

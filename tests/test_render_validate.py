@@ -253,7 +253,10 @@ class RenderValidateTests(unittest.TestCase):
         self.assertIn("/teaching/data-vis-22b", generalized_page)
         self.assertIn("## Shared Course Materials", generalized_page)
         self.assertIn("Week 1 lecture slides", generalized_page)
-        self.assertLess(generalized_page.index("Section B"), generalized_page.index("Section A"))
+        concrete_a.manual_overrides["section_label"] = "Semester"
+        concrete_b.manual_overrides["section_label"] = "Semester"
+        generalized_page = render_course_page(generalized, [], courses=[generalized, concrete_a, concrete_b])
+        self.assertLess(generalized_page.index("Semester B"), generalized_page.index("Semester A"))
 
         ordered_courses = visible_courses(
             [
@@ -327,12 +330,44 @@ class RenderValidateTests(unittest.TestCase):
         self.assertEqual(syllabus_export_mime(doc_material), "text/plain")
         self.assertEqual(syllabus_export_mime(sheet_material), "text/tab-separated-values")
         self.assertEqual(
-            render_syllabus_markdown(doc_material, "Intro\n\n• First topic\n2. Second topic\n"),
+            render_syllabus_markdown(doc_material, "Intro\n\n• First topic\n2. Second topic\n\nhttps://example.com/form"),
             "Intro\n\n* First topic\n* Second topic",
         )
         self.assertEqual(
             render_syllabus_markdown(sheet_material, "Week\tTopic\n1\tIntro\n"),
-            "| Week | Topic |\n| --- | --- |\n| 1 | Intro |",
+            '<table class="course-outline-table">\n'
+            "  <thead>\n"
+            "    <tr>\n"
+            "      <th>Week</th>\n"
+            "      <th>Topic</th>\n"
+            "    </tr>\n"
+            "  </thead>\n"
+            "  <tbody>\n"
+            "    <tr>\n"
+            "      <td>1</td>\n"
+            "      <td>Intro</td>\n"
+            "    </tr>\n"
+            "  </tbody>\n"
+            "</table>",
+        )
+        self.assertEqual(
+            render_syllabus_markdown(sheet_material, "Week\tDate\tTopic\n-\t06/01/25\tFinal Exam\n\t16/01/25\tPublishing grades!\n"),
+            '<table class="course-outline-table">\n'
+            "  <thead>\n"
+            "    <tr>\n"
+            "      <th>Week</th>\n"
+            "      <th>Date</th>\n"
+            "      <th>Topic</th>\n"
+            "    </tr>\n"
+            "  </thead>\n"
+            "  <tbody>\n"
+            "    <tr>\n"
+            "      <td>-</td>\n"
+            "      <td>06/01/25<br>16/01/25</td>\n"
+            "      <td>Final Exam<br>Publishing grades!</td>\n"
+            "    </tr>\n"
+            "  </tbody>\n"
+            "</table>",
         )
 
         generalized_without_materials = render_course_page(

@@ -72,7 +72,8 @@ def _iteration_label(course: Course) -> str:
         return manual_label
     label = course.academic_period or "TBD"
     if course.section:
-        label += f" Section {course.section}"
+        section_label = str(course.manual_overrides.get("section_label", "Section") or "Section").strip()
+        label += f" {section_label} {course.section}"
     return label
 
 

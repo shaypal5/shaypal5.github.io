@@ -286,13 +286,15 @@ def _backfill(args: argparse.Namespace, incremental: bool = False) -> int:
         selected_slugs = {course.slug for course in selected}
         courses = [course for course in existing_courses if course.slug not in selected_slugs] + selected
     else:
+        selected_slugs = {item.slug for item in selected}
         selected_drive_folder_ids = {
             item.source_drive_folder_id for item in selected if item.source_drive_folder_id
         }
         preserved = [
             course
             for course in existing_courses
-            if not course.source_drive_folder_id or course.source_drive_folder_id not in selected_drive_folder_ids
+            if course.slug not in selected_slugs
+            and (not course.source_drive_folder_id or course.source_drive_folder_id not in selected_drive_folder_ids)
         ]
         courses = preserved + selected
     courses = _ensure_generalized_parents(courses)

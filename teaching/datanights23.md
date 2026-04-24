@@ -15,7 +15,10 @@ The second cohort ran from May 10, 2023 through June 21, 2023 in weekly evening 
 ## Organizing Team
 
 * **Shay Palachy Affek** - Program lead and instructor, DataNights / DataHack
-* **DataNights volunteer staff** - Cohort operations, hosting, and session support, Topaz, Hila, Nurit, and Tal
+* **Topaz Gilad** - Cohort operations, hosting, and session support, DataNights
+* **Hila** - Cohort operations, hosting, and session support, DataNights
+* **Nurit Vatnik** - Cohort operations, hosting, and session support, DataNights
+* **Tal Rosenwein** - Cohort operations, hosting, and session support, DataNights
 
 ## Lectures
 

@@ -30,6 +30,37 @@ MATERIAL_FOLDER_TERMS = (
     "archive",
 )
 
+BLACKLISTED_NAME_TERMS = (
+    "grade",
+    "grades",
+    "submission",
+    "submissions",
+    "student",
+    "students",
+    "feedback",
+    "attendance",
+    "roster",
+    "calendar",
+    "quiz",
+    "exam",
+    "midterm",
+    "final",
+    "homework",
+    "assignment",
+    "from inbal",
+    "survey",
+    "poll",
+    "form",
+    "סקר",
+    "טופס",
+    "שאלון",
+    "לוח שנה",
+    "ציונים",
+    "הגשות",
+    "סטודנט",
+    "נוכחות",
+)
+
 INSTITUTION_HINTS = {
     "TAU": "Tel Aviv University",
     "MTA": "The Academic College of Tel Aviv-Yaffo",
@@ -83,30 +114,7 @@ def _material_description(kind: str, week: int | None) -> str:
 
 def should_publish_material(name: str, kind: str, is_generalized_course: bool) -> bool:
     lowered = name.casefold()
-    blacklist_terms = (
-        "grade",
-        "grades",
-        "submission",
-        "submissions",
-        "student",
-        "students",
-        "feedback",
-        "attendance",
-        "roster",
-        "calendar",
-        "quiz",
-        "exam",
-        "midterm",
-        "final",
-        "homework",
-        "assignment",
-        "לוח שנה",
-        "ציונים",
-        "הגשות",
-        "סטודנט",
-        "נוכחות",
-    )
-    if any(term in lowered for term in blacklist_terms):
+    if any(term in lowered for term in BLACKLISTED_NAME_TERMS):
         return False
     allowed_kinds = (
         {"slides", "notebook"}
@@ -118,6 +126,8 @@ def should_publish_material(name: str, kind: str, is_generalized_course: bool) -
 
 def should_descend_into_material_folder(name: str, is_generalized_course: bool) -> bool:
     lowered = name.casefold()
+    if any(term in lowered for term in BLACKLISTED_NAME_TERMS):
+        return False
     if is_generalized_course:
         return any(term in lowered for term in MATERIAL_FOLDER_TERMS if term not in {"exercise", "exercises", "solution", "solutions"})
     return any(term in lowered for term in MATERIAL_FOLDER_TERMS)
@@ -182,6 +192,14 @@ def parse_course_folder_name(folder_name: str) -> dict[str, str]:
 def infer_course_from_folder(folder_id: str, folder_name: str) -> Course:
     parsed = parse_course_folder_name(folder_name)
     summary = f"Teaching materials extracted from Google Drive folder '{folder_name}'."
+    manual_overrides = {}
+    if parsed["course_family"] == "data-vis":
+        manual_overrides["section_label"] = "Semester"
+        if parsed["section"]:
+            parsed["subtitle"] = parsed["subtitle"].replace(
+                f"(Section {parsed['section']})",
+                f"(Semester {parsed['section']})",
+            )
     return Course(
         slug=parsed["slug"],
         title=parsed["title"],
@@ -194,6 +212,7 @@ def infer_course_from_folder(folder_id: str, folder_name: str) -> Course:
         source_drive_folder_name=folder_name,
         summary=summary,
         visibility="public",
+        manual_overrides=manual_overrides,
         course_family=parsed["course_family"],
         section=parsed["section"],
         is_generalized=bool(parsed["is_generalized"]),
@@ -201,22 +220,23 @@ def infer_course_from_folder(folder_id: str, folder_name: str) -> Course:
 
 
 def classify_material_kind(name: str, mime_type: str) -> str:
-    lowered = f"{name} {mime_type}".lower()
-    if "syllabus" in lowered:
+    name_lower = name.lower()
+    lowered = f"{name_lower} {mime_type.lower()}"
+    if "syllabus" in name_lower or "סילבוס" in name_lower:
         return "syllabus"
-    if "outline" in lowered or "details" in lowered or "פרטים" in lowered:
+    if "outline" in name_lower or "details" in name_lower or "פרטים" in name_lower:
         return "outline"
-    if "slide" in lowered or "presentation" in lowered:
+    if "slide" in name_lower or "presentation" in name_lower or mime_type.endswith("presentation"):
         return "slides"
-    if "notebook" in lowered or "colab" in lowered or "ipynb" in lowered:
+    if "notebook" in name_lower or "colab" in name_lower or "ipynb" in name_lower:
         return "notebook"
-    if "exercise" in lowered:
+    if "exercise" in name_lower:
         return "exercise"
-    if "solution" in lowered:
+    if "solution" in name_lower:
         return "solution"
-    if "form" in lowered or "poll" in lowered:
+    if "form" in name_lower or "poll" in name_lower or "survey" in name_lower or "סקר" in name_lower or "טופס" in name_lower or "שאלון" in name_lower:
         return "form"
-    if "sheet" in lowered or mime_type.endswith("spreadsheet"):
+    if "sheet" in name_lower or mime_type.endswith("spreadsheet"):
         return "sheet"
     return "resource"
 

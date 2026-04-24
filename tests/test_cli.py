@@ -241,7 +241,7 @@ class CliTests(unittest.TestCase):
         ]
         enriched = cli._attach_syllabus_content(client, course, materials)
         self.assertEqual(enriched.syllabus_url, "https://example.com/outline")
-        self.assertIn("| Week | Topic |", enriched.manual_overrides["syllabus_markdown"])
+        self.assertIn('<table class="course-outline-table">', enriched.manual_overrides["syllabus_markdown"])
 
         client.export_file_text.side_effect = DiscoveryError("bad export")
         fallback = cli._attach_syllabus_content(client, course, materials)

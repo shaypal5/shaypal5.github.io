@@ -148,9 +148,18 @@ courses:
         - name: Shay Palachy Affek
           role: Program lead and instructor
           company: DataNights / DataHack
-        - name: DataNights volunteer staff
+        - name: Topaz Gilad
           role: Cohort operations, hosting, and session support
-          company: "Topaz, Hila, Nurit, and Tal"
+          company: DataNights
+        - name: Hila
+          role: Cohort operations, hosting, and session support
+          company: DataNights
+        - name: Nurit Vatnik
+          role: Cohort operations, hosting, and session support
+          company: DataNights
+        - name: Tal Rosenwein
+          role: Cohort operations, hosting, and session support
+          company: DataNights
       lectures:
         - title: Intro Session
           speaker: Shay Palachy Affek
@@ -302,15 +311,15 @@ courses:
     course_family: econml
     section: ""
     is_generalized: true
-  - slug: econml25
+  - slug: econml-24
     title: Intro to ML @ MTA
-    subtitle: Course page for MTA, Semester B
+    subtitle: Course page for MTA, 24/25
     institution: The Academic College of Tel Aviv-Yaffo
     role: Instructor
-    academic_period: 25'
+    academic_period: 24/25
     status: active
-    source_drive_folder_id: manual-econml25
-    source_drive_folder_name: Intro to ML MTA 25 CF
+    source_drive_folder_id: manual-econml-24
+    source_drive_folder_name: Intro to ML @ MTA 24/25 CF
     summary: I lecture on machine learning for B.Sc. students of Economics and Management at The Academic College of Tel Aviv-Yaffo.
     visibility: public
     syllabus_url: ""
@@ -318,7 +327,8 @@ courses:
     tags:
       - machine-learning
       - mta
-    manual_overrides: {}
+    manual_overrides:
+      iteration_label: 24/25
     review_notes: Migrated from the legacy manually maintained page.
     course_family: econml
     section: ""

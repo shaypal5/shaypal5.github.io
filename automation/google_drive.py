@@ -57,7 +57,7 @@ class DriveClient:
         )
         if response.status_code != 200:
             raise DiscoveryError(f"Google Drive export failed for {file_id}: {response.text}")
-        return response.text
+        return response.content.decode("utf-8-sig", errors="replace")
 
     def discover_course_folders(self, limit: int | None = None) -> list[dict]:
         queries = ["mimeType='application/vnd.google-apps.folder'", "trashed=false", "name contains ' CF'"]
