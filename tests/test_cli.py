@@ -122,6 +122,76 @@ class CliTests(unittest.TestCase):
                 }
             )
 
+    def test_cmd_preview_site(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_paths(Path(tmp))
+            source_root = paths.preview_site_source_root
+            build_root = paths.preview_site_build_root
+            with mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "build_preview_site", return_value=(source_root, build_root)), \
+                mock.patch.object(cli, "_print_json") as print_json:
+                self.assertEqual(
+                    cli.cmd_preview_site(
+                        argparse.Namespace(
+                            serve=False,
+                            host="127.0.0.1",
+                            port=4001,
+                            bundle_command="bundle",
+                        )
+                    ),
+                    0,
+                )
+                print_json.assert_called_with(
+                    {
+                        "action": "preview-site",
+                        "mode": "build",
+                        "preview_source_root": source_root.as_posix(),
+                        "preview_build_root": build_root.as_posix(),
+                        "index_file": (build_root / "index.html").as_posix(),
+                    }
+                )
+
+            with mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "serve_preview_site", return_value=(source_root, build_root)), \
+                mock.patch.object(cli, "_print_json") as print_json:
+                self.assertEqual(
+                    cli.cmd_preview_site(
+                        argparse.Namespace(
+                            serve=True,
+                            host="127.0.0.1",
+                            port=4002,
+                            bundle_command="bundle",
+                        )
+                    ),
+                    0,
+                )
+                print_json.assert_called_with(
+                    {
+                        "action": "preview-site",
+                        "mode": "serve",
+                        "preview_source_root": source_root.as_posix(),
+                        "preview_build_root": build_root.as_posix(),
+                        "url": "http://127.0.0.1:4002",
+                    }
+                )
+
+            buffer = io.StringIO()
+            with mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "build_preview_site", side_effect=FileNotFoundError("no preview")), \
+                contextlib.redirect_stderr(buffer):
+                self.assertEqual(
+                    cli.cmd_preview_site(
+                        argparse.Namespace(
+                            serve=False,
+                            host="127.0.0.1",
+                            port=4001,
+                            bundle_command="bundle",
+                        )
+                    ),
+                    1,
+                )
+            self.assertIn("no preview", buffer.getvalue())
+
     def test_merged_course_and_discover_materials(self) -> None:
         course = sample_course(summary="")
         merged = cli._merged_course({"folder-1": course}, {"id": "folder-1", "name": "Folder CF"})

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import sys
 from dataclasses import replace
 from typing import TYPE_CHECKING
@@ -23,6 +24,7 @@ from automation.naming import (
 )
 from automation.publish import publish_changes
 from automation.repository import clean_preview_repository, render_repository, write_data, write_preview_repository
+from automation.site_preview import build_preview_site, serve_preview_site
 from automation.syllabus import render_syllabus_markdown, select_syllabus_material, syllabus_export_mime
 from automation.validation import validate_repository
 
@@ -79,6 +81,51 @@ def cmd_clean_preview(_: argparse.Namespace) -> int:
     removed = clean_preview_repository(paths)
     _print_json({"action": "clean-preview", "removed": removed, "preview_root": paths.preview_root.as_posix()})
     return 0
+
+
+def cmd_preview_site(args: argparse.Namespace) -> int:
+    paths = build_paths()
+    bundle_command = args.bundle_command
+    try:
+        if args.serve:
+            _log(
+                f"Serving preview site from {paths.preview_site_source_root} "
+                f"at http://{args.host}:{args.port}."
+            )
+            source_root, build_root = serve_preview_site(
+                paths,
+                host=args.host,
+                port=args.port,
+                bundle_command=bundle_command,
+            )
+            _print_json(
+                {
+                    "action": "preview-site",
+                    "mode": "serve",
+                    "preview_source_root": source_root.as_posix(),
+                    "preview_build_root": build_root.as_posix(),
+                    "url": f"http://{args.host}:{args.port}",
+                }
+            )
+            return 0
+        _log(f"Building preview site from {paths.preview_site_source_root}.")
+        source_root, build_root = build_preview_site(paths, bundle_command=bundle_command)
+        _print_json(
+            {
+                "action": "preview-site",
+                "mode": "build",
+                "preview_source_root": source_root.as_posix(),
+                "preview_build_root": build_root.as_posix(),
+                "index_file": (build_root / "index.html").as_posix(),
+            }
+        )
+        return 0
+    except FileNotFoundError as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
+    except subprocess.CalledProcessError as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
 
 
 def _merged_course(existing_by_id: dict[str, "Course"], folder: dict[str, str]) -> "Course":
@@ -339,6 +386,13 @@ def build_parser() -> argparse.ArgumentParser:
 
     clean_preview = course_cmds.add_parser("clean-preview")
     clean_preview.set_defaults(handler=cmd_clean_preview)
+
+    preview_site = course_cmds.add_parser("preview-site")
+    preview_site.add_argument("--serve", action="store_true")
+    preview_site.add_argument("--host", default="127.0.0.1")
+    preview_site.add_argument("--port", type=int, default=4001)
+    preview_site.add_argument("--bundle-command", default="bundle")
+    preview_site.set_defaults(handler=cmd_preview_site)
 
     plan = course_cmds.add_parser("plan")
     plan.set_defaults(handler=cmd_plan)
