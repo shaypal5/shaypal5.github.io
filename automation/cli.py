@@ -322,11 +322,7 @@ def _backfill(args: argparse.Namespace, incremental: bool = False) -> int:
     selected_with_syllabus = []
     for course in selected:
         _log(f"Listing materials for {course.slug} from folder {course.source_drive_folder_id}.")
-        discovered_materials = _discover_materials(client, course)
-        if isinstance(discovered_materials, tuple):
-            materials, excluded = discovered_materials
-        else:
-            materials, excluded = discovered_materials, []
+        materials, excluded = _discover_materials(client, course)
         course = _attach_syllabus_content(client, course, materials)
         materials_by_slug[course.slug] = materials
         excluded_materials.extend(excluded)

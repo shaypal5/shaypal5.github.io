@@ -129,7 +129,7 @@ class NamingTests(unittest.TestCase):
         self.assertEqual(normalize_material_title(" Copy of  Week 1 slides "), "Week 1 slides")
         self.assertEqual(
             classify_material_exclusion("Copy of slides.pptx", "slides", is_generalized_course=False),
-            "privacy-admin",
+            "low-signal",
         )
         self.assertEqual(
             classify_material_exclusion("Grades Timeline", "sheet", is_generalized_course=False),
@@ -137,7 +137,7 @@ class NamingTests(unittest.TestCase):
         )
         self.assertEqual(
             classify_material_exclusion("Course Timeline", "slides", is_generalized_course=False),
-            "privacy-admin",
+            "low-signal",
         )
         self.assertEqual(
             classify_material_exclusion("Home Exercise 2", "exercise", is_generalized_course=False),
@@ -154,6 +154,15 @@ class NamingTests(unittest.TestCase):
                 is_generalized_course=False,
                 publish_override=True,
             )
+        )
+        self.assertEqual(
+            classify_material_exclusion(
+                "Student Grades",
+                "slides",
+                is_generalized_course=False,
+                publish_override=True,
+            ),
+            "privacy-admin",
         )
 
     def test_infer_week_section_sort_and_material_from_drive_item(self) -> None:

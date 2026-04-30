@@ -63,10 +63,6 @@ BLACKLISTED_NAME_TERMS = (
     "nn_course_project_presentation",
     "random forests - presentation",
     "lec5_slides",
-    "slides.pptx",
-    "course timeline",
-    "timeline",
-    "tba",
     "placeholder",
     "הקלות",
     "סקר",
@@ -179,10 +175,10 @@ def classify_material_exclusion(
 ) -> str | None:
     normalized = normalize_material_title(name)
     lowered = normalized.casefold()
+    if any(term in lowered for term in BLACKLISTED_NAME_TERMS):
+        return "privacy-admin"
     if publish_override:
         return None
-    if not publish_override and any(term in lowered for term in BLACKLISTED_NAME_TERMS):
-        return "privacy-admin"
     if any(term in lowered for term in LOW_SIGNAL_TITLE_TERMS):
         return "low-signal"
     allowed_kinds = {"slides", "notebook"} if is_generalized_course else {"slides", "notebook", "outline", "syllabus"}

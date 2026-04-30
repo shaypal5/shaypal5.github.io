@@ -453,7 +453,7 @@ class CliTests(unittest.TestCase):
                 mock.patch.object(cli, "build_paths", return_value=paths), \
                 mock.patch.object(cli, "load_courses", return_value=[existing]), \
                 mock.patch.object(cli, "_merged_course", side_effect=[sample_course(slug="skip", folder_id="skip-folder"), discovered_course]), \
-                mock.patch.object(cli, "_discover_materials", return_value=[sample_material()]), \
+                mock.patch.object(cli, "_discover_materials", return_value=([sample_material()], [])), \
                 mock.patch.object(
                     cli,
                     "_attach_syllabus_content",
@@ -491,7 +491,7 @@ class CliTests(unittest.TestCase):
                 mock.patch.object(cli, "build_paths", return_value=paths), \
                 mock.patch.object(cli, "load_courses", return_value=[existing]), \
                 mock.patch.object(cli, "_merged_course", return_value=discovered_course), \
-                mock.patch.object(cli, "_discover_materials", return_value=[sample_material()]), \
+                mock.patch.object(cli, "_discover_materials", return_value=([sample_material()], [])), \
                 mock.patch.object(cli, "load_materials", return_value=[]), \
                 mock.patch.object(cli, "write_data"), \
                 mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
@@ -534,7 +534,7 @@ class CliTests(unittest.TestCase):
                 mock.patch.object(cli, "build_paths", return_value=paths), \
                 mock.patch.object(cli, "load_courses", return_value=[]), \
                 mock.patch.object(cli, "_merged_course", side_effect=[sample_course(slug="skip", folder_id="folder-skip"), course]), \
-                mock.patch.object(cli, "_discover_materials", return_value=[]), \
+                mock.patch.object(cli, "_discover_materials", return_value=([], [])), \
                 mock.patch.object(cli, "write_data"), \
                 mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
                 mock.patch.object(cli, "validate_repository", return_value=["broken"]):
@@ -574,7 +574,7 @@ class CliTests(unittest.TestCase):
                 mock.patch.object(cli, "build_paths", return_value=paths), \
                 mock.patch.object(cli, "load_courses", return_value=[]), \
                 mock.patch.object(cli, "_merged_course", return_value=real_course) as merged_course, \
-                mock.patch.object(cli, "_discover_materials", return_value=[]), \
+                mock.patch.object(cli, "_discover_materials", return_value=([], [])), \
                 mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=["A teaching/real-course-25.md"])), \
                 mock.patch.object(cli, "write_preview_repository", return_value=[path.as_posix() for path in preview_files]), \
                 mock.patch.object(cli, "_print_json") as print_json:
@@ -726,7 +726,7 @@ class CliTests(unittest.TestCase):
                 mock.patch.object(cli, "build_paths", return_value=paths), \
                 mock.patch.object(cli, "load_courses", return_value=[manual, existing]), \
                 mock.patch.object(cli, "_merged_course", return_value=discovered_course), \
-                mock.patch.object(cli, "_discover_materials", return_value=[]), \
+                mock.patch.object(cli, "_discover_materials", return_value=([], [])), \
                 mock.patch.object(cli, "load_materials", return_value=[]), \
                 mock.patch.object(cli, "write_data") as write_data, \
                 mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
@@ -776,7 +776,7 @@ class CliTests(unittest.TestCase):
                 mock.patch.object(cli, "build_paths", return_value=paths), \
                 mock.patch.object(cli, "load_courses", return_value=[]), \
                 mock.patch.object(cli, "_merged_course", side_effect=[course_a, course_b]), \
-                mock.patch.object(cli, "_discover_materials", return_value=[]), \
+                mock.patch.object(cli, "_discover_materials", return_value=([], [])), \
                 mock.patch.object(cli, "load_materials", return_value=[]), \
                 mock.patch.object(cli, "write_data") as write_data, \
                 mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
@@ -825,7 +825,7 @@ class CliTests(unittest.TestCase):
                 mock.patch.object(cli, "build_paths", return_value=paths), \
                 mock.patch.object(cli, "load_courses", return_value=[]), \
                 mock.patch.object(cli, "_merged_course", return_value=course), \
-                mock.patch.object(cli, "_discover_materials", return_value=[]), \
+                mock.patch.object(cli, "_discover_materials", return_value=([], [])), \
                 mock.patch.object(cli, "load_materials", return_value=[]), \
                 mock.patch.object(cli, "write_data") as write_data, \
                 mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
