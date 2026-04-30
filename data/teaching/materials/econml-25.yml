@@ -1,0 +1,57 @@
+course: econml-25
+materials:
+- title: 'EconML 26 - S0: Course Intro'
+  url: https://docs.google.com/presentation/d/11sg78gah-YutrTf8H2Ucx6GSlxtohXS3h-WuTW-hzpU/edit?usp=drivesdk
+  kind: slides
+  week: 0
+  section: Course Materials
+  source_file_id: 11sg78gah-YutrTf8H2Ucx6GSlxtohXS3h-WuTW-hzpU
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 00-econml-26-s0-course-intro
+  notes: ''
+  description: Week 0 lecture slides
+- title: 'EconML 26 - S1: Classification with Churn Prediction'
+  url: https://docs.google.com/presentation/d/1ZWg2D5br_svx-SENjPCrbklH84GVtXK2oWbO44x_Gmc/edit?usp=drivesdk
+  kind: slides
+  week: 1
+  section: Course Materials
+  source_file_id: 1ZWg2D5br_svx-SENjPCrbklH84GVtXK2oWbO44x_Gmc
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 01-econml-26-s1-classification-with-churn-prediction
+  notes: ''
+  description: Week 1 lecture slides
+- title: 'EconML 26 - S2: Machine Learning Foundations Continued'
+  url: https://docs.google.com/presentation/d/1ZPIAybsa1W5oqh7FCuLVHOlapoH4HPdSh96f9liHFug/edit?usp=drivesdk
+  kind: slides
+  week: 2
+  section: Course Materials
+  source_file_id: 1ZPIAybsa1W5oqh7FCuLVHOlapoH4HPdSh96f9liHFug
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 02-econml-26-s2-machine-learning-foundations-continued
+  notes: ''
+  description: Week 2 lecture slides
+- title: 'EconML 26 - S3: Ranking through Lead Scoring'
+  url: https://docs.google.com/presentation/d/1ufk7SmVhPhsLoUO2f0WGHZHZWx_jXA7pyjxkFA55mEU/edit?usp=drivesdk
+  kind: slides
+  week: 3
+  section: Course Materials
+  source_file_id: 1ufk7SmVhPhsLoUO2f0WGHZHZWx_jXA7pyjxkFA55mEU
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 03-econml-26-s3-ranking-through-lead-scoring
+  notes: ''
+  description: Week 3 lecture slides
+- title: EconML 26 - Basic Details
+  url: https://docs.google.com/document/d/1l7Kny-xqUVRJRW5bUX6mWtiGbbYlFw2SVWIT7BfqrmA/edit?usp=drivesdk
+  kind: outline
+  week: null
+  section: Course Outline
+  source_file_id: 1l7Kny-xqUVRJRW5bUX6mWtiGbbYlFw2SVWIT7BfqrmA
+  source_mime_type: application/vnd.google-apps.document
+  published: true
+  sort_key: 99-econml-26-basic-details
+  notes: ''
+  description: Course outline

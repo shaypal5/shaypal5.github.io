@@ -1,22 +1,57 @@
 course: econml-24
 materials:
-  - title: S0 - Course Intro - Lecture Slides
-    url: https://docs.google.com/presentation/d/1XekhFoQT-4tXStgCY3QgINRi5E3Q2ka3z1lDHNu_JYI/edit?usp=sharing
-    kind: slides
-    week: 1
-    section: Course Materials
-    source_file_id: manual-econml25-001
-    source_mime_type: application/vnd.google-apps.presentation
-    published: true
-    sort_key: 01-s0-course-intro-lecture-slides
-    notes: ""
-  - title: S1 - Classification and Churn Prediction
-    url: https://docs.google.com/presentation/d/1ACvkbelcUEb_In_gmr34CbgusW06tYsxOUVM5utV03c/edit?usp=drive_link
-    kind: slides
-    week: 1
-    section: Course Materials
-    source_file_id: manual-econml25-002
-    source_mime_type: application/vnd.google-apps.presentation
-    published: true
-    sort_key: 01-s1-classification-and-churn-prediction
-    notes: ""
+- title: 'EconML 25 - S0: Course Intro'
+  url: https://docs.google.com/presentation/d/1XekhFoQT-4tXStgCY3QgINRi5E3Q2ka3z1lDHNu_JYI/edit?usp=drivesdk
+  kind: slides
+  week: 0
+  section: Course Materials
+  source_file_id: 1XekhFoQT-4tXStgCY3QgINRi5E3Q2ka3z1lDHNu_JYI
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 00-econml-25-s0-course-intro
+  notes: ''
+  description: Week 0 lecture slides
+- title: 'EconML 25 - S1: Classification with Churn Prediction'
+  url: https://docs.google.com/presentation/d/1ACvkbelcUEb_In_gmr34CbgusW06tYsxOUVM5utV03c/edit?usp=drivesdk
+  kind: slides
+  week: 1
+  section: Course Materials
+  source_file_id: 1ACvkbelcUEb_In_gmr34CbgusW06tYsxOUVM5utV03c
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 01-econml-25-s1-classification-with-churn-prediction
+  notes: ''
+  description: Week 1 lecture slides
+- title: 'EconML 25 - S3: Probability Estimation for Fraud Detection'
+  url: https://docs.google.com/presentation/d/1HwOiIjQGJQbLJ7rVn9fN83IPMdf9vLgt84R5s7pVFhg/edit?usp=drivesdk
+  kind: slides
+  week: 3
+  section: Course Materials
+  source_file_id: 1HwOiIjQGJQbLJ7rVn9fN83IPMdf9vLgt84R5s7pVFhg
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 03-econml-25-s3-probability-estimation-for-fraud-detection
+  notes: ''
+  description: Week 3 lecture slides
+- title: 'EconML 25 - S4: Deep Learning Applications'
+  url: https://docs.google.com/presentation/d/14cHsQjM0sTFV90Wo0zwalVR4B6mSQibFHPQyVw3wORQ/edit?usp=drivesdk
+  kind: slides
+  week: 4
+  section: Course Materials
+  source_file_id: 14cHsQjM0sTFV90Wo0zwalVR4B6mSQibFHPQyVw3wORQ
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 04-econml-25-s4-deep-learning-applications
+  notes: ''
+  description: Week 4 lecture slides
+- title: 'EconML 25 - S1B: Classification with Churn Prediction - Imbalanced Learning'
+  url: https://docs.google.com/presentation/d/1jGhnVrhwJV8TiTEyvurNGV0ZFx9wbPfvmXbIW0o9ahY/edit?usp=drivesdk
+  kind: slides
+  week: null
+  section: Course Materials
+  source_file_id: 1jGhnVrhwJV8TiTEyvurNGV0ZFx9wbPfvmXbIW0o9ahY
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 99-econml-25-s1b-classification-with-churn-prediction-imbalanced-learning
+  notes: ''
+  description: Lecture slides

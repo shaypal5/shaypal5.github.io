@@ -1,0 +1,102 @@
+course: text-mining-25b
+materials:
+- title: 'Text Mining 25/6 - S0: Course Intro'
+  url: https://docs.google.com/presentation/d/1fLmycJU6iEromcH3d5RTOacjC0B2eCH5Hx6OpMtW4nk/edit?usp=drivesdk
+  kind: slides
+  week: 0
+  section: Course Materials
+  source_file_id: 1fLmycJU6iEromcH3d5RTOacjC0B2eCH5Hx6OpMtW4nk
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 00-text-mining-25-6-s0-course-intro
+  notes: ''
+  description: Week 0 lecture slides
+- title: 'Text Mining 24/5 - S1: Text Processing'
+  url: https://docs.google.com/presentation/d/1FaG3MsrH-JhtycIsWUpuj7uI2-JIXkl5ahnB1qtSiVw/edit?usp=drivesdk
+  kind: slides
+  week: 1
+  section: Course Materials
+  source_file_id: 1FaG3MsrH-JhtycIsWUpuj7uI2-JIXkl5ahnB1qtSiVw
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 01-text-mining-24-5-s1-text-processing
+  notes: ''
+  description: Week 1 lecture slides
+- title: 'Text Mining 24/5 - S2: Word2Vec'
+  url: https://docs.google.com/presentation/d/1sSJBMM98Dfus6AKy57yQNJbQ59NREBJxFtZSEQcEwRE/edit?usp=drivesdk
+  kind: slides
+  week: 2
+  section: Course Materials
+  source_file_id: 1sSJBMM98Dfus6AKy57yQNJbQ59NREBJxFtZSEQcEwRE
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 02-text-mining-24-5-s2-word2vec
+  notes: ''
+  description: Week 2 lecture slides
+- title: 'Text Mining 24/5 - S3: Unsupervised Text Mining & Visualization'
+  url: https://docs.google.com/presentation/d/19XxGtcr7TLS8Im54ELe-P1olYOj-i_XjHIZSuiVjU28/edit?usp=drivesdk
+  kind: slides
+  week: 3
+  section: Course Materials
+  source_file_id: 19XxGtcr7TLS8Im54ELe-P1olYOj-i_XjHIZSuiVjU28
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 03-text-mining-24-5-s3-unsupervised-text-mining-visualization
+  notes: ''
+  description: Week 3 lecture slides
+- title: 'Text Mining 24/5 - S4: Supervised Text Mining'
+  url: https://docs.google.com/presentation/d/1gAHTCuGt2CrHyyYyAack_Y8254XPzbc2xPpxZVepI6U/edit?usp=drivesdk
+  kind: slides
+  week: 4
+  section: Course Materials
+  source_file_id: 1gAHTCuGt2CrHyyYyAack_Y8254XPzbc2xPpxZVepI6U
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 04-text-mining-24-5-s4-supervised-text-mining
+  notes: ''
+  description: Week 4 lecture slides
+- title: 'Text Mining 24/5 - S5: Attention to SBERT'
+  url: https://docs.google.com/presentation/d/1bW-yobDC_BdAfG5PyboxonMbr9nCxTN0WsEaGwEVVsI/edit?usp=drivesdk
+  kind: slides
+  week: 5
+  section: Course Materials
+  source_file_id: 1bW-yobDC_BdAfG5PyboxonMbr9nCxTN0WsEaGwEVVsI
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 05-text-mining-24-5-s5-attention-to-sbert
+  notes: ''
+  description: Week 5 lecture slides
+- title: 'Text Mining 24/5 - S6: LLMs'
+  url: https://docs.google.com/presentation/d/1uL7xmBEv5txUtZCgIHoHRoK7NYg6kAUtjrBLzIzqW0Q/edit?usp=drivesdk
+  kind: slides
+  week: 6
+  section: Course Materials
+  source_file_id: 1uL7xmBEv5txUtZCgIHoHRoK7NYg6kAUtjrBLzIzqW0Q
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 06-text-mining-24-5-s6-llms
+  notes: ''
+  description: Week 6 lecture slides
+- title: "\u05E1\u05D9\u05DC\u05D1\u05D5\u05E1 - 1242-3277 - \u05DB\u05E8\u05D9\u05D9\
+    \u05EA \u05D8\u05E7\u05E1\u05D8 - 2026.docx"
+  url: https://docs.google.com/document/d/13gdR0otJNi67VFowwkvfcpVKjP6kPNcf/edit?usp=drivesdk&ouid=117394243753980860683&rtpof=true&sd=true
+  kind: syllabus
+  week: null
+  section: Course Outline
+  source_file_id: 13gdR0otJNi67VFowwkvfcpVKjP6kPNcf
+  source_mime_type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
+  published: true
+  sort_key: 99-1242-3277-2026-docx
+  notes: ''
+  description: Course syllabus
+- title: TM26 - Course Outline
+  url: https://docs.google.com/spreadsheets/d/1bnZMz9SECZU1WSoNlRZjwe67G4P5HWAWaZtN63GHcFA/edit?usp=drivesdk
+  kind: outline
+  week: null
+  section: Course Outline
+  source_file_id: 1bnZMz9SECZU1WSoNlRZjwe67G4P5HWAWaZtN63GHcFA
+  source_mime_type: application/vnd.google-apps.spreadsheet
+  published: true
+  sort_key: 99-tm26-course-outline
+  notes: ''
+  description: Course outline

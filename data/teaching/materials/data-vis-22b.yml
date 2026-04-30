@@ -1,0 +1,145 @@
+course: data-vis-22b
+materials:
+- title: C1 - Course Intro - Data Vis 23' @ TAU - Shay Palachy Affek
+  url: https://docs.google.com/presentation/d/16EYIfV33U3vyR0uXvNUmexJ2SjXUUz0yFAcAF-tMrMM/edit?usp=drivesdk
+  kind: slides
+  week: null
+  section: Course Materials
+  source_file_id: 16EYIfV33U3vyR0uXvNUmexJ2SjXUUz0yFAcAF-tMrMM
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 99-c1-course-intro-data-vis-23-tau-shay-palachy-affek
+  notes: ''
+  description: Lecture slides
+- title: C2 - Course Summary - Data Vis 23' @ TAU - Shay Palachy Affek
+  url: https://docs.google.com/presentation/d/1_0Xid84g8AaqQZ-XfbjGQGBn1sHE-zV3nHQSzcoPCw8/edit?usp=drivesdk
+  kind: slides
+  week: null
+  section: Course Materials
+  source_file_id: 1_0Xid84g8AaqQZ-XfbjGQGBn1sHE-zV3nHQSzcoPCw8
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 99-c2-course-summary-data-vis-23-tau-shay-palachy-affek
+  notes: ''
+  description: Lecture slides
+- title: DV1 - Data Vis Intro - Data Vis 23' @ TAU - Shay Palachy Affek
+  url: https://docs.google.com/presentation/d/1YAEz8bejWdNfD1ibzloKfPTKdw5CnRAiYfhWHl1QSrQ/edit?usp=drivesdk
+  kind: slides
+  week: null
+  section: Course Materials
+  source_file_id: 1YAEz8bejWdNfD1ibzloKfPTKdw5CnRAiYfhWHl1QSrQ
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 99-dv1-data-vis-intro-data-vis-23-tau-shay-palachy-affek
+  notes: ''
+  description: Lecture slides
+- title: DV2.5 - Data Prep - Data Vis 23' @ TAU - Shay Palachy Affek
+  url: https://docs.google.com/presentation/d/1vPd5xhlgI_-6gROvYzyxGOHNHhP1M06a-raIMS9RkWQ/edit?usp=drivesdk
+  kind: slides
+  week: null
+  section: Course Materials
+  source_file_id: 1vPd5xhlgI_-6gROvYzyxGOHNHhP1M06a-raIMS9RkWQ
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 99-dv2-5-data-prep-data-vis-23-tau-shay-palachy-affek
+  notes: ''
+  description: Lecture slides
+- title: DV2 - Data Abstraction - Data Vis 23' @ TAU - Shay Palachy Affek
+  url: https://docs.google.com/presentation/d/14PJyNUpAVzZZZejbENF0eoU24gWQYZL0TJUSj7s18N0/edit?usp=drivesdk
+  kind: slides
+  week: null
+  section: Course Materials
+  source_file_id: 14PJyNUpAVzZZZejbENF0eoU24gWQYZL0TJUSj7s18N0
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 99-dv2-data-abstraction-data-vis-23-tau-shay-palachy-affek
+  notes: ''
+  description: Lecture slides
+- title: DV3 - Task Abstraction - Data Vis 23' @ TAU - Shay Palachy Affek
+  url: https://docs.google.com/presentation/d/1l2RxjByAHmT15zIGTTgFlzB_TkA94aRNICG1hizvFMI/edit?usp=drivesdk
+  kind: slides
+  week: null
+  section: Course Materials
+  source_file_id: 1l2RxjByAHmT15zIGTTgFlzB_TkA94aRNICG1hizvFMI
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 99-dv3-task-abstraction-data-vis-23-tau-shay-palachy-affek
+  notes: ''
+  description: Lecture slides
+- title: DV4 - Marks & Channels - Data Vis 23' @ TAU - Shay Palachy Affek
+  url: https://docs.google.com/presentation/d/1y8dxZnF9HsGFp4KoHNzjPUpHKvv6KXaxCY76HRmScVg/edit?usp=drivesdk
+  kind: slides
+  week: null
+  section: Course Materials
+  source_file_id: 1y8dxZnF9HsGFp4KoHNzjPUpHKvv6KXaxCY76HRmScVg
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 99-dv4-marks-channels-data-vis-23-tau-shay-palachy-affek
+  notes: ''
+  description: Lecture slides
+- title: DV6 - Chart Types - Data Vis 23' @ TAU - Shay Palachy Affek
+  url: https://docs.google.com/presentation/d/1pKOVZru9j4es_kWlHBiVPNEr73f_pqAg-WLHvD5vCLI/edit?usp=drivesdk
+  kind: slides
+  week: null
+  section: Course Materials
+  source_file_id: 1pKOVZru9j4es_kWlHBiVPNEr73f_pqAg-WLHvD5vCLI
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 99-dv6-chart-types-data-vis-23-tau-shay-palachy-affek
+  notes: ''
+  description: Lecture slides
+- title: DV7 - Manipulation & Arrangement - Data Vis 23' @ TAU - Shay Palachy Affek
+  url: https://docs.google.com/presentation/d/1wrAhMvtfEJEgLKY2QiJueh87ffAMRRklyPxKlBlQV8Q/edit?usp=drivesdk
+  kind: slides
+  week: null
+  section: Course Materials
+  source_file_id: 1wrAhMvtfEJEgLKY2QiJueh87ffAMRRklyPxKlBlQV8Q
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 99-dv7-manipulation-arrangement-data-vis-23-tau-shay-palachy-affek
+  notes: ''
+  description: Lecture slides
+- title: DV8 - Dashboards - Data Vis 23' @ TAU - Shay Palachy Affek
+  url: https://docs.google.com/presentation/d/1RkKdx3UTRP90v6FzWSTjkN-g94fCxDo1jIXKxqX7_Sw/edit?usp=drivesdk
+  kind: slides
+  week: null
+  section: Course Materials
+  source_file_id: 1RkKdx3UTRP90v6FzWSTjkN-g94fCxDo1jIXKxqX7_Sw
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 99-dv8-dashboards-data-vis-23-tau-shay-palachy-affek
+  notes: ''
+  description: Lecture slides
+- title: DV9 - Data-Driven Storytelling - Data Vis 23' @ TAU - Shay Palachy Affek
+  url: https://docs.google.com/presentation/d/1cwfZj6JDJJ3JClLCMVAiSCeJ09cjnrFFTjTt8eirqzE/edit?usp=drivesdk
+  kind: slides
+  week: null
+  section: Course Materials
+  source_file_id: 1cwfZj6JDJJ3JClLCMVAiSCeJ09cjnrFFTjTt8eirqzE
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 99-dv9-data-driven-storytelling-data-vis-23-tau-shay-palachy-affek
+  notes: ''
+  description: Lecture slides
+- title: T1 - Intro to Tableau - Data Vis 23' @ TAU - Shay Palachy Affek
+  url: https://docs.google.com/presentation/d/1oJaDzfSOA-gk7zKpcd5X8x9eMYfLFK_xdvtC-AjRAqg/edit?usp=drivesdk
+  kind: slides
+  week: null
+  section: Course Materials
+  source_file_id: 1oJaDzfSOA-gk7zKpcd5X8x9eMYfLFK_xdvtC-AjRAqg
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 99-t1-intro-to-tableau-data-vis-23-tau-shay-palachy-affek
+  notes: ''
+  description: Lecture slides
+- title: Data Vis 22-23B - Outline
+  url: https://docs.google.com/spreadsheets/d/1zFF-1da-jDyHz_oKpb28JgltV4de8asMm-6KtlhaKwg/edit?usp=drivesdk
+  kind: outline
+  week: null
+  section: Course Outline
+  source_file_id: 1zFF-1da-jDyHz_oKpb28JgltV4de8asMm-6KtlhaKwg
+  source_mime_type: application/vnd.google-apps.spreadsheet
+  published: true
+  sort_key: 99-data-vis-22-23b-outline
+  notes: ''
+  description: Course outline

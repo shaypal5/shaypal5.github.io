@@ -12,9 +12,28 @@ I'm teaching Deep Learning, Natural Language Processing and Data Visualization (
 
 #### Courses
 
+* [Deep Learning](/teaching/deep-learning)
+* [Text Mining](/teaching/text-mining)
 * [Intro to ML @ MTA](/teaching/econml)
 * [Managing Data Science Teams @ DataNights](/teaching/datanights)
+* [Data Vis](/teaching/data-vis)
 * [Big Data Technologies TA @ TAU](/teaching/bigdata22)
+
+|
+
+## Deep Learning
+
+I teach Deep Learning at Tel Aviv University as a hands-on course on modern neural networks, spanning optimization, CNNs, sequence models, transformers, and generative modeling in PyTorch.
+
+[Course page is here](/teaching/deep-learning)
+
+|
+
+## Text Mining
+
+I teach Text Mining at Tel Aviv University, covering classical NLP, representation learning, transformers, and modern LLM-based workflows for working with text as data.
+
+[Course page is here](/teaching/text-mining)
 
 |
 
@@ -31,6 +50,14 @@ I lecture on machine learning for B.Sc. students of Economics and Management at 
 DataNights' Data Science Management program is a cohort-based course for current and aspiring data science leaders, built around real management challenges, experienced guest speakers, and practical frameworks for leading teams and projects.
 
 [Course page is here](/teaching/datanights)
+
+|
+
+## Data Vis
+
+I teach Data Visualization at Tel Aviv University, covering visual encoding, dashboard design, storytelling, and the practical craft of turning complex data into clear visual arguments.
+
+[Course page is here](/teaching/data-vis)
 
 |
 
