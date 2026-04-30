@@ -61,4 +61,4 @@ Purpose: personal Jekyll site plus local Python automation for teaching-content 
 - Render: `python3 -m automation.cli courses render`
 - Validate: `python3 -m automation.cli courses validate`
 - Plan diff: `python3 -m automation.cli courses plan`
-- Build: `bundle exec jekyll build`
+- Build: `RBENV_VERSION=3.3.0 bundle exec jekyll build`

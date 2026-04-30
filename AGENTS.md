@@ -14,7 +14,7 @@
 - Validate teaching content: `python3 -m automation.cli courses validate`
 - Preview rendered diffs: `python3 -m automation.cli courses plan`
 - Backfill from Google Drive: `python3 -m automation.cli courses backfill --dry-run`
-- Build the site: `bundle exec jekyll build`
+- Build the site: `RBENV_VERSION=3.3.0 bundle exec jekyll build`
 
 ## Editing Rules
 - Do not hand-edit generated teaching pages unless you are also updating the renderer or canonical data.
