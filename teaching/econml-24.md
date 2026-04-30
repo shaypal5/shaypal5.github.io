@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Intro to ML @ MTA
-subtitle: Course page for MTA, Semester B
+subtitle: Course page for MTA, 24/25
 ---
 
 <!-- GENERATED: edit data/teaching or automation sources instead of this file. -->

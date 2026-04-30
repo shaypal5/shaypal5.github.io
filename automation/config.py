@@ -38,6 +38,11 @@ class Paths:
     materials_root: Path
     teaching_root: Path
     teaching_index: Path
+    preview_root: Path
+    preview_teaching_root: Path
+    preview_teaching_index: Path
+    preview_site_source_root: Path
+    preview_site_build_root: Path
 
 
 def repo_root() -> Path:
@@ -52,6 +57,11 @@ def build_paths(root: Path | None = None) -> Paths:
         materials_root=resolved / "data" / "teaching" / "materials",
         teaching_root=resolved / "teaching",
         teaching_index=resolved / "teaching.md",
+        preview_root=resolved / ".automation-preview",
+        preview_teaching_root=resolved / ".automation-preview" / "teaching",
+        preview_teaching_index=resolved / ".automation-preview" / "teaching.md",
+        preview_site_source_root=resolved / ".automation-preview" / "site-src",
+        preview_site_build_root=resolved / ".automation-preview" / "site",
     )
 
 

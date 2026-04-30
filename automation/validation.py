@@ -7,7 +7,7 @@ from urllib.parse import urlparse
 from automation.config import GENERATED_HEADER, Paths
 from automation.data_io import load_courses, load_materials
 from automation.models import REQUIRED_COURSE_FIELDS, REQUIRED_MATERIAL_FIELDS, Course, Material
-from automation.rendering import inject_managed_block, render_course_page, render_teaching_block
+from automation.rendering import inject_managed_block, render_course_page, render_teaching_block, visible_courses
 
 
 SUPPORTED_HOSTS = {
@@ -99,7 +99,7 @@ def validate_generated_files(paths: Paths, courses: list[Course], materials_by_s
         content = target.read_text(encoding="utf-8")
         if GENERATED_HEADER not in content:
             errors.append(f"{target}: missing generated file header.")
-        expected = render_course_page(course, materials_by_slug.get(course.slug, []))
+        expected = render_course_page(course, materials_by_slug.get(course.slug, []), courses=courses)
         if content != expected:
             errors.append(f"{target}: stale generated content. Run courses render.")
     teaching_current = paths.teaching_index.read_text(encoding="utf-8")
@@ -116,11 +116,14 @@ def validate_generated_files(paths: Paths, courses: list[Course], materials_by_s
 def validate_internal_links(paths: Paths, courses: list[Course]) -> list[str]:
     errors: list[str] = []
     teaching_content = paths.teaching_index.read_text(encoding="utf-8")
-    for course in courses:
+    linked_courses = visible_courses(courses)
+    for course in linked_courses:
         expected = f"/teaching/{course.slug}"
         if expected not in teaching_content:
             errors.append(f"{paths.teaching_index}: missing internal link to {expected}")
-        if not (paths.teaching_root / f"{course.slug}.md").exists():
+    for course in courses:
+        expected = f"/teaching/{course.slug}"
+        if expected in teaching_content and not (paths.teaching_root / f"{course.slug}.md").exists():
             errors.append(f"Internal link target missing for {expected}")
     return errors
 

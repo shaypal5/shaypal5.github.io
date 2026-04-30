@@ -6,19 +6,15 @@ subtitle: I teach on various data science topics at different institutions.
 
 I'm teaching Deep Learning, Natural Language Processing and Data Visualization (three separate courses) at the [Coller School of Management](https://en-coller.tau.ac.il/) at Tel Aviv University, an introductory course on Machine Learning at the [The Academic College of Tel Aviv-Yaffo](https://www.mta.ac.il/program/management_economics_ba) and [a course on managing data science teams](https://datanights-il.github.io/dsmgmt/) as part of our [DataNights program](https://datanights-il.github.io/). 
 
-
-{% include teach_toc.html %}
-
 |
 
 <!-- BEGIN GENERATED: teaching-courses -->
 
 #### Courses
 
-* [Intro to ML @ MTA](/teaching/econml25)
-* [Managing Data Science Teams @ DataNights](/teaching/datanights22)
+* [Intro to ML @ MTA](/teaching/econml)
+* [Managing Data Science Teams @ DataNights](/teaching/datanights)
 * [Big Data Technologies TA @ TAU](/teaching/bigdata22)
-* [Data Vis @ TAU](/teaching/datavis22)
 
 |
 
@@ -26,15 +22,15 @@ I'm teaching Deep Learning, Natural Language Processing and Data Visualization (
 
 I lecture on machine learning for B.Sc. students of Economics and Management at The Academic College of Tel Aviv-Yaffo.
 
-[Course page is here](/teaching/econml25)
+[Course page is here](/teaching/econml)
 
 |
 
 ## Managing Data Science Teams @ DataNights
 
-I taught a course on managing data science teams as part of the DataNights program.
+DataNights' Data Science Management program is a cohort-based course for current and aspiring data science leaders, built around real management challenges, experienced guest speakers, and practical frameworks for leading teams and projects.
 
-[Course page is here](/teaching/datanights22)
+[Course page is here](/teaching/datanights)
 
 |
 
@@ -43,13 +39,5 @@ I taught a course on managing data science teams as part of the DataNights progr
 I served as a Teaching Assistant for the Intro to Big Data Technologies course at Tel Aviv University during the 22'-23' academic year.
 
 [Course page is here](/teaching/bigdata22)
-
-|
-
-## Data Vis @ TAU
-
-I lecture on data visualization at The Coller School of Management at Tel Aviv University for both semesters of the 22'-23' academic year.
-
-[Course page is here](/teaching/datavis22)
 
 <!-- END GENERATED: teaching-courses -->

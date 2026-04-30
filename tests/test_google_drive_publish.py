@@ -47,18 +47,18 @@ class GoogleDrivePublishTests(unittest.TestCase):
     def test_drive_client_get_and_queries(self) -> None:
         client = DriveClient(access_token="token")
         ok = mock.Mock(status_code=200)
-        ok.json.return_value = {"files": [{"id": "1"}]}
+        ok.json.return_value = {"files": [{"id": "1", "name": "Valid Course 24 CF"}]}
         with mock.patch("automation.google_drive.requests.get", return_value=ok) as get, \
             mock.patch("automation.google_drive.drive_roots", return_value=["root-a", "root-b"]):
             folders = client.discover_course_folders(limit=1)
-            self.assertEqual(folders, [{"id": "1"}])
+            self.assertEqual(folders, [{"id": "1", "name": "Valid Course 24 CF"}])
             params = get.call_args.kwargs["params"]
             self.assertIn("'root-a' in parents", params["q"])
             items = client.list_folder_items("folder-1")
-            self.assertEqual(items, [{"id": "1"}])
+            self.assertEqual(items, [{"id": "1", "name": "Valid Course 24 CF"}])
         with mock.patch("automation.google_drive.requests.get", return_value=ok), \
             mock.patch("automation.google_drive.drive_roots", return_value=[]):
-            self.assertEqual(client.discover_course_folders(limit=None), [{"id": "1"}])
+            self.assertEqual(client.discover_course_folders(limit=None), [{"id": "1", "name": "Valid Course 24 CF"}])
 
         bad = mock.Mock(status_code=500, text="nope")
         bad.json.return_value = {}
@@ -72,26 +72,54 @@ class GoogleDrivePublishTests(unittest.TestCase):
             client,
             "_get",
             side_effect=[
-                {"files": [{"id": "1"}, {"id": "2"}], "nextPageToken": "page-2"},
-                {"files": [{"id": "3"}]},
+                {
+                    "files": [
+                        {"id": "1", "name": "cf"},
+                        {"id": "2", "name": "Real Course 24 CF"},
+                    ],
+                    "nextPageToken": "page-2",
+                },
+                {"files": [{"id": "3", "name": "Real Course 25 CF"}]},
             ],
         ) as get, mock.patch("automation.google_drive.drive_roots", return_value=[]):
             self.assertEqual(
                 client.discover_course_folders(limit=None),
-                [{"id": "1"}, {"id": "2"}, {"id": "3"}],
+                [
+                    {"id": "2", "name": "Real Course 24 CF"},
+                    {"id": "3", "name": "Real Course 25 CF"},
+                ],
             )
             self.assertNotIn("pageToken", get.call_args_list[0].args[1])
             self.assertEqual(get.call_args_list[1].args[1]["pageToken"], "page-2")
+            self.assertEqual(get.call_args_list[0].args[1]["pageSize"], 200)
 
         with mock.patch.object(
             client,
             "_get",
             side_effect=[
-                {"files": [{"id": "1"}, {"id": "2"}], "nextPageToken": "page-2"},
-                {"files": [{"id": "3"}, {"id": "4"}]},
+                {
+                    "files": [
+                        {"id": "1", "name": "cf"},
+                        {"id": "2", "name": "Real Course 24 CF"},
+                    ],
+                    "nextPageToken": "page-2",
+                },
+                {
+                    "files": [
+                        {"id": "3", "name": "Real Course 25 CF"},
+                        {"id": "4", "name": "Real Course 26 CF"},
+                    ]
+                },
             ],
         ), mock.patch("automation.google_drive.drive_roots", return_value=[]):
-            self.assertEqual(client.discover_course_folders(limit=3), [{"id": "1"}, {"id": "2"}, {"id": "3"}])
+            self.assertEqual(
+                client.discover_course_folders(limit=3),
+                [
+                    {"id": "2", "name": "Real Course 24 CF"},
+                    {"id": "3", "name": "Real Course 25 CF"},
+                    {"id": "4", "name": "Real Course 26 CF"},
+                ],
+            )
 
         with mock.patch.object(client, "_get") as get, \
             mock.patch("automation.google_drive.drive_roots", return_value=[]):
@@ -108,6 +136,141 @@ class GoogleDrivePublishTests(unittest.TestCase):
         ) as get:
             self.assertEqual(client.list_folder_items("folder-1"), [{"id": "a"}, {"id": "b"}])
             self.assertEqual(get.call_args_list[1].args[1]["pageToken"], "page-2")
+
+    def test_drive_client_lists_folder_items_recursively(self) -> None:
+        client = DriveClient(access_token="token")
+        with mock.patch.object(
+            client,
+            "list_folder_items",
+            side_effect=[
+                [
+                    {"id": "slides-folder", "name": "Slides", "mimeType": "application/vnd.google-apps.folder"},
+                    {"id": "admin-folder", "name": "Admin", "mimeType": "application/vnd.google-apps.folder"},
+                    {"id": "root-file", "name": "Root deck", "mimeType": "application/pdf"},
+                ],
+                [
+                    {"id": "nested-file", "name": "Lecture deck", "mimeType": "application/pdf"},
+                ],
+            ],
+        ) as list_items:
+            items = client.list_folder_items_recursive(
+                "folder-1",
+                should_descend=lambda item: item.get("name") == "Slides",
+            )
+        self.assertEqual(
+            items,
+            [
+                {"id": "root-file", "name": "Root deck", "mimeType": "application/pdf"},
+                {"id": "nested-file", "name": "Lecture deck", "mimeType": "application/pdf"},
+            ],
+        )
+        self.assertEqual(list_items.call_args_list[0].args[0], "folder-1")
+        self.assertEqual(list_items.call_args_list[1].args[0], "slides-folder")
+
+        with mock.patch.object(
+            client,
+            "list_folder_items",
+            side_effect=[
+                [{"id": "slides-folder", "name": "Slides", "mimeType": "application/vnd.google-apps.folder"}],
+                [{"id": "folder-1", "name": "Root Loop", "mimeType": "application/vnd.google-apps.folder"}],
+            ],
+        ):
+            loop_items = client.list_folder_items_recursive(
+                "folder-1",
+                should_descend=lambda _item: True,
+            )
+        self.assertEqual(loop_items, [])
+
+    def test_drive_client_export_file_text(self) -> None:
+        client = DriveClient(access_token="token")
+        ok = mock.Mock(status_code=200, text="garbled", content="hello".encode("utf-8"))
+        with mock.patch("automation.google_drive.requests.get", return_value=ok) as get:
+            self.assertEqual(client.export_file_text("file-1", "text/plain"), "hello")
+            self.assertIn("/files/file-1/export", get.call_args.args[0])
+
+        bom = mock.Mock(status_code=200, text="garbled", content=b"\xef\xbb\xbf\xd7\xa9\xd7\x9c\xd7\x95\xd7\x9d")
+        with mock.patch("automation.google_drive.requests.get", return_value=bom):
+            self.assertEqual(client.export_file_text("file-2", "text/plain"), "שלום")
+
+        bad = mock.Mock(status_code=404, text="missing")
+        with mock.patch("automation.google_drive.requests.get", return_value=bad):
+            with self.assertRaises(DiscoveryError):
+                client.export_file_text("file-1", "text/plain")
+
+    def test_drive_client_download_and_read_syllabus_source_text(self) -> None:
+        client = DriveClient(access_token="token")
+        ok = mock.Mock(status_code=200, content=b"payload")
+        with mock.patch("automation.google_drive.requests.get", return_value=ok) as get:
+            self.assertEqual(client.download_file_bytes("file-1"), b"payload")
+            self.assertIn("/files/file-1", get.call_args.args[0])
+            self.assertEqual(get.call_args.kwargs["params"]["alt"], "media")
+
+        bad = mock.Mock(status_code=404, text="missing")
+        with mock.patch("automation.google_drive.requests.get", return_value=bad):
+            with self.assertRaises(DiscoveryError):
+                client.download_file_bytes("file-2")
+
+        with mock.patch.object(client, "export_file_text", return_value="doc text") as export:
+            self.assertEqual(
+                client.read_syllabus_source_text("doc-1", "application/vnd.google-apps.document"),
+                "doc text",
+            )
+            export.assert_called_once_with("doc-1", "text/plain")
+
+        with mock.patch.object(client, "export_file_text", return_value="sheet text") as export:
+            self.assertEqual(
+                client.read_syllabus_source_text("sheet-1", "application/vnd.google-apps.spreadsheet"),
+                "sheet text",
+            )
+            export.assert_called_once_with("sheet-1", "text/tab-separated-values")
+
+        with mock.patch.object(client, "download_file_bytes") as download:
+            from io import BytesIO
+            from zipfile import ZipFile
+
+            buffer = BytesIO()
+            with ZipFile(buffer, "w") as archive:
+                archive.writestr(
+                    "word/document.xml",
+                    (
+                        '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+                        "<w:body>"
+                        "<w:p><w:r><w:t>Intro</w:t></w:r></w:p>"
+                        "<w:p><w:r><w:t>Bullet 1</w:t></w:r></w:p>"
+                        "</w:body></w:document>"
+                    ),
+                )
+            download.return_value = buffer.getvalue()
+            self.assertEqual(
+                client.read_syllabus_source_text(
+                    "docx-1",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                ),
+                "Intro\n\nBullet 1",
+            )
+
+            buffer = BytesIO()
+            with ZipFile(buffer, "w") as archive:
+                archive.writestr(
+                    "word/document.xml",
+                    (
+                        '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+                        "<w:body>"
+                        "<w:p><w:r><w:t>Before</w:t></w:r><w:r><w:tab/></w:r><w:r><w:t>After</w:t></w:r></w:p>"
+                        "<w:p><w:r><w:t>Line 1</w:t></w:r><w:r><w:br/></w:r><w:r><w:t>Line 2</w:t></w:r></w:p>"
+                        "</w:body></w:document>"
+                    ),
+                )
+            download.return_value = buffer.getvalue()
+            self.assertEqual(
+                client.read_syllabus_source_text(
+                    "docx-2",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                ),
+                "Before\tAfter\n\nLine 1\nLine 2",
+            )
+
+        self.assertEqual(client.read_syllabus_source_text("x", "application/pdf"), "")
 
     def test_publish_helpers(self) -> None:
         good = subprocess.CompletedProcess(args=["git"], returncode=0, stdout="ok\n", stderr="")

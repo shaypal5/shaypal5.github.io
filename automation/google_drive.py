@@ -1,13 +1,21 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from io import BytesIO
+from typing import Callable
+from zipfile import ZipFile
 
 import requests
+from xml.etree import ElementTree
 
 from automation.config import AuthConfigError, DiscoveryError, drive_roots, required_google_env
+from automation.naming import is_valid_course_folder_name
 
 
 TOKEN_SCOPES = "https://www.googleapis.com/auth/drive.readonly"
+GOOGLE_DOC_MIME = "application/vnd.google-apps.document"
+GOOGLE_SHEET_MIME = "application/vnd.google-apps.spreadsheet"
+DOCX_MIME = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 
 
 @dataclass
@@ -46,6 +54,37 @@ class DriveClient:
             raise DiscoveryError(f"Google Drive API request failed for {path}: {response.text}")
         return response.json()
 
+    def export_file_text(self, file_id: str, mime_type: str) -> str:
+        response = requests.get(
+            f"https://www.googleapis.com/drive/v3/files/{file_id}/export",
+            headers={"Authorization": f"Bearer {self.access_token}"},
+            params={"mimeType": mime_type},
+            timeout=30,
+        )
+        if response.status_code != 200:
+            raise DiscoveryError(f"Google Drive export failed for {file_id}: {response.text}")
+        return response.content.decode("utf-8-sig", errors="replace")
+
+    def download_file_bytes(self, file_id: str) -> bytes:
+        response = requests.get(
+            f"https://www.googleapis.com/drive/v3/files/{file_id}",
+            headers={"Authorization": f"Bearer {self.access_token}"},
+            params={"alt": "media", "supportsAllDrives": "true"},
+            timeout=30,
+        )
+        if response.status_code != 200:
+            raise DiscoveryError(f"Google Drive download failed for {file_id}: {response.text}")
+        return response.content
+
+    def read_syllabus_source_text(self, file_id: str, source_mime_type: str) -> str:
+        if source_mime_type == GOOGLE_DOC_MIME:
+            return self.export_file_text(file_id, "text/plain")
+        if source_mime_type == GOOGLE_SHEET_MIME:
+            return self.export_file_text(file_id, "text/tab-separated-values")
+        if source_mime_type == DOCX_MIME:
+            return _extract_docx_text(self.download_file_bytes(file_id))
+        return ""
+
     def discover_course_folders(self, limit: int | None = None) -> list[dict]:
         queries = ["mimeType='application/vnd.google-apps.folder'", "trashed=false", "name contains ' CF'"]
         roots = drive_roots()
@@ -66,7 +105,6 @@ class DriveClient:
             remaining = None if limit is None else limit - len(files)
             if remaining is not None and remaining <= 0:
                 break
-            params["pageSize"] = min(remaining or 200, 200)
             if page_token:
                 params["pageToken"] = page_token
             else:
@@ -75,7 +113,10 @@ class DriveClient:
                 "files",
                 params.copy(),
             )
-            files.extend(payload.get("files", []))
+            page_files = [
+                item for item in payload.get("files", []) if is_valid_course_folder_name(item.get("name", ""))
+            ]
+            files.extend(page_files)
             page_token = payload.get("nextPageToken")
             if not page_token:
                 break
@@ -105,3 +146,51 @@ class DriveClient:
             if not page_token:
                 break
         return files
+
+    def list_folder_items_recursive(
+        self,
+        folder_id: str,
+        should_descend: Callable[[dict], bool],
+    ) -> list[dict]:
+        files: list[dict] = []
+        pending: list[str] = [folder_id]
+        seen: set[str] = set()
+        while pending:
+            current_folder = pending.pop()
+            if current_folder in seen:
+                continue
+            seen.add(current_folder)
+            for item in self.list_folder_items(current_folder):
+                if item.get("mimeType") == "application/vnd.google-apps.folder":
+                    child_folder_id = item.get("id", "")
+                    if child_folder_id and should_descend(item):
+                        pending.append(child_folder_id)
+                    continue
+                files.append(item)
+        return files
+
+
+def _extract_docx_text(payload: bytes) -> str:
+    try:
+        with ZipFile(BytesIO(payload)) as archive:
+            document_xml = archive.read("word/document.xml")
+    except Exception as exc:  # pragma: no cover - normalized into DiscoveryError by caller
+        raise DiscoveryError(f"Failed to read DOCX syllabus content: {exc}") from exc
+
+    namespace = {"w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main"}
+    root = ElementTree.fromstring(document_xml)
+    paragraphs: list[str] = []
+    for paragraph in root.findall(".//w:body/w:p", namespace):
+        parts: list[str] = []
+        for node in paragraph.iter():
+            tag = node.tag.rsplit("}", 1)[-1]
+            if tag == "t" and node.text:
+                parts.append(node.text)
+            elif tag == "tab":
+                parts.append("\t")
+            elif tag in {"br", "cr"}:
+                parts.append("\n")
+        text = "".join(parts).strip()
+        if text:
+            paragraphs.append(text)
+    return "\n\n".join(paragraphs)

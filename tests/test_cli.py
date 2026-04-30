@@ -1,8 +1,10 @@
 import argparse
 import contextlib
 import io
+import subprocess
 import tempfile
 import unittest
+from dataclasses import replace
 from pathlib import Path
 from types import SimpleNamespace
 from unittest import mock
@@ -51,27 +53,163 @@ class CliTests(unittest.TestCase):
             cli._print_json({"b": 2, "a": 1})
         self.assertIn('"a": 1', buffer.getvalue())
 
+    def test_log_and_preview_helpers(self) -> None:
+        buffer = io.StringIO()
+        with contextlib.redirect_stderr(buffer):
+            cli._log("hello")
+        self.assertIn("[teaching-automation] hello", buffer.getvalue())
+        self.assertEqual(cli._preview("short"), "short")
+        self.assertTrue(cli._preview("x" * 130).endswith("..."))
+        self.assertTrue(cli.is_valid_course_folder_name("Big Data CF"))
+        self.assertFalse(cli.is_valid_course_folder_name("cf"))
+        self.assertFalse(cli.is_valid_course_folder_name("CF"))
+        self.assertFalse(cli.is_valid_course_folder_name("Cf"))
+        self.assertFalse(cli.is_valid_course_folder_name("cF"))
+        self.assertFalse(cli.is_valid_course_folder_name("Big Data Cf"))
+        self.assertFalse(cli.is_valid_course_folder_name(" CF"))
+
     def test_cmd_render_plan_and_validate(self) -> None:
-        with mock.patch.object(cli, "build_paths", return_value=object()), \
-            mock.patch.object(cli, "load_courses", return_value=[sample_course()]), \
-            mock.patch.object(cli, "load_materials", return_value=[sample_material()]), \
-            mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=["M teaching.md"])) as render, \
-            mock.patch.object(cli, "validate_repository", return_value=[]), \
-            mock.patch.object(cli, "_print_json") as print_json:
-            self.assertEqual(cli.cmd_render(argparse.Namespace()), 0)
-            render.assert_called_with(mock.ANY, mock.ANY, mock.ANY, dry_run=False)
-            self.assertEqual(cli.cmd_plan(argparse.Namespace()), 0)
-            render.assert_called_with(mock.ANY, mock.ANY, mock.ANY, dry_run=True)
-            self.assertEqual(cli.cmd_validate(argparse.Namespace()), 0)
-            print_json.assert_called()
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_paths(Path(tmp))
+            paths.teaching_index.write_text(
+                "\n".join(["---", "layout: page", "title: Teaching", "---", "", "<!-- BEGIN GENERATED: teaching-courses -->", "<!-- END GENERATED: teaching-courses -->", ""]),
+                encoding="utf-8",
+            )
+            with mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "load_courses", return_value=[sample_course()]), \
+                mock.patch.object(cli, "load_materials", return_value=[sample_material()]), \
+                mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=["M teaching.md"])) as render, \
+                mock.patch.object(cli, "validate_repository", return_value=[]), \
+                mock.patch.object(cli, "_print_json") as print_json:
+                self.assertEqual(cli.cmd_render(argparse.Namespace()), 0)
+                render.assert_called_with(mock.ANY, mock.ANY, mock.ANY, dry_run=False)
+                self.assertEqual(cli.cmd_plan(argparse.Namespace()), 0)
+                render.assert_called_with(mock.ANY, mock.ANY, mock.ANY, dry_run=True)
+                self.assertEqual(cli.cmd_validate(argparse.Namespace()), 0)
+                print_json.assert_called()
 
     def test_cmd_validate_prints_errors(self) -> None:
         buffer = io.StringIO()
-        with mock.patch.object(cli, "build_paths", return_value=object()), \
-            mock.patch.object(cli, "validate_repository", return_value=["bad data"]), \
-            contextlib.redirect_stderr(buffer):
-            self.assertEqual(cli.cmd_validate(argparse.Namespace()), 1)
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_paths(Path(tmp))
+            with mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "validate_repository", return_value=["bad data"]), \
+                contextlib.redirect_stderr(buffer):
+                self.assertEqual(cli.cmd_validate(argparse.Namespace()), 1)
         self.assertIn("bad data", buffer.getvalue())
+
+    def test_cmd_clean_preview(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_paths(Path(tmp))
+            paths.preview_root.mkdir(parents=True, exist_ok=True)
+            (paths.preview_root / "file.md").write_text("preview", encoding="utf-8")
+            with mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "_print_json") as print_json:
+                self.assertEqual(cli.cmd_clean_preview(argparse.Namespace()), 0)
+            print_json.assert_called_with(
+                {
+                    "action": "clean-preview",
+                    "removed": True,
+                    "preview_root": paths.preview_root.as_posix(),
+                }
+            )
+            with mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "_print_json") as print_json:
+                self.assertEqual(cli.cmd_clean_preview(argparse.Namespace()), 0)
+            print_json.assert_called_with(
+                {
+                    "action": "clean-preview",
+                    "removed": False,
+                    "preview_root": paths.preview_root.as_posix(),
+                }
+            )
+
+    def test_cmd_preview_site(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_paths(Path(tmp))
+            source_root = paths.preview_site_source_root
+            build_root = paths.preview_site_build_root
+            with mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "build_preview_site", return_value=(source_root, build_root)), \
+                mock.patch.object(cli, "_print_json") as print_json:
+                self.assertEqual(
+                    cli.cmd_preview_site(
+                        argparse.Namespace(
+                            serve=False,
+                            host="127.0.0.1",
+                            port=4001,
+                            bundle_command="bundle",
+                        )
+                    ),
+                    0,
+                )
+                print_json.assert_called_with(
+                    {
+                        "action": "preview-site",
+                        "mode": "build",
+                        "preview_source_root": source_root.as_posix(),
+                        "preview_build_root": build_root.as_posix(),
+                        "index_file": (build_root / "index.html").as_posix(),
+                    }
+                )
+
+            with mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "serve_preview_site", return_value=(source_root, build_root)), \
+                mock.patch.object(cli, "_print_json") as print_json:
+                self.assertEqual(
+                    cli.cmd_preview_site(
+                        argparse.Namespace(
+                            serve=True,
+                            host="127.0.0.1",
+                            port=4002,
+                            bundle_command="bundle",
+                        )
+                    ),
+                    0,
+                )
+                print_json.assert_called_with(
+                    {
+                        "action": "preview-site",
+                        "mode": "serve",
+                        "preview_source_root": source_root.as_posix(),
+                        "preview_build_root": build_root.as_posix(),
+                        "url": "http://127.0.0.1:4002",
+                    }
+                )
+
+            buffer = io.StringIO()
+            with mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "build_preview_site", side_effect=FileNotFoundError("no preview")), \
+                contextlib.redirect_stderr(buffer):
+                self.assertEqual(
+                    cli.cmd_preview_site(
+                        argparse.Namespace(
+                            serve=False,
+                            host="127.0.0.1",
+                            port=4001,
+                            bundle_command="bundle",
+                        )
+                    ),
+                    1,
+                )
+            self.assertIn("no preview", buffer.getvalue())
+
+            buffer = io.StringIO()
+            with mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "build_preview_site", side_effect=subprocess.CalledProcessError(1, ["bundle"])), \
+                contextlib.redirect_stderr(buffer):
+                self.assertEqual(
+                    cli.cmd_preview_site(
+                        argparse.Namespace(
+                            serve=False,
+                            host="127.0.0.1",
+                            port=4001,
+                            bundle_command="bundle",
+                        )
+                    ),
+                    1,
+                )
+            self.assertIn("returned non-zero exit status 1", buffer.getvalue())
 
     def test_merged_course_and_discover_materials(self) -> None:
         course = sample_course(summary="")
@@ -82,14 +220,173 @@ class CliTests(unittest.TestCase):
         inferred = cli._merged_course({}, {"id": "folder-2", "name": "Other CF"})
         self.assertEqual(inferred.source_drive_folder_id, "folder-2")
 
+        kept_summary = cli._merged_course(
+            {"folder-1": sample_course(summary="Already set")},
+            {"id": "folder-1", "name": "Folder CF"},
+        )
+        self.assertEqual(kept_summary.summary, "Already set")
+
+        generalized = cli._merged_course({}, {"id": "folder-3", "name": "Deep Learning - Generalized CF"})
+        self.assertEqual(generalized.slug, "deep-learning")
+        self.assertIn("modern neural networks", generalized.summary)
+        self.assertIn("opening_paragraph", generalized.manual_overrides)
+
         client = mock.Mock()
-        client.list_folder_items.return_value = [
+        client.list_folder_items_recursive.return_value = [
             {"mimeType": "application/vnd.google-apps.folder"},
             {"id": "f", "name": "Deck", "mimeType": "application/pdf", "webViewLink": "https://example.com"},
         ]
-        materials = cli._discover_materials(client, "folder-1")
+        materials = cli._discover_materials(client, sample_course(folder_id="folder-1"))
         self.assertEqual(len(materials), 1)
         self.assertEqual(materials[0].title, "Deck")
+        client.list_folder_items.assert_not_called()
+        client.list_folder_items_recursive.assert_called_once()
+
+        generalized_course = sample_course(slug="data-vis", folder_id="folder-2")
+        generalized_course.is_generalized = True
+        client = mock.Mock()
+        client.list_folder_items_recursive.return_value = [
+            {"id": "f", "name": "Lecture Deck", "mimeType": "application/vnd.google-apps.presentation", "webViewLink": "https://example.com/deck"},
+        ]
+        materials = cli._discover_materials(client, generalized_course)
+        self.assertEqual(len(materials), 1)
+        self.assertEqual(materials[0].title, "Lecture Deck")
+        client.list_folder_items.assert_not_called()
+        client.list_folder_items_recursive.assert_called_once()
+
+    def test_attach_syllabus_content(self) -> None:
+        client = mock.Mock()
+        client.read_syllabus_source_text.return_value = "Week\tTopic\n1\tIntro\n"
+        course = sample_course(slug="data-vis-22b")
+        materials = [
+            Material(
+                title="Outline sheet",
+                url="https://example.com/outline",
+                kind="outline",
+                source_file_id="sheet-1",
+                source_mime_type="application/vnd.google-apps.spreadsheet",
+                published=True,
+                sort_key="01-outline",
+            )
+        ]
+        with mock.patch.dict("os.environ", {"OPENAI_API_KEY": ""}):
+            enriched = cli._attach_syllabus_content(client, course, materials)
+        self.assertEqual(enriched.syllabus_url, "https://example.com/outline")
+        self.assertIn('<table class="course-outline-table">', enriched.manual_overrides["syllabus_markdown"])
+
+        client.read_syllabus_source_text.side_effect = DiscoveryError("bad export")
+        with mock.patch.dict("os.environ", {"OPENAI_API_KEY": ""}):
+            fallback = cli._attach_syllabus_content(client, course, materials)
+        self.assertEqual(fallback.syllabus_url, "https://example.com/outline")
+        self.assertNotIn("syllabus_markdown", fallback.manual_overrides)
+
+        generalized = sample_course(slug="data-vis", folder_id="generalized-folder")
+        generalized.is_generalized = True
+        self.assertIs(cli._attach_syllabus_content(client, generalized, materials), generalized)
+
+        prefilled = sample_course(slug="data-vis-22b")
+        prefilled.manual_overrides["syllabus_markdown"] = "Existing markdown"
+        self.assertEqual(
+            cli._attach_syllabus_content(client, prefilled, materials).manual_overrides["syllabus_markdown"],
+            "Existing markdown",
+        )
+
+        missing_source = Material(
+            title="Missing source",
+            url="https://example.com/no-source",
+            kind="outline",
+            source_file_id="",
+            source_mime_type="application/vnd.google-apps.document",
+            published=True,
+            sort_key="00-missing-source",
+        )
+        with mock.patch.dict("os.environ", {"OPENAI_API_KEY": ""}):
+            unchanged = cli._attach_syllabus_content(client, sample_course(slug="unknown-25"), [missing_source])
+        self.assertNotIn("syllabus_markdown", unchanged.manual_overrides)
+
+    def test_attach_syllabus_content_falls_back_to_next_candidate(self) -> None:
+        client = mock.Mock()
+        client.read_syllabus_source_text.side_effect = [
+            "Course repository\nGoogle Calendar events for all lectures",
+            "Week\tTopic\n1\tIntro\n",
+        ]
+        course = sample_course(slug="data-vis-22a")
+        materials = [
+            Material(
+                title="Noisy outline doc",
+                url="https://example.com/doc",
+                kind="outline",
+                source_file_id="doc-1",
+                source_mime_type="application/vnd.google-apps.document",
+                published=True,
+                sort_key="00-doc",
+            ),
+            Material(
+                title="Clean outline sheet",
+                url="https://example.com/sheet",
+                kind="outline",
+                source_file_id="sheet-1",
+                source_mime_type="application/vnd.google-apps.spreadsheet",
+                published=True,
+                sort_key="01-sheet",
+            ),
+        ]
+
+        with mock.patch.dict("os.environ", {"OPENAI_API_KEY": ""}):
+            enriched = cli._attach_syllabus_content(client, course, materials)
+
+        self.assertEqual(enriched.syllabus_url, "https://example.com/doc")
+        self.assertIn("syllabus_markdown", enriched.manual_overrides)
+        self.assertIn('<table class="course-outline-table">', enriched.manual_overrides["syllabus_markdown"])
+        self.assertEqual(client.read_syllabus_source_text.call_count, 2)
+
+    def test_attach_syllabus_content_uses_family_fallback_when_all_candidates_are_rejected(self) -> None:
+        client = mock.Mock()
+        client.read_syllabus_source_text.side_effect = [
+            "Course repository\nGoogle Calendar events for all lectures",
+            "Done?\tWhat\tDetails\n\tValidate no holidays\t",
+        ]
+        course = sample_course(slug="data-vis-22a")
+        course.course_family = "data-vis"
+        materials = [
+            Material(
+                title="Noisy outline doc",
+                url="https://example.com/doc",
+                kind="outline",
+                source_file_id="doc-1",
+                source_mime_type="application/vnd.google-apps.document",
+                published=True,
+                sort_key="00-doc",
+            ),
+            Material(
+                title="Checklist sheet",
+                url="https://example.com/sheet",
+                kind="outline",
+                source_file_id="sheet-1",
+                source_mime_type="application/vnd.google-apps.spreadsheet",
+                published=True,
+                sort_key="01-sheet",
+            ),
+        ]
+
+        with mock.patch.dict("os.environ", {"OPENAI_API_KEY": ""}):
+            enriched = cli._attach_syllabus_content(client, course, materials)
+
+        self.assertIn("syllabus_markdown", enriched.manual_overrides)
+        self.assertIn("This semester covers the full workflow of data visualization", enriched.manual_overrides["syllabus_markdown"])
+        self.assertEqual(client.read_syllabus_source_text.call_count, 2)
+
+    def test_ensure_generalized_parents_skips_existing_and_singleton_unknown_family(self) -> None:
+        existing_parent = sample_course(slug="data-vis")
+        existing_parent.course_family = "data-vis"
+        existing_parent.is_generalized = True
+        child = sample_course(slug="data-vis-25a", folder_id="folder-a")
+        child.course_family = "data-vis"
+        singleton = sample_course(slug="singleton-25", folder_id="folder-s")
+        singleton.course_family = "singleton"
+        courses = cli._ensure_generalized_parents([existing_parent, child, singleton])
+        self.assertEqual(len([course for course in courses if course.slug == "data-vis"]), 1)
+        self.assertFalse(any(course.slug == "singleton" for course in courses))
 
     def test_backfill_dry_run_incremental_and_publish(self) -> None:
         existing = sample_course(slug="existing", folder_id="existing-folder")
@@ -109,42 +406,72 @@ class CliTests(unittest.TestCase):
             {"id": "skip-folder", "name": "Skip CF"},
             {"id": "folder-1", "name": "Fresh CF"},
         ]
-        with mock.patch("automation.google_drive.DriveClient.from_env", return_value=fake_client), \
-            mock.patch.object(cli, "build_paths", return_value=object()), \
-            mock.patch.object(cli, "load_courses", return_value=[existing]), \
-            mock.patch.object(cli, "_merged_course", side_effect=[sample_course(slug="skip", folder_id="skip-folder"), discovered_course]), \
-            mock.patch.object(cli, "_discover_materials", return_value=[sample_material()]), \
-            mock.patch.object(cli, "load_materials", return_value=[]), \
-            mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=["A teaching/fresh.md"])), \
-            mock.patch.object(cli, "_print_json") as print_json:
-            self.assertEqual(cli._backfill(args, incremental=False), 0)
-            print_json.assert_called_with(
-                {"action": "backfill", "courses": ["skip", "fresh"], "changed_files": ["A teaching/fresh.md"]}
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_paths(Path(tmp))
+            paths.teaching_root.mkdir(parents=True, exist_ok=True)
+            paths.teaching_index.write_text(
+                "\n".join(["---", "layout: page", "title: Teaching", "---", "", "<!-- BEGIN GENERATED: teaching-courses -->", "<!-- END GENERATED: teaching-courses -->", ""]),
+                encoding="utf-8",
             )
+            preview_files = [
+                paths.preview_teaching_root / "fresh.md",
+                paths.preview_teaching_index,
+            ]
+            with mock.patch("automation.google_drive.DriveClient.from_env", return_value=fake_client), \
+                mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "load_courses", return_value=[existing]), \
+                mock.patch.object(cli, "_merged_course", side_effect=[sample_course(slug="skip", folder_id="skip-folder"), discovered_course]), \
+                mock.patch.object(cli, "_discover_materials", return_value=[sample_material()]), \
+                mock.patch.object(
+                    cli,
+                    "_attach_syllabus_content",
+                    side_effect=lambda _client, course, _materials: replace(
+                        course,
+                        manual_overrides={"syllabus_markdown": "Inline syllabus"},
+                    ),
+                ), \
+                mock.patch.object(cli, "load_materials", return_value=[]), \
+                mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=["A teaching/fresh.md"])), \
+                mock.patch.object(cli, "write_preview_repository", return_value=[path.as_posix() for path in preview_files]), \
+                mock.patch.object(cli, "_print_json") as print_json, \
+                contextlib.redirect_stderr(io.StringIO()) as stderr:
+                self.assertEqual(cli._backfill(args, incremental=False), 0)
+                print_json.assert_called_with(
+                    {
+                        "action": "backfill",
+                        "courses": ["skip", "fresh"],
+                        "changed_files": ["A teaching/fresh.md"],
+                        "preview_root": paths.preview_root.as_posix(),
+                        "preview_files": [path.as_posix() for path in preview_files],
+                    }
+                )
+                self.assertIn("Extracted inline syllabus markdown for fresh.", stderr.getvalue())
 
         args.dry_run = False
         args.publish_pr = True
         fake_client.discover_course_folders.return_value = [{"id": "folder-1", "name": "Fresh CF"}]
-        with mock.patch("automation.google_drive.DriveClient.from_env", return_value=fake_client), \
-            mock.patch.object(cli, "build_paths", return_value=object()), \
-            mock.patch.object(cli, "load_courses", return_value=[existing]), \
-            mock.patch.object(cli, "_merged_course", return_value=discovered_course), \
-            mock.patch.object(cli, "_discover_materials", return_value=[sample_material()]), \
-            mock.patch.object(cli, "load_materials", return_value=[]), \
-            mock.patch.object(cli, "write_data"), \
-            mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
-            mock.patch.object(cli, "validate_repository", return_value=[]), \
-            mock.patch.object(cli, "publish_changes", return_value=SimpleNamespace(branch="codex/test", pr_url="https://example.com/pr")), \
-            mock.patch.object(cli, "_print_json") as print_json:
-            self.assertEqual(cli._backfill(args, incremental=True), 0)
-            print_json.assert_called_with(
-                {
-                    "action": "backfill",
-                    "courses": ["fresh"],
-                    "published_branch": "codex/test",
-                    "pr_url": "https://example.com/pr",
-                }
-            )
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_paths(Path(tmp))
+            with mock.patch("automation.google_drive.DriveClient.from_env", return_value=fake_client), \
+                mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "load_courses", return_value=[existing]), \
+                mock.patch.object(cli, "_merged_course", return_value=discovered_course), \
+                mock.patch.object(cli, "_discover_materials", return_value=[sample_material()]), \
+                mock.patch.object(cli, "load_materials", return_value=[]), \
+                mock.patch.object(cli, "write_data"), \
+                mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
+                mock.patch.object(cli, "validate_repository", return_value=[]), \
+                mock.patch.object(cli, "publish_changes", return_value=SimpleNamespace(branch="codex/test", pr_url="https://example.com/pr")), \
+                mock.patch.object(cli, "_print_json") as print_json:
+                self.assertEqual(cli._backfill(args, incremental=True), 0)
+                print_json.assert_called_with(
+                    {
+                        "action": "backfill",
+                        "courses": ["fresh"],
+                        "published_branch": "codex/test",
+                        "pr_url": "https://example.com/pr",
+                    }
+                )
 
     def test_backfill_validation_error_and_slug_filter(self) -> None:
         course = sample_course(slug="keep", folder_id="folder-keep")
@@ -163,16 +490,67 @@ class CliTests(unittest.TestCase):
             {"id": "folder-skip", "name": "Skip CF"},
             {"id": "folder-keep", "name": "Keep CF"},
         ]
-        with mock.patch("automation.google_drive.DriveClient.from_env", return_value=fake_client), \
-            mock.patch.object(cli, "build_paths", return_value=object()), \
-            mock.patch.object(cli, "load_courses", return_value=[]), \
-            mock.patch.object(cli, "_merged_course", side_effect=[sample_course(slug="skip", folder_id="folder-skip"), course]), \
-            mock.patch.object(cli, "_discover_materials", return_value=[]), \
-            mock.patch.object(cli, "write_data"), \
-            mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
-            mock.patch.object(cli, "validate_repository", return_value=["broken"]):
-            with self.assertRaises(ValidationError):
-                cli._backfill(args, incremental=False)
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_paths(Path(tmp))
+            with mock.patch("automation.google_drive.DriveClient.from_env", return_value=fake_client), \
+                mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "load_courses", return_value=[]), \
+                mock.patch.object(cli, "_merged_course", side_effect=[sample_course(slug="skip", folder_id="folder-skip"), course]), \
+                mock.patch.object(cli, "_discover_materials", return_value=[]), \
+                mock.patch.object(cli, "write_data"), \
+                mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
+                mock.patch.object(cli, "validate_repository", return_value=["broken"]):
+                with self.assertRaises(ValidationError):
+                    cli._backfill(args, incremental=False)
+
+    def test_backfill_skips_invalid_course_folder_names(self) -> None:
+        args = argparse.Namespace(
+            limit=None,
+            slug=None,
+            dry_run=True,
+            publish_pr=False,
+            branch="codex/test",
+            pr_title="PR",
+            pr_body="Body",
+            commit_message="Commit",
+        )
+        fake_client = mock.Mock()
+        fake_client.discover_course_folders.return_value = [
+            {"id": "placeholder-folder-1", "name": "cf"},
+            {"id": "placeholder-folder-2", "name": "Legacy Cf"},
+            {"id": "placeholder-folder-3", "name": " CF"},
+            {"id": "real-folder", "name": "Real Course 25 CF"},
+        ]
+        real_course = sample_course(slug="real-course-25", folder_id="real-folder")
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_paths(Path(tmp))
+            paths.teaching_index.write_text(
+                "\n".join(["---", "layout: page", "title: Teaching", "---", "", "<!-- BEGIN GENERATED: teaching-courses -->", "<!-- END GENERATED: teaching-courses -->", ""]),
+                encoding="utf-8",
+            )
+            preview_files = [
+                paths.preview_teaching_root / "real-course-25.md",
+                paths.preview_teaching_index,
+            ]
+            with mock.patch("automation.google_drive.DriveClient.from_env", return_value=fake_client), \
+                mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "load_courses", return_value=[]), \
+                mock.patch.object(cli, "_merged_course", return_value=real_course) as merged_course, \
+                mock.patch.object(cli, "_discover_materials", return_value=[]), \
+                mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=["A teaching/real-course-25.md"])), \
+                mock.patch.object(cli, "write_preview_repository", return_value=[path.as_posix() for path in preview_files]), \
+                mock.patch.object(cli, "_print_json") as print_json:
+                self.assertEqual(cli._backfill(args, incremental=False), 0)
+            merged_course.assert_called_once_with({}, {"id": "real-folder", "name": "Real Course 25 CF"})
+            print_json.assert_called_with(
+                {
+                    "action": "backfill",
+                    "courses": ["real-course-25"],
+                    "changed_files": ["A teaching/real-course-25.md"],
+                    "preview_root": paths.preview_root.as_posix(),
+                    "preview_files": [path.as_posix() for path in preview_files],
+                }
+            )
 
     def test_build_parser_and_main_dispatch(self) -> None:
         parser = cli.build_parser()
@@ -182,6 +560,8 @@ class CliTests(unittest.TestCase):
         self.assertEqual(args.limit, 1)
         self.assertTrue(args.dry_run)
         self.assertFalse(hasattr(args, "since"))
+        args = parser.parse_args(["courses", "clean-preview"])
+        self.assertIs(args.handler, cli.cmd_clean_preview)
 
         for exc, expected in [
             (ValidationError("bad"), 1),
@@ -224,16 +604,123 @@ class CliTests(unittest.TestCase):
         )
         fake_client = mock.Mock()
         fake_client.discover_course_folders.return_value = [{"id": "folder-1", "name": "Fresh CF"}]
-        with mock.patch("automation.google_drive.DriveClient.from_env", return_value=fake_client), \
-            mock.patch.object(cli, "build_paths", return_value=object()), \
-            mock.patch.object(cli, "load_courses", return_value=[manual, existing]), \
-            mock.patch.object(cli, "_merged_course", return_value=discovered_course), \
-            mock.patch.object(cli, "_discover_materials", return_value=[]), \
-            mock.patch.object(cli, "load_materials", return_value=[]), \
-            mock.patch.object(cli, "write_data") as write_data, \
-            mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
-            mock.patch.object(cli, "validate_repository", return_value=[]), \
-            mock.patch.object(cli, "_print_json"):
-            self.assertEqual(cli._backfill(args, incremental=False), 0)
-        written_courses = write_data.call_args.args[1]
-        self.assertEqual([course.slug for course in written_courses], ["manual", "existing", "fresh"])
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_paths(Path(tmp))
+            paths.teaching_index.write_text(
+                "\n".join(["---", "layout: page", "title: Teaching", "---", "", "<!-- BEGIN GENERATED: teaching-courses -->", "<!-- END GENERATED: teaching-courses -->", ""]),
+                encoding="utf-8",
+            )
+            with mock.patch("automation.google_drive.DriveClient.from_env", return_value=fake_client), \
+                mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "load_courses", return_value=[manual, existing]), \
+                mock.patch.object(cli, "_merged_course", return_value=discovered_course), \
+                mock.patch.object(cli, "_discover_materials", return_value=[]), \
+                mock.patch.object(cli, "load_materials", return_value=[]), \
+                mock.patch.object(cli, "write_data") as write_data, \
+                mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
+                mock.patch.object(cli, "validate_repository", return_value=[]), \
+                mock.patch.object(cli, "_print_json"):
+                self.assertEqual(cli._backfill(args, incremental=False), 0)
+            written_courses = write_data.call_args.args[1]
+            self.assertEqual([course.slug for course in written_courses], ["manual", "existing", "fresh"])
+
+    def test_backfill_synthesizes_generalized_parent_for_multiple_iterations(self) -> None:
+        course_a = sample_course(slug="deep-learning-24b", folder_id="folder-a")
+        course_a.title = "Deep Learning"
+        course_a.subtitle = "Course page for teaching materials, 24/25 (Section B)"
+        course_a.academic_period = "24/25"
+        course_a.course_family = "deep-learning"
+        course_a.section = "B"
+
+        course_b = sample_course(slug="deep-learning-25b", folder_id="folder-b")
+        course_b.title = "Deep Learning"
+        course_b.subtitle = "Course page for teaching materials, 25/26 (Section B)"
+        course_b.academic_period = "25/26"
+        course_b.course_family = "deep-learning"
+        course_b.section = "B"
+
+        args = argparse.Namespace(
+            limit=None,
+            slug=None,
+            dry_run=False,
+            publish_pr=False,
+            branch="codex/test",
+            pr_title="PR",
+            pr_body="Body",
+            commit_message="Commit",
+        )
+        fake_client = mock.Mock()
+        fake_client.discover_course_folders.return_value = [
+            {"id": "folder-a", "name": "Deep Learning 24/5B CF"},
+            {"id": "folder-b", "name": "Deep Learning 25/6B CF"},
+        ]
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_paths(Path(tmp))
+            paths.teaching_index.write_text(
+                "\n".join(["---", "layout: page", "title: Teaching", "---", "", "<!-- BEGIN GENERATED: teaching-courses -->", "<!-- END GENERATED: teaching-courses -->", ""]),
+                encoding="utf-8",
+            )
+            with mock.patch("automation.google_drive.DriveClient.from_env", return_value=fake_client), \
+                mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "load_courses", return_value=[]), \
+                mock.patch.object(cli, "_merged_course", side_effect=[course_a, course_b]), \
+                mock.patch.object(cli, "_discover_materials", return_value=[]), \
+                mock.patch.object(cli, "load_materials", return_value=[]), \
+                mock.patch.object(cli, "write_data") as write_data, \
+                mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
+                mock.patch.object(cli, "validate_repository", return_value=[]), \
+                mock.patch.object(cli, "_print_json"):
+                self.assertEqual(cli._backfill(args, incremental=False), 0)
+            written_courses = write_data.call_args.args[1]
+            written_slugs = [course.slug for course in written_courses]
+            self.assertIn("deep-learning", written_slugs)
+            synthesized = next(course for course in written_courses if course.slug == "deep-learning")
+            self.assertTrue(synthesized.is_generalized)
+            self.assertEqual(synthesized.course_family, "deep-learning")
+            self.assertTrue(synthesized.manual_overrides["hide_empty_materials"])
+            self.assertIn("modern neural networks", synthesized.summary)
+            self.assertIn("syllabus_markdown", synthesized.manual_overrides)
+
+    def test_backfill_synthesizes_known_generalized_family_from_single_iteration(self) -> None:
+        course = sample_course(slug="text-mining-24a", folder_id="folder-a")
+        course.title = "Text Mining"
+        course.subtitle = "Course page for teaching materials, 24/25 (Section A)"
+        course.academic_period = "24/25"
+        course.course_family = "text-mining"
+        course.section = "A"
+
+        args = argparse.Namespace(
+            limit=None,
+            slug=None,
+            dry_run=False,
+            publish_pr=False,
+            branch="codex/test",
+            pr_title="PR",
+            pr_body="Body",
+            commit_message="Commit",
+        )
+        fake_client = mock.Mock()
+        fake_client.discover_course_folders.return_value = [
+            {"id": "folder-a", "name": "Text Mining 24/5A CF"},
+        ]
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_paths(Path(tmp))
+            paths.teaching_index.write_text(
+                "\n".join(["---", "layout: page", "title: Teaching", "---", "", "<!-- BEGIN GENERATED: teaching-courses -->", "<!-- END GENERATED: teaching-courses -->", ""]),
+                encoding="utf-8",
+            )
+            with mock.patch("automation.google_drive.DriveClient.from_env", return_value=fake_client), \
+                mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "load_courses", return_value=[]), \
+                mock.patch.object(cli, "_merged_course", return_value=course), \
+                mock.patch.object(cli, "_discover_materials", return_value=[]), \
+                mock.patch.object(cli, "load_materials", return_value=[]), \
+                mock.patch.object(cli, "write_data") as write_data, \
+                mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
+                mock.patch.object(cli, "validate_repository", return_value=[]), \
+                mock.patch.object(cli, "_print_json"):
+                self.assertEqual(cli._backfill(args, incremental=False), 0)
+            written_courses = write_data.call_args.args[1]
+            synthesized = next(course for course in written_courses if course.slug == "text-mining")
+            self.assertTrue(synthesized.is_generalized)
+            self.assertIn("classical NLP", synthesized.summary)
