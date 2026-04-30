@@ -26,7 +26,12 @@ from automation.naming import (
 from automation.publish import publish_changes
 from automation.repository import clean_preview_repository, render_repository, write_data, write_preview_repository
 from automation.site_preview import build_preview_site, serve_preview_site
-from automation.syllabus import render_syllabus_markdown, select_syllabus_material
+from automation.syllabus import (
+    default_compact_syllabus_markdown,
+    render_syllabus_markdown,
+    select_syllabus_material,
+    sorted_syllabus_materials,
+)
 from automation.validation import validate_repository
 
 if TYPE_CHECKING:
@@ -167,21 +172,27 @@ def _attach_syllabus_content(client: "DriveClient", course: "Course", materials:
         course = replace(course, syllabus_url=syllabus_material.url)
     if manual_overrides.get("syllabus_markdown"):
         return course
-    if not syllabus_material.source_file_id:
-        return course
-    try:
-        exported_text = client.read_syllabus_source_text(
-            syllabus_material.source_file_id,
-            syllabus_material.source_mime_type,
-        )
-    except DiscoveryError as exc:
-        _log(f"Skipping syllabus extraction for {course.slug}: {exc}")
-        return course
-    syllabus_markdown = render_syllabus_markdown(syllabus_material, exported_text, course=course)
-    if not syllabus_markdown:
-        return course
-    manual_overrides["syllabus_markdown"] = syllabus_markdown
-    return replace(course, manual_overrides=manual_overrides)
+    for candidate in sorted_syllabus_materials(materials):
+        if not candidate.source_file_id:
+            continue
+        try:
+            exported_text = client.read_syllabus_source_text(
+                candidate.source_file_id,
+                candidate.source_mime_type,
+            )
+        except DiscoveryError as exc:
+            _log(f"Skipping syllabus extraction for {course.slug}: {exc}")
+            continue
+        syllabus_markdown = render_syllabus_markdown(candidate, exported_text, course=course)
+        if not syllabus_markdown:
+            continue
+        manual_overrides["syllabus_markdown"] = syllabus_markdown
+        return replace(course, manual_overrides=manual_overrides)
+    compact_fallback = default_compact_syllabus_markdown(course)
+    if compact_fallback:
+        manual_overrides["syllabus_markdown"] = compact_fallback
+        return replace(course, manual_overrides=manual_overrides)
+    return course
 
 
 def _ensure_generalized_parents(courses: list["Course"]) -> list["Course"]:

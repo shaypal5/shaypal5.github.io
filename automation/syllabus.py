@@ -33,10 +33,10 @@ LOW_SIGNAL_TEXT_TERMS = (
 )
 
 
-def select_syllabus_material(materials: list[Material]) -> Material | None:
+def sorted_syllabus_materials(materials: list[Material]) -> list[Material]:
     candidates = [item for item in materials if item.published and item.kind in {"syllabus", "outline"}]
     if not candidates:
-        return None
+        return []
     priority = {
         GOOGLE_DOC_MIME: 0,
         DOCX_MIME: 1,
@@ -51,7 +51,14 @@ def select_syllabus_material(materials: list[Material]) -> Material | None:
             item.sort_key.lower(),
             item.title.lower(),
         ),
-    )[0]
+    )
+
+
+def select_syllabus_material(materials: list[Material]) -> Material | None:
+    candidates = sorted_syllabus_materials(materials)
+    if not candidates:
+        return None
+    return candidates[0]
 
 
 def syllabus_export_mime(material: Material) -> str | None:
@@ -160,6 +167,10 @@ def _compact_family_markdown(course: Course) -> str:
             )
         lines.extend(["  </tbody>", "</table>"])
     return "\n".join(lines).strip()
+
+
+def default_compact_syllabus_markdown(course: Course) -> str:
+    return _compact_family_markdown(course)
 
 
 def _doc_text_to_markdown(text: str) -> str:

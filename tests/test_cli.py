@@ -255,6 +255,78 @@ class CliTests(unittest.TestCase):
         self.assertEqual(fallback.syllabus_url, "https://example.com/outline")
         self.assertNotIn("syllabus_markdown", fallback.manual_overrides)
 
+    def test_attach_syllabus_content_falls_back_to_next_candidate(self) -> None:
+        client = mock.Mock()
+        client.read_syllabus_source_text.side_effect = [
+            "Course repository\nGoogle Calendar events for all lectures",
+            "Week\tTopic\n1\tIntro\n",
+        ]
+        course = sample_course(slug="data-vis-22a")
+        materials = [
+            Material(
+                title="Noisy outline doc",
+                url="https://example.com/doc",
+                kind="outline",
+                source_file_id="doc-1",
+                source_mime_type="application/vnd.google-apps.document",
+                published=True,
+                sort_key="00-doc",
+            ),
+            Material(
+                title="Clean outline sheet",
+                url="https://example.com/sheet",
+                kind="outline",
+                source_file_id="sheet-1",
+                source_mime_type="application/vnd.google-apps.spreadsheet",
+                published=True,
+                sort_key="01-sheet",
+            ),
+        ]
+
+        with mock.patch.dict("os.environ", {"OPENAI_API_KEY": ""}):
+            enriched = cli._attach_syllabus_content(client, course, materials)
+
+        self.assertEqual(enriched.syllabus_url, "https://example.com/doc")
+        self.assertIn("syllabus_markdown", enriched.manual_overrides)
+        self.assertIn('<table class="course-outline-table">', enriched.manual_overrides["syllabus_markdown"])
+        self.assertEqual(client.read_syllabus_source_text.call_count, 2)
+
+    def test_attach_syllabus_content_uses_family_fallback_when_all_candidates_are_rejected(self) -> None:
+        client = mock.Mock()
+        client.read_syllabus_source_text.side_effect = [
+            "Course repository\nGoogle Calendar events for all lectures",
+            "Done?\tWhat\tDetails\n\tValidate no holidays\t",
+        ]
+        course = sample_course(slug="data-vis-22a")
+        course.course_family = "data-vis"
+        materials = [
+            Material(
+                title="Noisy outline doc",
+                url="https://example.com/doc",
+                kind="outline",
+                source_file_id="doc-1",
+                source_mime_type="application/vnd.google-apps.document",
+                published=True,
+                sort_key="00-doc",
+            ),
+            Material(
+                title="Checklist sheet",
+                url="https://example.com/sheet",
+                kind="outline",
+                source_file_id="sheet-1",
+                source_mime_type="application/vnd.google-apps.spreadsheet",
+                published=True,
+                sort_key="01-sheet",
+            ),
+        ]
+
+        with mock.patch.dict("os.environ", {"OPENAI_API_KEY": ""}):
+            enriched = cli._attach_syllabus_content(client, course, materials)
+
+        self.assertIn("syllabus_markdown", enriched.manual_overrides)
+        self.assertIn("This semester covers the full workflow of data visualization", enriched.manual_overrides["syllabus_markdown"])
+        self.assertEqual(client.read_syllabus_source_text.call_count, 2)
+
     def test_backfill_dry_run_incremental_and_publish(self) -> None:
         existing = sample_course(slug="existing", folder_id="existing-folder")
         discovered_course = sample_course(slug="fresh", folder_id="folder-1")
