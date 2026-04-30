@@ -99,16 +99,17 @@ def sort_materials(materials: list[Material]) -> list[Material]:
 
 
 def public_material_title(material: Material) -> str:
-    explicit = material.public_title.strip()
+    explicit = str(material.public_title or "").strip()
     if explicit:
         return explicit
-    title = material.title.strip()
+    source_title = str(material.title or "").strip()
+    title = source_title
     previous = ""
     while title and title != previous:
         previous = title
         for pattern in MATERIAL_TITLE_SUFFIX_PATTERNS:
             title = pattern.sub("", title).strip()
-    return title or material.title
+    return title or source_title
 
 
 def _iteration_label(course: Course) -> str:

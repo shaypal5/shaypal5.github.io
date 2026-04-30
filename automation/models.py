@@ -49,7 +49,7 @@ class Material:
     @classmethod
     def from_dict(cls, payload: dict) -> "Material":
         return cls(
-            title=payload.get("title", ""),
+            title=str(payload.get("title", "") or ""),
             url=payload.get("url", ""),
             kind=payload.get("kind", ""),
             week=payload.get("week"),
@@ -60,7 +60,7 @@ class Material:
             sort_key=str(payload.get("sort_key", "") or ""),
             notes=payload.get("notes", "") or "",
             description=payload.get("description", "") or "",
-            public_title=payload.get("public_title", "") or "",
+            public_title=str(payload.get("public_title", "") or ""),
         )
 
     def to_dict(self) -> dict:
@@ -77,8 +77,9 @@ class Material:
             "notes": self.notes,
             "description": self.description,
         }
-        if self.public_title:
-            payload["public_title"] = self.public_title
+        public_title = self.public_title.strip()
+        if public_title:
+            payload["public_title"] = public_title
         return payload
 
 

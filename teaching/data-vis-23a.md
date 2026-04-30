@@ -70,7 +70,7 @@ Data Vis (Semester A 23/24) introduces the purpose and foundations of data visua
 
 ## Course Materials
 
-This semester page intentionally exposes only a compact public subset of available materials. The fuller course framing lives in the outline above, while the shared Data Vis page collects reusable lecture materials across semesters.
+This semester's page intentionally exposes only a compact public subset of available materials. The fuller course framing lives in the outline above, while the shared Data Vis page collects reusable lecture materials across semesters.
 
 * **[T4 - Tableau Dashboards](https://docs.google.com/presentation/d/16lIwvA6Ke1nGAkOwhKGnKRI2h4cwiA0PxhLmbEqBB7o/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
 

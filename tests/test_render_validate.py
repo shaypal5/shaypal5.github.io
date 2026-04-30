@@ -755,6 +755,32 @@ class RenderValidateTests(unittest.TestCase):
             ),
             "DV4 - Marks & Channels",
         )
+        coerced_material = Material.from_dict(
+            {
+                "title": 123,
+                "url": "https://example.com/slides",
+                "kind": "slides",
+                "week": None,
+                "section": "Course Materials",
+                "source_file_id": "source-id",
+                "source_mime_type": "application/vnd.google-apps.presentation",
+                "published": True,
+                "sort_key": "01-slides",
+                "notes": "",
+                "public_title": "  Curated Title  ",
+            }
+        )
+        self.assertEqual(coerced_material.title, "123")
+        self.assertEqual(public_material_title(coerced_material), "Curated Title")
+        self.assertEqual(coerced_material.to_dict()["public_title"], "Curated Title")
+        whitespace_title = Material(
+            title="  Source Title  ",
+            url="https://example.com/slides",
+            kind="slides",
+            public_title="   ",
+        )
+        self.assertEqual(public_material_title(whitespace_title), "Source Title")
+        self.assertNotIn("public_title", whitespace_title.to_dict())
         materials_note_page = render_course_page(
             Course(
                 slug="curated-note",

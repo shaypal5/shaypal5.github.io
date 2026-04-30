@@ -162,7 +162,7 @@ courses:
   tags: []
   manual_overrides:
     section_label: Semester
-    materials_note: This semester page intentionally exposes only a compact public
+    materials_note: This semester's page intentionally exposes only a compact public
       subset of available materials. The fuller course framing lives in the outline
       above, while the shared Data Vis page collects reusable lecture materials across
       semesters.
