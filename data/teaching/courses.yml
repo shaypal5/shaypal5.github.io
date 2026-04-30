@@ -1,335 +1,1001 @@
 courses:
-  - slug: bigdata22
-    title: Big Data Technologies TA @ TAU
-    subtitle: Course page for Tel Aviv University, 22'-23'
-    institution: Tel Aviv University
-    role: Teaching Assistant
-    academic_period: 22'-23'
-    status: archived
-    source_drive_folder_id: manual-bigdata22
-    source_drive_folder_name: Big Data Technologies TAU 22-23 CF
-    summary: I served as a Teaching Assistant for the Intro to Big Data Technologies course at Tel Aviv University during the 22'-23' academic year.
-    visibility: public
-    syllabus_url: ""
-    hero_note: ""
-    tags:
-      - big-data
-      - teaching-assistant
-    manual_overrides: {}
-    review_notes: Migrated from the legacy manually maintained page.
-  - slug: datanights22
-    title: Managing Data Science Teams @ DataNights
-    subtitle: Cohort 1, Summer 2022
-    institution: DataNights
-    role: Instructor
-    academic_period: 22'
-    status: archived
-    source_drive_folder_id: manual-datanights22
-    source_drive_folder_name: DS Mgmgt - Cohort #1
-    summary: The first DataNights Data Science Management cohort focused on the practical realities of leading data science teams, from project roadmaps and product work to recruiting, feedback, and peer review.
-    visibility: public
-    syllabus_url: https://docs.google.com/document/d/1EjaA6QbHYEFnSq1S_Sn4yLXOpXrYwCEL1r0bRybfd4M/edit
-    hero_note: ""
-    tags:
-      - leadership
-      - datanights
-      - management
-    manual_overrides:
-      iteration_label: "Cohort 1 · Summer 2022"
-      iteration_sort_key: "01"
-      opening_paragraph: "The first cohort ran from August 3, 2022 through September 14, 2022 in weekly evening sessions, hosted by Forter in Tel Aviv."
-      organizing_team:
-        - name: Shay Palachy Affek
-          role: Program lead and instructor
-          company: DataNights / DataHack
-        - name: DataNights / DataHack volunteer organizing team
-          role: Cohort operations and community support
-      lectures:
-        - title: "5 Things I Learned as a DS Manager"
-          speaker: Ilana Klovatch
-          description: Lessons on methodology, team strengths, and leading people with different skill profiles.
-          link: https://docs.google.com/presentation/d/1IlTpBmAKRTYyzgTV4rizDJhrYGW079_1/edit?usp=drivesdk
-        - title: "Make It Worth: How to Successfully Deliver ML to Production"
-          speaker: Inbal Budowski-Tal
-          description: A practical talk about the production pitfalls that keep ML projects from delivering real business impact.
-        - title: "Data Science Project Workflow + DS Playbooks for DS Teams"
-          speaker: Shay Palachy Affek
-          description: Frameworks and workflow patterns for structuring data science projects and team practices.
-        - title: "Data Science and Product Management: Function or Dysfunction, There Is No Try"
-          speaker: Adina Lederhendler
-          description: A talk about how data science leaders can work effectively with product managers despite uncertainty and technical translation gaps.
-        - title: "Objective-KPI Alignment in Data Science Projects"
-          speaker: Shay Palachy Affek
-          description: A discussion of how technical objectives in data science work align or misalign with business and product KPIs.
-          link: https://docs.google.com/presentation/d/1h0s1MkIzAVwfltQVWXeNiKD51OoP0qelEpKhr_v7Pz8/edit?usp=sharing
-        - title: "Building a Data Science Team: How to Get the Right People and Make Them Work Together Efficiently"
-          speaker: Nurit Vatnik
-          description: On selecting from diverse backgrounds and shaping a team that collaborates well.
-          link: https://drive.google.com/file/d/1sP9CPCnO2hqWeYhY5THMTDQSCA9YmTud/view?usp=drivesdk
-        - title: "Interview Templates for Different Seniority Levels of Data Scientist"
-          speaker: Shay Palachy Affek
-          description: A practical framework for adapting technical data science interviews to different seniority levels.
-        - title: "DS Archetypes & DS Tech Interviews"
-          speaker: The cohort
-          description: A hands-on group activity that turned the archetype and interview frameworks into concrete hiring changes.
-          link: https://docs.google.com/presentation/d/1U7VwvOC_aMmbJw4PseQhJNEjqcal-bh7nO9HeFlFheA/edit?usp=drivesdk
-        - title: "The Imposter Syndrome: Managing Senior Data Scientists, and Keeping Up with Team Knowledge When You Are Not Hands-On"
-          speaker: Adi Nesher
-          description: A talk about leading experienced researchers and senior practitioners without needing to outsmart them.
-        - title: "The Right Project Mixture: Maintaining What's Working While Delivering Innovation"
-          speaker: Amit Weil
-          description: How data science leaders balance model maintenance responsibilities with delivering novel work.
-        - title: "Data Science, Validated: Testing & Monitoring ML Projects"
-          speaker: Shir Chorev
-          description: Model monitoring, failure detection, and how to keep production ML systems healthy over time.
-        - title: "The Secret Sauce of Data Science Management"
-          speaker: Shir Meir-Lador
-          description: Lessons on building teams that thrive while still delivering winning results for the organization.
-          link: https://docs.google.com/presentation/d/1gVXtk9-fzuM-2-nFdfYqhV72CYxW3jTY6zfmWGGubB4/edit
-        - title: "Peer Review in Data Science Projects"
-          speaker: Shay Palachy Affek
-          description: A talk about adapting peer-review practices to data science work to improve decision making and output quality.
-        - title: "Participants Takeaways"
-          speaker: The cohort
-          description: A closing session for participants to share what they had already applied from the program.
-        - title: "Lecture Workshop"
-          speaker: The cohort
-          description: A collaborative workshop on ideas and possible additions for future cohorts.
-      hide_empty_materials: true
-    review_notes: Backfilled from the first DataNights DS Management cohort syllabus and participant materials.
-    course_family: datanights
-    section: ""
-    is_generalized: false
-  - slug: datanights
-    title: Managing Data Science Teams @ DataNights
-    subtitle: DataNights program overview
-    institution: DataNights
-    role: Instructor
-    academic_period: TBD
-    status: active
-    source_drive_folder_id: manual-datanights-program
-    source_drive_folder_name: DS Mgmt Program
-    summary: DataNights' Data Science Management program is a cohort-based course for current and aspiring data science leaders, built around real management challenges, experienced guest speakers, and practical frameworks for leading teams and projects.
-    visibility: public
-    syllabus_url: ""
-    hero_note: "This page serves as the home for the overall program. Each cohort has its own page with the concrete lecture lineup, organizing details, and syllabus for that run."
-    tags:
-      - leadership
-      - datanights
-      - management
-    manual_overrides:
-      hide_empty_materials: true
-    review_notes: Program-level landing page for the DataNights Data Science Management cohorts.
-    course_family: datanights
-    section: ""
-    is_generalized: true
-  - slug: datanights23
-    title: Managing Data Science Teams @ DataNights
-    subtitle: Cohort 2, Summer 2023
-    institution: DataNights
-    role: Instructor
-    academic_period: 23'
-    status: archived
-    source_drive_folder_id: manual-datanights23
-    source_drive_folder_name: DS Mgmt - Cohort #2
-    summary: The second DataNights Data Science Management cohort refined the original program into a seven-session run with a stronger speaker lineup, more structured workshops, and a clearer through-line from product mindset to hiring, scale, and organizational influence.
-    visibility: public
-    syllabus_url: https://docs.google.com/document/d/1SQeJBjjXsgcNDgIQsD0-_JLRkd0q86ScUbhOvdC6Vcg/edit
-    hero_note: ""
-    tags:
-      - leadership
-      - datanights
-      - management
-    manual_overrides:
-      iteration_label: "Cohort 2 · Summer 2023"
-      iteration_sort_key: "02"
-      opening_paragraph: "The second cohort ran from May 10, 2023 through June 21, 2023 in weekly evening sessions, co-hosted by Check Point in Tel Aviv."
-      organizing_team:
-        - name: Shay Palachy Affek
-          role: Program lead and instructor
-          company: DataNights / DataHack
-        - name: Topaz Gilad
-          role: Cohort operations, hosting, and session support
-          company: DataNights
-        - name: Hila
-          role: Cohort operations, hosting, and session support
-          company: DataNights
-        - name: Nurit Vatnik
-          role: Cohort operations, hosting, and session support
-          company: DataNights
-        - name: Tal Rosenwein
-          role: Cohort operations, hosting, and session support
-          company: DataNights
-      lectures:
-        - title: Intro Session
-          speaker: Shay Palachy Affek
-          description: An opening discussion where participants introduced themselves and surfaced the management challenges they were currently facing.
-        - title: "Make It Worth: How to Successfully Deliver ML to Production"
-          speaker: Dr. Inbal Budowski-Tal
-          description: A framework for increasing the odds that machine learning initiatives will deliver real production value.
-        - title: MVP for Data Scientists
-          speaker: Topaz Gilad
-          description: Product mindset, iterative delivery, and how to define a useful MVP for a data science team.
-        - title: "The Bird's Eye View on DS Management"
-          speaker: Tal Rosenwein
-          description: Lessons from managing an entire AI and algorithms group and positioning data science as an organizational function.
-        - title: "Managing a Data Science DREAM Team"
-          speaker: Nurit Vatnik
-          description: A framework for understanding different team archetypes and using that understanding to shape future hiring.
-        - title: Interview Templates for Data Science
-          speaker: Shay Palachy Affek
-          description: Tradeoffs between common interview formats and how to choose the right one for a given hiring need.
-        - title: DS Hiring Workshop
-          speaker: Nurit Vatnik and Shay Palachy Affek
-          description: A working session that turned the DREAM framework and interview templates into a custom hiring plan.
-        - title: Hiring and Managing Juniors
-          speaker: Alice Fridberg
-          description: How to onboard and develop junior data scientists with the right feedback cadence and training roadmap.
-        - title: "The Secret Sauce of Data Science Management"
-          speaker: Shir Meir-Lador
-          description: Managing up, down, and across while choosing the right projects to maximize the organization's data science value.
-        - title: Data Science at Scale
-          speaker: Mor Hananovitz
-          description: The practical risks that appear when a promising proof of concept meets larger-scale production reality.
-        - title: Corporate Dynamics
-          speaker: Shay Yahal
-          description: Building coalitions inside organizations and growing the influence needed to get cross-functional work done.
-        - title: Data Science Frameworks
-          speaker: Shay Palachy Affek
-          description: Frameworks for scoping, structuring, and shipping ambiguous data science work.
-        - title: Frameworks Practice
-          speaker: Shay Palachy Affek
-          description: A workshop for participants to adapt the framework ideas to their own teams and projects.
-      hide_empty_materials: true
-    review_notes: Backfilled from the second DataNights DS Management cohort syllabus and planning materials.
-    course_family: datanights
-    section: ""
-    is_generalized: false
-  - slug: datanights-cohort3
-    title: Managing Data Science Teams @ DataNights
-    subtitle: Cohort 3, in preparation
-    institution: DataNights
-    role: Instructor
-    academic_period: TBD
-    status: active
-    source_drive_folder_id: manual-datanights-cohort3
-    source_drive_folder_name: DS Mgmt - Cohort #3
-    summary: The third DataNights Data Science Management cohort is currently being assembled, with a refreshed session pool that leans more heavily into AI-era management, LLMOps, hiring in a changing landscape, and organizational influence.
-    visibility: public
-    syllabus_url: ""
-    hero_note: ""
-    tags:
-      - leadership
-      - datanights
-      - management
-    manual_overrides:
-      iteration_label: "Cohort 3 · in preparation"
-      iteration_sort_key: "03"
-      opening_paragraph: "Cohort 3 is currently in preparation. Dates, final venue, and the hosting company will be added here once the cohort is finalized."
-      organizing_team:
-        - name: Shay Palachy Affek
-          role: Program lead
-          company: DataNights / DataHack
-        - name: DataNights / DataHack organizing team
-          role: Cohort planning, speaker coordination, and operations
-      lectures_heading: "## Current Session Pool"
-      lectures_note: "The speaker lineup and final syllabus are still being finalized. The items below reflect the current session pool driving the next cohort."
-      lectures:
-        - title: Make It Worth It
-          speaker: Inbal Budowski-Tal
-          description: A returning opening lecture about what it means for data science to matter in production and in the business.
-          status: returning candidate
-        - title: LLMOps for DS Managers
-          speaker: TBD
-          description: What a data science manager needs to understand about modern LLM pipelines, evaluation, latency, and cost.
-          status: candidate
-        - title: Code Assistance & the New Code Review
-          speaker: TBD
-          description: Managing code quality, ownership, and standards when AI tools write the first draft.
-          status: candidate
-        - title: Build, Buy, or Fine-Tune?
-          speaker: TBD
-          description: A practical framework for choosing between building from scratch, buying, fine-tuning, or using RAG.
-          status: candidate
-        - title: The MVP Mindset
-          speaker: Topaz Gilad
-          description: A returning session on iterative product thinking and defining success before building.
-          status: returning candidate
-        - title: The False Promise of Easy POCs
-          speaker: Mica Rubinson
-          description: Why AI prototypes are easy to demo but much harder to turn into systems that actually deliver.
-          status: candidate
-        - title: The Interview Framework
-          speaker: Shay Palachy Affek
-          description: A structured approach to hiring and evaluating data scientists across different interview formats.
-          status: returning candidate
-        - title: DREAM - Team Archetypes
-          speaker: Nurit Vatnik
-          description: Using archetypes and team composition ideas to decide what kind of people a data science group actually needs.
-          status: returning candidate
-        - title: Managing Juniors
-          speaker: Alice Fridberg
-          description: How to build better onboarding, autonomy, and feedback loops for junior data scientists.
-          status: returning candidate
-        - title: The Secret Sauce
-          speaker: Shir Meir-Lador
-          description: A candid look at what distinguishes great data science managers from merely competent ones.
-          status: returning candidate
-        - title: Building the Coalition
-          speaker: Shay Palachy Affek
-          description: Working across a larger organization when you do not directly control the people or priorities you depend on.
-          status: returning candidate
-        - title: The DS Project Frameworks
-          speaker: Shay Palachy Affek
-          description: A practical framework for scoping, running, and closing ambiguous data science initiatives.
-          status: returning candidate
-      syllabus_note: "The final syllabus is still being assembled for cohort 3. This page will link to it as soon as it is ready."
-      hide_empty_materials: true
-    review_notes: Structured placeholder for the third cohort, seeded from the current session-pool and FAQ documents so it can be finalized without changing the page model.
-    course_family: datanights
-    section: ""
-    is_generalized: false
-  - slug: econml
-    title: Intro to ML @ MTA
-    subtitle: Course home across academic iterations
-    institution: The Academic College of Tel Aviv-Yaffo
-    role: Instructor
-    academic_period: TBD
-    status: active
-    source_drive_folder_id: manual-econml-program
-    source_drive_folder_name: EconML generalized course
-    summary: I lecture on machine learning for B.Sc. students of Economics and Management at The Academic College of Tel Aviv-Yaffo.
-    visibility: public
-    syllabus_url: ""
-    hero_note: "This page serves as the home for the course across academic iterations."
-    tags:
-      - machine-learning
-      - mta
-    manual_overrides:
-      hide_empty_materials: true
-    review_notes: Program-level landing page for the Intro to ML @ MTA course across semester iterations.
-    course_family: econml
-    section: ""
-    is_generalized: true
-  - slug: econml-24
-    title: Intro to ML @ MTA
-    subtitle: Course page for MTA, 24/25
-    institution: The Academic College of Tel Aviv-Yaffo
-    role: Instructor
-    academic_period: 24/25
-    status: active
-    source_drive_folder_id: manual-econml-24
-    source_drive_folder_name: Intro to ML @ MTA 24/25 CF
-    summary: I lecture on machine learning for B.Sc. students of Economics and Management at The Academic College of Tel Aviv-Yaffo.
-    visibility: public
-    syllabus_url: ""
-    hero_note: ""
-    tags:
-      - machine-learning
-      - mta
-    manual_overrides:
-      iteration_label: 24/25
-    review_notes: Migrated from the legacy manually maintained page.
-    course_family: econml
-    section: ""
-    is_generalized: false
+- slug: bigdata22
+  title: Big Data Technologies TA @ TAU
+  subtitle: Course page for Tel Aviv University, 22'-23'
+  institution: Tel Aviv University
+  role: Teaching Assistant
+  academic_period: 22'-23'
+  status: archived
+  source_drive_folder_id: manual-bigdata22
+  source_drive_folder_name: Big Data Technologies TAU 22-23 CF
+  summary: I served as a Teaching Assistant for the Intro to Big Data Technologies
+    course at Tel Aviv University during the 22'-23' academic year.
+  visibility: public
+  syllabus_url: ''
+  hero_note: ''
+  tags:
+  - big-data
+  - teaching-assistant
+  manual_overrides: {}
+  review_notes: Migrated from the legacy manually maintained page.
+  course_family: ''
+  section: ''
+  is_generalized: false
+- slug: data-vis
+  title: Data Vis
+  subtitle: Course home across academic iterations
+  institution: Unknown institution
+  role: Instructor
+  academic_period: TBD
+  status: active
+  source_drive_folder_id: 1C_l3rPJY83rfqUFYyeVqRkVyUvkFpHfP
+  source_drive_folder_name: Data Vis - Generalized CF
+  summary: I teach Data Visualization at Tel Aviv University, covering visual encoding,
+    dashboard design, storytelling, and the practical craft of turning complex data
+    into clear visual arguments.
+  visibility: public
+  syllabus_url: ''
+  hero_note: This page collects shared materials from multiple iterations of the course
+    together with links to individual semester pages.
+  tags: []
+  manual_overrides:
+    hide_empty_materials: true
+    opening_paragraph: Across recent semesters, the course has combined conceptual
+      foundations with hands-on visual analysis work. It starts from visual perception,
+      task abstraction, and the grammar of charts, then moves through chart families,
+      dashboard composition, critique, and data-driven storytelling, with Tableau
+      used as a practical environment for implementing and evaluating visual ideas.
+    syllabus_markdown: '* Recent iterations begin with intro to data visualization,
+      Tableau, and task/data abstraction.
+
+      * The middle of the course focuses on marks and channels, chart families, arrangement,
+      and dashboard design.
+
+      * Later sessions cover data preparation, critique, and storytelling with visual
+      analytics.
+
+      * Coursework typically combines in-class exercises, homework, and a final dashboard-based
+      analysis project.'
+  review_notes: ''
+  course_family: data-vis
+  section: ''
+  is_generalized: true
+- slug: data-vis-22a
+  title: Data Vis
+  subtitle: Course page for teaching materials, 22/23 (Semester A)
+  institution: Unknown institution
+  role: Instructor
+  academic_period: 22/23
+  status: active
+  source_drive_folder_id: 1D1wXm8Oh7c0k0FWvfp7wC2IZz9G6EWkS
+  source_drive_folder_name: Data Vis 22/23A CF
+  summary: This semester of Data Visualization focused on visual reasoning, chart
+    design, dashboard construction, and applied storytelling with data using Tableau
+    and iterative critique.
+  visibility: public
+  syllabus_url: https://docs.google.com/document/d/1iR93WghTVh2SIckc_GRcFVRuJ7AmeSUVgM86clkqii4/edit?usp=drivesdk
+  hero_note: ''
+  tags: []
+  manual_overrides:
+    section_label: Semester
+    syllabus_markdown: "This semester covers the full workflow of data visualization:\
+      \ understanding audience and task, choosing the right abstractions and chart\
+      \ forms, building dashboards in Tableau, and critiquing visual choices so that\
+      \ data stories stay both accurate and readable.\n\n<table class=\"course-outline-table\
+      \ compact-course-outline-table\">\n  <thead>\n    <tr>\n      <th>Lecture</th>\n\
+      \      <th>Topic</th>\n      <th>Focus</th>\n    </tr>\n  </thead>\n  <tbody>\n\
+      \    <tr>\n      <td>1</td>\n      <td>Course framing and intro to data visualization</td>\n\
+      \      <td>Why visualization matters, examples, and course structure.</td>\n\
+      \    </tr>\n    <tr>\n      <td>2</td>\n      <td>Task and data abstraction</td>\n\
+      \      <td>Turning messy analytical questions into formal visual tasks and data\
+      \ types.</td>\n    </tr>\n    <tr>\n      <td>3</td>\n      <td>Marks, channels,\
+      \ and chart grammar</td>\n      <td>How visual encodings shape readability and\
+      \ interpretation.</td>\n    </tr>\n    <tr>\n      <td>4</td>\n      <td>Chart\
+      \ families and design tradeoffs</td>\n      <td>Selecting chart types and avoiding\
+      \ misleading comparisons.</td>\n    </tr>\n    <tr>\n      <td>5</td>\n    \
+      \  <td>Data preparation and Tableau workflows</td>\n      <td>Preparing data\
+      \ and implementing visual ideas in Tableau.</td>\n    </tr>\n    <tr>\n    \
+      \  <td>6</td>\n      <td>Dashboards, interaction, and storytelling</td>\n  \
+      \    <td>Combining views into coherent dashboards and data-driven narratives.</td>\n\
+      \    </tr>\n  </tbody>\n</table>"
+  review_notes: ''
+  course_family: data-vis
+  section: A
+  is_generalized: false
+- slug: data-vis-22b
+  title: Data Vis
+  subtitle: Course page for teaching materials, 22/23 (Semester B)
+  institution: Unknown institution
+  role: Instructor
+  academic_period: 22/23
+  status: active
+  source_drive_folder_id: 1nHSdUDrJM29z612-d2AWdF2BjatJljFf
+  source_drive_folder_name: Data Vis 22/23B CF
+  summary: This semester of Data Visualization focused on visual reasoning, chart
+    design, dashboard construction, and applied storytelling with data using Tableau
+    and iterative critique.
+  visibility: public
+  syllabus_url: https://docs.google.com/spreadsheets/d/1zFF-1da-jDyHz_oKpb28JgltV4de8asMm-6KtlhaKwg/edit?usp=drivesdk
+  hero_note: ''
+  tags: []
+  manual_overrides:
+    section_label: Semester
+    syllabus_markdown: "This semester covers the full workflow of data visualization:\
+      \ understanding audience and task, choosing the right abstractions and chart\
+      \ forms, building dashboards in Tableau, and critiquing visual choices so that\
+      \ data stories stay both accurate and readable.\n\n<table class=\"course-outline-table\
+      \ compact-course-outline-table\">\n  <thead>\n    <tr>\n      <th>Lecture</th>\n\
+      \      <th>Topic</th>\n      <th>Focus</th>\n    </tr>\n  </thead>\n  <tbody>\n\
+      \    <tr>\n      <td>1</td>\n      <td>Course framing and intro to data visualization</td>\n\
+      \      <td>Why visualization matters, examples, and course structure.</td>\n\
+      \    </tr>\n    <tr>\n      <td>2</td>\n      <td>Task and data abstraction</td>\n\
+      \      <td>Turning messy analytical questions into formal visual tasks and data\
+      \ types.</td>\n    </tr>\n    <tr>\n      <td>3</td>\n      <td>Marks, channels,\
+      \ and chart grammar</td>\n      <td>How visual encodings shape readability and\
+      \ interpretation.</td>\n    </tr>\n    <tr>\n      <td>4</td>\n      <td>Chart\
+      \ families and design tradeoffs</td>\n      <td>Selecting chart types and avoiding\
+      \ misleading comparisons.</td>\n    </tr>\n    <tr>\n      <td>5</td>\n    \
+      \  <td>Data preparation and Tableau workflows</td>\n      <td>Preparing data\
+      \ and implementing visual ideas in Tableau.</td>\n    </tr>\n    <tr>\n    \
+      \  <td>6</td>\n      <td>Dashboards, interaction, and storytelling</td>\n  \
+      \    <td>Combining views into coherent dashboards and data-driven narratives.</td>\n\
+      \    </tr>\n  </tbody>\n</table>"
+  review_notes: ''
+  course_family: data-vis
+  section: B
+  is_generalized: false
+- slug: data-vis-23a
+  title: Data Vis
+  subtitle: Course page for teaching materials, 23/24 (Semester A)
+  institution: Unknown institution
+  role: Instructor
+  academic_period: 23/24
+  status: active
+  source_drive_folder_id: 1gBQw8Iz7Ru5zr_FNdlYh5q7Fs0R39e1n
+  source_drive_folder_name: Data Vis 23/4A CF
+  summary: This semester of Data Visualization focused on visual reasoning, chart
+    design, dashboard construction, and applied storytelling with data using Tableau
+    and iterative critique.
+  visibility: public
+  syllabus_url: https://docs.google.com/spreadsheets/d/11DuK_yWVRueLXz3tAA4zQiNFmirYjN5gtTEdK5hfeok/edit?usp=drivesdk
+  hero_note: ''
+  tags: []
+  manual_overrides:
+    section_label: Semester
+    syllabus_markdown: "Data Vis (Semester A 23/24) introduces the purpose and foundations\
+      \ of data visualization and builds practical skills in Tableau. You\u2019ll\
+      \ move from defining visualization and its history to data abstraction, task\
+      \ abstraction, and encoding with marks and channels. The course then focuses\
+      \ on chart types, perception and Gestalt principles, interaction, manipulation,\
+      \ and dashboard design. Along the way you\u2019ll practice chart critique, decoding,\
+      \ and iterative building, culminating in a final project and (optional) data-driven\
+      \ storytelling.\n\n<table class=\"course-outline-table compact-course-outline-table\"\
+      >\n  <thead>\n    <tr>\n      <th>Lecture</th>\n      <th>Topic</th>\n     \
+      \ <th>Focus</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>Week\
+      \ 1 (03/01/24)</td>\n      <td>Why Data Visualization?</td>\n      <td>Motivation\
+      \ for data vis, brief history, core definitions, and an intuitive introduction\
+      \ to what visualization does and why it matters.</td>\n    </tr>\n    <tr>\n\
+      \      <td>Week 2 (10/01/24)</td>\n      <td>Data Abstraction + Tableau Basics</td>\n\
+      \      <td>What to visualize (data abstraction) and how Tableau is organized:\
+      \ interface tour, worksheets vs dashboards vs stories, dimensions vs measures,\
+      \ first build with a sample dataset.</td>\n    </tr>\n    <tr>\n      <td>Week\
+      \ 2\u20133</td>\n      <td>Data Preparation</td>\n      <td>Loading, cleaning,\
+      \ and preparing data for analysis and visualization workflows.</td>\n    </tr>\n\
+      \    <tr>\n      <td>Week 3 (17/01/24)</td>\n      <td>Task Abstraction + Marks\
+      \ & Channels</td>\n      <td>Why you visualize (tasks and goals) and how you\
+      \ encode data: marks, channels, and how to read/decode charts critically.</td>\n\
+      \    </tr>\n    <tr>\n      <td>Catch-Up Week (24/01/24)</td>\n      <td>Foundations\
+      \ Review</td>\n      <td>Consolidation of early concepts: definitions, abstraction\
+      \ (what/why), and marks & channels.</td>\n    </tr>\n    <tr>\n      <td>Week\
+      \ 4 (31/01/24)</td>\n      <td>Chart Types + Perception & Gestalt</td>\n   \
+      \   <td>Selecting chart types and understanding how people perceive visuals;\
+      \ Gestalt principles and common perceptual pitfalls.</td>\n    </tr>\n    <tr>\n\
+      \      <td>Week 4\u20135</td>\n      <td>Implementing Charts in Tableau + Critique</td>\n\
+      \      <td>Building charts in Tableau, adding basic interactivity, and practicing\
+      \ structured visualization critique.</td>\n    </tr>\n    <tr>\n      <td>Week\
+      \ 5 and after (07/02/24+)</td>\n      <td>Interaction, Manipulation, and Dashboards\
+      \ (Optional: Storytelling)</td>\n      <td>Chart-level interactions, manipulating\
+      \ and arranging views, combining sheets into dashboards, dashboard rules and\
+      \ analysis, and (optionally) data-driven storytelling patterns.</td>\n    </tr>\n\
+      \  </tbody>\n</table>"
+  review_notes: ''
+  course_family: data-vis
+  section: A
+  is_generalized: false
+- slug: data-vis-23b
+  title: Data Vis
+  subtitle: Course page for teaching materials, 23/24 (Semester B)
+  institution: Unknown institution
+  role: Instructor
+  academic_period: 23/24
+  status: active
+  source_drive_folder_id: 1cCn6aUo9oOLP5pEJIEaXCqHHpCh3YEgN
+  source_drive_folder_name: Data Vis 23/4B CF
+  summary: This semester of Data Visualization focused on visual reasoning, chart
+    design, dashboard construction, and applied storytelling with data using Tableau
+    and iterative critique.
+  visibility: public
+  syllabus_url: https://docs.google.com/spreadsheets/d/1LZSFfkwmnjSaEWN0u4FBJUbawJuVCVgIMTJ5l6lXbUM/edit?usp=drivesdk
+  hero_note: ''
+  tags: []
+  manual_overrides:
+    section_label: Semester
+    syllabus_markdown: "Data Vis (23/24 Semester B) introduces why data visualization\
+      \ matters and how to design and critique effective charts. The course covers\
+      \ the history and definition of data vis, data and task abstraction, marks and\
+      \ channels, perception and Gestalt, chart types, interaction, and dashboard\
+      \ design. You will practice these ideas using Tableau, moving from basic chart\
+      \ building and data preparation to interactive dashboards and (optionally) data-driven\
+      \ storytelling.\n\n<table class=\"course-outline-table compact-course-outline-table\"\
+      >\n  <thead>\n    <tr>\n      <th>Lecture</th>\n      <th>Topic</th>\n     \
+      \ <th>Focus</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>Week\
+      \ 1 (29/05/24)</td>\n      <td>Why Data Vis?</td>\n      <td>Motivation for\
+      \ visualization; brief history; intuitive introduction; what counts as data\
+      \ visualization.</td>\n    </tr>\n    <tr>\n      <td>Week 2 (05/06/24)</td>\n\
+      \      <td>What: Data Abstraction + Tableau Basics</td>\n      <td>Data abstraction;\
+      \ Tableau orientation (worksheets vs dashboards vs stories, interface, dimensions\
+      \ vs measures); first charts using a sample dataset.</td>\n    </tr>\n    <tr>\n\
+      \      <td>Week 2.5</td>\n      <td>Data Preparation</td>\n      <td>Loading\
+      \ and preparing data for analysis and visualization workflows.</td>\n    </tr>\n\
+      \    <tr>\n      <td>Week 3 (12/06/24)</td>\n      <td>Why + How: Tasks, Marks\
+      \ & Channels</td>\n      <td>Task abstraction (why we visualize); encoding with\
+      \ marks and channels; decoding and critiquing charts.</td>\n    </tr>\n    <tr>\n\
+      \      <td>Catch Up Week (19/06/24)</td>\n      <td>Catch Up: Core Foundations</td>\n\
+      \      <td>Review of weeks 1\u20133 topics: motivation, data abstraction, task\
+      \ abstraction, and marks & channels.</td>\n    </tr>\n    <tr>\n      <td>Week\
+      \ 4 (26/06/24)</td>\n      <td>Perception, Gestalt, and Chart Types</td>\n \
+      \     <td>Visual perception principles and Gestalt; selecting appropriate chart\
+      \ types.</td>\n    </tr>\n    <tr>\n      <td>Week 4\u20135</td>\n      <td>Implementing\
+      \ Charts & Interactivity in Tableau</td>\n      <td>Building chart types in\
+      \ Tableau; chart-level interactions; critique and refinement of interactive\
+      \ designs.</td>\n    </tr>\n    <tr>\n      <td>Week 5+</td>\n      <td>Dashboards\
+      \ (and Optional Storytelling)</td>\n      <td>Combining sheets into dashboards;\
+      \ dashboard rules and layout; adding interactivity; optional data-driven storytelling\
+      \ and common story structures.</td>\n    </tr>\n  </tbody>\n</table>"
+  review_notes: ''
+  course_family: data-vis
+  section: B
+  is_generalized: false
+- slug: data-vis-24b
+  title: Data Vis
+  subtitle: Course page for teaching materials, 24/25 (Semester B)
+  institution: Unknown institution
+  role: Instructor
+  academic_period: 24/25
+  status: active
+  source_drive_folder_id: 1Yv0urENIRlTz2Pg0olUJRm56ZOrRoJRi
+  source_drive_folder_name: Data Vis 24/5B CF
+  summary: This semester of Data Visualization focused on visual reasoning, chart
+    design, dashboard construction, and applied storytelling with data using Tableau
+    and iterative critique.
+  visibility: public
+  syllabus_url: ''
+  hero_note: ''
+  tags: []
+  manual_overrides:
+    section_label: Semester
+  review_notes: ''
+  course_family: data-vis
+  section: B
+  is_generalized: false
+- slug: data-vis-25a
+  title: Data Vis
+  subtitle: Course page for teaching materials, 25/26 (Semester A)
+  institution: Unknown institution
+  role: Instructor
+  academic_period: 25/26
+  status: active
+  source_drive_folder_id: 1iDdqA5PnM-EsI95ULVr93e9Jm0Dqdsx_
+  source_drive_folder_name: Data Vis 25/6A CF
+  summary: This semester of Data Visualization focused on visual reasoning, chart
+    design, dashboard construction, and applied storytelling with data using Tableau
+    and iterative critique.
+  visibility: public
+  syllabus_url: https://docs.google.com/document/d/1e-Vn_D-1zV_1oVr1nyjJycX__P49kTM-/edit?usp=drivesdk&ouid=117394243753980860683&rtpof=true&sd=true
+  hero_note: ''
+  tags: []
+  manual_overrides:
+    section_label: Semester
+    syllabus_markdown: "Data Vis introduces how to communicate information through\
+      \ visual displays of data. The course covers visual perception basics and a\
+      \ practical design framework that links data types, audience, and questions\
+      \ to suitable visual solutions. You will learn the building blocks of visual\
+      \ language (marks and channels), common chart forms, dashboards, and data-driven\
+      \ stories, and practice evaluating visualizations critically. Hands-on work\
+      \ focuses on creating effective visualizations in Tableau, from individual charts\
+      \ to dashboard-based storytelling.\n\n<table class=\"course-outline-table compact-course-outline-table\"\
+      >\n  <thead>\n    <tr>\n      <th>Lecture</th>\n      <th>Topic</th>\n     \
+      \ <th>Focus</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>1</td>\n\
+      \      <td>What is Data Visualization?</td>\n      <td>Why visualization matters;\
+      \ goals of communicating information; examples and common use cases.</td>\n\
+      \    </tr>\n    <tr>\n      <td>2</td>\n      <td>Data, Questions, and Audience</td>\n\
+      \      <td>Abstracting a dataset; framing analytical questions; matching visuals\
+      \ to audience needs and context.</td>\n    </tr>\n    <tr>\n      <td>3</td>\n\
+      \      <td>Visual Perception Basics</td>\n      <td>Core perception principles\
+      \ that affect readability, attention, and comparison in charts.</td>\n    </tr>\n\
+      \    <tr>\n      <td>4</td>\n      <td>Visual Encoding: Marks and Channels</td>\n\
+      \      <td>Choosing marks and visual channels; effectiveness trade-offs; avoiding\
+      \ misleading encodings.</td>\n    </tr>\n    <tr>\n      <td>5</td>\n      <td>Chart\
+      \ Design Fundamentals</td>\n      <td>Selecting and refining chart types; layout,\
+      \ annotation, and clarity; common pitfalls and fixes.</td>\n    </tr>\n    <tr>\n\
+      \      <td>6</td>\n      <td>Dashboards</td>\n      <td>Dashboard structure\
+      \ and interaction; filtering and navigation; designing for decision-making.</td>\n\
+      \    </tr>\n    <tr>\n      <td>7</td>\n      <td>Data-Driven Stories (DDS)</td>\n\
+      \      <td>Narrative patterns, sequencing, and messaging; combining text and\
+      \ visuals for persuasion and insight.</td>\n    </tr>\n    <tr>\n      <td>8</td>\n\
+      \      <td>Tableau Studio: From Chart to Dashboard Story</td>\n      <td>Building\
+      \ and critiquing Tableau work; iterative improvements from single views to integrated\
+      \ dashboards.</td>\n    </tr>\n  </tbody>\n</table>"
+  review_notes: ''
+  course_family: data-vis
+  section: A
+  is_generalized: false
+- slug: datanights
+  title: Managing Data Science Teams @ DataNights
+  subtitle: DataNights program overview
+  institution: DataNights
+  role: Instructor
+  academic_period: TBD
+  status: active
+  source_drive_folder_id: manual-datanights-program
+  source_drive_folder_name: DS Mgmt Program
+  summary: DataNights' Data Science Management program is a cohort-based course for
+    current and aspiring data science leaders, built around real management challenges,
+    experienced guest speakers, and practical frameworks for leading teams and projects.
+  visibility: public
+  syllabus_url: ''
+  hero_note: This page serves as the home for the overall program. Each cohort has
+    its own page with the concrete lecture lineup, organizing details, and syllabus
+    for that run.
+  tags:
+  - leadership
+  - datanights
+  - management
+  manual_overrides:
+    hide_empty_materials: true
+  review_notes: Program-level landing page for the DataNights Data Science Management
+    cohorts.
+  course_family: datanights
+  section: ''
+  is_generalized: true
+- slug: datanights-cohort3
+  title: Managing Data Science Teams @ DataNights
+  subtitle: Cohort 3, in preparation
+  institution: DataNights
+  role: Instructor
+  academic_period: TBD
+  status: active
+  source_drive_folder_id: manual-datanights-cohort3
+  source_drive_folder_name: DS Mgmt - Cohort
+  summary: The third DataNights Data Science Management cohort is currently being
+    assembled, with a refreshed session pool that leans more heavily into AI-era management,
+    LLMOps, hiring in a changing landscape, and organizational influence.
+  visibility: public
+  syllabus_url: ''
+  hero_note: ''
+  tags:
+  - leadership
+  - datanights
+  - management
+  manual_overrides:
+    iteration_label: "Cohort 3 \xB7 in preparation"
+    iteration_sort_key: '03'
+    opening_paragraph: Cohort 3 is currently in preparation. Dates, final venue, and
+      the hosting company will be added here once the cohort is finalized.
+    organizing_team:
+    - name: Shay Palachy Affek
+      role: Program lead
+      company: DataNights / DataHack
+    - name: DataNights / DataHack organizing team
+      role: Cohort planning, speaker coordination, and operations
+    lectures_heading: '## Current Session Pool'
+    lectures_note: The speaker lineup and final syllabus are still being finalized.
+      The items below reflect the current session pool driving the next cohort.
+    lectures:
+    - title: Make It Worth It
+      speaker: Inbal Budowski-Tal
+      description: A returning opening lecture about what it means for data science
+        to matter in production and in the business.
+      status: returning candidate
+    - title: LLMOps for DS Managers
+      speaker: TBD
+      description: What a data science manager needs to understand about modern LLM
+        pipelines, evaluation, latency, and cost.
+      status: candidate
+    - title: Code Assistance & the New Code Review
+      speaker: TBD
+      description: Managing code quality, ownership, and standards when AI tools write
+        the first draft.
+      status: candidate
+    - title: Build, Buy, or Fine-Tune?
+      speaker: TBD
+      description: A practical framework for choosing between building from scratch,
+        buying, fine-tuning, or using RAG.
+      status: candidate
+    - title: The MVP Mindset
+      speaker: Topaz Gilad
+      description: A returning session on iterative product thinking and defining
+        success before building.
+      status: returning candidate
+    - title: The False Promise of Easy POCs
+      speaker: Mica Rubinson
+      description: Why AI prototypes are easy to demo but much harder to turn into
+        systems that actually deliver.
+      status: candidate
+    - title: The Interview Framework
+      speaker: Shay Palachy Affek
+      description: A structured approach to hiring and evaluating data scientists
+        across different interview formats.
+      status: returning candidate
+    - title: DREAM - Team Archetypes
+      speaker: Nurit Vatnik
+      description: Using archetypes and team composition ideas to decide what kind
+        of people a data science group actually needs.
+      status: returning candidate
+    - title: Managing Juniors
+      speaker: Alice Fridberg
+      description: How to build better onboarding, autonomy, and feedback loops for
+        junior data scientists.
+      status: returning candidate
+    - title: The Secret Sauce
+      speaker: Shir Meir-Lador
+      description: A candid look at what distinguishes great data science managers
+        from merely competent ones.
+      status: returning candidate
+    - title: Building the Coalition
+      speaker: Shay Palachy Affek
+      description: Working across a larger organization when you do not directly control
+        the people or priorities you depend on.
+      status: returning candidate
+    - title: The DS Project Frameworks
+      speaker: Shay Palachy Affek
+      description: A practical framework for scoping, running, and closing ambiguous
+        data science initiatives.
+      status: returning candidate
+    syllabus_note: The final syllabus is still being assembled for cohort 3. This
+      page will link to it as soon as it is ready.
+    hide_empty_materials: true
+  review_notes: Structured placeholder for the third cohort, seeded from the current
+    session-pool and FAQ documents so it can be finalized without changing the page
+    model.
+  course_family: datanights
+  section: ''
+  is_generalized: false
+- slug: datanights22
+  title: Managing Data Science Teams @ DataNights
+  subtitle: Cohort 1, Summer 2022
+  institution: DataNights
+  role: Instructor
+  academic_period: 22'
+  status: archived
+  source_drive_folder_id: manual-datanights22
+  source_drive_folder_name: DS Mgmgt - Cohort
+  summary: The first DataNights Data Science Management cohort focused on the practical
+    realities of leading data science teams, from project roadmaps and product work
+    to recruiting, feedback, and peer review.
+  visibility: public
+  syllabus_url: https://docs.google.com/document/d/1EjaA6QbHYEFnSq1S_Sn4yLXOpXrYwCEL1r0bRybfd4M/edit
+  hero_note: ''
+  tags:
+  - leadership
+  - datanights
+  - management
+  manual_overrides:
+    iteration_label: "Cohort 1 \xB7 Summer 2022"
+    iteration_sort_key: '01'
+    opening_paragraph: The first cohort ran from August 3, 2022 through September
+      14, 2022 in weekly evening sessions, hosted by Forter in Tel Aviv.
+    organizing_team:
+    - name: Shay Palachy Affek
+      role: Program lead and instructor
+      company: DataNights / DataHack
+    - name: DataNights / DataHack volunteer organizing team
+      role: Cohort operations and community support
+    lectures:
+    - title: 5 Things I Learned as a DS Manager
+      speaker: Ilana Klovatch
+      description: Lessons on methodology, team strengths, and leading people with
+        different skill profiles.
+      link: https://docs.google.com/presentation/d/1IlTpBmAKRTYyzgTV4rizDJhrYGW079_1/edit?usp=drivesdk
+    - title: 'Make It Worth: How to Successfully Deliver ML to Production'
+      speaker: Inbal Budowski-Tal
+      description: A practical talk about the production pitfalls that keep ML projects
+        from delivering real business impact.
+    - title: Data Science Project Workflow + DS Playbooks for DS Teams
+      speaker: Shay Palachy Affek
+      description: Frameworks and workflow patterns for structuring data science projects
+        and team practices.
+    - title: 'Data Science and Product Management: Function or Dysfunction, There
+        Is No Try'
+      speaker: Adina Lederhendler
+      description: A talk about how data science leaders can work effectively with
+        product managers despite uncertainty and technical translation gaps.
+    - title: Objective-KPI Alignment in Data Science Projects
+      speaker: Shay Palachy Affek
+      description: A discussion of how technical objectives in data science work align
+        or misalign with business and product KPIs.
+      link: https://docs.google.com/presentation/d/1h0s1MkIzAVwfltQVWXeNiKD51OoP0qelEpKhr_v7Pz8/edit?usp=sharing
+    - title: 'Building a Data Science Team: How to Get the Right People and Make Them
+        Work Together Efficiently'
+      speaker: Nurit Vatnik
+      description: On selecting from diverse backgrounds and shaping a team that collaborates
+        well.
+      link: https://drive.google.com/file/d/1sP9CPCnO2hqWeYhY5THMTDQSCA9YmTud/view?usp=drivesdk
+    - title: Interview Templates for Different Seniority Levels of Data Scientist
+      speaker: Shay Palachy Affek
+      description: A practical framework for adapting technical data science interviews
+        to different seniority levels.
+    - title: DS Archetypes & DS Tech Interviews
+      speaker: The cohort
+      description: A hands-on group activity that turned the archetype and interview
+        frameworks into concrete hiring changes.
+      link: https://docs.google.com/presentation/d/1U7VwvOC_aMmbJw4PseQhJNEjqcal-bh7nO9HeFlFheA/edit?usp=drivesdk
+    - title: 'The Imposter Syndrome: Managing Senior Data Scientists, and Keeping
+        Up with Team Knowledge When You Are Not Hands-On'
+      speaker: Adi Nesher
+      description: A talk about leading experienced researchers and senior practitioners
+        without needing to outsmart them.
+    - title: 'The Right Project Mixture: Maintaining What''s Working While Delivering
+        Innovation'
+      speaker: Amit Weil
+      description: How data science leaders balance model maintenance responsibilities
+        with delivering novel work.
+    - title: 'Data Science, Validated: Testing & Monitoring ML Projects'
+      speaker: Shir Chorev
+      description: Model monitoring, failure detection, and how to keep production
+        ML systems healthy over time.
+    - title: The Secret Sauce of Data Science Management
+      speaker: Shir Meir-Lador
+      description: Lessons on building teams that thrive while still delivering winning
+        results for the organization.
+      link: https://docs.google.com/presentation/d/1gVXtk9-fzuM-2-nFdfYqhV72CYxW3jTY6zfmWGGubB4/edit
+    - title: Peer Review in Data Science Projects
+      speaker: Shay Palachy Affek
+      description: A talk about adapting peer-review practices to data science work
+        to improve decision making and output quality.
+    - title: Participants Takeaways
+      speaker: The cohort
+      description: A closing session for participants to share what they had already
+        applied from the program.
+    - title: Lecture Workshop
+      speaker: The cohort
+      description: A collaborative workshop on ideas and possible additions for future
+        cohorts.
+    hide_empty_materials: true
+  review_notes: Backfilled from the first DataNights DS Management cohort syllabus
+    and participant materials.
+  course_family: datanights
+  section: ''
+  is_generalized: false
+- slug: datanights23
+  title: Managing Data Science Teams @ DataNights
+  subtitle: Cohort 2, Summer 2023
+  institution: DataNights
+  role: Instructor
+  academic_period: 23'
+  status: archived
+  source_drive_folder_id: manual-datanights23
+  source_drive_folder_name: DS Mgmt - Cohort
+  summary: The second DataNights Data Science Management cohort refined the original
+    program into a seven-session run with a stronger speaker lineup, more structured
+    workshops, and a clearer through-line from product mindset to hiring, scale, and
+    organizational influence.
+  visibility: public
+  syllabus_url: https://docs.google.com/document/d/1SQeJBjjXsgcNDgIQsD0-_JLRkd0q86ScUbhOvdC6Vcg/edit
+  hero_note: ''
+  tags:
+  - leadership
+  - datanights
+  - management
+  manual_overrides:
+    iteration_label: "Cohort 2 \xB7 Summer 2023"
+    iteration_sort_key: '02'
+    opening_paragraph: The second cohort ran from May 10, 2023 through June 21, 2023
+      in weekly evening sessions, co-hosted by Check Point in Tel Aviv.
+    organizing_team:
+    - name: Shay Palachy Affek
+      role: Program lead and instructor
+      company: DataNights / DataHack
+    - name: Topaz Gilad
+      role: Cohort operations, hosting, and session support
+      company: DataNights
+    - name: Hila
+      role: Cohort operations, hosting, and session support
+      company: DataNights
+    - name: Nurit Vatnik
+      role: Cohort operations, hosting, and session support
+      company: DataNights
+    - name: Tal Rosenwein
+      role: Cohort operations, hosting, and session support
+      company: DataNights
+    lectures:
+    - title: Intro Session
+      speaker: Shay Palachy Affek
+      description: An opening discussion where participants introduced themselves
+        and surfaced the management challenges they were currently facing.
+    - title: 'Make It Worth: How to Successfully Deliver ML to Production'
+      speaker: Dr. Inbal Budowski-Tal
+      description: A framework for increasing the odds that machine learning initiatives
+        will deliver real production value.
+    - title: MVP for Data Scientists
+      speaker: Topaz Gilad
+      description: Product mindset, iterative delivery, and how to define a useful
+        MVP for a data science team.
+    - title: The Bird's Eye View on DS Management
+      speaker: Tal Rosenwein
+      description: Lessons from managing an entire AI and algorithms group and positioning
+        data science as an organizational function.
+    - title: Managing a Data Science DREAM Team
+      speaker: Nurit Vatnik
+      description: A framework for understanding different team archetypes and using
+        that understanding to shape future hiring.
+    - title: Interview Templates for Data Science
+      speaker: Shay Palachy Affek
+      description: Tradeoffs between common interview formats and how to choose the
+        right one for a given hiring need.
+    - title: DS Hiring Workshop
+      speaker: Nurit Vatnik and Shay Palachy Affek
+      description: A working session that turned the DREAM framework and interview
+        templates into a custom hiring plan.
+    - title: Hiring and Managing Juniors
+      speaker: Alice Fridberg
+      description: How to onboard and develop junior data scientists with the right
+        feedback cadence and training roadmap.
+    - title: The Secret Sauce of Data Science Management
+      speaker: Shir Meir-Lador
+      description: Managing up, down, and across while choosing the right projects
+        to maximize the organization's data science value.
+    - title: Data Science at Scale
+      speaker: Mor Hananovitz
+      description: The practical risks that appear when a promising proof of concept
+        meets larger-scale production reality.
+    - title: Corporate Dynamics
+      speaker: Shay Yahal
+      description: Building coalitions inside organizations and growing the influence
+        needed to get cross-functional work done.
+    - title: Data Science Frameworks
+      speaker: Shay Palachy Affek
+      description: Frameworks for scoping, structuring, and shipping ambiguous data
+        science work.
+    - title: Frameworks Practice
+      speaker: Shay Palachy Affek
+      description: A workshop for participants to adapt the framework ideas to their
+        own teams and projects.
+    hide_empty_materials: true
+  review_notes: Backfilled from the second DataNights DS Management cohort syllabus
+    and planning materials.
+  course_family: datanights
+  section: ''
+  is_generalized: false
+- slug: deep-learning
+  title: Deep Learning
+  subtitle: Course home across academic iterations
+  institution: Unknown institution
+  role: Instructor
+  academic_period: TBD
+  status: active
+  source_drive_folder_id: synthetic-generalized-deep-learning
+  source_drive_folder_name: Deep Learning - Generalized (synthetic)
+  summary: I teach Deep Learning at Tel Aviv University as a hands-on course on modern
+    neural networks, spanning optimization, CNNs, sequence models, transformers, and
+    generative modeling in PyTorch.
+  visibility: public
+  syllabus_url: ''
+  hero_note: This page collects shared materials from multiple iterations of the course
+    together with links to the concrete semester pages.
+  tags: []
+  manual_overrides:
+    hide_empty_materials: true
+    opening_paragraph: Recent iterations have treated deep learning as both a conceptual
+      and engineering subject. Students build models in PyTorch, reason about optimization
+      and regularization, and work through image, text, and sequence problems before
+      reaching transformer-based and generative methods.
+    syllabus_markdown: '* The course starts with neural networks, backpropagation,
+      optimization, and practical training workflows.
+
+      * It continues through deep feedforward models, convolutional networks, and
+      sequence models such as RNNs, LSTMs, and GRUs.
+
+      * Later sessions cover attention, transformers, transfer learning, and large-scale
+      model training.
+
+      * Recent iterations also introduce generative modeling, including autoencoders,
+      VAEs, GANs, and diffusion-style ideas.
+
+      * Assessment typically mixes class assignments, home assignments, and a final
+      pair project.'
+  review_notes: Synthetic generalized parent created automatically from multiple course
+    iterations.
+  course_family: deep-learning
+  section: ''
+  is_generalized: true
+- slug: deep-learning-24b
+  title: Deep Learning
+  subtitle: Course page for teaching materials, 24/25 (Semester B)
+  institution: Unknown institution
+  role: Instructor
+  academic_period: 24/25
+  status: active
+  source_drive_folder_id: 17V62q1D9s09OIVJKjmpZE6bHKcnwNnj3
+  source_drive_folder_name: Deep Learning 24/5B CF
+  summary: This semester of Deep Learning focused on practical neural-network modeling
+    in PyTorch, from optimization and core architectures through sequence models,
+    transformers, and modern generative methods.
+  visibility: public
+  syllabus_url: ''
+  hero_note: ''
+  tags: []
+  manual_overrides:
+    section_label: Semester
+  review_notes: ''
+  course_family: deep-learning
+  section: B
+  is_generalized: false
+- slug: deep-learning-25b
+  title: Deep Learning
+  subtitle: Course page for teaching materials, 25/26 (Semester B)
+  institution: Unknown institution
+  role: Instructor
+  academic_period: 25/26
+  status: active
+  source_drive_folder_id: 1amVjLi96tjMEDAt6fC_xvsvJPx1VOHXC
+  source_drive_folder_name: Deep Learning 25/6B CF
+  summary: This semester of Deep Learning focused on practical neural-network modeling
+    in PyTorch, from optimization and core architectures through sequence models,
+    transformers, and modern generative methods.
+  visibility: public
+  syllabus_url: https://docs.google.com/document/d/1lEbjRVUOG0tZ57mFqS3pIihUlkR1DKcZ/edit?usp=drivesdk&ouid=117394243753980860683&rtpof=true&sd=true
+  hero_note: ''
+  tags: []
+  manual_overrides:
+    section_label: Semester
+    syllabus_markdown: "Deep Learning (Semester B, 25/26) introduces neural networks\
+      \ from core principles to modern architectures and real-world practice. You\
+      \ will build, train, and evaluate models in Python with PyTorch, covering optimization\
+      \ and regularization, computer vision, NLP, and time-series tasks. The course\
+      \ also explores transfer learning and large-scale pretraining, plus key generative\
+      \ approaches such as autoencoders, VAEs, GANs, and diffusion models, with emphasis\
+      \ on critical evaluation, error analysis, robustness, and responsible deployment.\n\
+      \n<table class=\"course-outline-table compact-course-outline-table\">\n  <thead>\n\
+      \    <tr>\n      <th>Lecture</th>\n      <th>Topic</th>\n      <th>Focus</th>\n\
+      \    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>1</td>\n      <td>Neural\
+      \ Networks Foundations</td>\n      <td>Perceptrons to MLPs, forward/backpropagation,\
+      \ losses, initialization, training basics in PyTorch.</td>\n    </tr>\n    <tr>\n\
+      \      <td>2</td>\n      <td>Training Deep Models</td>\n      <td>Optimization\
+      \ (SGD/Adam), learning-rate schedules, regularization (dropout, weight decay),\
+      \ batch normalization, debugging training.</td>\n    </tr>\n    <tr>\n     \
+      \ <td>3</td>\n      <td>Convolutional Neural Networks for Vision</td>\n    \
+      \  <td>CNN building blocks, modern conv nets, residual connections, image classification\
+      \ workflows and evaluation.</td>\n    </tr>\n    <tr>\n      <td>4</td>\n  \
+      \    <td>Sequence Models for Time Series and Text</td>\n      <td>RNNs, LSTM,\
+      \ GRU; handling variable-length sequences, teacher forcing, common failure modes.</td>\n\
+      \    </tr>\n    <tr>\n      <td>5</td>\n      <td>Attention and Transformers</td>\n\
+      \      <td>Self-attention, encoder/decoder Transformers, sequence-to-sequence,\
+      \ practical NLP pipelines.</td>\n    </tr>\n    <tr>\n      <td>6</td>\n   \
+      \   <td>Transfer Learning and Fine-Tuning</td>\n      <td>Using pretrained models,\
+      \ feature extraction vs full fine-tuning, domain shift, scaling considerations.</td>\n\
+      \    </tr>\n    <tr>\n      <td>7</td>\n      <td>Generative Models I: Autoencoders\
+      \ and VAEs</td>\n      <td>Representation learning, reconstruction vs likelihood,\
+      \ latent spaces, VAE training and sampling.</td>\n    </tr>\n    <tr>\n    \
+      \  <td>8</td>\n      <td>Generative Models II: GANs and Diffusion</td>\n   \
+      \   <td>Adversarial training basics, diffusion model intuition and training,\
+      \ strengths/limits, evaluation and safety considerations.</td>\n    </tr>\n\
+      \  </tbody>\n</table>"
+  review_notes: ''
+  course_family: deep-learning
+  section: B
+  is_generalized: false
+- slug: econml
+  title: Intro to ML @ MTA
+  subtitle: Course home across academic iterations
+  institution: The Academic College of Tel Aviv-Yaffo
+  role: Instructor
+  academic_period: TBD
+  status: active
+  source_drive_folder_id: manual-econml-program
+  source_drive_folder_name: EconML generalized course
+  summary: I lecture on machine learning for B.Sc. students of Economics and Management
+    at The Academic College of Tel Aviv-Yaffo.
+  visibility: public
+  syllabus_url: ''
+  hero_note: This page serves as the home for the course across academic iterations.
+  tags:
+  - machine-learning
+  - mta
+  manual_overrides:
+    hide_empty_materials: true
+  review_notes: Program-level landing page for the Intro to ML @ MTA course across
+    semester iterations.
+  course_family: econml
+  section: ''
+  is_generalized: true
+- slug: econml-24
+  title: EconML
+  subtitle: Course page for teaching materials, 24/25
+  institution: Unknown institution
+  role: Instructor
+  academic_period: 24/25
+  status: active
+  source_drive_folder_id: 1r77oGeZsGvSLwNdI8BZg02HqyfUddtWH
+  source_drive_folder_name: EconML 24/5 CF
+  summary: This semester of Intro to ML @ MTA focused on applied machine-learning
+    thinking for economics and management students, with concrete predictive tasks,
+    evaluation, and real-world business-style examples.
+  visibility: public
+  syllabus_url: ''
+  hero_note: ''
+  tags: []
+  manual_overrides: {}
+  review_notes: ''
+  course_family: econml
+  section: ''
+  is_generalized: false
+- slug: econml-25
+  title: EconML
+  subtitle: Course page for teaching materials, 25/26
+  institution: Unknown institution
+  role: Instructor
+  academic_period: 25/26
+  status: active
+  source_drive_folder_id: 1Hf4RxfI82r6rom8G6txMU4VjgPEmHqfX
+  source_drive_folder_name: EconML 25/6 CF
+  summary: This semester of Intro to ML @ MTA focused on applied machine-learning
+    thinking for economics and management students, with concrete predictive tasks,
+    evaluation, and real-world business-style examples.
+  visibility: public
+  syllabus_url: https://docs.google.com/document/d/1l7Kny-xqUVRJRW5bUX6mWtiGbbYlFw2SVWIT7BfqrmA/edit?usp=drivesdk
+  hero_note: ''
+  tags: []
+  manual_overrides: {}
+  review_notes: ''
+  course_family: econml
+  section: ''
+  is_generalized: false
+- slug: text-mining
+  title: Text Mining
+  subtitle: Course home across academic iterations
+  institution: Unknown institution
+  role: Instructor
+  academic_period: TBD
+  status: active
+  source_drive_folder_id: synthetic-generalized-text-mining
+  source_drive_folder_name: Text Mining - Generalized (synthetic)
+  summary: I teach Text Mining at Tel Aviv University, covering classical NLP, representation
+    learning, transformers, and modern LLM-based workflows for working with text as
+    data.
+  visibility: public
+  syllabus_url: ''
+  hero_note: This page collects shared materials from multiple iterations of the course
+    together with links to the relevant semester pages.
+  tags: []
+  manual_overrides:
+    hide_empty_materials: true
+    opening_paragraph: The course starts from practical text preprocessing and classical
+      bag-of-words baselines, then moves through embedding methods, sequence models,
+      transformers, and contemporary LLM systems used for retrieval, summarization,
+      extraction, and classification.
+    syllabus_markdown: '* It begins with text preprocessing, tokenization, normalization,
+      bag-of-words, TF-IDF, and practical pipelines in Python.
+
+      * The next part covers classical NLP baselines, keyword extraction, clustering,
+      topic modeling, and embedding-based unsupervised analysis.
+
+      * Later sessions move through Word2Vec and the path from recurrent sequence
+      models to transformer architectures.
+
+      * Recent iterations focus on BERT, sentence embeddings, prompt-based LLM use,
+      and applied retrieval-augmented systems with real tradeoffs.
+
+      * Coursework typically includes several exercises plus a final project or project
+      presentation.'
+  review_notes: Synthetic generalized parent created automatically from multiple course
+    iterations.
+  course_family: text-mining
+  section: ''
+  is_generalized: true
+- slug: text-mining-24a
+  title: Text Mining
+  subtitle: Course page for teaching materials, 24/25 (Semester A)
+  institution: Unknown institution
+  role: Instructor
+  academic_period: 24/25
+  status: active
+  source_drive_folder_id: 1-WssA_hsct9E77wGXDa_fJ3LNVd2Id3A
+  source_drive_folder_name: Text Mining 24/5A CF
+  summary: This semester of Text Mining focused on practical NLP workflows, from preprocessing
+    and classical representations through embeddings, transformers, and LLM-based
+    applications.
+  visibility: public
+  syllabus_url: https://docs.google.com/document/d/1CTXdQZVnF-VxSe58RIE07r8LSiWEhRxC/edit?usp=drivesdk&ouid=117394243753980860683&rtpof=true&sd=true
+  hero_note: ''
+  tags: []
+  manual_overrides:
+    section_label: Semester
+    syllabus_markdown: "Text Mining (Semester A) introduces automated analysis of\
+      \ large collections of text, with emphasis on social media and user-generated\
+      \ content. The course covers both unsupervised methods for discovering patterns,\
+      \ trends, and topics, and supervised methods for classifying text into predefined\
+      \ categories. Key applications include sentiment analysis (positive/negative/neutral),\
+      \ basic NLP pipelines, and presenting text-based findings through clear visualizations.\n\
+      \n<table class=\"course-outline-table compact-course-outline-table\">\n  <thead>\n\
+      \    <tr>\n      <th>Lecture</th>\n      <th>Topic</th>\n      <th>Focus</th>\n\
+      \    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>Block 1</td>\n      <td>Text\
+      \ mining overview and use cases</td>\n      <td>What text mining is, where text\
+      \ data comes from (social media, reviews, comments), and how to frame business\
+      \ and research questions.</td>\n    </tr>\n    <tr>\n      <td>Block 2</td>\n\
+      \      <td>Text data preparation and representation</td>\n      <td>Cleaning\
+      \ and structuring text data; turning text into analyzable formats; exploratory\
+      \ analysis and simple visual summaries.</td>\n    </tr>\n    <tr>\n      <td>Block\
+      \ 3</td>\n      <td>Unsupervised text analysis: trends and topics</td>\n   \
+      \   <td>Finding patterns without labels, including trend detection and summarizing\
+      \ main themes in a corpus.</td>\n    </tr>\n    <tr>\n      <td>Block 4</td>\n\
+      \      <td>Feature engineering for text</td>\n      <td>Building useful text\
+      \ features (e.g., term weights such as TF-IDF) and understanding their strengths\
+      \ and limitations.</td>\n    </tr>\n    <tr>\n      <td>Block 5</td>\n     \
+      \ <td>Supervised text classification</td>\n      <td>Training models to assign\
+      \ documents to predefined classes; basic evaluation and practical modeling considerations.</td>\n\
+      \    </tr>\n    <tr>\n      <td>Block 6</td>\n      <td>Sentiment analysis</td>\n\
+      \      <td>Methods and workflows for detecting polarity (positive/negative/neutral)\
+      \ and interpreting results in real applications.</td>\n    </tr>\n    <tr>\n\
+      \      <td>Block 7</td>\n      <td>Basic NLP models and pipelines</td>\n   \
+      \   <td>Core NLP building blocks used in modern text analysis and how to combine\
+      \ them into end-to-end solutions.</td>\n    </tr>\n    <tr>\n      <td>Block\
+      \ 8</td>\n      <td>Communicating results with visuals</td>\n      <td>Presenting\
+      \ text mining outputs clearly: charts and summaries for trends, topics, and\
+      \ classification outcomes.</td>\n    </tr>\n  </tbody>\n</table>"
+  review_notes: ''
+  course_family: text-mining
+  section: A
+  is_generalized: false
+- slug: text-mining-25b
+  title: Text Mining
+  subtitle: Course page for teaching materials, 25/26 (Semester B)
+  institution: Unknown institution
+  role: Instructor
+  academic_period: 25/26
+  status: active
+  source_drive_folder_id: 1cWvI21RKYsP3kA-jxIFDiD8WypiIGdsz
+  source_drive_folder_name: Text Mining 25/6B CF
+  summary: This semester of Text Mining focused on practical NLP workflows, from preprocessing
+    and classical representations through embeddings, transformers, and LLM-based
+    applications.
+  visibility: public
+  syllabus_url: https://docs.google.com/document/d/13gdR0otJNi67VFowwkvfcpVKjP6kPNcf/edit?usp=drivesdk&ouid=117394243753980860683&rtpof=true&sd=true
+  hero_note: ''
+  tags: []
+  manual_overrides:
+    section_label: Semester
+    syllabus_markdown: "Text Mining (Semester B) introduces text analysis and NLP\
+      \ from classical methods to modern Transformers and large language models. You\
+      \ will learn how to turn raw text into usable data, clean and preprocess corpora,\
+      \ and build representations such as Bag-of-Words, TF-IDF, n-grams, and embeddings.\
+      \ The course covers supervised and unsupervised analysis (including clustering\
+      \ and topic modeling), model evaluation and error analysis, and moves on to\
+      \ attention, Transformers, BERT/SBERT, prompting, and retrieval-augmented generation\
+      \ (RAG) for practical NLP systems.\n\n<table class=\"course-outline-table compact-course-outline-table\"\
+      >\n  <thead>\n    <tr>\n      <th>Lecture</th>\n      <th>Topic</th>\n     \
+      \ <th>Focus</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td>1</td>\n\
+      \      <td>Text mining & NLP overview</td>\n      <td>Core tasks, data sources,\
+      \ problem framing, and how text becomes analyzable data.</td>\n    </tr>\n \
+      \   <tr>\n      <td>2</td>\n      <td>Cleaning and preprocessing pipelines</td>\n\
+      \      <td>Tokenization, normalization, stopwords, stemming/lemmatization, dataset\
+      \ splits, and common pitfalls.</td>\n    </tr>\n    <tr>\n      <td>3</td>\n\
+      \      <td>Classical vectorization</td>\n      <td>Bag-of-Words, TF-IDF, n-grams,\
+      \ sparsity, feature engineering, and baselines for prediction.</td>\n    </tr>\n\
+      \    <tr>\n      <td>4</td>\n      <td>Unsupervised text discovery</td>\n  \
+      \    <td>Similarity, clustering, and topic modeling; interpreting topics and\
+      \ validating unsupervised results.</td>\n    </tr>\n    <tr>\n      <td>5</td>\n\
+      \      <td>Embeddings and representation learning</td>\n      <td>Word embeddings\
+      \ and sentence embeddings; semantic similarity and downstream uses.</td>\n \
+      \   </tr>\n    <tr>\n      <td>6</td>\n      <td>From sequences to Attention</td>\n\
+      \      <td>Why sequential models struggled, the intuition behind attention,\
+      \ and what it enables.</td>\n    </tr>\n    <tr>\n      <td>7</td>\n      <td>Transformers\
+      \ in practice: BERT and SBERT</td>\n      <td>Encoder-style pretraining, fine-tuning\
+      \ vs embeddings, and applications like search and clustering.</td>\n    </tr>\n\
+      \    <tr>\n      <td>8</td>\n      <td>LLMs and modern NLP systems</td>\n  \
+      \    <td>How LLMs work at a high level, prompting patterns, limitations/risks,\
+      \ and RAG-based applications.</td>\n    </tr>\n  </tbody>\n</table>"
+  review_notes: ''
+  course_family: text-mining
+  section: B
+  is_generalized: false

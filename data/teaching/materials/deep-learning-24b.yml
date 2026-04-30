@@ -1,0 +1,57 @@
+course: deep-learning-24b
+materials:
+- title: 'Deep Learning 24/5 - S0: Course Intro'
+  url: https://docs.google.com/presentation/d/1DX_G2cspFWTPvWOjvUqM826ymDA40g037Cb1mO0X3QA/edit?usp=drivesdk
+  kind: slides
+  week: 0
+  section: Course Materials
+  source_file_id: 1DX_G2cspFWTPvWOjvUqM826ymDA40g037Cb1mO0X3QA
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 00-deep-learning-24-5-s0-course-intro
+  notes: ''
+  description: Week 0 lecture slides
+- title: 'Deep Learning 24/5 - S1: Introduction to Deep Learning'
+  url: https://docs.google.com/presentation/d/1XVGCVHkjxG74iOIZvyaSN7Hw4YX2uC4YUx2uD14wbIE/edit?usp=drivesdk
+  kind: slides
+  week: 1
+  section: Course Materials
+  source_file_id: 1XVGCVHkjxG74iOIZvyaSN7Hw4YX2uC4YUx2uD14wbIE
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 01-deep-learning-24-5-s1-introduction-to-deep-learning
+  notes: ''
+  description: Week 1 lecture slides
+- title: 'Deep Learning 24/5 - S2: Deep Neural Networks'
+  url: https://docs.google.com/presentation/d/1YiRU014LGUecxVHzYZr41ueY6CP4AWtRsupeSL86wLI/edit?usp=drivesdk
+  kind: slides
+  week: 2
+  section: Course Materials
+  source_file_id: 1YiRU014LGUecxVHzYZr41ueY6CP4AWtRsupeSL86wLI
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 02-deep-learning-24-5-s2-deep-neural-networks
+  notes: ''
+  description: Week 2 lecture slides
+- title: 'Deep Learning 24/5 - S3: Convolutional Neural Networks'
+  url: https://docs.google.com/presentation/d/1k06zscIaGeA3_6JZYvBv3_QO__zEq__BiY34c9xaIZQ/edit?usp=drivesdk
+  kind: slides
+  week: 3
+  section: Course Materials
+  source_file_id: 1k06zscIaGeA3_6JZYvBv3_QO__zEq__BiY34c9xaIZQ
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 03-deep-learning-24-5-s3-convolutional-neural-networks
+  notes: ''
+  description: Week 3 lecture slides
+- title: 'Deep Learning 24/5 - S4: Sequences, RNNs & Transformers'
+  url: https://docs.google.com/presentation/d/1NDRYrXj4QtQpMIYPe5IiRe_AZd7IIrMrxudhTTFgGjU/edit?usp=drivesdk
+  kind: slides
+  week: 4
+  section: Course Materials
+  source_file_id: 1NDRYrXj4QtQpMIYPe5IiRe_AZd7IIrMrxudhTTFgGjU
+  source_mime_type: application/vnd.google-apps.presentation
+  published: true
+  sort_key: 04-deep-learning-24-5-s4-sequences-rnns-transformers
+  notes: ''
+  description: Week 4 lecture slides
