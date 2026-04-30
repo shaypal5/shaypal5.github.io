@@ -28,6 +28,8 @@ class ScriptTests(unittest.TestCase):
     def test_mint_google_refresh_token_missing_env(self) -> None:
         module = load_mint_module()
         buffer = io.StringIO()
-        with mock.patch.dict("os.environ", {}, clear=True), contextlib.redirect_stderr(buffer):
+        with mock.patch.object(module, "InstalledAppFlow", object()), \
+            mock.patch.dict("os.environ", {}, clear=True), \
+            contextlib.redirect_stderr(buffer):
             self.assertEqual(module.main(), 1)
         self.assertIn("Missing required environment variable: GOOGLE_OAUTH_CLIENT_ID", buffer.getvalue())
