@@ -1,12 +1,12 @@
 ---
 layout: page
-title: Text Mining
+title: Text Mining @ TAU
 subtitle: Course page for teaching materials, 25/26 (Semester B)
 ---
 
 <!-- GENERATED: edit data/teaching or automation sources instead of this file. -->
 
-## Text Mining
+## Text Mining @ TAU
 
 This semester of Text Mining focused on practical NLP workflows, from preprocessing and classical representations through embeddings, transformers, and LLM-based applications.
 

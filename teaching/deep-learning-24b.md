@@ -1,12 +1,12 @@
 ---
 layout: page
-title: Deep Learning
+title: Deep Learning @ TAU
 subtitle: Course page for teaching materials, 24/25 (Semester B)
 ---
 
 <!-- GENERATED: edit data/teaching or automation sources instead of this file. -->
 
-## Deep Learning
+## Deep Learning @ TAU
 
 This semester of Deep Learning focused on practical neural-network modeling in PyTorch, from optimization and core architectures through sequence models, transformers, and modern generative methods.
 

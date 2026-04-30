@@ -1,12 +1,12 @@
 ---
 layout: page
-title: Data Vis
+title: Data Vis @ TAU
 subtitle: Course home across academic iterations
 ---
 
 <!-- GENERATED: edit data/teaching or automation sources instead of this file. -->
 
-## Data Vis
+## Data Vis @ TAU
 
 I teach Data Visualization at Tel Aviv University, covering visual encoding, dashboard design, storytelling, and the practical craft of turning complex data into clear visual arguments.
 

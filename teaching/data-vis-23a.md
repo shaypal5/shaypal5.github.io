@@ -1,12 +1,12 @@
 ---
 layout: page
-title: Data Vis
+title: Data Vis @ TAU
 subtitle: Course page for teaching materials, 23/24 (Semester A)
 ---
 
 <!-- GENERATED: edit data/teaching or automation sources instead of this file. -->
 
-## Data Vis
+## Data Vis @ TAU
 
 This semester of Data Visualization focused on visual reasoning, chart design, dashboard construction, and applied storytelling with data using Tableau and iterative critique.
 
