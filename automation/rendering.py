@@ -340,11 +340,6 @@ def render_teaching_block(courses: list[Course], materials_by_slug: dict[str, li
     return "\n".join(rendered).rstrip() + "\n"
 
 
-def _render_anchor(anchor: str) -> list[str]:
-    cleaned = str(anchor or "").strip()
-    return [f'<span id="{escape(cleaned)}"></span>'] if cleaned else []
-
-
 def _render_selected_block(css_class: str, heading: str, items: list[dict]) -> list[str]:
     lines = [f'<section class="{css_class} archive-jump-nav">', f"  <h2>{escape(heading)}</h2>", "  <ul>"]
     for item in items:
@@ -364,8 +359,9 @@ def _slugify_public_heading(value: str) -> str:
 
 
 def _render_archive_entry(item: dict) -> list[str]:
-    lines = ['<section class="archive-entry" markdown="1">']
-    lines.extend(_render_anchor(str(item.get("anchor", "") or "")))
+    anchor = str(item.get("anchor", "") or "").strip()
+    id_attribute = f' id="{escape(anchor)}"' if anchor else ""
+    lines = [f'<section class="archive-entry"{id_attribute} markdown="1">']
     markdown = str(item.get("markdown", "") or "").rstrip()
     if markdown:
         lines.extend(markdown.splitlines())
@@ -434,9 +430,13 @@ def render_projects_page(page_data: dict) -> str:
         title = str(group.get("title", "") or "").strip()
         if not title:
             continue
-        anchor = _slugify_public_heading(title)
+        base_anchor = _slugify_public_heading(title)
+        anchor = base_anchor
+        counter = 2
         if anchor in used_section_anchors:
-            anchor = f"{anchor}-{len(used_section_anchors) + 1}"
+            while anchor in used_section_anchors:
+                anchor = f"{base_anchor}-{counter}"
+                counter += 1
         used_section_anchors.add(anchor)
         section_anchors[index] = anchor
         section_links.append({"anchor": anchor, "title": title})

@@ -19,8 +19,7 @@ updated: April 2026
 
 <div class="archive-list writing-list" markdown="1">
 
-<section class="archive-entry" markdown="1">
-<span id="data-science-project-flow"></span>
+<section class="archive-entry" id="data-science-project-flow" markdown="1">
 **[Data Science Project Flow for Startups](https://towardsdatascience.com/data-science-project-flow-for-startups-282a93d4508d?source=friends_link&sk=7c29bb9683e4c3564d92d89d31a666d1){:target="_blank"}**
 </section>
 
@@ -32,13 +31,11 @@ updated: April 2026
 **[Postmortem: A Year of Data Science Peer Review in Startups](https://shay-palachy.medium.com/postmortem-a-year-of-data-science-peer-review-in-startups-7e9cc2862ed9){:target="_blank"}**
 </section>
 
-<section class="archive-entry" markdown="1">
-<span id="document-embedding-techniques"></span>
+<section class="archive-entry" id="document-embedding-techniques" markdown="1">
 **[Document Embedding Techniques: A review of notable literature on the topic](https://towardsdatascience.com/document-embedding-techniques-fed3e7a6a25d?source=friends_link&sk=158194696b5fe4cad9605f4648eb2a83){:target="_blank"}** [[KDnuggets](https://www.kdnuggets.com/2019/10/beyond-word-embedding-document-embedding.html){:target="_blank"}]
 </section>
 
-<section class="archive-entry" markdown="1">
-<span id="inferring-causality"></span>
+<section class="archive-entry" id="inferring-causality" markdown="1">
 **[Inferring causality in time series data: A concise review of the major approaches](https://medium.com/@shay.palachy/inferring-causality-in-time-series-data-b8b75fe52c46?source=friends_link&sk=37de8f0c1ab78e04d3a5cf1cdc5f3282){:target="_blank"}**
 </section>
 

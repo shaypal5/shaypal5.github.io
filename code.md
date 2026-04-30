@@ -30,13 +30,11 @@ updated: April 2026
 
 <h2 id="data-ml-tools">Data &amp; ML Tools</h2>
 
-<section class="archive-entry" markdown="1">
-<span id="pdpipe"></span>
+<section class="archive-entry" id="pdpipe" markdown="1">
 **[pdpipe](https://pdpipe.readthedocs.io/en/latest/){:target="_blank"}** - A composable pipeline library for pandas DataFrames, with reusable stages for column operations, encoding, and data-preparation workflows. [[website](https://pdpipe.readthedocs.io/en/latest/){:target="_blank"}] [[GitHub](https://github.com/pdpipe/pdpipe){:target="_blank"}]
 </section>
 
-<section class="archive-entry" markdown="1">
-<span id="pulearn"></span>
+<section class="archive-entry" id="pulearn" markdown="1">
 **[pulearn](https://pulearn.github.io/pulearn/){:target="_blank"}** - Python estimators, metrics, guides, and examples for learning from positive and unlabeled data, including scikit-learn-compatible PU classifiers. [[website](https://pulearn.github.io/pulearn/){:target="_blank"}] [[documentation](https://pulearn.github.io/pulearn/doc/pulearn/){:target="_blank"}] [[GitHub](https://github.com/pulearn/pulearn){:target="_blank"}]
 </section>
 
@@ -54,8 +52,7 @@ updated: April 2026
 
 <h2 id="python-ai-workflow-utilities">Python &amp; AI Workflow Utilities</h2>
 
-<section class="archive-entry" markdown="1">
-<span id="cachier"></span>
+<section class="archive-entry" id="cachier" markdown="1">
 **[cachier](https://github.com/python-cachier/cachier){:target="_blank"}** - Persistent, stale-aware caching decorators for Python functions, with local files, memory, MongoDB, SQL, Redis, and S3 backends plus async support and cache analytics.
 </section>
 

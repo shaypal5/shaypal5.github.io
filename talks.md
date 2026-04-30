@@ -19,8 +19,7 @@ updated: April 2026
 
 <div class="archive-list talks-list" markdown="1">
 
-<section class="archive-entry" markdown="1">
-<span id="talk-llm-genai"></span>
+<section class="archive-entry" id="talk-llm-genai" markdown="1">
 **[Emerging Techniques & Breakthroughs in LLMs: A case study through the DeepSeek family of models](https://docs.google.com/presentation/d/1rMCbR-Qsi7Tlnv4s9Ok3pa01bd2MWNBieR6VbhsqJu0/edit?usp=sharing){:target="_blank"} @ DataNights GenAI #2, 12/05/2025** - A ~2 hours long lecture, as part of the second cohort of the GenAI program of [the DataNights program](https://datanights-il.github.io/){:target="_blank"} (which runs as part of [the Datahack nonprofit](https://datahack.org.il/){:target="_blank"}), building upon my previous two lectures on LLM fundamentals, and providing a concise review of key innovations and recent techniques in LLMs that enable their current outstanding performance, given through a study of the DeepSeek family of models - beginning from DeepSeekLLM/V1 and culminating in DeepSeek-R1 - released over the last year and a half. [[Google Slides](https://docs.google.com/presentation/d/1rMCbR-Qsi7Tlnv4s9Ok3pa01bd2MWNBieR6VbhsqJu0/edit?usp=sharing){:target="_blank"}] [[Video, Part 1](https://youtu.be/-D-Ys6Oi7M0){:target="_blank"}] [[Video, Part 2](https://youtu.be/kam7kRQXOR8){:target="_blank"}]
 </section>
 
@@ -28,8 +27,7 @@ updated: April 2026
 **[LLMs Fundamentals: From BERT to GPT-4o](https://docs.google.com/presentation/d/1PB7RypfxKPPlzerMTMUWqFduEJNeNIynL38SYUNA1DU/edit?usp=sharing){:target="_blank"} @ DataNights GenAI #2, 24/03/2025** - Given over two lectures, each ~3 hours long, as part of the second cohort of the GenAI program of [the DataNights program](https://datanights-il.github.io/){:target="_blank"} (which runs as part of [the Datahack nonprofit](https://datahack.org.il/){:target="_blank"}), providing a thorough overview of Large Language Models, the theory they are based on and how LLMs are made. [[Google Slides](https://docs.google.com/presentation/d/1PB7RypfxKPPlzerMTMUWqFduEJNeNIynL38SYUNA1DU/edit?usp=sharing){:target="_blank"}] [[Video, Part 1](https://youtu.be/AqpToPk166c){:target="_blank"}] [[Video, Part 2](https://youtu.be/aZdUjEmdMss){:target="_blank"}]
 </section>
 
-<section class="archive-entry" markdown="1">
-<span id="talk-ds-engineering"></span>
+<section class="archive-entry" id="talk-ds-engineering" markdown="1">
 **[No (working) hands! Engineer-less Data/ML Eng. for pure DS teams](https://www.youtube.com/watch?v=UIySLIzX2xs){:target="_blank"} @ [MDLIOps 2024](https://machinelearning.co.il/lp-events/mdliops-2024/?utm_source=Web&utm_medium=website+&utm_campaign=mdliops24){:target="_blank"}, 11/07/2024** - In this talk I have shared the story of guiding a small, junior, engineer-less analytics & DS team in a successful transformation of an old, slow and complex data warehouse system into a fully fledged scale-capable, multi-tenant, pure Python, modern Data Lakehouse on Databricks, with extremely minimal support from R&D, for all existing and new BI analytics and models in the company. [[Google Slides](https://docs.google.com/presentation/d/1h-MRpg6KDG4Ad5zwPFdM9T4XMzmacMQeUKYg_LEMsIk/edit?usp=sharing){:target="_blank"}] [[Video](https://www.youtube.com/watch?v=UIySLIzX2xs)]
 </section>
 
@@ -57,8 +55,7 @@ updated: April 2026
 **[What is MLOps?](https://docs.google.com/presentation/d/1W1bfJE_MUTega9PMALCKseXp6ACV7XNGZ__F64vnfjo/edit?usp=sharing){:target="_blank"} @ Harmonya, 06/09/2023** - A concise review of what types and categories of MLOps tools are out there. [[Google Slides](https://docs.google.com/presentation/d/1W1bfJE_MUTega9PMALCKseXp6ACV7XNGZ__F64vnfjo/edit?usp=sharing){:target="_blank"}]
 </section>
 
-<section class="archive-entry" markdown="1">
-<span id="talk-ds-leadership"></span>
+<section class="archive-entry" id="talk-ds-leadership" markdown="1">
 **[Frameworks for data science projects: Workflows, def docs, playbooks & peer reviews](https://docs.google.com/presentation/d/1XuHz9OZUyVdNtKGMjKd8DZMNWH50aqJIR2ow37c8qzg/edit?usp=sharing){:target="_blank"} @ [DataNights DS Management #2](https://datanights-il.github.io/dsmgmt/){:target="_blank"}, 21/06/2023**- A few frameworks to handle data science project challenges. Given at the second cohort of our [DataNights program on leading data science teams](https://datanights-il.github.io/programs/dsmgmt/){:target="_blank"}. [[Google Slides](https://docs.google.com/presentation/d/1XuHz9OZUyVdNtKGMjKd8DZMNWH50aqJIR2ow37c8qzg/edit?usp=sharing){:target="_blank"}]
 </section>
 
