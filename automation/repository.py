@@ -5,12 +5,21 @@ from pathlib import Path
 import shutil
 
 from automation.config import Paths
-from automation.data_io import load_courses, load_materials, save_courses, save_excluded_materials, save_materials
+from automation.data_io import (
+    load_courses,
+    load_materials,
+    load_public_page_data,
+    save_courses,
+    save_excluded_materials,
+    save_materials,
+)
 from automation.models import Course, ExcludedMaterial, Material
 from automation.rendering import (
     file_diff_summary,
     inject_managed_block,
+    PUBLIC_PAGE_TARGETS,
     render_course_page,
+    render_public_page,
     render_teaching_block,
     should_render_course_page,
 )
@@ -82,6 +91,15 @@ def render_repository(
         changes.append(summary)
     if not dry_run:
         paths.teaching_index.write_text(teaching_rendered, encoding="utf-8")
+
+    for page, target_name in PUBLIC_PAGE_TARGETS.items():
+        rendered = render_public_page(page, load_public_page_data(paths, page))
+        target = paths.repo_root / target_name
+        summary = file_diff_summary(target, rendered)
+        if summary:
+            changes.append(summary)
+        if not dry_run:
+            target.write_text(rendered, encoding="utf-8")
     return RenderResult(changed_files=changes)
 
 

@@ -6,7 +6,7 @@ from pathlib import Path
 import re
 from typing import Any
 
-from automation.config import GENERATED_HEADER, TEACHING_MARKER_END, TEACHING_MARKER_START
+from automation.config import GENERATED_HEADER, PUBLIC_PAGE_GENERATED_HEADER, TEACHING_MARKER_END, TEACHING_MARKER_START
 from automation.models import Course, Material
 
 PINNED_TEACHING_INDEX_ORDER = {
@@ -20,6 +20,11 @@ PINNED_TEACHING_INDEX_ORDER = {
 
 GENERIC_SUMMARY_PREFIX = "Teaching materials extracted from Google Drive folder"
 UNKNOWN_METADATA_VALUES = {"", "unknown institution", "tbd"}
+PUBLIC_PAGE_TARGETS = {
+    "talks": "talks.md",
+    "writing": "blog.md",
+    "projects": "code.md",
+}
 
 MATERIAL_TITLE_SUFFIX_PATTERNS = (
     re.compile(r"\s+[-\u2013\u2014]\s+[^-\u2013\u2014]*@\s*[A-Z][A-Za-z. ]+\s*$"),
@@ -333,6 +338,96 @@ def render_teaching_block(courses: list[Course], materials_by_slug: dict[str, li
     rendered.append("</div>")
     rendered.append(TEACHING_MARKER_END)
     return "\n".join(rendered).rstrip() + "\n"
+
+
+def _render_anchor(anchor: str) -> list[str]:
+    cleaned = str(anchor or "").strip()
+    return [f'<span id="{escape(cleaned)}"></span>'] if cleaned else []
+
+
+def _render_selected_block(css_class: str, heading: str, items: list[dict]) -> list[str]:
+    lines = [f'<section class="{css_class}">', f"  <h2>{escape(heading)}</h2>", "  <ul>"]
+    for item in items:
+        anchor = str(item.get("anchor", "") or "").strip()
+        title = str(item.get("title", "") or "").strip()
+        description = str(item.get("description", "") or "").strip()
+        link = f'<a href="#{escape(anchor)}">{escape(title)}</a>' if anchor else escape(title)
+        suffix = f" - {description}" if description else ""
+        lines.append(f"    <li><strong>{link}</strong>{suffix}</li>")
+    lines.extend(["  </ul>", "</section>"])
+    return lines
+
+
+def _render_markdown_entry(item: dict) -> list[str]:
+    lines = _render_anchor(str(item.get("anchor", "") or ""))
+    markdown = str(item.get("markdown", "") or "").rstrip()
+    if markdown:
+        lines.extend(markdown.splitlines())
+    return lines
+
+
+def _front_matter(page_data: dict) -> list[str]:
+    front_matter = dict(page_data.get("front_matter", {}) or {})
+    lines = ["---"]
+    for key, value in front_matter.items():
+        lines.append(f"{key}: {value}")
+    lines.extend(["---", ""])
+    return lines
+
+
+def render_talks_page(page_data: dict) -> str:
+    selected = dict(page_data.get("selected", {}) or {})
+    lines = _front_matter(page_data)
+    lines.extend([PUBLIC_PAGE_GENERATED_HEADER, ""])
+    lines.extend(_render_selected_block("talks-featured", selected.get("heading", "Selected Talks"), selected.get("items", []) or []))
+    lines.extend(["", '<div class="talks-list" markdown="1">', ""])
+    for entry in page_data.get("talks", []) or []:
+        lines.extend(_render_markdown_entry(entry))
+        lines.append("")
+    lines.append("</div>")
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def render_writing_page(page_data: dict) -> str:
+    selected = dict(page_data.get("selected", {}) or {})
+    lines = _front_matter(page_data)
+    lines.extend([PUBLIC_PAGE_GENERATED_HEADER, ""])
+    lines.extend(_render_selected_block("selected-writing", selected.get("heading", "Selected Writing"), selected.get("items", []) or []))
+    lines.extend([""])
+    for entry in page_data.get("writing", []) or []:
+        lines.extend(_render_markdown_entry(entry))
+        lines.append("")
+    for line in page_data.get("footer_markdown", []) or []:
+        lines.append(str(line))
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def render_projects_page(page_data: dict) -> str:
+    selected = dict(page_data.get("selected", {}) or {})
+    lines = _front_matter(page_data)
+    lines.extend([PUBLIC_PAGE_GENERATED_HEADER, ""])
+    lines.extend(_render_selected_block("selected-projects", selected.get("heading", "Selected Projects"), selected.get("items", []) or []))
+    lines.extend([""])
+    for group in page_data.get("groups", []) or []:
+        title = str(group.get("title", "") or "").strip()
+        if title:
+            lines.extend([f"## {title}", ""])
+        for project in group.get("projects", []) or []:
+            lines.extend(_render_markdown_entry(project))
+            lines.append("")
+    for line in page_data.get("footer_markdown", []) or []:
+        lines.append(str(line))
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def render_public_page(page: str, page_data: dict) -> str:
+    if page == "talks":
+        return render_talks_page(page_data)
+    if page == "writing":
+        return render_writing_page(page_data)
+    if page == "projects":
+        return render_projects_page(page_data)
+    raise ValueError(f"Unsupported public page data set: {page}")
 
 
 def inject_managed_block(existing: str, generated_block: str) -> str:

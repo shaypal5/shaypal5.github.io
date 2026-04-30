@@ -64,6 +64,10 @@ def load_materials(paths: Paths, slug: str) -> list[Material]:
     return [Material.from_dict(item) for item in items]
 
 
+def load_public_page_data(paths: Paths, page: str) -> dict:
+    return _read_yaml(paths.site_data_root / f"{page}.yml")
+
+
 def save_materials(paths: Paths, slug: str, materials: list[Material]) -> None:
     ordered = sorted(
         materials,

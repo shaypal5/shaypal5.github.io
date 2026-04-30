@@ -7,6 +7,7 @@ from pathlib import Path
 
 TOKEN_URI_DEFAULT = "https://oauth2.googleapis.com/token"
 GENERATED_HEADER = "<!-- GENERATED: edit data/teaching or automation sources instead of this file. -->"
+PUBLIC_PAGE_GENERATED_HEADER = "<!-- GENERATED: edit data/*.yml or automation sources instead of this file. -->"
 TEACHING_MARKER_START = "<!-- BEGIN GENERATED: teaching-courses -->"
 TEACHING_MARKER_END = "<!-- END GENERATED: teaching-courses -->"
 
@@ -34,6 +35,7 @@ class PublishError(AutomationError):
 @dataclass(frozen=True)
 class Paths:
     repo_root: Path
+    site_data_root: Path
     data_root: Path
     materials_root: Path
     teaching_root: Path
@@ -54,6 +56,7 @@ def build_paths(root: Path | None = None) -> Paths:
     resolved = root or repo_root()
     return Paths(
         repo_root=resolved,
+        site_data_root=resolved / "data",
         data_root=resolved / "data" / "teaching",
         materials_root=resolved / "data" / "teaching" / "materials",
         teaching_root=resolved / "teaching",

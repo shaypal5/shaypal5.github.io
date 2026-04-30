@@ -16,6 +16,7 @@ from automation.validation import (
     validate_generated_files,
     validate_internal_links,
     validate_materials,
+    validate_public_page_data,
     validate_repository,
 )
 
@@ -127,6 +128,19 @@ class ValidationTests(unittest.TestCase):
         )
         errors = validate_materials("course", [google_material])
         self.assertTrue(any("unsupported Google URL pattern" in error for error in errors))
+
+        errors = validate_public_page_data(
+            "writing",
+            {
+                "front_matter": [],
+                "selected": {"items": [{"anchor": "missing-anchor", "title": "Missing"}]},
+                "writing": [{"anchor": "Bad Anchor", "markdown": ""}],
+            },
+        )
+        self.assertTrue(any("front_matter must be a mapping" in error for error in errors))
+        self.assertTrue(any("invalid anchor format" in error for error in errors))
+        self.assertTrue(any("missing markdown" in error for error in errors))
+        self.assertTrue(any("points to missing anchor" in error for error in errors))
 
     def test_generated_file_and_internal_link_validation(self) -> None:
         paths = build_paths(self.repo_root)

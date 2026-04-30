@@ -16,15 +16,19 @@ Purpose: personal Jekyll site plus local Python automation for teaching-content 
   - `naming.py`: folder/material inference heuristics.
   - `data_io.py`: YAML load/save.
   - `models.py`: course/material schemas.
-  - `rendering.py`: deterministic markdown generation, including public material labels and course materials notes.
+  - `rendering.py`: deterministic markdown generation, including public material labels, course materials notes, and Talks/Blog/Code page rendering.
   - `repository.py`: repo render/write orchestration.
-  - `validation.py`: schema/link/staleness validation.
+  - `validation.py`: schema/link/staleness validation for teaching and structured public pages.
   - `publish.py`: local git/PR publish helpers.
 - `data/teaching/`
   - `courses.yml`: canonical course registry.
   - `materials/*.yml`: canonical per-course material lists.
+- `data/talks.yml`: canonical Talks page front matter, selected links, anchors, and entries.
+- `data/writing.yml`: canonical Blog page front matter, selected links, anchors, and entries.
+- `data/projects.yml`: canonical Code page front matter, selected links, anchors, grouped sections, and entries.
 - `teaching/`: generated course pages.
 - `teaching.md`: teaching index with managed generated block.
+- `talks.md`, `blog.md`, `code.md`: generated public pages rendered from `data/*.yml`.
 - `tests/`
   - `test_naming.py`
   - `test_render_validate.py`
@@ -42,6 +46,7 @@ Purpose: personal Jekyll site plus local Python automation for teaching-content 
 - Material schema: `automation/models.py`, `docs/data_model.md`, `data/teaching/materials/*.yml`
 - Curation controls: material `public_title` preserves source `title` internally while curating public link text; course `manual_overrides.materials_note` renders reviewed context before materials lists.
 - Managed-file markers: `automation/config.py`
+- Public page data: `data/talks.yml`, `data/writing.yml`, `data/projects.yml`
 - CLI contract: `automation/cli.py`
 - Env vars: `automation/config.py`, `docs/operations.md`
 

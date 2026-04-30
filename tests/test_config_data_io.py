@@ -10,6 +10,7 @@ from automation.data_io import (
     format_teaching_yaml,
     load_courses,
     load_materials,
+    load_public_page_data,
     save_courses,
     save_materials,
 )
@@ -21,6 +22,7 @@ class ConfigDataIoTests(unittest.TestCase):
         root = repo_root()
         self.assertTrue((root / "automation").exists())
         paths = build_paths(Path("/tmp/example"))
+        self.assertEqual(paths.site_data_root.as_posix(), "/tmp/example/data")
         self.assertEqual(paths.teaching_index.as_posix(), "/tmp/example/teaching.md")
         self.assertEqual(paths.preview_root.as_posix(), "/tmp/example/.automation-preview")
         self.assertEqual(paths.preview_teaching_index.as_posix(), "/tmp/example/.automation-preview/teaching.md")
@@ -116,6 +118,11 @@ class ConfigDataIoTests(unittest.TestCase):
             save_materials(paths, "z-course", materials)
             loaded = load_materials(paths, "z-course")
             self.assertEqual([item.title for item in loaded], ["A", "B"])
+
+            public_page = root / "data" / "writing.yml"
+            public_page.parent.mkdir(parents=True, exist_ok=True)
+            public_page.write_text("front_matter:\n  title: Blog\n", encoding="utf-8")
+            self.assertEqual(load_public_page_data(paths, "writing")["front_matter"]["title"], "Blog")
 
     def test_format_teaching_yaml_rewrites_manual_style(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

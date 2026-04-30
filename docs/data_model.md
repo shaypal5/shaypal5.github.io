@@ -89,3 +89,24 @@ stripping known noisy suffixes such as presenter or Google Slides markers.
 - Slugs must be unique across all courses.
 - Slugs are lowercase ASCII, with non-alphanumeric characters collapsed to `-`.
 - Existing public URLs should be preserved when migrating legacy pages.
+
+## Public Page Data
+The Talks, Blog, and Code pages use lightweight YAML data files at:
+- `data/talks.yml`
+- `data/writing.yml`
+- `data/projects.yml`
+
+Each file owns the page front matter, selected-item list, stable in-page anchors,
+and the markdown entries rendered into the public page. The generated pages are:
+- `talks.md`
+- `blog.md`
+- `code.md`
+
+Selected sections are structured as `selected.heading` plus `selected.items`.
+Each selected item must point to an anchor owned by a rendered talk, writing item,
+or project entry. Code projects are additionally grouped under `groups[].title`
+to preserve the current public sections.
+
+Run `python3 -m automation.cli courses render` after editing these files. The
+existing `courses validate` and `courses plan` commands also check these generated
+pages for stale output.

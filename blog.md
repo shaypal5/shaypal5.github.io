@@ -6,6 +6,8 @@ description: Selected writing by Shay Palachy-Affek on data science project prac
 updated: April 2026
 ---
 
+<!-- GENERATED: edit data/*.yml or automation sources instead of this file. -->
+
 <section class="selected-writing">
   <h2>Selected Writing</h2>
   <ul>
@@ -41,7 +43,6 @@ updated: April 2026
 **[Bitbucket repository status badges](https://shay-palachy.medium.com/bitbucket-repository-status-badges-2271637635aa){:target="_blank"}**
 
 |
-
 [//]: # "News items on InfoQ""
 
 

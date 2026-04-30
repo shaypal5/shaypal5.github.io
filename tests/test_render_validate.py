@@ -16,6 +16,7 @@ from automation.rendering import (
     inject_managed_block,
     public_material_title,
     render_course_page,
+    render_public_page,
     render_teaching_block,
     should_render_course_page,
     visible_courses,
@@ -112,6 +113,31 @@ class RenderValidateTests(unittest.TestCase):
         self.assertIn("#### Current Courses", updated)
         with self.assertRaises(ValueError):
             inject_managed_block("no markers here", rendered)
+
+        public_page = render_public_page(
+            "projects",
+            {
+                "front_matter": {"layout": "page", "title": "Code"},
+                "selected": {
+                    "heading": "Selected Projects",
+                    "items": [{"anchor": "demo", "title": "demo", "description": "Example project."}],
+                },
+                "groups": [
+                    {
+                        "title": "Tools",
+                        "projects": [
+                            {
+                                "anchor": "demo",
+                                "markdown": '**[demo](https://example.com){:target="_blank"}** - Example.',
+                            }
+                        ],
+                    }
+                ],
+            },
+        )
+        self.assertIn("<!-- GENERATED: edit data/*.yml or automation sources instead of this file. -->", public_page)
+        self.assertIn('<a href="#demo">demo</a>', public_page)
+        self.assertIn('<span id="demo"></span>', public_page)
 
         course = courses[0]
         materials = materials_by_slug[course.slug] + [
