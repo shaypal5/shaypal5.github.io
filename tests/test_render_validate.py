@@ -137,6 +137,10 @@ class RenderValidateTests(unittest.TestCase):
         )
         self.assertIn("<!-- GENERATED: edit data/*.yml or automation sources instead of this file. -->", public_page)
         self.assertIn('<a href="#demo">demo</a>', public_page)
+        self.assertIn('<nav class="archive-section-nav" aria-label="Archive sections">', public_page)
+        self.assertIn('<h2 id="tools">Tools</h2>', public_page)
+        self.assertIn('<div class="archive-list projects-list" markdown="1">', public_page)
+        self.assertIn('<section class="archive-entry" markdown="1">', public_page)
         self.assertIn('<span id="demo"></span>', public_page)
 
         course = courses[0]

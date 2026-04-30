@@ -346,7 +346,7 @@ def _render_anchor(anchor: str) -> list[str]:
 
 
 def _render_selected_block(css_class: str, heading: str, items: list[dict]) -> list[str]:
-    lines = [f'<section class="{css_class}">', f"  <h2>{escape(heading)}</h2>", "  <ul>"]
+    lines = [f'<section class="{css_class} archive-jump-nav">', f"  <h2>{escape(heading)}</h2>", "  <ul>"]
     for item in items:
         anchor = str(item.get("anchor", "") or "").strip()
         title = str(item.get("title", "") or "").strip()
@@ -358,11 +358,28 @@ def _render_selected_block(css_class: str, heading: str, items: list[dict]) -> l
     return lines
 
 
-def _render_markdown_entry(item: dict) -> list[str]:
-    lines = _render_anchor(str(item.get("anchor", "") or ""))
+def _slugify_public_heading(value: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "-", value.casefold()).strip("-")
+    return slug or "section"
+
+
+def _render_archive_entry(item: dict) -> list[str]:
+    lines = ['<section class="archive-entry" markdown="1">']
+    lines.extend(_render_anchor(str(item.get("anchor", "") or "")))
     markdown = str(item.get("markdown", "") or "").rstrip()
     if markdown:
         lines.extend(markdown.splitlines())
+    lines.append("</section>")
+    return lines
+
+
+def _render_section_nav(items: list[dict[str, str]]) -> list[str]:
+    if not items:
+        return []
+    lines = ['<nav class="archive-section-nav" aria-label="Archive sections">', "  <ul>"]
+    for item in items:
+        lines.append(f'    <li><a href="#{escape(item["anchor"])}">{escape(item["title"])}</a></li>')
+    lines.extend(["  </ul>", "</nav>"])
     return lines
 
 
@@ -380,9 +397,9 @@ def render_talks_page(page_data: dict) -> str:
     lines = _front_matter(page_data)
     lines.extend([PUBLIC_PAGE_GENERATED_HEADER, ""])
     lines.extend(_render_selected_block("talks-featured", selected.get("heading", "Selected Talks"), selected.get("items", []) or []))
-    lines.extend(["", '<div class="talks-list" markdown="1">', ""])
+    lines.extend(["", '<div class="archive-list talks-list" markdown="1">', ""])
     for entry in page_data.get("talks", []) or []:
-        lines.extend(_render_markdown_entry(entry))
+        lines.extend(_render_archive_entry(entry))
         lines.append("")
     lines.append("</div>")
     return "\n".join(lines).rstrip() + "\n"
@@ -393,10 +410,12 @@ def render_writing_page(page_data: dict) -> str:
     lines = _front_matter(page_data)
     lines.extend([PUBLIC_PAGE_GENERATED_HEADER, ""])
     lines.extend(_render_selected_block("selected-writing", selected.get("heading", "Selected Writing"), selected.get("items", []) or []))
-    lines.extend([""])
+    lines.extend(["", '<div class="archive-list writing-list" markdown="1">', ""])
     for entry in page_data.get("writing", []) or []:
-        lines.extend(_render_markdown_entry(entry))
+        lines.extend(_render_archive_entry(entry))
         lines.append("")
+    lines.append("</div>")
+    lines.append("")
     for line in page_data.get("footer_markdown", []) or []:
         lines.append(str(line))
     return "\n".join(lines).rstrip() + "\n"
@@ -407,14 +426,36 @@ def render_projects_page(page_data: dict) -> str:
     lines = _front_matter(page_data)
     lines.extend([PUBLIC_PAGE_GENERATED_HEADER, ""])
     lines.extend(_render_selected_block("selected-projects", selected.get("heading", "Selected Projects"), selected.get("items", []) or []))
-    lines.extend([""])
-    for group in page_data.get("groups", []) or []:
+    groups = page_data.get("groups", []) or []
+    section_links = []
+    section_anchors: dict[int, str] = {}
+    used_section_anchors: set[str] = set()
+    for index, group in enumerate(groups):
+        title = str(group.get("title", "") or "").strip()
+        if not title:
+            continue
+        anchor = _slugify_public_heading(title)
+        if anchor in used_section_anchors:
+            anchor = f"{anchor}-{len(used_section_anchors) + 1}"
+        used_section_anchors.add(anchor)
+        section_anchors[index] = anchor
+        section_links.append({"anchor": anchor, "title": title})
+    section_nav = _render_section_nav(section_links)
+    if section_nav:
+        lines.extend([""])
+        lines.extend(section_nav)
+    lines.extend(["", '<div class="archive-list projects-list" markdown="1">', ""])
+    for index, group in enumerate(groups):
         title = str(group.get("title", "") or "").strip()
         if title:
-            lines.extend([f"## {title}", ""])
+            anchor = section_anchors.get(index, "")
+            heading = f'<h2 id="{escape(anchor)}">{escape(title)}</h2>' if anchor else f"## {title}"
+            lines.extend([heading, ""])
         for project in group.get("projects", []) or []:
-            lines.extend(_render_markdown_entry(project))
+            lines.extend(_render_archive_entry(project))
             lines.append("")
+    lines.append("</div>")
+    lines.append("")
     for line in page_data.get("footer_markdown", []) or []:
         lines.append(str(line))
     return "\n".join(lines).rstrip() + "\n"

@@ -532,15 +532,82 @@ header.header-post .post-heading .post-subheading {
   margin-bottom: 8px;
 }
 
+.archive-section-nav {
+  border-bottom: 1px solid #EAEAEA;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+}
+
+.archive-section-nav ul {
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.archive-section-nav li {
+  display: inline-block;
+  margin: 0 14px 8px 0;
+}
+
+.archive-list {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.archive-list a {
+  overflow-wrap: anywhere;
+}
+
+.archive-entry,
+.archive-list h2 {
+  scroll-margin-top: 100px;
+}
+
 @media only screen and (max-width: 767px) {
-  .talks-list p,
-  .talks-list > strong,
-  .talks-list > p {
+  .archive-jump-nav,
+  .archive-section-nav {
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+  }
+
+  .archive-jump-nav h2,
+  .archive-section-nav h2 {
+    font-size: 20px;
+    margin-top: 0;
+  }
+
+  .archive-jump-nav ul,
+  .archive-section-nav ul {
+    padding-left: 0;
+  }
+
+  .archive-jump-nav li,
+  .archive-section-nav li {
+    line-height: 1.35;
+    margin-bottom: 10px;
+  }
+
+  .archive-list p,
+  .archive-list > strong,
+  .archive-list > p {
     overflow-wrap: anywhere;
   }
 
-  .talks-list a {
-    overflow-wrap: anywhere;
+  .archive-entry {
+    border-bottom: 1px solid #EAEAEA;
+    padding: 0 0 14px;
+    margin-bottom: 14px;
+  }
+
+  .archive-entry p {
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  .archive-list h2 {
+    font-size: 22px;
+    margin: 26px 0 14px;
   }
 
   .course-outline-table {
