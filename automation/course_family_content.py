@@ -92,6 +92,39 @@ GENERALIZED_COURSE_CONTENT: dict[str, dict[str, object]] = {
     },
 }
 
+COMPACT_CONCRETE_SYLLABUS_CONTENT: dict[str, dict[str, object]] = {
+    "data-vis": {
+        "paragraph": (
+            "This semester covers the full workflow of data visualization: understanding audience and task, "
+            "choosing the right abstractions and chart forms, building dashboards in Tableau, and critiquing "
+            "visual choices so that data stories stay both accurate and readable."
+        ),
+        "lectures": [
+            ("1", "Course framing and intro to data visualization", "Why visualization matters, examples, and course structure."),
+            ("2", "Task and data abstraction", "Turning messy analytical questions into formal visual tasks and data types."),
+            ("3", "Marks, channels, and chart grammar", "How visual encodings shape readability and interpretation."),
+            ("4", "Chart families and design tradeoffs", "Selecting chart types and avoiding misleading comparisons."),
+            ("5", "Data preparation and Tableau workflows", "Preparing data and implementing visual ideas in Tableau."),
+            ("6", "Dashboards, interaction, and storytelling", "Combining views into coherent dashboards and data-driven narratives."),
+        ],
+    },
+    "deep-learning": {
+        "paragraph": (
+            "This semester treats deep learning as a practical modeling course: students build and train models in "
+            "PyTorch, learn the major neural architectures used for images, text, and sequences, and finish with "
+            "modern transformer and generative modeling topics."
+        ),
+        "lectures": [
+            ("1", "Neural network foundations", "Backpropagation, optimization, and the practical training loop."),
+            ("2", "Deep feedforward networks", "Regularization, stabilization, and deeper model design."),
+            ("3", "Convolutional neural networks", "Image modeling, feature hierarchies, and transfer learning basics."),
+            ("4", "Sequence models and attention", "RNNs, LSTMs, GRUs, and why transformers became dominant."),
+            ("5", "Transformers and large-scale deep learning", "Modern architectures, pretrained models, and scaling ideas."),
+            ("6", "Generative modeling and projects", "Autoencoders, VAEs, GANs, diffusion, and the final project path."),
+        ],
+    },
+}
+
 
 def apply_generalized_course_content(course: Course) -> Course:
     if not course.is_generalized or not course.course_family:
@@ -111,3 +144,7 @@ def apply_generalized_course_content(course: Course) -> Course:
         hero_note=str(content.get("hero_note", course.hero_note) or course.hero_note),
         manual_overrides=manual_overrides,
     )
+
+
+def compact_concrete_syllabus_content(course_family: str) -> dict[str, object] | None:
+    return COMPACT_CONCRETE_SYLLABUS_CONTENT.get(course_family)

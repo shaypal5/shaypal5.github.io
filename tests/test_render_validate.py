@@ -203,7 +203,7 @@ class RenderValidateTests(unittest.TestCase):
         concrete_a = Course(
             slug="data-vis-22a",
             title="Data Vis",
-            subtitle="Course page for teaching materials, 22/23 (Section A)",
+            subtitle="Course page for teaching materials, 22/23 (Semester A)",
             institution="Unknown institution",
             role="Instructor",
             academic_period="22/23",
@@ -219,7 +219,7 @@ class RenderValidateTests(unittest.TestCase):
         concrete_b = Course(
             slug="data-vis-22b",
             title="Data Vis",
-            subtitle="Course page for teaching materials, 22/23 (Section B)",
+            subtitle="Course page for teaching materials, 22/23 (Semester B)",
             institution="Unknown institution",
             role="Instructor",
             academic_period="22/23",
@@ -345,6 +345,19 @@ class RenderValidateTests(unittest.TestCase):
             render_syllabus_markdown(docx_material, "Intro\n\n• First topic"),
             "Intro\n\n* First topic",
         )
+        admin_material = Material(
+            title="EconML 25 - Course Moodle Website Outline and Lecturer Annoucements",
+            url="https://example.com/admin",
+            kind="outline",
+            source_file_id="admin-id",
+            source_mime_type="application/vnd.google-apps.document",
+            sort_key="03-admin",
+            published=False,
+        )
+        self.assertEqual(
+            render_syllabus_markdown(admin_material, "Course Repository\nלוח הודעות\nPart 1"),
+            "",
+        )
         self.assertEqual(
             render_syllabus_markdown(sheet_material, "Week\tTopic\n1\tIntro\n"),
             '<table class="course-outline-table">\n'
@@ -362,6 +375,35 @@ class RenderValidateTests(unittest.TestCase):
             "  </tbody>\n"
             "</table>",
         )
+        data_vis_course = Course(
+            slug="data-vis-25a",
+            title="Data Vis",
+            subtitle="Course page for teaching materials, 25/26 (Semester A)",
+            institution="Tel Aviv University",
+            role="Instructor",
+            academic_period="25/26",
+            status="active",
+            source_drive_folder_id="folder",
+            source_drive_folder_name="Data Vis 25/6A CF",
+            summary="summary",
+            visibility="public",
+            course_family="data-vis",
+            section="A",
+        )
+        with mock.patch.dict("os.environ", {"OPENAI_API_KEY": ""}):
+            compact = render_syllabus_markdown(docx_material, "Raw doc text", course=data_vis_course)
+        self.assertIn("compact-course-outline-table", compact)
+        self.assertIn("Lecture", compact)
+
+        self.assertIsNone(select_syllabus_material([Material(
+            title="Hidden outline",
+            url="https://example.com/hidden",
+            kind="outline",
+            source_file_id="hidden",
+            source_mime_type="application/vnd.google-apps.document",
+            sort_key="00-hidden",
+            published=False,
+        )]))
         self.assertEqual(
             render_syllabus_markdown(sheet_material, "Week\tDate\tTopic\n-\t06/01/25\tFinal Exam\n\t16/01/25\tPublishing grades!\n"),
             '<table class="course-outline-table">\n'

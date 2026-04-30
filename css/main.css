@@ -406,3 +406,35 @@ header.header-post .post-heading .post-subheading {
 .blog-post table tr td :last-child {
   margin-bottom: 0;
 }
+
+.course-outline-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+.course-outline-table th,
+.course-outline-table td {
+  padding: 10px 16px !important;
+  vertical-align: top;
+  line-height: 1.45;
+}
+
+.course-outline-table th {
+  white-space: nowrap;
+}
+
+.compact-course-outline-table th:nth-child(1),
+.compact-course-outline-table td:nth-child(1) {
+  width: 12%;
+}
+
+.compact-course-outline-table th:nth-child(2),
+.compact-course-outline-table td:nth-child(2) {
+  width: 34%;
+}
+
+.compact-course-outline-table th:nth-child(3),
+.compact-course-outline-table td:nth-child(3) {
+  width: 54%;
+}

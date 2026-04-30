@@ -177,7 +177,7 @@ def _attach_syllabus_content(client: "DriveClient", course: "Course", materials:
     except DiscoveryError as exc:
         _log(f"Skipping syllabus extraction for {course.slug}: {exc}")
         return course
-    syllabus_markdown = render_syllabus_markdown(syllabus_material, exported_text)
+    syllabus_markdown = render_syllabus_markdown(syllabus_material, exported_text, course=course)
     if not syllabus_markdown:
         return course
     manual_overrides["syllabus_markdown"] = syllabus_markdown

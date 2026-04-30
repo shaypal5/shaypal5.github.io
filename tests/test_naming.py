@@ -32,7 +32,7 @@ class NamingTests(unittest.TestCase):
         self.assertEqual(parsed["course_family"], "data-vis")
         self.assertEqual(parsed["section"], "A")
         self.assertFalse(parsed["is_generalized"])
-        self.assertIn("Section A", parsed["subtitle"])
+        self.assertIn("Semester A", parsed["subtitle"])
 
     def test_parse_course_folder_name_generalized_without_period(self) -> None:
         parsed = parse_course_folder_name("Data Vis - Generalized CF")
@@ -45,7 +45,7 @@ class NamingTests(unittest.TestCase):
         parsed = parse_course_folder_name("Data Vis 23/4B CF")
         self.assertEqual(parsed["academic_period"], "23/24")
         self.assertEqual(parsed["slug"], "data-vis-23b")
-        self.assertIn("Section B", parsed["subtitle"])
+        self.assertIn("Semester B", parsed["subtitle"])
 
     def test_parse_course_folder_name_ta_and_unknown_institution(self) -> None:
         parsed = parse_course_folder_name("TA Deep Learning Bootcamp 2024 CF")
@@ -97,6 +97,11 @@ class NamingTests(unittest.TestCase):
         self.assertFalse(should_publish_material("Student Survey Results", "resource", is_generalized_course=False))
         self.assertFalse(should_publish_material("שאלון קורס", "resource", is_generalized_course=False))
         self.assertFalse(should_publish_material("לוח שנה תשפד - לוח 3.pdf", "resource", is_generalized_course=False))
+        self.assertFalse(should_publish_material("NN_Course_Project_Presentation_TC_YH.pptx", "slides", is_generalized_course=False))
+        self.assertFalse(should_publish_material("random forests - presentation.pptx", "slides", is_generalized_course=False))
+        self.assertFalse(should_publish_material("lec5_slides.pptx", "slides", is_generalized_course=False))
+        self.assertFalse(should_publish_material("הקלות.pptx", "slides", is_generalized_course=False))
+        self.assertFalse(should_publish_material("EconML 25 - Course Moodle Website Outline and Lecturer Annoucements", "outline", is_generalized_course=False))
         self.assertTrue(should_publish_material("Week 1 slides", "slides", is_generalized_course=True))
         self.assertFalse(should_publish_material("Data Vis 2022 - Outline", "outline", is_generalized_course=True))
         self.assertTrue(should_descend_into_material_folder("Slides", is_generalized_course=True))

@@ -49,9 +49,17 @@ BLACKLISTED_NAME_TERMS = (
     "homework",
     "assignment",
     "from inbal",
+    "notes to self",
     "survey",
     "poll",
     "form",
+    "moodle website outline",
+    "lecturer annoucements",
+    "lecturer announcements",
+    "nn_course_project_presentation",
+    "random forests - presentation",
+    "lec5_slides",
+    "הקלות",
     "סקר",
     "טופס",
     "שאלון",
@@ -174,7 +182,7 @@ def parse_course_folder_name(folder_name: str) -> dict[str, str]:
     if academic_period != "TBD":
         subtitle += f", {academic_period}"
     if section:
-        subtitle += f" (Section {section})"
+        subtitle += f" (Semester {section})"
     if is_generalized:
         subtitle += " (Shared materials across course iterations)"
     return {
@@ -194,13 +202,8 @@ def infer_course_from_folder(folder_id: str, folder_name: str) -> Course:
     parsed = parse_course_folder_name(folder_name)
     summary = f"Teaching materials extracted from Google Drive folder '{folder_name}'."
     manual_overrides = {}
-    if parsed["course_family"] == "data-vis":
+    if parsed["section"]:
         manual_overrides["section_label"] = "Semester"
-        if parsed["section"]:
-            parsed["subtitle"] = parsed["subtitle"].replace(
-                f"(Section {parsed['section']})",
-                f"(Semester {parsed['section']})",
-            )
     course = Course(
         slug=parsed["slug"],
         title=parsed["title"],

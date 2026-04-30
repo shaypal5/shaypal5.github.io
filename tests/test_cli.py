@@ -244,12 +244,14 @@ class CliTests(unittest.TestCase):
                 sort_key="01-outline",
             )
         ]
-        enriched = cli._attach_syllabus_content(client, course, materials)
+        with mock.patch.dict("os.environ", {"OPENAI_API_KEY": ""}):
+            enriched = cli._attach_syllabus_content(client, course, materials)
         self.assertEqual(enriched.syllabus_url, "https://example.com/outline")
         self.assertIn('<table class="course-outline-table">', enriched.manual_overrides["syllabus_markdown"])
 
         client.read_syllabus_source_text.side_effect = DiscoveryError("bad export")
-        fallback = cli._attach_syllabus_content(client, course, materials)
+        with mock.patch.dict("os.environ", {"OPENAI_API_KEY": ""}):
+            fallback = cli._attach_syllabus_content(client, course, materials)
         self.assertEqual(fallback.syllabus_url, "https://example.com/outline")
         self.assertNotIn("syllabus_markdown", fallback.manual_overrides)
 
