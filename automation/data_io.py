@@ -18,10 +18,32 @@ def _read_yaml(path: Path) -> dict:
     return loaded
 
 
+def dump_yaml_text(payload: dict) -> str:
+    return yaml.safe_dump(payload, sort_keys=False, allow_unicode=False)
+
+
 def _write_yaml(path: Path, payload: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8") as handle:
-        yaml.safe_dump(payload, handle, sort_keys=False, allow_unicode=False)
+    path.write_text(dump_yaml_text(payload), encoding="utf-8")
+
+
+def iter_teaching_yaml_paths(paths: Paths) -> list[Path]:
+    return [paths.data_root / "courses.yml", *sorted(paths.materials_root.glob("*.yml"))]
+
+
+def format_teaching_yaml(paths: Paths, *, check: bool = False) -> list[Path]:
+    changed: list[Path] = []
+    for path in iter_teaching_yaml_paths(paths):
+        if not path.exists():
+            continue
+        rendered = dump_yaml_text(_read_yaml(path))
+        current = path.read_text(encoding="utf-8")
+        if current == rendered:
+            continue
+        changed.append(path)
+        if not check:
+            path.write_text(rendered, encoding="utf-8")
+    return changed
 
 
 def load_courses(paths: Paths) -> list[Course]:

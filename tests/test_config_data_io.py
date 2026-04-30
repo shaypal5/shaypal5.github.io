@@ -4,7 +4,15 @@ import unittest
 from pathlib import Path
 
 from automation.config import AuthConfigError, TOKEN_URI_DEFAULT, build_paths, drive_roots, repo_root, required_google_env
-from automation.data_io import _read_yaml, load_courses, load_materials, save_courses, save_materials
+from automation.data_io import (
+    _read_yaml,
+    dump_yaml_text,
+    format_teaching_yaml,
+    load_courses,
+    load_materials,
+    save_courses,
+    save_materials,
+)
 from automation.models import Course, Material
 
 
@@ -108,3 +116,31 @@ class ConfigDataIoTests(unittest.TestCase):
             save_materials(paths, "z-course", materials)
             loaded = load_materials(paths, "z-course")
             self.assertEqual([item.title for item in loaded], ["A", "B"])
+
+    def test_format_teaching_yaml_rewrites_manual_style(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            paths = build_paths(root)
+            paths.data_root.mkdir(parents=True, exist_ok=True)
+            paths.materials_root.mkdir(parents=True, exist_ok=True)
+
+            courses_path = paths.data_root / "courses.yml"
+            courses_path.write_text(
+                "courses:\n  - slug: demo\n    title: Demo\n",
+                encoding="utf-8",
+            )
+            material_path = paths.materials_root / "demo.yml"
+            material_path.write_text(
+                'course: demo\nmaterials:\n  - title: "A"\n    url: https://example.com\n',
+                encoding="utf-8",
+            )
+
+            changed = format_teaching_yaml(paths, check=True)
+            self.assertEqual(changed, [courses_path, material_path])
+
+            changed = format_teaching_yaml(paths)
+            self.assertEqual(changed, [courses_path, material_path])
+            self.assertEqual(format_teaching_yaml(paths, check=True), [])
+
+            material_payload = _read_yaml(material_path)
+            self.assertEqual(material_path.read_text(encoding="utf-8"), dump_yaml_text(material_payload))
