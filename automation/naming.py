@@ -139,6 +139,21 @@ def normalize_material_title(name: str) -> str:
     return normalized
 
 
+def _normalized_title_phrase_haystack(name: str) -> str:
+    normalized = normalize_material_title(name).casefold()
+    normalized = re.sub(r"[^\w]+", " ", normalized, flags=re.UNICODE)
+    normalized = re.sub(r"\s+", " ", normalized).strip()
+    return f" {normalized} "
+
+
+def _matches_title_term(name: str, term: str) -> bool:
+    lowered = normalize_material_title(name).casefold()
+    if re.fullmatch(r"[\w ]+", term, flags=re.UNICODE):
+        normalized_term = re.sub(r"\s+", " ", term.casefold()).strip()
+        return f" {normalized_term} " in _normalized_title_phrase_haystack(name)
+    return term in lowered
+
+
 def _recognized_public_material_title(name: str, kind: str) -> bool:
     lowered = name.casefold()
     if kind in {"outline", "syllabus"}:
@@ -163,6 +178,10 @@ def _recognized_public_material_title(name: str, kind: str) -> bool:
         r"\bllms?\b",
         r"\bdashboards?\b",
     )
+    if re.search(r"\b(?:hex|cex)\d+\b", lowered):
+        return False
+    if "rolling exercise" in lowered:
+        return False
     return any(re.search(pattern, lowered) for pattern in patterns)
 
 
@@ -175,11 +194,11 @@ def classify_material_exclusion(
 ) -> str | None:
     normalized = normalize_material_title(name)
     lowered = normalized.casefold()
-    if any(term in lowered for term in BLACKLISTED_NAME_TERMS):
+    if any(_matches_title_term(normalized, term) for term in BLACKLISTED_NAME_TERMS):
         return "privacy-admin"
     if publish_override:
         return None
-    if any(term in lowered for term in LOW_SIGNAL_TITLE_TERMS):
+    if any(_matches_title_term(normalized, term) for term in LOW_SIGNAL_TITLE_TERMS):
         return "low-signal"
     allowed_kinds = {"slides", "notebook"} if is_generalized_course else {"slides", "notebook", "outline", "syllabus"}
     if kind not in allowed_kinds:
@@ -206,7 +225,7 @@ def should_publish_material(
 
 def should_descend_into_material_folder(name: str, is_generalized_course: bool) -> bool:
     lowered = normalize_material_title(name).casefold()
-    if any(term in lowered for term in BLACKLISTED_NAME_TERMS):
+    if any(_matches_title_term(lowered, term) for term in BLACKLISTED_NAME_TERMS):
         return False
     if is_generalized_course:
         return any(term in lowered for term in MATERIAL_FOLDER_TERMS if term not in {"exercise", "exercises", "solution", "solutions"})

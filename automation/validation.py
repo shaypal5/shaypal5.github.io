@@ -23,6 +23,7 @@ SUPPORTED_HOSTS = {
     "databricks-prod-cloudfront.cloud.databricks.com",
 }
 ALLOW_EMPTY_REQUIRED_FIELDS = {"notes"}
+ALLOW_NULL_REQUIRED_FIELDS = {"week"}
 
 
 SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -35,7 +36,7 @@ def _missing_fields(payload: dict, required_fields: list[str]) -> list[str]:
             missing.append(field)
             continue
         value = payload[field]
-        if value is None:
+        if value is None and field not in ALLOW_NULL_REQUIRED_FIELDS:
             missing.append(field)
             continue
         if isinstance(value, str) and field not in ALLOW_EMPTY_REQUIRED_FIELDS and not value.strip():

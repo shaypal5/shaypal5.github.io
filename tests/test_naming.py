@@ -112,6 +112,8 @@ class NamingTests(unittest.TestCase):
         self.assertFalse(should_publish_material("EconML 25 - Course Moodle Website Outline and Lecturer Annoucements", "outline", is_generalized_course=False))
         self.assertFalse(should_publish_material("slides.pptx", "slides", is_generalized_course=False))
         self.assertFalse(should_publish_material("TBA", "slides", is_generalized_course=False))
+        self.assertFalse(should_publish_material("HEx2 — Tableau Charts", "slides", is_generalized_course=False))
+        self.assertFalse(should_publish_material("CEx1 - Tableau's Interface", "slides", is_generalized_course=False))
         self.assertTrue(should_publish_material("Week 1 slides", "slides", is_generalized_course=False))
         self.assertTrue(should_publish_material("Course Syllabus", "syllabus", is_generalized_course=False))
         self.assertTrue(should_publish_material("Week 1 slides", "slides", is_generalized_course=True))
@@ -146,6 +148,14 @@ class NamingTests(unittest.TestCase):
         self.assertEqual(
             classify_material_exclusion("Lecture Deck", "slides", is_generalized_course=False),
             "low-signal",
+        )
+        self.assertEqual(
+            classify_material_exclusion(
+                "Deep Learning 24/5 - S4: Sequences, RNNs & Transformers",
+                "slides",
+                is_generalized_course=False,
+            ),
+            None,
         )
         self.assertIsNone(
             classify_material_exclusion(
