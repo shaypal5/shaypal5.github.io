@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: format-teaching-yaml
+        name: format canonical teaching yaml
+        entry: python scripts/format_teaching_yaml.py --check
+        language: system
+        pass_filenames: false
+        files: ^data/teaching/(courses\.yml|materials/.*\.yml)$
