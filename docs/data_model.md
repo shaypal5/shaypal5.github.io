@@ -37,6 +37,7 @@ Common keys include:
 - `syllabus_note`
 - `materials_note`
 - `hide_empty_materials`
+- `publish_material_file_ids`
 - `iteration_label`
 - `iteration_sort_key`
 - `section_label`
@@ -46,6 +47,9 @@ Common keys include:
 before the materials list. Use it for public curation context, for example when
 a semester page intentionally exposes a compact subset of the reviewed source
 materials.
+
+`publish_material_file_ids` force-publishes reviewed Drive file IDs that the
+classifier would otherwise exclude.
 
 ## Material Schema
 Required fields:
