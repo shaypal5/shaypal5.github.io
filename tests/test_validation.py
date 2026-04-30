@@ -64,6 +64,7 @@ class ValidationTests(unittest.TestCase):
     def test_validation_helpers_and_error_paths(self) -> None:
         self.assertEqual(_missing_fields({"a": 1}, ["a", "b"]), ["b"])
         self.assertEqual(_missing_fields({"a": "   ", "b": None}, ["a", "b"]), ["a", "b"])
+        self.assertEqual(_missing_fields({"week": None}, ["week"]), [])
         self.assertTrue(_valid_url("https://example.com"))
         self.assertFalse(_valid_url("not-a-url"))
         self.assertTrue(_supported_google_pattern("https://example.com/page"))
