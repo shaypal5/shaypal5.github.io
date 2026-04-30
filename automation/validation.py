@@ -154,6 +154,19 @@ def validate_public_page_data(page: str, page_data: dict) -> list[str]:
     front_matter = page_data.get("front_matter", {})
     if not isinstance(front_matter, dict):
         errors.append(f"data/{page}.yml: front_matter must be a mapping.")
+    else:
+        redirect_from = front_matter.get("redirect_from", [])
+        if redirect_from:
+            if isinstance(redirect_from, str):
+                redirect_paths = [redirect_from]
+            elif isinstance(redirect_from, list):
+                redirect_paths = redirect_from
+            else:
+                errors.append(f"data/{page}.yml: front_matter.redirect_from must be a string or list.")
+                redirect_paths = []
+            for redirect_path in redirect_paths:
+                if not isinstance(redirect_path, str) or not redirect_path.startswith("/"):
+                    errors.append(f"data/{page}.yml: redirect_from path must start with '/': {redirect_path}")
     selected = page_data.get("selected", {}) or {}
     selected_items = selected.get("items", []) if isinstance(selected, dict) else []
     anchors: set[str] = set()

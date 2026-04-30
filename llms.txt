@@ -39,6 +39,7 @@ Purpose: personal Jekyll site plus local Python automation for teaching-content 
   - `implementation_plan.md`
   - `data_model.md`
   - `operations.md`
+  - `redirects.md`
   - `review_workflow.md`
 
 ## Schemas And Contracts
@@ -47,6 +48,7 @@ Purpose: personal Jekyll site plus local Python automation for teaching-content 
 - Curation controls: material `public_title` preserves source `title` internally while curating public link text; course `manual_overrides.materials_note` renders reviewed context before materials lists.
 - Managed-file markers: `automation/config.py`
 - Public page data: `data/talks.yml`, `data/writing.yml`, `data/projects.yml`
+- Redirect policy: `docs/redirects.md`; generated public-page aliases belong in public page data `front_matter.redirect_from`.
 - CLI contract: `automation/cli.py`
 - Env vars: `automation/config.py`, `docs/operations.md`
 

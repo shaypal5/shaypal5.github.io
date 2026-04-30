@@ -102,6 +102,10 @@ and the markdown entries rendered into the public page. The generated pages are:
 - `blog.md`
 - `code.md`
 
+If a generated public page is renamed, add `redirect_from` aliases to its
+`front_matter` block in the data file so the old URL keeps working. See
+`docs/redirects.md` for the redirect policy.
+
 Selected sections are structured as `selected.heading` plus `selected.items`.
 Each selected item must point to an anchor owned by a rendered talk, writing item,
 or project entry. Code projects are additionally grouped under `groups[].title`

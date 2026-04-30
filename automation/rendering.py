@@ -6,6 +6,8 @@ from pathlib import Path
 import re
 from typing import Any
 
+import yaml
+
 from automation.config import GENERATED_HEADER, PUBLIC_PAGE_GENERATED_HEADER, TEACHING_MARKER_END, TEACHING_MARKER_START
 from automation.models import Course, Material
 
@@ -383,7 +385,11 @@ def _front_matter(page_data: dict) -> list[str]:
     front_matter = dict(page_data.get("front_matter", {}) or {})
     lines = ["---"]
     for key, value in front_matter.items():
-        lines.append(f"{key}: {value}")
+        if isinstance(value, str):
+            lines.append(f"{key}: {value}")
+            continue
+        rendered = yaml.safe_dump({key: value}, sort_keys=False, allow_unicode=False).rstrip()
+        lines.extend(rendered.splitlines())
     lines.extend(["---", ""])
     return lines
 

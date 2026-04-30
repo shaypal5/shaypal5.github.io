@@ -142,6 +142,16 @@ class ValidationTests(unittest.TestCase):
         self.assertTrue(any("missing markdown" in error for error in errors))
         self.assertTrue(any("points to missing anchor" in error for error in errors))
 
+        errors = validate_public_page_data(
+            "projects",
+            {
+                "front_matter": {"redirect_from": ["code.html"]},
+                "selected": {"items": []},
+                "groups": [],
+            },
+        )
+        self.assertTrue(any("redirect_from path must start with '/'" in error for error in errors))
+
     def test_generated_file_and_internal_link_validation(self) -> None:
         paths = build_paths(self.repo_root)
         courses = load_courses(paths)

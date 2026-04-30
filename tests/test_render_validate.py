@@ -165,6 +165,16 @@ class RenderValidateTests(unittest.TestCase):
         self.assertIn('<section class="archive-entry" id="demo" markdown="1">', public_page)
         self.assertNotIn('<span id="demo"></span>', public_page)
 
+        redirected_public_page = render_public_page(
+            "projects",
+            {
+                "front_matter": {"layout": "page", "title": "Projects", "redirect_from": ["/code.html"]},
+                "selected": {"items": []},
+                "groups": [],
+            },
+        )
+        self.assertIn("redirect_from:\n- /code.html", redirected_public_page)
+
         rendered_html = render_kramdown_html(public_page.split(PUBLIC_PAGE_GENERATED_HEADER, 1)[1])
         self.assertIn('<section class="archive-entry" id="demo">', rendered_html)
         self.assertIn('<strong><a href="https://example.com" target="_blank">demo</a></strong> - Example.', rendered_html)
