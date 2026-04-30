@@ -11,6 +11,19 @@ Expected environment variables:
 
 `direnv` is the intended local injection mechanism for v1.
 
+## Ruby And Jekyll
+Use Ruby 3.3.0 for local Jekyll builds. The repo includes `.ruby-version`
+for rbenv-compatible tooling, and the checked-in `Gemfile.lock` currently
+expects Bundler 2.7.2.
+
+```bash
+RBENV_VERSION=3.3.0 bundle install
+RBENV_VERSION=3.3.0 bundle exec jekyll build
+```
+
+Plain `bundle exec jekyll build` may use macOS system Ruby instead, which can
+fail before Jekyll starts if Bundler 2.7.2 is not installed for that Ruby.
+
 ## Common Commands
 ```bash
 python -m automation.cli courses plan
@@ -18,6 +31,7 @@ python -m automation.cli courses render
 python -m automation.cli courses validate
 python -m automation.cli courses backfill --dry-run
 python -m automation.cli courses backfill --publish-pr
+RBENV_VERSION=3.3.0 bundle exec jekyll build
 ```
 
 ## PR Agent Context
