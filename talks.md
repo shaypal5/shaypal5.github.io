@@ -8,7 +8,7 @@ updated: April 2026
 
 <!-- GENERATED: edit data/*.yml or automation sources instead of this file. -->
 
-<section class="talks-featured">
+<section class="talks-featured archive-jump-nav">
   <h2>Selected Talks</h2>
   <ul>
     <li><strong><a href="#talk-llm-genai">LLM and GenAI foundations</a></strong> - recent DataNights lectures on LLM fundamentals and the DeepSeek model family.</li>
@@ -17,137 +17,262 @@ updated: April 2026
   </ul>
 </section>
 
-<div class="talks-list" markdown="1">
+<div class="archive-list talks-list" markdown="1">
 
-<span id="talk-llm-genai"></span>
+<section class="archive-entry" id="talk-llm-genai" markdown="1">
 **[Emerging Techniques & Breakthroughs in LLMs: A case study through the DeepSeek family of models](https://docs.google.com/presentation/d/1rMCbR-Qsi7Tlnv4s9Ok3pa01bd2MWNBieR6VbhsqJu0/edit?usp=sharing){:target="_blank"} @ DataNights GenAI #2, 12/05/2025** - A ~2 hours long lecture, as part of the second cohort of the GenAI program of [the DataNights program](https://datanights-il.github.io/){:target="_blank"} (which runs as part of [the Datahack nonprofit](https://datahack.org.il/){:target="_blank"}), building upon my previous two lectures on LLM fundamentals, and providing a concise review of key innovations and recent techniques in LLMs that enable their current outstanding performance, given through a study of the DeepSeek family of models - beginning from DeepSeekLLM/V1 and culminating in DeepSeek-R1 - released over the last year and a half. [[Google Slides](https://docs.google.com/presentation/d/1rMCbR-Qsi7Tlnv4s9Ok3pa01bd2MWNBieR6VbhsqJu0/edit?usp=sharing){:target="_blank"}] [[Video, Part 1](https://youtu.be/-D-Ys6Oi7M0){:target="_blank"}] [[Video, Part 2](https://youtu.be/kam7kRQXOR8){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[LLMs Fundamentals: From BERT to GPT-4o](https://docs.google.com/presentation/d/1PB7RypfxKPPlzerMTMUWqFduEJNeNIynL38SYUNA1DU/edit?usp=sharing){:target="_blank"} @ DataNights GenAI #2, 24/03/2025** - Given over two lectures, each ~3 hours long, as part of the second cohort of the GenAI program of [the DataNights program](https://datanights-il.github.io/){:target="_blank"} (which runs as part of [the Datahack nonprofit](https://datahack.org.il/){:target="_blank"}), providing a thorough overview of Large Language Models, the theory they are based on and how LLMs are made. [[Google Slides](https://docs.google.com/presentation/d/1PB7RypfxKPPlzerMTMUWqFduEJNeNIynL38SYUNA1DU/edit?usp=sharing){:target="_blank"}] [[Video, Part 1](https://youtu.be/AqpToPk166c){:target="_blank"}] [[Video, Part 2](https://youtu.be/aZdUjEmdMss){:target="_blank"}]
+</section>
 
-<span id="talk-ds-engineering"></span>
+<section class="archive-entry" id="talk-ds-engineering" markdown="1">
 **[No (working) hands! Engineer-less Data/ML Eng. for pure DS teams](https://www.youtube.com/watch?v=UIySLIzX2xs){:target="_blank"} @ [MDLIOps 2024](https://machinelearning.co.il/lp-events/mdliops-2024/?utm_source=Web&utm_medium=website+&utm_campaign=mdliops24){:target="_blank"}, 11/07/2024** - In this talk I have shared the story of guiding a small, junior, engineer-less analytics & DS team in a successful transformation of an old, slow and complex data warehouse system into a fully fledged scale-capable, multi-tenant, pure Python, modern Data Lakehouse on Databricks, with extremely minimal support from R&D, for all existing and new BI analytics and models in the company. [[Google Slides](https://docs.google.com/presentation/d/1h-MRpg6KDG4Ad5zwPFdM9T4XMzmacMQeUKYg_LEMsIk/edit?usp=sharing){:target="_blank"}] [[Video](https://www.youtube.com/watch?v=UIySLIzX2xs)]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Getting to know the Data Science industry in Israel](https://docs.google.com/presentation/d/1ETddV-MdaUHQ72ESxbNnRX5N5HJTvaRbA-YgSW3wTYI/edit?usp=sharing){:target="_blank"} @ DataCoach, 08/05/2024** - Talking to the 2nd cohort of [the DataCoach program](https://www.datacoach.org.il/){:target="_blank"} (which I've founded and I direct, as part of my volunteer role as CEO of [the Datahack nonprofit](https://datahack.org.il/){:target="_blank"}), I tried to expose young Arab students on their path to a data science career to the realities and inner-workings of the data science industry in Israel. [[Google Slides](https://docs.google.com/presentation/d/1ETddV-MdaUHQ72ESxbNnRX5N5HJTvaRbA-YgSW3wTYI/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Text Embedding and Representation - Classical & Modern Methods](https://docs.google.com/presentation/d/13o3p7bJrDrKQpmzSwf3w8TySf_OXvjO6jdafvx4f8qE/edit?usp=sharing){:target="_blank"} @ Harmonya & DataCoach, 2023-2024** - A deep overview of how the issue of text representation in machine learning has been tackled with throughout the history of the field. These are unified slides for a series of 4 lectures I gave on the topic, encompassing both classical methods such as word2vec and modern SOTA methods like Sentence Transformers and LLM-based embeddings - covering every notable development in between these points. [[Google Slides](https://docs.google.com/presentation/d/13o3p7bJrDrKQpmzSwf3w8TySf_OXvjO6jdafvx4f8qE/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[A short intro to Data Vis](https://docs.google.com/presentation/d/1OTZESfx4FvXd8aPdxcM9DpYY1daO2CF-9839knpahZI/edit?usp=sharing){:target="_blank"} @ Business Aspects of Digital Experiments, 05/03/2024** - A guest lecture at the Business Aspects of Digital Experiments B.A. course at Tel Aviv University Coller School of Business Management. [[Google Slides](https://docs.google.com/presentation/d/1OTZESfx4FvXd8aPdxcM9DpYY1daO2CF-9839knpahZI/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Text Embedding and Representation - Part 2](https://docs.google.com/presentation/d/1I0c0yG0uhpUdRPDP2JaDym_tNI5prbMzW_4l6iE0OlE/edit?usp=sharing){:target="_blank"} @ DataCoach, 18/12/2023** - A deep overview of how the issue of text representation in machine learning has been tackled with throughout the history of the field. Part 2 continued the first part by covering various early attempts to use deep learning to solve the problem of learning good text representations, and concluding with Sentence Transformers and LLM-based embeddings. [[Google Slides](https://docs.google.com/presentation/d/1I0c0yG0uhpUdRPDP2JaDym_tNI5prbMzW_4l6iE0OlE/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Text Embedding and Representation - Part 1](https://docs.google.com/presentation/d/1zI5s4T52bfTZXtpa5kY5NScQpUzWWz7ZEMeoareDiYs/edit?usp=sharing){:target="_blank"} @ DataCoach, 11/12/2023** - A deep overview of how the issue of text representation in machine learning has been tackled with throughout the history of the field. Part 1 covered everything from bag-of-words up to document-level variations on Word2Vec, up until deep learning technique became prominent in learning text embeddings. [[Google Slides](https://docs.google.com/presentation/d/1zI5s4T52bfTZXtpa5kY5NScQpUzWWz7ZEMeoareDiYs/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[What is MLOps?](https://docs.google.com/presentation/d/1W1bfJE_MUTega9PMALCKseXp6ACV7XNGZ__F64vnfjo/edit?usp=sharing){:target="_blank"} @ Harmonya, 06/09/2023** - A concise review of what types and categories of MLOps tools are out there. [[Google Slides](https://docs.google.com/presentation/d/1W1bfJE_MUTega9PMALCKseXp6ACV7XNGZ__F64vnfjo/edit?usp=sharing){:target="_blank"}]
+</section>
 
-<span id="talk-ds-leadership"></span>
+<section class="archive-entry" id="talk-ds-leadership" markdown="1">
 **[Frameworks for data science projects: Workflows, def docs, playbooks & peer reviews](https://docs.google.com/presentation/d/1XuHz9OZUyVdNtKGMjKd8DZMNWH50aqJIR2ow37c8qzg/edit?usp=sharing){:target="_blank"} @ [DataNights DS Management #2](https://datanights-il.github.io/dsmgmt/){:target="_blank"}, 21/06/2023**- A few frameworks to handle data science project challenges. Given at the second cohort of our [DataNights program on leading data science teams](https://datanights-il.github.io/programs/dsmgmt/){:target="_blank"}. [[Google Slides](https://docs.google.com/presentation/d/1XuHz9OZUyVdNtKGMjKd8DZMNWH50aqJIR2ow37c8qzg/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Interview Formats for Data Scientists](https://docs.google.com/presentation/d/1eaJSSD1qFCoyzuOGC6vKJYIm1cV0CVHFr-7v2n-g2-w/edit?usp=sharing){:target="_blank"} @ [DataNights DS Management #2](https://datanights-il.github.io/dsmgmt/){:target="_blank"}, 31/05/2023**  - Covers different templates for technical data science interviews, with an emphasis on their suitability to interviewing data scientists of different levels of seniority. Given at the second cohort of our [DataNights program on leading data science teams](https://datanights-il.github.io/programs/dsmgmt/){:target="_blank"}. [[Google Slides](https://docs.google.com/presentation/d/1eaJSSD1qFCoyzuOGC6vKJYIm1cV0CVHFr-7v2n-g2-w/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Deep Learning Approaches for Time Series Forecasting](https://docs.google.com/presentation/d/1UUqC-JgK-9JrUU_4GnU3vDssxoo7gZRxTtyHvoMkx9w/edit?usp=sharing){:target="_blank"} @ [DataTalks #38](https://www.meetup.com/datahack/events/292153871/){:target="_blank"}, 29/03/2023** - An introductory talk covering neural network approaches to time series forecasting, including practical aspects and state-of-the-art techniques. [[Google Slides](https://docs.google.com/presentation/d/1UUqC-JgK-9JrUU_4GnU3vDssxoo7gZRxTtyHvoMkx9w/edit?usp=sharing){:target="_blank"}] [[Event](https://www.meetup.com/datahack/events/292153871/){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Text Embedding & Representation](https://docs.google.com/presentation/d/1tt42ltykxvo7suyckoyrstjt77k3t0uwmj32z7ddiea/edit?usp=sharing){:target="_blank"} @ Harmonya, 25/01/2023** - An overview of classic methods for word and document embedding in NLP, and the basic concepts of text representation in machine learning. [[Google Slides](https://docs.google.com/presentation/d/1Tt42LTyKxvo7SuyCkOYRsTJt77k3T0uwMJ32z7ddieA/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[About the DataCoach Technion Program](https://docs.google.com/presentation/d/1evZW2EAvxwep1BAy-umm_L_MhF-4bBGUFn14SJefvaU/edit?usp=sharing){:target="_blank"} @ DataCoach Expose Event, The Technion, 18/01/2023** - A presentation of the DataCoach Technion program by the Datahack nonprofit. [[Google Slides](https://docs.google.com/presentation/d/1evZW2EAvxwep1BAy-umm_L_MhF-4bBGUFn14SJefvaU/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[The Hard Case of Why: A Causal Inference Case Study of Data Science Projects in Startups](https://docs.google.com/presentation/d/1UhQNz-IoYNUueSXB1BLqsQvMXQJ67XUxntSZRUo4rOY/edit?usp=sharing){:target="_blank"} @ Faculty Seminar, Industrial Engineering & Management, Azrieli College AI Product course, 22/11/2022** - A case study for data science projects as they are done in small startups, meant to provide students with insights about work in the data science industry. [[Google Slides](https://docs.google.com/presentation/d/1UhQNz-IoYNUueSXB1BLqsQvMXQJ67XUxntSZRUo4rOY/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Intro to Data Science in Startups](https://docs.google.com/presentation/d/1CZUiALmrn3Tr7VCi0DtEyahlL9RI1yEAx9zmC03_ZxE/edit?usp=sharing){:target="_blank"} @ [pmsphere's](https://www.pmsphere.com/){:target="_blank"} AI Product course, 26/10/2022** - A technical and methodological introduction to data science work as it is done in startups, aimed at product management personnel being trained to work and lead the product work in data science projects. Given as part of the first cohort of the *AI prod.: Secrets for PM (PM602)* course by the awesome women of [pmsphere](https://www.pmsphere.com/){:target="_blank"}. [[Google Slides](https://docs.google.com/presentation/d/1CZUiALmrn3Tr7VCi0DtEyahlL9RI1yEAx9zmC03_ZxE/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Data Science Peer Review](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"} @ [DataNights DS Management](https://datanights-il.github.io/programs/dsmgmt/){:target="_blank"}, 14/09/2022** - Covers different templates for technical data science interviews, with an emphasis on their suitability to interviewing data scientists of different levels of seniority. Given at the first cohort of my [DataNights program on leading data science teams](https://datanights-il.github.io/programs/dsmgmt/){:target="_blank"}. [[Google Slides](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Interview Formats for Data Scientists](https://docs.google.com/presentation/d/1Z1Kz_PDi6jOeLwOCkknkTPyOiw4WdxvH35ZRiEiUlNU/edit?usp=sharing){:target="_blank"} @ [Data Science Leads Israel](https://www.facebook.com/groups/671346169655783){:target="_blank"}, 13/09/2022** - A layout for a peer review process for the different phases of data science projects. Given at the monthly meeting of the [Data Science Leads in Israel forum](https://www.facebook.com/groups/671346169655783){:target="_blank"}. [[Google Slides](https://docs.google.com/presentation/d/1Z1Kz_PDi6jOeLwOCkknkTPyOiw4WdxvH35ZRiEiUlNU/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Interview Formats for Data Scientists](https://docs.google.com/presentation/d/1Z1Kz_PDi6jOeLwOCkknkTPyOiw4WdxvH35ZRiEiUlNU/edit?usp=sharing){:target="_blank"} @ [DataNights DS Management](https://datanights-il.github.io/programs/dsmgmt/){:target="_blank"}, 24/08/2022** - A layout for a peer review process for the different phases of data science projects. Given at the first cohort of my [DataNights program on leading data science teams](https://datanights-il.github.io/programs/dsmgmt/){:target="_blank"}. [[Google Slides](https://docs.google.com/presentation/d/1Z1Kz_PDi6jOeLwOCkknkTPyOiw4WdxvH35ZRiEiUlNU/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[KPI-Objective Alignment in Data Science Projects](https://docs.google.com/presentation/d/1FYjDuhalYJ__miAo1sJ7fwb47mmRcZyoTid0vVtpewg/edit?usp=sharing){:target="_blank"} @ [DataNights DS Management](https://datanights-il.github.io/programs/dsmgmt/){:target="_blank"}, 17/08/2022** - A discussion of the ways we align and misalign technical and mathematical objectives of data science techniques to business and product KPIs. Given at the first cohort of my [DataNights program on leading data science teams](https://datanights-il.github.io/programs/dsmgmt/){:target="_blank"}. [[Google Slides](https://docs.google.com/presentation/d/1FYjDuhalYJ__miAo1sJ7fwb47mmRcZyoTid0vVtpewg/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Data Science Projects: Workflows and Playbooks](https://docs.google.com/presentation/d/1OUm_3kBzIWwzPmu7c8tBKWBZxPSz4hxt-B4TkN8ho3I/edit?usp=sharing){:target="_blank"} @ [DataNights DS Management](https://datanights-il.github.io/programs/dsmgmt/){:target="_blank"}, 10/08/2022** - A few frameworks to handle data science project challenges. Given at the first cohort of my [DataNights program on leading data science teams](https://datanights-il.github.io/programs/dsmgmt/){:target="_blank"}. [[Google Slides](https://docs.google.com/presentation/d/1OUm_3kBzIWwzPmu7c8tBKWBZxPSz4hxt-B4TkN8ho3I/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[DeBERTa: An Introduction](https://docs.google.com/presentation/d/1gML5cQuBYbsLMHtV1aG1zSGr7IDGWz4kQ8mlh1tl5Ks/edit?usp=sharing){:target="_blank"} @ [Kaggle IL Meetup #11](https://www.meetup.com/datahack/events/286868671/){:target="_blank"}, 26/07/2022** - A quick overview of the novelties the DeBERTa model introduced to the transformer architecture. [[Google Slides](https://docs.google.com/presentation/d/1gML5cQuBYbsLMHtV1aG1zSGr7IDGWz4kQ8mlh1tl5Ks/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Feedback Prize - Predicting Effective Arguments: The Kickoff](https://docs.google.com/presentation/d/1oy_3xdezx-U76yvSDn8uj-uEVwD73uNl1vFNoBgupJ8/edit?usp=sharing){:target="_blank"} @ [Kaggle IL Meetup #11](https://www.meetup.com/datahack/events/286868671/){:target="_blank"}, 26/07/2022** - Kickoff presentation for the [Feedback Prize Kaggle competition](https://www.kaggle.com/competitions/feedback-prize-effectiveness/overview){:target="_blank"}, while it was running. [[Google Slides](https://docs.google.com/presentation/d/1oy_3xdezx-U76yvSDn8uj-uEVwD73uNl1vFNoBgupJ8/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Deep Learning Approaches for Time Series Forecasting](https://docs.google.com/presentation/d/1UUqC-JgK-9JrUU_4GnU3vDssxoo7gZRxTtyHvoMkx9w/edit?usp=sharing){:target="_blank"} @ Y-DATA, 03/06/2022** - A guest lecture at the Y-DATA program, covering neural network approaches to time series forecasting, including practical aspects and state-of-the-art techniques. [[Google Slides](https://docs.google.com/presentation/d/1UUqC-JgK-9JrUU_4GnU3vDssxoo7gZRxTtyHvoMkx9w/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Data Science Peer Review](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"} @ Voyantis, 25/04/2022** - A layout for a peer review process for the different phases of data science projects. Given as part of the data science tribe meeting at Voyantis. [[Google Slides](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Introduction to PU Learning](https://docs.google.com/presentation/d/1reAifZKvSy0FlxuOYiAksjYeAoLzn1wdI2d21LQ-COk/edit?usp=sharing){:target="_blank"} @ DiSCo is a data science community at Ben-Gurion University of the Negev, 10/04/2022** - An introduction to the semi-supervised classification scenario of Positive-Unlabeled learning. Covers theoretical definitions, performance metrics for the scenario and solution approaches. [[Google Slides](https://docs.google.com/presentation/d/1reAifZKvSy0FlxuOYiAksjYeAoLzn1wdI2d21LQ-COk/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Data Science in the Wild: How it’s done (in startups)](https://docs.google.com/presentation/d/1onbCYpS0myqh6UGUqYQ4rU0HRzOgkLbJgEZ3Cb66V5s/edit?usp=sharing){:target="_blank"} @ NAYA College, 07/04/2022** - A review of how data science work actually looks like in startups, and some useful tools and methodologies to succeed in it. [[Google Slides](https://docs.google.com/presentation/d/1onbCYpS0myqh6UGUqYQ4rU0HRzOgkLbJgEZ3Cb66V5s/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[KPI-Objective Alignment in Data Science Projects](https://www.aidatasummit.com/){:target="_blank"} @ AI & Data Virtual Summit, 05/01/2021** - A discussion of the ways we align and misalign technical and mathematical objectives of data science techniques to business and product KPIs. [[Google Slides](https://docs.google.com/presentation/d/1h0s1MkIzAVwfltQVWXeNiKD51OoP0qelEpKhr_v7Pz8/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Introduction to Advanced Concepts in Neural Networks](https://docs.google.com/presentation/d/19kzdMq-Mj3PaQF3pxBa3zPbxaEYs9kpb1kAkRcyhGlo/edit?usp=sharing){:target="_blank"} @ Forter, 18/11/2020** - A lecture meant to follow a general introduction to feed-forward neural networks, and thus delves into more advanced concepts such as convolutional NNs, sequence models and graph NNs. [[Google Slides](https://docs.google.com/presentation/d/19kzdMq-Mj3PaQF3pxBa3zPbxaEYs9kpb1kAkRcyhGlo/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Data Cleaning for Machine Learning](https://docs.google.com/presentation/d/1RaU1r6uZ7QT1d7bsN1U45PZka8KM8eTBIftKo52qvAw/edit?usp=sharing){:target="_blank"} @ DataNights #4, 02/08/2020** - A review of common data cleaning principles, techniques and methods. Given as part of the fourth cohort of Datahack's DataNights program. [[Google Slides](https://docs.google.com/presentation/d/1RaU1r6uZ7QT1d7bsN1U45PZka8KM8eTBIftKo52qvAw/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Introduction to PU Learning](https://docs.google.com/presentation/d/1reAifZKvSy0FlxuOYiAksjYeAoLzn1wdI2d21LQ-COk/edit?usp=sharing){:target="_blank"} @ BigPanda, 11/05/2020** - An introduction to the semi-supervised classification scenario of Positive-Unlabeled learning. Covers theoretical definitions, performance metrics for the scenario and solution approaches. [[Google Slides](https://docs.google.com/presentation/d/1reAifZKvSy0FlxuOYiAksjYeAoLzn1wdI2d21LQ-COk/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Introduction to Word2Vec](https://docs.google.com/presentation/d/1EXOBaV7rg_KQXpEJU9XnQkkxHOT50PV2ATeau5tdjRY/edit?usp=sharing){:target="_blank"} @ DataNights #3, 10/05/2020** - An introduction to word embeddings in general, and the Word2Vec technique in particular. Given as part of the third cohort of Datahack's DataNights program. [[Video](https://us02web.zoom.us/rec/play/uZwkd-n5-Dk3TtSdswSDCvV8W9XpLKis13MX-PINxUy9UHIANFHyYrsRMOfeA1WbFwEsga3EzPRCLat1?startTime=1588864172000&_x_zm_rtaid=shpREbwRReGBvNOR6pThrg.1589094640961.224d9644ae8769f248aed3a3715bac04&_x_zm_rhtaid=939)] [[Google Slides](https://docs.google.com/presentation/d/1EXOBaV7rg_KQXpEJU9XnQkkxHOT50PV2ATeau5tdjRY/edit?usp=sharing){:target="_blank"}] [[Notebooks](https://github.com/shaypal5/datanights_word2vec){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Data Science Peer Review](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"} @ Outbrain, 23/04/2020** - A layout for a peer review process for the different phases of data science projects. Given as part of a data science guild day at Outbrain. [[Google Slides](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Python Testing with pytest](https://docs.google.com/presentation/d/1Oc379L9Bmz57KhbZqYPyGpmCl-ChPiedax_C6m0vGGc/edit?usp=sharing){:target="_blank"} @ BigPanda, April 2020** - An introduction to testing Python code with pytest. [[Google Slides](https://docs.google.com/presentation/d/1Oc379L9Bmz57KhbZqYPyGpmCl-ChPiedax_C6m0vGGc/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Detecting Stationarity in Time Series Data](https://docs.google.com/presentation/d/1XXBwOTujB2XBf4Y-1B_fzP0VM0f5JXPmYBLS4eAUGKM/edit?usp=sharing){:target="_blank"} @ BigPanda, 02/04/2020** - A short review of the different ways to detect stationarity in time series data. Based on my [blog post of the same name](https://towardsdatascience.com/detecting-stationarity-in-time-series-data-d29e0a21e638?source=friends_link&sk=20318fcda95bc6be337f3d0740bc97d0){:target="_blank"}. [[Google Slides](https://docs.google.com/presentation/d/1XXBwOTujB2XBf4Y-1B_fzP0VM0f5JXPmYBLS4eAUGKM/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Data Science Peer Review](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"} @ BigPanda, 08/03/2020** - A layout for a peer review process for the different phases of data science projects. [[Google Slides](https://docs.google.com/presentation/d/1kMl-HYFS6rdUjbwKRK7_HInhTNu8KhFKW552Jk0JiwY/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Introduction to Word2Vec](https://docs.google.com/presentation/d/1EXOBaV7rg_KQXpEJU9XnQkkxHOT50PV2ATeau5tdjRY/edit?usp=sharing){:target="_blank"} @ DataNights #2, 05/02/2020** - An introduction to word embeddings in general, and the Word2Vec technique in particular. Given as part of the second cohort of Datahack's DataNights program. [[Google Slides](https://docs.google.com/presentation/d/1EXOBaV7rg_KQXpEJU9XnQkkxHOT50PV2ATeau5tdjRY/edit?usp=sharing){:target="_blank"}] [[Notebooks](https://github.com/shaypal5/datanights_word2vec){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Causal Inference in Time Series Data](https://docs.google.com/presentation/d/19HMdEE5BpavB0NSchbpmhVxuj5cXdIYf3quSNVncIeQ/edit?usp=sharing){:target="_blank"} @ [PyData #28](https://www.meetup.com/PyData-Tel-Aviv/events/266897634/), 02/01/2020** - A quick overview of causal inference in time series data, base on [my literature review-y blog post on the same topic](https://towardsdatascience.com/inferring-causality-in-time-series-data-b8b75fe52c46?source=friends_link&sk=37de8f0c1ab78e04d3a5cf1cdc5f3282){:target="_blank"}, given in [PyData Tel Aviv #28](https://www.meetup.com/PyData-Tel-Aviv/events/266897634/){:target="_blank"}. [[Event](https://www.meetup.com/PyData-Tel-Aviv/events/266897634/){:target="_blank"}] [[Google Slides](https://docs.google.com/presentation/d/19HMdEE5BpavB0NSchbpmhVxuj5cXdIYf3quSNVncIeQ/edit?usp=sharing){:target="_blank"}] [[Video](https://www.youtube.com/watch?v=QVQoV22pPak){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[How to run a Data Science project: An Overview for Managers](https://docs.google.com/presentation/d/1pqmFSv1pJjdp1NhSa0x6ILxWTGuCFtfs9G8Ztent9ZM/edit?usp=sharing){:target="_blank"} @ SWC Consulting, 28/11/2019** - An introduction to data science in action, written as an overview for managers, business people and product managers aiming to manage or work with data scientists. [[Google Slides](https://docs.google.com/presentation/d/1pqmFSv1pJjdp1NhSa0x6ILxWTGuCFtfs9G8Ztent9ZM/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Unsupervised Document Embedding Techniques: A Status Report](https://docs.google.com/presentation/d/1ioqsXmnAfyev5qDU7azLpxKtxZ1Q05SXwizyk2hWSoA/edit?usp=sharing){:target="_blank"} @ [CodeteCON #KRK5, Krakow, Poland](https://codetecon.pl/en/){:target="_blank"}, 15/11/2019** - A survey of modern techniques for unsupervised (and some supervised) document embedding, including takeways and a status report from the industry. [[Google Slides](https://docs.google.com/presentation/d/1ioqsXmnAfyev5qDU7azLpxKtxZ1Q05SXwizyk2hWSoA/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[ASHRAE Great Energy Predictor III: The Kickoff](https://docs.google.com/presentation/d/1SR8Yyp76Wq8lKpunOl59MiSWnWEo7NaGNaJ4l3GiC60/edit?usp=sharing){:target="_blank"} @ [Kaggle IL Meetup #6](https://www.meetup.com/DataHack/events/264844784/){:target="_blank"}, 29/10/2019** - Kickoff presentation for the [ASHRAE Great Energy Predictor III Kaggle competition](https://www.kaggle.com/c/ashrae-energy-prediction){:target="_blank"}, while it was running. [[Google Slides](https://docs.google.com/presentation/d/1SR8Yyp76Wq8lKpunOl59MiSWnWEo7NaGNaJ4l3GiC60/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Stationarity in Time Series Analysis, Part 2: Parametric notions of non-stationarity @ BigPanda](https://docs.google.com/presentation/d/1pr6HMIJSZEjEz8UvFFhaM3xIfsIPPS-6IStqctteM04/edit?usp=sharing){:target="_blank"}, September 2019** - This talk discusses stochastic process modelling and parametric notions of stationarity. Based on the second part of [my blog post on the same topic](https://towardsdatascience.com/stationarity-in-time-series-analysis-90c94f27322?source=friends_link&sk=df86eb7d8554c811da2e5dc77b72f53b){:target="_blank"}. [[Google Slides](https://docs.google.com/presentation/d/1pr6HMIJSZEjEz8UvFFhaM3xIfsIPPS-6IStqctteM04/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Stationarity in Time Series Analysis: Why it’s important and how it’s defined @ BigPanda](https://docs.google.com/presentation/d/1BAYi6dCMkAn8vqTkNj6jpZcxayZj7kGsWS3K85DJjqI/edit?usp=sharing){:target="_blank"}, September 2019** - A thorough introduction to the concept of stationarity in time series analysis, including a brief introduction of stochastic processes. Does not include parametric notions of stationarity. Based on the first part of [my blog post on the same topic](https://towardsdatascience.com/stationarity-in-time-series-analysis-90c94f27322?source=friends_link&sk=df86eb7d8554c811da2e5dc77b72f53b){:target="_blank"}. [[Google Slides](https://docs.google.com/presentation/d/1BAYi6dCMkAn8vqTkNj6jpZcxayZj7kGsWS3K85DJjqI/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Document Embeddings: A concise literature review @ BigPanda](https://docs.google.com/presentation/d/1iAGAfrI0p4E-FIuO5wU7M4WRFvuOTXqPfddKA8TULgE/edit?usp=sharing){:target="_blank"}, September 2019** - A concise overview of document embedding techniques. Assumes familiarity with word embedding techniques. Based on [my literature review on the same topic](https://towardsdatascience.com/document-embedding-techniques-fed3e7a6a25d#d742){:target="_blank"}. [[Google Slides](https://docs.google.com/presentation/d/1iAGAfrI0p4E-FIuO5wU7M4WRFvuOTXqPfddKA8TULgE/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Word Embeddings: A rough introduction @ BigPanda](https://docs.google.com/presentation/d/1Ymp6JvIdMcdd0jiBr4yOlx4NL-KECB2QJBwKGDCWTdE/edit?usp=sharing){:target="_blank"}, September 2019** - A very quick and rough introduction to word embeddings, focusing on the skip-gram model of *word2vec*. [[Google Slides](https://docs.google.com/presentation/d/1Ymp6JvIdMcdd0jiBr4yOlx4NL-KECB2QJBwKGDCWTdE/edit?usp=sharing){:target="_blank"}] [[Video](https://www.dropbox.com/sh/05dbutkykhpmlj1/AADKb0SVLDl7qY-DMYH58qZqa?dl=0){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[DataLearn 2019: Introduction to Machine Learning](https://github.com/DataHackIL/DataLearn-ML-Intro-2019){:target="_blank"} @ [DataLearn Prep Night 2019](https://www.meetup.com/DataHack/events/263740425/){:target="_blank"}, 25/08/2019** - A hands-on introductory workshop to machine learning, focusing on supervised classification, for the participants of the DataLearn track at Datahack 2019. [[Video](https://youtu.be/Su8YcXgkDsk?t=1701){:target="_blank"}] [[GitHub](https://github.com/DataHackIL/DataLearn-ML-Intro-2019){:target="_blank"}] [[Google Slides](https://docs.google.com/presentation/d/1l91BYDG6NeWRj7KChI9BjxNTaWWBorEnNGp3SMIMUkw/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Predicting Molecular Properties: Updates](https://docs.google.com/presentation/d/17qJRPay2q11QaTP6SEUHBuPoZZFMc_Xekimwcnovrg0/edit?usp=sharing){:target="_blank"} @ [Kaggle IL Meetup #3](https://www.meetup.com/DataHack/events/263196907/){:target="_blank"}, 22/07/2019** - Some updates from the "Predicting Molecular Properties" Kaggle competition, while it was running. [[Google Slides](https://docs.google.com/presentation/d/17qJRPay2q11QaTP6SEUHBuPoZZFMc_Xekimwcnovrg0/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Clustering Evaluation @ Check Point data science guild day](https://docs.google.com/presentation/d/1gbg8ittEJ4ZbW3pioEyLp4LEJBMQHNAjjcsrHGnjoug/edit?usp=sharing){:target="_blank"}, 04/07/2019** - An introductory talk about how to evaluate clustering methods . [[Google Slides](https://docs.google.com/presentation/d/1gbg8ittEJ4ZbW3pioEyLp4LEJBMQHNAjjcsrHGnjoug/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Clustering: A very rough intro @ BigPanda](https://docs.google.com/presentation/d/1FRoKAo2on_WwVjRrH1UphMw9yXXhH3DV8K__izGK3nM/edit?usp=sharing){:target="_blank"}, April 2019** - An introductory talk about clustering I gave to data team members at BigPanda as part of periodic knowledge share sessions. [[Google Slides](https://docs.google.com/presentation/d/1FRoKAo2on_WwVjRrH1UphMw9yXXhH3DV8K__izGK3nM/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Data Preparation: Scaling and Normalization (A very rough intro) @ BigPanda](https://docs.google.com/presentation/d/1tj3lZW9u1bz-HGMLuvuglr6Axo-CY8-1nYVraK3_pLU/edit?usp=sharing){:target="_blank"}, March 2019** - An introductory talk about scaling and normalization I gave to data team members at BigPanda as part of periodic knowledge share sessions. [[Google Slides](https://docs.google.com/presentation/d/1tj3lZW9u1bz-HGMLuvuglr6Axo-CY8-1nYVraK3_pLU/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Python Packaging Workshop @ Intuit](http://www.shaypalachy.com/ppw.html){:target="_blank"}, 13/12/2019** - A hands-on workshop for Python programmers, walking them through the process of writing, testing and publishing their own Python packages. [[Resources page: Presentations slides, repository links and complementary blog post](http://www.shaypalachy.com/ppw.html){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Packaging for personal open source projects](https://docs.google.com/presentation/d/1MSAMPOF1cNwWJVYnf2sof-MlmOyD5a2crHPmczB8pR8/edit?usp=sharing){:target="_blank"} @ [PyData Tel Aviv #19 - Open-Source Sprint](https://www.meetup.com/PyData-Tel-Aviv/events/256401399/){:target="_blank"}, 19/12/2018** - I talked about why packaging can be important even for small and personal open source projects, focusing on Python projects, at the 19th PyData TLV meetup. [[Google Slides](https://docs.google.com/presentation/d/1MSAMPOF1cNwWJVYnf2sof-MlmOyD5a2crHPmczB8pR8/edit?usp=sharing){:target="_blank"}] [[PDF](https://drive.google.com/file/d/1o10jwOxYR_6w4nDPNmWSHZbv6xwISnf4/view?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Bot use in election period and its effect on freedom of speech](http://law.haifa.ac.il/images/eventDocs/hofeshPROG.jpg){:target="_blank"} @ [Conference on freedom of speech on the internet in election period](http://law.haifa.ac.il/images/eventDocs/hofeshPROG.jpg){:target="_blank"}, 06/12/2018** - I was part of a panel discussing the topic of bot use in election period and its effect on freedom of speech, providing the point of view of the AI research community and industry. [[Video](https://www.youtube.com/watch?v=K9h75d8u400){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Practical preprocessing for Machine Learning](https://github.com/DataHackIL/DataWorkshops/blob/master/DataHack2018/Preprocessing%20For%20ML%20-%20DataLearn%2018.pdf){:target="_blank"} @ [DataLearn 2018](https://github.com/DataHackIL/DataWorkshops#datahack-2018-datalearn-the-workshop-track){:target="_blank"}, 03/10/2018** - An overview of the most common and important preprocessing techniques used for data preparation in Machine Learning projects, aimed at newcomers. Given as part of [DataLearn 2018](https://www.datahack.org.il/datalearn){:target="_blank"}, the workshop track of [Datahack 2018](https://www.datahack.org.il/){:target="_blank"}. [[Video](https://www.youtube.com/watch?v=uIYzh4bjiFw&index=3&list=PLZYkt7161wELtg6MdiN9iUdNK5u-OceBx&t=351s){:target="_blank"}] [[Google Slides](https://docs.google.com/presentation/d/1DyyN8Jd-pofRG0SIyr4Bsm3yHxKsFILTCpi8Vq3Zb60/){:target="_blank"}] [[PDF](https://github.com/DataHackIL/DataWorkshops/blob/master/DataHack2018/Preprocessing%20For%20ML%20-%20DataLearn%2018.pdf){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Pied PyPIer: Why packaging is important for both open and closed data science projects](https://www.youtube.com/watch?v=QPxfWCSkudE){:target="_blank"} @ [PyCon Israel 2018](https://il.pycon.org/2018/en/){:target="_blank"}, 05/06/2018** - A talk aimed at sharing my experience developing small Python packages in order to encourage more data scientists to open and share their Python code in package form. [[Video](https://www.youtube.com/watch?v=QPxfWCSkudE){:target="_blank"}] [[Google Slides](https://docs.google.com/presentation/d/1gT5hXz1q0LdvdFi1mI8RON0ccrzUafckquN-3ssan_0/edit?usp=sharing){:target="_blank"}] [[PDF](https://drive.google.com/open?id=14ZWSGKKxMl5FLXZfYdAUybd_mv3WHKGd){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Data Science in the wild](https://docs.google.com/presentation/d/1_0aIhkJCyXFfKtlfb5gW-MDBY29YkFWJN4PzWTQ77Gg/edit?usp=sharing){:target="_blank"} @ [TIP 2018](http://transdisciplinary-innovation.com/){:target="_blank"}** - I talked at the [Trans-disciplinary Innovation Program](http://transdisciplinary-innovation.com/){:target="_blank"} of The Hebrew University of Jerusalem about the actualities of practicing data science in the wild, and lessons learned from the mistakes I made. [[Google Slides](https://docs.google.com/presentation/d/1_0aIhkJCyXFfKtlfb5gW-MDBY29YkFWJN4PzWTQ77Gg/edit?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Computing Nash equilibria in graphical games](https://www.youtube.com/watch?v=pbux2WcIg70){:target="_blank"} @ [AlgoIL #1](https://www.meetup.com/Algorithms-Israel/events/245101636/){:target="_blank"}, 04/12/2017** - A talk I gave at the first [Algorithms Israel](https://www.meetup.com/Algorithms-Israel){:target="_blank"} meetup, reviewing three different algorithms for finding Nash equilibria in graphical games. [[Video](https://www.youtube.com/watch?v=pbux2WcIg70){:target="_blank"}] [[Google Slides](https://docs.google.com/presentation/d/1RqYqizMuBJv1dQKwIPIVwNdiQd99ex6LwHtdXheBLLA/edit?usp=sharing){:target="_blank"}] [[PDF](https://drive.google.com/file/d/19XxL5997WsBz9Cd8ASTpBRg1tSA3ZMHy/view?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Fuzzy Credit Networks](https://www.youtube.com/watch?v=a_bpEelXfG0){:target="_blank"} @ [Reversim 2017](https://summit2017.reversim.com/){:target="_blank"}** - A talk I gave at [Reversim 2017](https://summit2017.reversim.com/){:target="_blank"} about a variant I came up with to the concept of credit networks. [[Video](https://www.youtube.com/watch?v=a_bpEelXfG0){:target="_blank"}] [[Abstract](https://summit2017.reversim.com/session/3c0885c7-3857-b68b-d283-24ed216a316f){:target="_blank"}] [[Google Slides](https://docs.google.com/presentation/d/1e4WdkVnXWdrg7isx73lDnr1cu_oIKi0AwJxw3eja3GA/edit?usp=sharing){:target="_blank"}] [[PDF](https://drive.google.com/file/d/0B3IYTOSJm0hOUWRMeEE0ZlhFVkk/view?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[ODsL](https://odsl.github.io/){:target="_blank"} @ [Reversim 2017](https://summit2017.reversim.com/){:target="_blank"}** - I talked at [Reversim 2017](https://summit2017.reversim.com/){:target="_blank"} about the [ODsL project](https://odsl.github.io/){:target="_blank"}. [[Video](https://www.youtube.com/watch?v=a_bpEelXfG0&list=PLqXy0aX6TzQrRE_sAtkqBsJAdFQOGme8O&index=32){:target="_blank"}] [[Abstract](https://summit2017.reversim.com/session/5ffe1f3f-137a-405a-c420-08816400cc8e){:target="_blank"}] [[Google Slides](https://docs.google.com/presentation/d/1G1eonyxCapnCbklfnlfmXBpfs9r29ANcTQBWATGej28/edit?usp=sharing){:target="_blank"}] [[PDF](https://drive.google.com/file/d/0B3IYTOSJm0hOR2ZrVW9UMEVEZXc/view?usp=sharing){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Handling data with Python: A hands-on workshop](https://github.com/DataHackIL/handling_data_with_python_datahack_workshop){:target="_blank"}** - A hands-on introductory workshop on how to handle data with Python using Jupyter Notebook, Numpy and Pandas. Given at [Datahack 2016](http://2016.datahack-il.com/){:target="_blank"} and [Datahack 2017](http://2017.datahack-il.com/){:target="_blank"}. [[Repository](https://github.com/DataHackIL/handling_data_with_python_datahack_workshop){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **Quick & dirty data science with Python @ [DataTalks #3](https://www.meetup.com/DataHack/events/237926275/){:target="_blank"}, 15/03/2017** - I presented a classification challenge we had at [Neura](https://www.theneura.com/){:target="_blank"}, and how we tackled it using the simplest machine learning tools and some dirty heuristics to get a working system with good results in a short amount of time. [[Event](https://www.meetup.com/DataHack/events/237926275/){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Introduction to Network Analysis (with Python)](https://github.com/shaypal5/exploring_networks_with_python_intro){:target="_blank"} @ [Data Science Summit Europe 2016](https://www.xing-events.com/dataeu2016.html){:target="_blank"} Training Day, 05/06/2016** - Together with Inbar Naor. An introduction to exploring network-structured datasets with the Python networkx package and Jupyter Notebook. [[PDF](https://www.dropbox.com/s/rbmxu3u98ysuomj/Introduction%20to%20Network%20Analysis%20%5BData%20Science%20Summit%202016%20Workshop%5D.pdf?dl=0){:target="_blank"}] [[Repository](https://github.com/shaypal5/exploring_networks_with_python_intro){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **[Fireside chat on Big Data](https://www.dropbox.com/s/wm0li3z3w4mnpkt/ir_academia_datahack_event.pdf?dl=0){:target="_blank"} @ Ir-Academia, Industry-Academia Event #2, 24/05/2016** - Co-organized and co-hosted with Inbar Naor the Big Data Panel, interviewing Prof. Yossi Matias, VP Engineering @ Google, Prof. Menahem Ben-Sasson, HUJI President, and Prof. Yair Weiss, Head of the CS school. [[Agenda](https://www.dropbox.com/s/wm0li3z3w4mnpkt/ir_academia_datahack_event.pdf?dl=0){:target="_blank"}]
+</section>
 
+<section class="archive-entry" markdown="1">
 **Hackathons as an information sharing tool for companies and governmental organizations @ [Teldan INFO 2016](http://www.teldan.com/info2016/agenda.html){:target="_blank"}, 23/05/2016-25/05/2016** - Together with Inbar Naor. A presentation on the importance of hackathons as a community reach out avenue for various organizations. [[PDF](https://u4070062.dl.dropboxusercontent.com/u/4070062/Presentations/Teldan%20Conf%202016%20-%20Hackathons%20as%20a%20tool%20for%20knowledge%20transfer.pdf){:target="_blank"}]
+</section>
 
 </div>

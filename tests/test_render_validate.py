@@ -1,11 +1,12 @@
 import shutil
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
 
 from automation.course_family_content import apply_generalized_course_content
-from automation.config import GENERATED_HEADER, TEACHING_MARKER_END, TEACHING_MARKER_START, build_paths
+from automation.config import GENERATED_HEADER, PUBLIC_PAGE_GENERATED_HEADER, TEACHING_MARKER_END, TEACHING_MARKER_START, build_paths
 from automation.data_io import load_courses, load_materials
 from automation.models import Course, ExcludedMaterial, Material
 from automation.rendering import (
@@ -36,6 +37,22 @@ from automation.syllabus import (
     syllabus_export_mime,
 )
 from automation.validation import validate_generated_files, validate_repository
+
+
+def render_kramdown_html(markdown: str) -> str:
+    try:
+        result = subprocess.run(
+            ["ruby", "-rkramdown", "-e", "puts Kramdown::Document.new(STDIN.read, input: 'GFM').to_html"],
+            input=markdown,
+            capture_output=True,
+            check=True,
+            text=True,
+        )
+    except FileNotFoundError as exc:
+        raise unittest.SkipTest("Ruby is not available for rendered Markdown assertions.") from exc
+    except subprocess.CalledProcessError as exc:
+        raise unittest.SkipTest(f"Kramdown is not available for rendered Markdown assertions: {exc.stderr}") from exc
+    return result.stdout
 
 
 class RenderValidateTests(unittest.TestCase):
@@ -131,13 +148,27 @@ class RenderValidateTests(unittest.TestCase):
                                 "markdown": '**[demo](https://example.com){:target="_blank"}** - Example.',
                             }
                         ],
-                    }
+                    },
+                    {"title": "Tools!", "projects": []},
+                    {"title": "Tools 2", "projects": []},
                 ],
             },
         )
         self.assertIn("<!-- GENERATED: edit data/*.yml or automation sources instead of this file. -->", public_page)
         self.assertIn('<a href="#demo">demo</a>', public_page)
-        self.assertIn('<span id="demo"></span>', public_page)
+        self.assertIn('<nav class="archive-section-nav" aria-label="Archive sections">', public_page)
+        self.assertIn('<h2 id="tools">Tools</h2>', public_page)
+        self.assertIn('<h2 id="tools-2">Tools!</h2>', public_page)
+        self.assertIn('<h2 id="tools-2-2">Tools 2</h2>', public_page)
+        self.assertIn('<a href="#tools-2-2">Tools 2</a>', public_page)
+        self.assertIn('<div class="archive-list projects-list" markdown="1">', public_page)
+        self.assertIn('<section class="archive-entry" id="demo" markdown="1">', public_page)
+        self.assertNotIn('<span id="demo"></span>', public_page)
+
+        rendered_html = render_kramdown_html(public_page.split(PUBLIC_PAGE_GENERATED_HEADER, 1)[1])
+        self.assertIn('<section class="archive-entry" id="demo">', rendered_html)
+        self.assertIn('<strong><a href="https://example.com" target="_blank">demo</a></strong> - Example.', rendered_html)
+        self.assertIn('<a href="#tools-2-2">Tools 2</a>', rendered_html)
 
         course = courses[0]
         materials = materials_by_slug[course.slug] + [
