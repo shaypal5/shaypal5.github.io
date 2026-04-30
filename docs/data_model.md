@@ -20,6 +20,32 @@ Optional fields:
 - `tags`
 - `manual_overrides`
 - `review_notes`
+- `course_family`
+- `section`
+- `is_generalized`
+
+### Course Manual Overrides
+`manual_overrides` contains reviewed presentation controls that should stay with
+the canonical course record instead of being hand-edited into generated pages.
+Common keys include:
+- `opening_paragraph`
+- `organizing_team`
+- `lectures`
+- `lectures_heading`
+- `lectures_note`
+- `syllabus_markdown`
+- `syllabus_note`
+- `materials_note`
+- `hide_empty_materials`
+- `iteration_label`
+- `iteration_sort_key`
+- `section_label`
+- `teaching_index_sort_key`
+
+`materials_note` renders immediately below the course materials heading and
+before the materials list. Use it for public curation context, for example when
+a semester page intentionally exposes a compact subset of the reviewed source
+materials.
 
 ## Material Schema
 Required fields:
@@ -34,13 +60,26 @@ Required fields:
 - `sort_key`
 - `notes`
 
+Optional fields:
+- `description`
+- `public_title`
+
+`title` is the source title preserved from the reviewed material record. It is
+used for stable sorting, review, validation messages, and future sync context.
+
+`public_title` is optional curated public link text. When present and non-empty,
+the renderer uses it as the visible material link label while preserving `title`
+internally. When absent, the renderer derives public link text from `title` by
+stripping known noisy suffixes such as presenter or Google Slides markers.
+
 ## Ordering Rules
 - Courses: active first, then academic period, then title.
 - Materials: week, section, sort key, then title.
 
 ## Editable Vs. Inferred Fields
 - Machine-inferred by default: `slug`, `title`, `institution`, `role`, `academic_period`, `kind`, `week`, `section`, `sort_key`.
-- Manually editable after sync: `summary`, `subtitle`, `hero_note`, `syllabus_url`, `tags`, `manual_overrides`, `review_notes`, and any material `notes`.
+- Manually editable after sync: `summary`, `subtitle`, `hero_note`, `syllabus_url`, `tags`, `manual_overrides`, `review_notes`, and material `notes`, `description`, and `public_title`.
+- Source titles should remain intact in material `title`; curate public-facing link text with `public_title` instead of overwriting the source title.
 
 ## Slug Rules
 - Slugs must be unique across all courses.

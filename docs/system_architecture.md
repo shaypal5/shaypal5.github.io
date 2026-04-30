@@ -15,6 +15,8 @@
 - Google integration is read-only.
 - YAML in `data/teaching/` is the canonical repo-side source of truth.
 - Markdown under `teaching/` and the managed block in `teaching.md` are generated artifacts.
+- Material `title` preserves reviewed source identity; optional `public_title` controls rendered public link text.
+- Course `manual_overrides.materials_note` renders reviewed context before the public materials list.
 - CI validates; it does not discover or sync from Drive.
 - `pr-agent-context` consumes CI coverage artifacts and GitHub PR state; it does not mutate repository files.
 - Scheduled `pr-agent-context` fallback dispatches are repo-owned GitHub Actions control flow only; they do not change repository contents.
@@ -39,4 +41,5 @@ flowchart LR
 ## Determinism Rules
 - Course ordering is stable: active first, then by academic period, then by title.
 - Material ordering is stable: week, section, sort key, then title.
+- Public material link text is deterministic: explicit `public_title` wins, otherwise the renderer derives a cleaned label from `title`.
 - Generated files are validated by exact content comparison, so stale artifacts fail validation.
