@@ -8,13 +8,15 @@ subtitle: Cohort 2, Summer 2023
 
 ## Managing Data Science Teams @ DataNights
 
+<p class="course-meta"><span>DataNights</span><span class="course-meta-separator" aria-hidden="true">/</span><span>Instructor</span><span class="course-meta-separator" aria-hidden="true">/</span><span>23&#x27;</span></p>
+
 The second DataNights Data Science Management cohort refined the original program into a seven-session run with a stronger speaker lineup, more structured workshops, and a clearer through-line from product mindset to hiring, scale, and organizational influence.
 
 The second cohort ran from May 10, 2023 through June 21, 2023 in weekly evening sessions, co-hosted by Check Point in Tel Aviv.
 
 ## Organizing Team
 
-* **Shay Palachy Affek** - Program lead and instructor, DataNights / DataHack
+* **Shay Palachy Affek** - Program lead and instructor, DataNights / Datahack
 * **Topaz Gilad** - Cohort operations, hosting, and session support, DataNights
 * **Hila** - Cohort operations, hosting, and session support, DataNights
 * **Nurit Vatnik** - Cohort operations, hosting, and session support, DataNights

@@ -22,9 +22,9 @@ courses:
   section: ''
   is_generalized: false
 - slug: data-vis
-  title: Data Vis
+  title: Data Vis @ TAU
   subtitle: Course home across academic iterations
-  institution: Unknown institution
+  institution: Tel Aviv University
   role: Instructor
   academic_period: TBD
   status: active
@@ -61,9 +61,9 @@ courses:
   section: ''
   is_generalized: true
 - slug: data-vis-22a
-  title: Data Vis
+  title: Data Vis @ TAU
   subtitle: Course page for teaching materials, 22/23 (Semester A)
-  institution: Unknown institution
+  institution: Tel Aviv University
   role: Instructor
   academic_period: 22/23
   status: active
@@ -103,9 +103,9 @@ courses:
   section: A
   is_generalized: false
 - slug: data-vis-22b
-  title: Data Vis
+  title: Data Vis @ TAU
   subtitle: Course page for teaching materials, 22/23 (Semester B)
-  institution: Unknown institution
+  institution: Tel Aviv University
   role: Instructor
   academic_period: 22/23
   status: active
@@ -145,9 +145,9 @@ courses:
   section: B
   is_generalized: false
 - slug: data-vis-23a
-  title: Data Vis
+  title: Data Vis @ TAU
   subtitle: Course page for teaching materials, 23/24 (Semester A)
-  institution: Unknown institution
+  institution: Tel Aviv University
   role: Instructor
   academic_period: 23/24
   status: active
@@ -207,9 +207,9 @@ courses:
   section: A
   is_generalized: false
 - slug: data-vis-23b
-  title: Data Vis
+  title: Data Vis @ TAU
   subtitle: Course page for teaching materials, 23/24 (Semester B)
-  institution: Unknown institution
+  institution: Tel Aviv University
   role: Instructor
   academic_period: 23/24
   status: active
@@ -261,9 +261,9 @@ courses:
   section: B
   is_generalized: false
 - slug: data-vis-24b
-  title: Data Vis
+  title: Data Vis @ TAU
   subtitle: Course page for teaching materials, 24/25 (Semester B)
-  institution: Unknown institution
+  institution: Tel Aviv University
   role: Instructor
   academic_period: 24/25
   status: active
@@ -283,9 +283,9 @@ courses:
   section: B
   is_generalized: false
 - slug: data-vis-25a
-  title: Data Vis
+  title: Data Vis @ TAU
   subtitle: Course page for teaching materials, 25/26 (Semester A)
-  institution: Unknown institution
+  institution: Tel Aviv University
   role: Instructor
   academic_period: 25/26
   status: active
@@ -389,8 +389,8 @@ courses:
     organizing_team:
     - name: Shay Palachy Affek
       role: Program lead
-      company: DataNights / DataHack
-    - name: DataNights / DataHack organizing team
+      company: DataNights / Datahack
+    - name: DataNights / Datahack organizing team
       role: Cohort planning, speaker coordination, and operations
     lectures_heading: '## Current Session Pool'
     lectures_note: The speaker lineup and final syllabus are still being finalized.
@@ -492,8 +492,8 @@ courses:
     organizing_team:
     - name: Shay Palachy Affek
       role: Program lead and instructor
-      company: DataNights / DataHack
-    - name: DataNights / DataHack volunteer organizing team
+      company: DataNights / Datahack
+    - name: DataNights / Datahack volunteer organizing team
       role: Cohort operations and community support
     lectures:
     - title: 5 Things I Learned as a DS Manager
@@ -557,7 +557,7 @@ courses:
       speaker: Shay Palachy Affek
       description: A talk about adapting peer-review practices to data science work
         to improve decision making and output quality.
-    - title: Participants Takeaways
+    - title: Participant takeaways
       speaker: The cohort
       description: A closing session for participants to share what they had already
         applied from the program.
@@ -599,7 +599,7 @@ courses:
     organizing_team:
     - name: Shay Palachy Affek
       role: Program lead and instructor
-      company: DataNights / DataHack
+      company: DataNights / Datahack
     - name: Topaz Gilad
       role: Cohort operations, hosting, and session support
       company: DataNights
@@ -672,9 +672,9 @@ courses:
   section: ''
   is_generalized: false
 - slug: deep-learning
-  title: Deep Learning
+  title: Deep Learning @ TAU
   subtitle: Course home across academic iterations
-  institution: Unknown institution
+  institution: Tel Aviv University
   role: Instructor
   academic_period: TBD
   status: active
@@ -714,9 +714,9 @@ courses:
   section: ''
   is_generalized: true
 - slug: deep-learning-24b
-  title: Deep Learning
+  title: Deep Learning @ TAU
   subtitle: Course page for teaching materials, 24/25 (Semester B)
-  institution: Unknown institution
+  institution: Tel Aviv University
   role: Instructor
   academic_period: 24/25
   status: active
@@ -736,9 +736,9 @@ courses:
   section: B
   is_generalized: false
 - slug: deep-learning-25b
-  title: Deep Learning
+  title: Deep Learning @ TAU
   subtitle: Course page for teaching materials, 25/26 (Semester B)
-  institution: Unknown institution
+  institution: Tel Aviv University
   role: Instructor
   academic_period: 25/26
   status: active
@@ -816,7 +816,7 @@ courses:
 - slug: econml-24
   title: EconML
   subtitle: Course page for teaching materials, 24/25
-  institution: Unknown institution
+  institution: The Academic College of Tel Aviv-Yaffo
   role: Instructor
   academic_period: 24/25
   status: active
@@ -837,7 +837,7 @@ courses:
 - slug: econml-25
   title: EconML
   subtitle: Course page for teaching materials, 25/26
-  institution: Unknown institution
+  institution: The Academic College of Tel Aviv-Yaffo
   role: Instructor
   academic_period: 25/26
   status: active
@@ -856,9 +856,9 @@ courses:
   section: ''
   is_generalized: false
 - slug: text-mining
-  title: Text Mining
+  title: Text Mining @ TAU
   subtitle: Course home across academic iterations
-  institution: Unknown institution
+  institution: Tel Aviv University
   role: Instructor
   academic_period: TBD
   status: active
@@ -898,9 +898,9 @@ courses:
   section: ''
   is_generalized: true
 - slug: text-mining-24a
-  title: Text Mining
+  title: Text Mining @ TAU
   subtitle: Course page for teaching materials, 24/25 (Semester A)
-  institution: Unknown institution
+  institution: Tel Aviv University
   role: Instructor
   academic_period: 24/25
   status: active
@@ -952,9 +952,9 @@ courses:
   section: A
   is_generalized: false
 - slug: text-mining-25b
-  title: Text Mining
+  title: Text Mining @ TAU
   subtitle: Course page for teaching materials, 25/26 (Semester B)
-  institution: Unknown institution
+  institution: Tel Aviv University
   role: Instructor
   academic_period: 25/26
   status: active

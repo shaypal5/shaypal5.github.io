@@ -8,6 +8,8 @@ subtitle: Course page for teaching materials, 24/25
 
 ## EconML
 
+<p class="course-meta"><span>The Academic College of Tel Aviv-Yaffo</span><span class="course-meta-separator" aria-hidden="true">/</span><span>Instructor</span><span class="course-meta-separator" aria-hidden="true">/</span><span>24/25</span></p>
+
 This semester of Intro to ML @ MTA focused on applied machine-learning thinking for economics and management students, with concrete predictive tasks, evaluation, and real-world business-style examples.
 
 ## Course Materials

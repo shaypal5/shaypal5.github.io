@@ -1,12 +1,14 @@
 ---
 layout: page
-title: Text Mining
+title: Text Mining @ TAU
 subtitle: Course home across academic iterations
 ---
 
 <!-- GENERATED: edit data/teaching or automation sources instead of this file. -->
 
-## Text Mining
+## Text Mining @ TAU
+
+<p class="course-meta"><span>Tel Aviv University</span><span class="course-meta-separator" aria-hidden="true">/</span><span>Instructor</span></p>
 
 I teach Text Mining at Tel Aviv University, covering classical NLP, representation learning, transformers, and modern LLM-based workflows for working with text as data.
 

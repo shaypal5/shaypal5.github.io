@@ -14,3 +14,6 @@ $('#main-navbar').on('show.bs.collapse', function () {
 $('#main-navbar').on('hidden.bs.collapse', function () {
   $(".navbar").removeClass("top-nav-expanded");
 })
+
+// Keep external links opened in a new tab from retaining opener access.
+$('a[target="_blank"]').attr('rel', 'noopener noreferrer');

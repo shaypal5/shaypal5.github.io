@@ -8,14 +8,16 @@ subtitle: Cohort 1, Summer 2022
 
 ## Managing Data Science Teams @ DataNights
 
+<p class="course-meta"><span>DataNights</span><span class="course-meta-separator" aria-hidden="true">/</span><span>Instructor</span><span class="course-meta-separator" aria-hidden="true">/</span><span>22&#x27;</span></p>
+
 The first DataNights Data Science Management cohort focused on the practical realities of leading data science teams, from project roadmaps and product work to recruiting, feedback, and peer review.
 
 The first cohort ran from August 3, 2022 through September 14, 2022 in weekly evening sessions, hosted by Forter in Tel Aviv.
 
 ## Organizing Team
 
-* **Shay Palachy Affek** - Program lead and instructor, DataNights / DataHack
-* **DataNights / DataHack volunteer organizing team** - Cohort operations and community support
+* **Shay Palachy Affek** - Program lead and instructor, DataNights / Datahack
+* **DataNights / Datahack volunteer organizing team** - Cohort operations and community support
 
 ## Lectures
 
@@ -58,7 +60,7 @@ The first cohort ran from August 3, 2022 through September 14, 2022 in weekly ev
 * Peer Review in Data Science Projects - Shay Palachy Affek
   A talk about adapting peer-review practices to data science work to improve decision making and output quality.
 
-* Participants Takeaways - The cohort
+* Participant takeaways - The cohort
   A closing session for participants to share what they had already applied from the program.
 
 * Lecture Workshop - The cohort

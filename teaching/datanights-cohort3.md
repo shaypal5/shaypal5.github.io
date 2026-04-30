@@ -8,14 +8,16 @@ subtitle: Cohort 3, in preparation
 
 ## Managing Data Science Teams @ DataNights
 
+<p class="course-meta"><span>DataNights</span><span class="course-meta-separator" aria-hidden="true">/</span><span>Instructor</span></p>
+
 The third DataNights Data Science Management cohort is currently being assembled, with a refreshed session pool that leans more heavily into AI-era management, LLMOps, hiring in a changing landscape, and organizational influence.
 
 Cohort 3 is currently in preparation. Dates, final venue, and the hosting company will be added here once the cohort is finalized.
 
 ## Organizing Team
 
-* **Shay Palachy Affek** - Program lead, DataNights / DataHack
-* **DataNights / DataHack organizing team** - Cohort planning, speaker coordination, and operations
+* **Shay Palachy Affek** - Program lead, DataNights / Datahack
+* **DataNights / Datahack organizing team** - Cohort planning, speaker coordination, and operations
 
 ## Current Session Pool
 

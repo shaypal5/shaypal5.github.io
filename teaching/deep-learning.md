@@ -1,12 +1,14 @@
 ---
 layout: page
-title: Deep Learning
+title: Deep Learning @ TAU
 subtitle: Course home across academic iterations
 ---
 
 <!-- GENERATED: edit data/teaching or automation sources instead of this file. -->
 
-## Deep Learning
+## Deep Learning @ TAU
+
+<p class="course-meta"><span>Tel Aviv University</span><span class="course-meta-separator" aria-hidden="true">/</span><span>Instructor</span></p>
 
 I teach Deep Learning at Tel Aviv University as a hands-on course on modern neural networks, spanning optimization, CNNs, sequence models, transformers, and generative modeling in PyTorch.
 
