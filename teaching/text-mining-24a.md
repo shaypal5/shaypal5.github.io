@@ -72,28 +72,28 @@ Text Mining (Semester A) introduces automated analysis of large collections of t
 
 ### Week 0
 
-**[Text Mining 24/5 - S0: Course Intro](https://docs.google.com/presentation/d/1fp9NEEhHrjnqiVJSlXB9OUZbdIJfpSui_x3ylg3pWF8/edit?usp=drivesdk){:target="_blank"}** - Week 0 lecture slides
+* **[Text Mining 24/5 - S0: Course Intro](https://docs.google.com/presentation/d/1fp9NEEhHrjnqiVJSlXB9OUZbdIJfpSui_x3ylg3pWF8/edit?usp=drivesdk){:target="_blank"}** - Week 0 lecture slides
 
 ### Week 1
 
-**[Text Mining 24/5 - S1: Text Processing](https://docs.google.com/presentation/d/1pdVASMnl1KOzzCNbUhFgfnxRO4r5rz5Bc2VU8eXHvFA/edit?usp=drivesdk){:target="_blank"}** - Week 1 lecture slides
+* **[Text Mining 24/5 - S1: Text Processing](https://docs.google.com/presentation/d/1pdVASMnl1KOzzCNbUhFgfnxRO4r5rz5Bc2VU8eXHvFA/edit?usp=drivesdk){:target="_blank"}** - Week 1 lecture slides
 
 ### Week 2
 
-**[Text Mining 24/5 - S2: Word2Vec](https://docs.google.com/presentation/d/12hbxaMKMOjfrRMyshMxy9-E73S9mBLAX_Pw4F8HhOcI/edit?usp=drivesdk){:target="_blank"}** - Week 2 lecture slides
+* **[Text Mining 24/5 - S2: Word2Vec](https://docs.google.com/presentation/d/12hbxaMKMOjfrRMyshMxy9-E73S9mBLAX_Pw4F8HhOcI/edit?usp=drivesdk){:target="_blank"}** - Week 2 lecture slides
 
 ### Week 3
 
-**[Text Mining 24/5 - S3: Unsupervised Text Mining & Visualization](https://docs.google.com/presentation/d/1Q6HdoGrnph7WAoeiTLlomUzVGJywKnZ8dI_8F5fMUYc/edit?usp=drivesdk){:target="_blank"}** - Week 3 lecture slides
+* **[Text Mining 24/5 - S3: Unsupervised Text Mining & Visualization](https://docs.google.com/presentation/d/1Q6HdoGrnph7WAoeiTLlomUzVGJywKnZ8dI_8F5fMUYc/edit?usp=drivesdk){:target="_blank"}** - Week 3 lecture slides
 
 ### Week 4
 
-**[Text Mining 24/5 - S4: Supervised Text Mining](https://docs.google.com/presentation/d/1Yz3wHhHHOU8cwlfXirEJAMv9zP4Y4bhaStdP3_xTyyQ/edit?usp=drivesdk){:target="_blank"}** - Week 4 lecture slides
+* **[Text Mining 24/5 - S4: Supervised Text Mining](https://docs.google.com/presentation/d/1Yz3wHhHHOU8cwlfXirEJAMv9zP4Y4bhaStdP3_xTyyQ/edit?usp=drivesdk){:target="_blank"}** - Week 4 lecture slides
 
 ### Week 5
 
-**[Text Mining 24/5 - S5: Attention to SBERT](https://docs.google.com/presentation/d/1UjdpBSvSoh7V5NuL4y8bdFhNfutDDMQKJ5KyXlRLrF8/edit?usp=drivesdk){:target="_blank"}** - Week 5 lecture slides
+* **[Text Mining 24/5 - S5: Attention to SBERT](https://docs.google.com/presentation/d/1UjdpBSvSoh7V5NuL4y8bdFhNfutDDMQKJ5KyXlRLrF8/edit?usp=drivesdk){:target="_blank"}** - Week 5 lecture slides
 
 ### Week 6
 
-**[Text Mining 24/5 - S6: LLMs](https://docs.google.com/presentation/d/1rX9UkZ4DjUKwDLiGGYyhhoChPLTr1M1qlcCN4gY_cDc/edit?usp=drivesdk){:target="_blank"}** - Week 6 lecture slides
+* **[Text Mining 24/5 - S6: LLMs](https://docs.google.com/presentation/d/1rX9UkZ4DjUKwDLiGGYyhhoChPLTr1M1qlcCN4gY_cDc/edit?usp=drivesdk){:target="_blank"}** - Week 6 lecture slides

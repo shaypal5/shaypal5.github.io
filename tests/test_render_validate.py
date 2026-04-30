@@ -14,6 +14,7 @@ from automation.rendering import (
     _render_named_list_item,
     file_diff_summary,
     inject_managed_block,
+    public_material_title,
     render_course_page,
     render_teaching_block,
     should_render_course_page,
@@ -91,7 +92,7 @@ class RenderValidateTests(unittest.TestCase):
         self.assertFalse(orphan_page.exists())
         bigdata_page = (paths.teaching_root / "bigdata22.md").read_text(encoding="utf-8")
         self.assertLess(
-            bigdata_page.index("TA Session #1: Intro to SparkSQL - Google Slides"),
+            bigdata_page.index("TA Session #1: Intro to SparkSQL"),
             bigdata_page.index("TA Session #1: Exercise Notebook"),
         )
 
@@ -733,6 +734,83 @@ class RenderValidateTests(unittest.TestCase):
             ],
         )
         self.assertIn("(Bring laptop)", notes_only_page)
+        self.assertEqual(
+            public_material_title(
+                Material(
+                    title="DV4 - Marks & Channels - Data Vis @ TAU - Shay Palachy Affek",
+                    url="https://example.com/slides",
+                    kind="slides",
+                    public_title="Marks & Channels",
+                )
+            ),
+            "Marks & Channels",
+        )
+        self.assertEqual(
+            public_material_title(
+                Material(
+                    title="DV4 - Marks & Channels - Data Vis @ TAU - Shay Palachy Affek",
+                    url="https://example.com/slides",
+                    kind="slides",
+                )
+            ),
+            "DV4 - Marks & Channels",
+        )
+        coerced_material = Material.from_dict(
+            {
+                "title": 123,
+                "url": "https://example.com/slides",
+                "kind": "slides",
+                "week": None,
+                "section": "Course Materials",
+                "source_file_id": "source-id",
+                "source_mime_type": "application/vnd.google-apps.presentation",
+                "published": True,
+                "sort_key": "01-slides",
+                "notes": "",
+                "public_title": "  Curated Title  ",
+            }
+        )
+        self.assertEqual(coerced_material.title, "123")
+        self.assertEqual(public_material_title(coerced_material), "Curated Title")
+        self.assertEqual(coerced_material.to_dict()["public_title"], "Curated Title")
+        whitespace_title = Material(
+            title="  Source Title  ",
+            url="https://example.com/slides",
+            kind="slides",
+            public_title="   ",
+        )
+        self.assertEqual(public_material_title(whitespace_title), "Source Title")
+        self.assertNotIn("public_title", whitespace_title.to_dict())
+        materials_note_page = render_course_page(
+            Course(
+                slug="curated-note",
+                title="Curated Note",
+                subtitle="Overview",
+                institution="Unknown institution",
+                role="Instructor",
+                academic_period="25/26",
+                status="active",
+                source_drive_folder_id="curated-note",
+                source_drive_folder_name="Curated Note CF",
+                summary="Summary.",
+                visibility="public",
+                manual_overrides={"materials_note": "This semester intentionally exposes a compact public subset."},
+            ),
+            [
+                Material(
+                    title="Verbose Source Title - Course @ TAU - Shay Palachy Affek",
+                    public_title="Short Title",
+                    url="https://example.com/slides",
+                    kind="slides",
+                    published=True,
+                    section="Course Materials",
+                    sort_key="01-slides",
+                )
+            ],
+        )
+        self.assertIn("This semester intentionally exposes a compact public subset.", materials_note_page)
+        self.assertIn("* **[Short Title](https://example.com/slides)", materials_note_page)
+        self.assertNotIn("Verbose Source Title", materials_note_page)
 
         target = self.repo_root / "teaching" / "new-course.md"
         self.assertTrue(file_diff_summary(target, "content").startswith("A "))

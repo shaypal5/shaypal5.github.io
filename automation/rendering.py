@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from pathlib import Path
+import re
 from typing import Any
 
 from automation.config import GENERATED_HEADER, TEACHING_MARKER_END, TEACHING_MARKER_START
@@ -17,6 +18,12 @@ PINNED_TEACHING_INDEX_ORDER = {
 }
 
 GENERIC_SUMMARY_PREFIX = "Teaching materials extracted from Google Drive folder"
+
+MATERIAL_TITLE_SUFFIX_PATTERNS = (
+    re.compile(r"\s+[-\u2013\u2014]\s+[^-\u2013\u2014]*@\s*[A-Z][A-Za-z. ]+\s*$"),
+    re.compile(r"\s+[-\u2013\u2014]\s+Shay Palachy(?: Affek)?\s*$", re.IGNORECASE),
+    re.compile(r"\s+[-\u2013\u2014]\s+Google Slides\s*$", re.IGNORECASE),
+)
 
 
 def sort_courses(courses: list[Course]) -> list[Course]:
@@ -89,6 +96,20 @@ def sort_materials(materials: list[Material]) -> list[Material]:
             item.title.lower(),
         ),
     )
+
+
+def public_material_title(material: Material) -> str:
+    explicit = str(material.public_title or "").strip()
+    if explicit:
+        return explicit
+    source_title = str(material.title or "").strip()
+    title = source_title
+    previous = ""
+    while title and title != previous:
+        previous = title
+        for pattern in MATERIAL_TITLE_SUFFIX_PATTERNS:
+            title = pattern.sub("", title).strip()
+    return title or source_title
 
 
 def _iteration_label(course: Course) -> str:
@@ -229,6 +250,9 @@ def render_course_page(
         return "\n".join(lines).rstrip() + "\n"
     material_heading = "## Shared Course Materials" if course.is_generalized else "## Course Materials"
     lines.extend([material_heading, ""])
+    materials_note = str(course.manual_overrides.get("materials_note", "") or "").strip()
+    if materials_note:
+        lines.extend([materials_note, ""])
     if not grouped:
         lines.append("TBA")
         lines.append("")
@@ -249,7 +273,7 @@ def render_course_page(
                 trailing = f" - {item.description}"
             elif item.notes:
                 trailing = f" ({item.notes})"
-            lines.append(f"**[{item.title}]({item.url}){{:target=\"_blank\"}}**{trailing}")
+            lines.append(f"* **[{public_material_title(item)}]({item.url}){{:target=\"_blank\"}}**{trailing}")
             lines.append("")
     return "\n".join(lines).rstrip() + "\n"
 

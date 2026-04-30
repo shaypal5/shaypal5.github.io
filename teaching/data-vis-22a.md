@@ -60,26 +60,26 @@ This semester covers the full workflow of data visualization: understanding audi
 
 ## Course Materials
 
-**[C1 - Course Intro - Data Vis 22' @ TAU - Shay Palachy Affek](https://docs.google.com/presentation/d/16yKgJgeo-hCZwcFztOoF-YpPU3XUo4JkcA77TfVOeLQ/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
+* **[C1 - Course Intro](https://docs.google.com/presentation/d/16yKgJgeo-hCZwcFztOoF-YpPU3XUo4JkcA77TfVOeLQ/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
 
-**[C2 - Course Summary - Data Vis 22' @ TAU - Shay Palachy Affek](https://docs.google.com/presentation/d/1H912zOnwzJGIfQcW0BDfugL4P0L-w8AvW1E1rQABKmw/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
+* **[C2 - Course Summary](https://docs.google.com/presentation/d/1H912zOnwzJGIfQcW0BDfugL4P0L-w8AvW1E1rQABKmw/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
 
-**[DV1 - Data Vis Intro - Data Vis 22' @ TAU - Shay Palachy Affek](https://docs.google.com/presentation/d/1y8vuUa-yJJAm_8ASnaZSeNVloHGzu0gqGr4j9Gc8v0g/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
+* **[DV1 - Data Vis Intro](https://docs.google.com/presentation/d/1y8vuUa-yJJAm_8ASnaZSeNVloHGzu0gqGr4j9Gc8v0g/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
 
-**[DV2.5 - Data Prep - Data Vis 22' @ TAU - Shay Palachy Affek](https://docs.google.com/presentation/d/1XZT0IdbXp_7wqs-nE1V5iPg5jVReFJ-Dc-uiTExvK4E/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
+* **[DV2.5 - Data Prep](https://docs.google.com/presentation/d/1XZT0IdbXp_7wqs-nE1V5iPg5jVReFJ-Dc-uiTExvK4E/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
 
-**[DV2 - Data Abstraction - Data Vis 22' @ TAU - Shay Palachy Affek](https://docs.google.com/presentation/d/1Isvf3_lLpG8WUSq882wydE8WQn026aud4TOXpyM2xz4/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
+* **[DV2 - Data Abstraction](https://docs.google.com/presentation/d/1Isvf3_lLpG8WUSq882wydE8WQn026aud4TOXpyM2xz4/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
 
-**[DV3 - Task Abstraction - Data Vis 22' @ TAU - Shay Palachy Affek](https://docs.google.com/presentation/d/1ibZWjX7kZJWnNthf11FsEqh6TqoY9Z_oPm82Ux9RG6E/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
+* **[DV3 - Task Abstraction](https://docs.google.com/presentation/d/1ibZWjX7kZJWnNthf11FsEqh6TqoY9Z_oPm82Ux9RG6E/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
 
-**[DV4 - Marks & Channels - Data Vis 22' @ TAU - Shay Palachy Affek](https://docs.google.com/presentation/d/1EG6gzGBrM4eL9ok2j_ZDwTx4_cUB5dlxDwlWW9dvv8g/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
+* **[DV4 - Marks & Channels](https://docs.google.com/presentation/d/1EG6gzGBrM4eL9ok2j_ZDwTx4_cUB5dlxDwlWW9dvv8g/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
 
-**[DV6 - Chart Types - Data Vis 22' @ TAU - Shay Palachy Affek](https://docs.google.com/presentation/d/1Tkq3_Ih0-WBAArfeaVyXGea6Wf3P073bZ2tIQRjqfvI/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
+* **[DV6 - Chart Types](https://docs.google.com/presentation/d/1Tkq3_Ih0-WBAArfeaVyXGea6Wf3P073bZ2tIQRjqfvI/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
 
-**[DV7 - Manipulation & Arrangement - Data Vis 22' @ TAU - Shay Palachy Affek](https://docs.google.com/presentation/d/1C5v8ZKrY2_OcYIJq23beMAhWim2F-qs8Pqjaab00rGc/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
+* **[DV7 - Manipulation & Arrangement](https://docs.google.com/presentation/d/1C5v8ZKrY2_OcYIJq23beMAhWim2F-qs8Pqjaab00rGc/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
 
-**[DV8 - Dashboards - Data Vis 22' @ TAU - Shay Palachy Affek](https://docs.google.com/presentation/d/1WjsPSLuj878z-SYbg5X36esU1PhaLJJky376COCuG8E/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
+* **[DV8 - Dashboards](https://docs.google.com/presentation/d/1WjsPSLuj878z-SYbg5X36esU1PhaLJJky376COCuG8E/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
 
-**[DV9 - Data-Driven Storytelling - Data Vis 22' @ TAU - Shay Palachy Affek](https://docs.google.com/presentation/d/10TjhPXrNOsw68490w8iK_LafwPDaQfoXR3ziBZwo5mk/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
+* **[DV9 - Data-Driven Storytelling](https://docs.google.com/presentation/d/10TjhPXrNOsw68490w8iK_LafwPDaQfoXR3ziBZwo5mk/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
 
-**[T1 - Intro to Tableau - Data Vis 22' @ TAU - Shay Palachy Affek](https://docs.google.com/presentation/d/1Cr5aSVvi7srYGh75kco_gGE57T_8Mr-1GQoMngMWq2Y/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
+* **[T1 - Intro to Tableau](https://docs.google.com/presentation/d/1Cr5aSVvi7srYGh75kco_gGE57T_8Mr-1GQoMngMWq2Y/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
