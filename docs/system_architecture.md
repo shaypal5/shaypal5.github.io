@@ -9,6 +9,7 @@
 - `automation/publish.py`: wraps local git plus `gh` PR creation for end-to-end local publishing.
 - `.github/workflows/teaching-validation.yml`: acts as the CI producer for validation, coverage artifacts, and PR agent context generation.
 - `.github/workflows/pr-agent-context-refresh.yml`: reruns PR context assembly on later review and check signals using append-mode refreshes and a scheduled fallback dispatcher for approval-gated refresh events.
+- Both workflows intentionally track the floating `pr-agent-context` `v4` channel rather than a patch-pinned release; keep `uses ...@v4` and `tool_ref: v4` aligned between them.
 
 ## Boundaries
 - Google integration is read-only.

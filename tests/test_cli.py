@@ -234,11 +234,17 @@ class CliTests(unittest.TestCase):
         client = mock.Mock()
         client.list_folder_items_recursive.return_value = [
             {"mimeType": "application/vnd.google-apps.folder"},
-            {"id": "f", "name": "Deck", "mimeType": "application/pdf", "webViewLink": "https://example.com"},
+            {
+                "id": "f",
+                "name": "Week 1 - Deck",
+                "mimeType": "application/vnd.google-apps.presentation",
+                "webViewLink": "https://example.com",
+            },
         ]
-        materials = cli._discover_materials(client, sample_course(folder_id="folder-1"))
+        materials, excluded = cli._discover_materials(client, sample_course(folder_id="folder-1"))
         self.assertEqual(len(materials), 1)
-        self.assertEqual(materials[0].title, "Deck")
+        self.assertEqual(excluded, [])
+        self.assertEqual(materials[0].title, "Week 1 - Deck")
         client.list_folder_items.assert_not_called()
         client.list_folder_items_recursive.assert_called_once()
 
@@ -248,11 +254,37 @@ class CliTests(unittest.TestCase):
         client.list_folder_items_recursive.return_value = [
             {"id": "f", "name": "Lecture Deck", "mimeType": "application/vnd.google-apps.presentation", "webViewLink": "https://example.com/deck"},
         ]
-        materials = cli._discover_materials(client, generalized_course)
+        materials, excluded = cli._discover_materials(client, generalized_course)
         self.assertEqual(len(materials), 1)
+        self.assertEqual(excluded, [])
         self.assertEqual(materials[0].title, "Lecture Deck")
         client.list_folder_items.assert_not_called()
         client.list_folder_items_recursive.assert_called_once()
+
+    def test_discover_materials_separates_excluded_and_allows_exact_file_id_override(self) -> None:
+        client = mock.Mock()
+        client.list_folder_items_recursive.return_value = [
+            {
+                "id": "blocked-1",
+                "name": "Grades Timeline",
+                "mimeType": "application/vnd.google-apps.spreadsheet",
+                "webViewLink": "https://example.com/grades",
+            },
+            {
+                "id": "override-1",
+                "name": "Home Exercise 2",
+                "mimeType": "application/vnd.google-apps.document",
+                "webViewLink": "https://example.com/exercise",
+            },
+        ]
+        course = replace(
+            sample_course(folder_id="folder-1", summary="Curated semester summary."),
+            manual_overrides={"publish_material_file_ids": ["override-1"]},
+        )
+        materials, excluded = cli._discover_materials(client, course)
+        self.assertEqual([material.source_file_id for material in materials], ["override-1"])
+        self.assertEqual(materials[0].title, "Home Exercise 2")
+        self.assertEqual([(item.title, item.reason) for item in excluded], [("Grades Timeline", "privacy-admin")])
 
     def test_attach_syllabus_content(self) -> None:
         client = mock.Mock()
@@ -421,7 +453,7 @@ class CliTests(unittest.TestCase):
                 mock.patch.object(cli, "build_paths", return_value=paths), \
                 mock.patch.object(cli, "load_courses", return_value=[existing]), \
                 mock.patch.object(cli, "_merged_course", side_effect=[sample_course(slug="skip", folder_id="skip-folder"), discovered_course]), \
-                mock.patch.object(cli, "_discover_materials", return_value=[sample_material()]), \
+                mock.patch.object(cli, "_discover_materials", return_value=([sample_material()], [])), \
                 mock.patch.object(
                     cli,
                     "_attach_syllabus_content",
@@ -441,6 +473,9 @@ class CliTests(unittest.TestCase):
                         "action": "backfill",
                         "courses": ["skip", "fresh"],
                         "changed_files": ["A teaching/fresh.md"],
+                        "excluded_count": 0,
+                        "excluded_by_course": {"skip": 0, "fresh": 0},
+                        "excluded_audit_path": None,
                         "preview_root": paths.preview_root.as_posix(),
                         "preview_files": [path.as_posix() for path in preview_files],
                     }
@@ -456,7 +491,7 @@ class CliTests(unittest.TestCase):
                 mock.patch.object(cli, "build_paths", return_value=paths), \
                 mock.patch.object(cli, "load_courses", return_value=[existing]), \
                 mock.patch.object(cli, "_merged_course", return_value=discovered_course), \
-                mock.patch.object(cli, "_discover_materials", return_value=[sample_material()]), \
+                mock.patch.object(cli, "_discover_materials", return_value=([sample_material()], [])), \
                 mock.patch.object(cli, "load_materials", return_value=[]), \
                 mock.patch.object(cli, "write_data"), \
                 mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
@@ -468,6 +503,9 @@ class CliTests(unittest.TestCase):
                     {
                         "action": "backfill",
                         "courses": ["fresh"],
+                        "excluded_count": 0,
+                        "excluded_by_course": {"fresh": 0},
+                        "excluded_audit_path": None,
                         "published_branch": "codex/test",
                         "pr_url": "https://example.com/pr",
                     }
@@ -496,7 +534,7 @@ class CliTests(unittest.TestCase):
                 mock.patch.object(cli, "build_paths", return_value=paths), \
                 mock.patch.object(cli, "load_courses", return_value=[]), \
                 mock.patch.object(cli, "_merged_course", side_effect=[sample_course(slug="skip", folder_id="folder-skip"), course]), \
-                mock.patch.object(cli, "_discover_materials", return_value=[]), \
+                mock.patch.object(cli, "_discover_materials", return_value=([], [])), \
                 mock.patch.object(cli, "write_data"), \
                 mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
                 mock.patch.object(cli, "validate_repository", return_value=["broken"]):
@@ -536,7 +574,7 @@ class CliTests(unittest.TestCase):
                 mock.patch.object(cli, "build_paths", return_value=paths), \
                 mock.patch.object(cli, "load_courses", return_value=[]), \
                 mock.patch.object(cli, "_merged_course", return_value=real_course) as merged_course, \
-                mock.patch.object(cli, "_discover_materials", return_value=[]), \
+                mock.patch.object(cli, "_discover_materials", return_value=([], [])), \
                 mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=["A teaching/real-course-25.md"])), \
                 mock.patch.object(cli, "write_preview_repository", return_value=[path.as_posix() for path in preview_files]), \
                 mock.patch.object(cli, "_print_json") as print_json:
@@ -547,6 +585,80 @@ class CliTests(unittest.TestCase):
                     "action": "backfill",
                     "courses": ["real-course-25"],
                     "changed_files": ["A teaching/real-course-25.md"],
+                    "excluded_count": 0,
+                    "excluded_by_course": {"real-course-25": 0},
+                    "excluded_audit_path": None,
+                    "preview_root": paths.preview_root.as_posix(),
+                    "preview_files": [path.as_posix() for path in preview_files],
+                }
+            )
+
+    def test_backfill_handles_tuple_discovery_and_logs_exclusions(self) -> None:
+        args = argparse.Namespace(
+            limit=None,
+            slug=None,
+            dry_run=True,
+            publish_pr=False,
+            branch="codex/test",
+            pr_title="PR",
+            pr_body="Body",
+            commit_message="Commit",
+        )
+        fake_client = mock.Mock()
+        fake_client.discover_course_folders.return_value = [{"id": "real-folder", "name": "Real Course 25 CF"}]
+        course = sample_course(slug="real-course-25", folder_id="real-folder")
+        excluded = [
+            SimpleNamespace(
+                course_slug="real-course-25",
+                title="Grades Timeline",
+                reason="privacy-admin",
+                source_file_id="grades-1",
+                url="https://example.com/grades",
+                mime_type="application/vnd.google-apps.spreadsheet",
+            )
+        ]
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_paths(Path(tmp))
+            paths.teaching_index.write_text(
+                "\n".join(
+                    [
+                        "---",
+                        "layout: page",
+                        "title: Teaching",
+                        "---",
+                        "",
+                        "<!-- BEGIN GENERATED: teaching-courses -->",
+                        "<!-- END GENERATED: teaching-courses -->",
+                        "",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+            preview_files = [
+                paths.preview_teaching_root / "real-course-25.md",
+                paths.preview_teaching_index,
+                paths.preview_excluded_materials,
+            ]
+            stderr = io.StringIO()
+            with mock.patch("automation.google_drive.DriveClient.from_env", return_value=fake_client), \
+                mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "load_courses", return_value=[]), \
+                mock.patch.object(cli, "_merged_course", return_value=course), \
+                mock.patch.object(cli, "_discover_materials", return_value=([sample_material()], excluded)), \
+                mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=["A teaching/real-course-25.md"])), \
+                mock.patch.object(cli, "write_preview_repository", return_value=[path.as_posix() for path in preview_files]), \
+                mock.patch.object(cli, "_print_json") as print_json, \
+                contextlib.redirect_stderr(stderr):
+                self.assertEqual(cli._backfill(args, incremental=False), 0)
+            self.assertIn("Excluded 1 item(s) for real-course-25 before persistence.", stderr.getvalue())
+            print_json.assert_called_with(
+                {
+                    "action": "backfill",
+                    "courses": ["real-course-25"],
+                    "changed_files": ["A teaching/real-course-25.md"],
+                    "excluded_count": 1,
+                    "excluded_by_course": {"real-course-25": 1},
+                    "excluded_audit_path": paths.preview_excluded_materials.as_posix(),
                     "preview_root": paths.preview_root.as_posix(),
                     "preview_files": [path.as_posix() for path in preview_files],
                 }
@@ -614,7 +726,7 @@ class CliTests(unittest.TestCase):
                 mock.patch.object(cli, "build_paths", return_value=paths), \
                 mock.patch.object(cli, "load_courses", return_value=[manual, existing]), \
                 mock.patch.object(cli, "_merged_course", return_value=discovered_course), \
-                mock.patch.object(cli, "_discover_materials", return_value=[]), \
+                mock.patch.object(cli, "_discover_materials", return_value=([], [])), \
                 mock.patch.object(cli, "load_materials", return_value=[]), \
                 mock.patch.object(cli, "write_data") as write_data, \
                 mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
@@ -664,7 +776,7 @@ class CliTests(unittest.TestCase):
                 mock.patch.object(cli, "build_paths", return_value=paths), \
                 mock.patch.object(cli, "load_courses", return_value=[]), \
                 mock.patch.object(cli, "_merged_course", side_effect=[course_a, course_b]), \
-                mock.patch.object(cli, "_discover_materials", return_value=[]), \
+                mock.patch.object(cli, "_discover_materials", return_value=([], [])), \
                 mock.patch.object(cli, "load_materials", return_value=[]), \
                 mock.patch.object(cli, "write_data") as write_data, \
                 mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \
@@ -713,7 +825,7 @@ class CliTests(unittest.TestCase):
                 mock.patch.object(cli, "build_paths", return_value=paths), \
                 mock.patch.object(cli, "load_courses", return_value=[]), \
                 mock.patch.object(cli, "_merged_course", return_value=course), \
-                mock.patch.object(cli, "_discover_materials", return_value=[]), \
+                mock.patch.object(cli, "_discover_materials", return_value=([], [])), \
                 mock.patch.object(cli, "load_materials", return_value=[]), \
                 mock.patch.object(cli, "write_data") as write_data, \
                 mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=[])), \

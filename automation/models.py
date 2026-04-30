@@ -78,6 +78,26 @@ class Material:
 
 
 @dataclass
+class ExcludedMaterial:
+    course_slug: str
+    title: str
+    reason: str
+    source_file_id: str = ""
+    url: str = ""
+    mime_type: str = ""
+
+    def to_dict(self) -> dict:
+        return {
+            "course_slug": self.course_slug,
+            "title": self.title,
+            "reason": self.reason,
+            "source_file_id": self.source_file_id,
+            "url": self.url,
+            "mime_type": self.mime_type,
+        }
+
+
+@dataclass
 class Course:
     slug: str
     title: str

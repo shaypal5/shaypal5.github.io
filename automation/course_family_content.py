@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import replace
+import re
 
 from automation.models import Course
 
@@ -125,6 +126,31 @@ COMPACT_CONCRETE_SYLLABUS_CONTENT: dict[str, dict[str, object]] = {
     },
 }
 
+CONCRETE_COURSE_SUMMARY_TEMPLATES: dict[str, str] = {
+    "data-vis": (
+        "This semester of Data Visualization focused on visual reasoning, chart design, "
+        "dashboard construction, and applied storytelling with data using Tableau and "
+        "iterative critique."
+    ),
+    "deep-learning": (
+        "This semester of Deep Learning focused on practical neural-network modeling in "
+        "PyTorch, from optimization and core architectures through sequence models, "
+        "transformers, and modern generative methods."
+    ),
+    "text-mining": (
+        "This semester of Text Mining focused on practical NLP workflows, from preprocessing "
+        "and classical representations through embeddings, transformers, and LLM-based "
+        "applications."
+    ),
+    "econml": (
+        "This semester of Intro to ML @ MTA focused on applied machine-learning thinking for "
+        "economics and management students, with concrete predictive tasks, evaluation, and "
+        "real-world business-style examples."
+    ),
+}
+
+GENERIC_SUMMARY_PATTERN = re.compile(r"^Teaching materials extracted from Google Drive folder '.*'\.$")
+
 
 def apply_generalized_course_content(course: Course) -> Course:
     if not course.is_generalized or not course.course_family:
@@ -144,6 +170,17 @@ def apply_generalized_course_content(course: Course) -> Course:
         hero_note=str(content.get("hero_note", course.hero_note) or course.hero_note),
         manual_overrides=manual_overrides,
     )
+
+
+def apply_concrete_course_content(course: Course) -> Course:
+    if course.is_generalized or not course.course_family:
+        return course
+    template = CONCRETE_COURSE_SUMMARY_TEMPLATES.get(course.course_family)
+    if template is None:
+        return course
+    if course.summary and not GENERIC_SUMMARY_PATTERN.fullmatch(course.summary.strip()):
+        return course
+    return replace(course, summary=template)
 
 
 def compact_concrete_syllabus_content(course_family: str) -> dict[str, object] | None:

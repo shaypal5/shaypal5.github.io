@@ -41,6 +41,7 @@ class Paths:
     preview_root: Path
     preview_teaching_root: Path
     preview_teaching_index: Path
+    preview_excluded_materials: Path
     preview_site_source_root: Path
     preview_site_build_root: Path
 
@@ -60,6 +61,7 @@ def build_paths(root: Path | None = None) -> Paths:
         preview_root=resolved / ".automation-preview",
         preview_teaching_root=resolved / ".automation-preview" / "teaching",
         preview_teaching_index=resolved / ".automation-preview" / "teaching.md",
+        preview_excluded_materials=resolved / ".automation-preview" / "excluded-materials.yml",
         preview_site_source_root=resolved / ".automation-preview" / "site-src",
         preview_site_build_root=resolved / ".automation-preview" / "site",
     )

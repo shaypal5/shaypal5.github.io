@@ -24,6 +24,10 @@ python -m automation.cli courses backfill --publish-pr
 - `CI` uploads raw `.coverage*` data, combines it into `coverage.xml`, and publishes both artifact outputs for downstream PR context analysis.
 - `pr-agent-context` runs as part of `CI` on pull requests and uses `coverage-xml` to compute patch coverage commentary.
 - `pr-agent-context-refresh` reruns on review and later check signals with `publish_mode: append`, reusing the latest `coverage-xml` artifact from the matching `CI` run when possible.
+- Both reusable-workflow references must stay on the floating `v4` channel:
+  - `uses: shaypal5/pr-agent-context/.github/workflows/pr-agent-context.yml@v4`
+  - `tool_ref: v4`
+- Do not repin `pr-agent-context` to a patch release in only one workflow. If a version override is ever needed, treat it as an explicit repo-wide compatibility change across both workflows.
 - `pr-agent-context-refresh` also has a repo-owned `schedule` -> `workflow_dispatch` fallback for same-repo PRs so approval-gated bot review events do not leave refresh stuck.
 - Scheduled fallback refreshes pass explicit PR context overrides:
   - `pull_request_number`

@@ -15,6 +15,7 @@ SINGLE_YEAR_PATTERN = re.compile(
     r"(?<!\d)(20\d{2}|[0-9]{2}'-[0-9]{2}'|[0-9]{2}'?)(?=\s*[A-Za-z]?\s*$)"
 )
 GENERALIZED_SUFFIX_PATTERN = re.compile(r"\s*-\s*generalized$", re.IGNORECASE)
+COPY_PREFIX_PATTERN = re.compile(r"^\s*copy of\s+", re.IGNORECASE)
 MATERIAL_FOLDER_TERMS = (
     "slide",
     "slides",
@@ -58,9 +59,11 @@ BLACKLISTED_NAME_TERMS = (
     "moodle website outline",
     "lecturer annoucements",
     "lecturer announcements",
+    "lecturer quality",
     "nn_course_project_presentation",
     "random forests - presentation",
     "lec5_slides",
+    "placeholder",
     "הקלות",
     "סקר",
     "טופס",
@@ -70,6 +73,13 @@ BLACKLISTED_NAME_TERMS = (
     "הגשות",
     "סטודנט",
     "נוכחות",
+)
+
+LOW_SIGNAL_TITLE_TERMS = (
+    "slides.pptx",
+    "timeline",
+    "course timeline",
+    "tba",
 )
 
 INSTITUTION_HINTS = {
@@ -123,20 +133,79 @@ def _material_description(kind: str, week: int | None) -> str:
     return label
 
 
-def should_publish_material(name: str, kind: str, is_generalized_course: bool) -> bool:
+def normalize_material_title(name: str) -> str:
+    normalized = COPY_PREFIX_PATTERN.sub("", name or "").strip()
+    normalized = re.sub(r"\s+", " ", normalized)
+    return normalized
+
+
+def _recognized_public_material_title(name: str, kind: str) -> bool:
     lowered = name.casefold()
-    if any(term in lowered for term in BLACKLISTED_NAME_TERMS):
+    if kind in {"outline", "syllabus"}:
+        return True
+    if kind not in {"slides", "notebook"}:
         return False
-    allowed_kinds = (
-        {"slides", "notebook"}
-        if is_generalized_course
-        else {"slides", "notebook", "outline", "syllabus", "exercise", "solution", "form"}
+    patterns = (
+        r"\bweek\s*\d+\b",
+        r"\bsession\s*#?\s*\d+\b",
+        r"\blecture\s*\d+\b",
+        r"\bs\d+[a-z]?\b",
+        r"\bdv\d+(?:\.\d+)?\b",
+        r"\bt\d+\b",
+        r"\bc\d+\b",
+        r"\bcu\b",
+        r"\bintro\b",
+        r"\bsummary\b",
+        r"\btableau\b",
+        r"\bword2vec\b",
+        r"\battention\b",
+        r"\btransformers?\b",
+        r"\bllms?\b",
+        r"\bdashboards?\b",
     )
-    return kind in allowed_kinds
+    return any(re.search(pattern, lowered) for pattern in patterns)
+
+
+def classify_material_exclusion(
+    name: str,
+    kind: str,
+    is_generalized_course: bool,
+    *,
+    publish_override: bool = False,
+) -> str | None:
+    normalized = normalize_material_title(name)
+    lowered = normalized.casefold()
+    if any(term in lowered for term in BLACKLISTED_NAME_TERMS):
+        return "privacy-admin"
+    if publish_override:
+        return None
+    if any(term in lowered for term in LOW_SIGNAL_TITLE_TERMS):
+        return "low-signal"
+    allowed_kinds = {"slides", "notebook"} if is_generalized_course else {"slides", "notebook", "outline", "syllabus"}
+    if kind not in allowed_kinds:
+        return "disallowed-kind"
+    if not publish_override and not is_generalized_course and not _recognized_public_material_title(normalized, kind):
+        return "low-signal"
+    return None
+
+
+def should_publish_material(
+    name: str,
+    kind: str,
+    is_generalized_course: bool,
+    *,
+    publish_override: bool = False,
+) -> bool:
+    return classify_material_exclusion(
+        name,
+        kind,
+        is_generalized_course,
+        publish_override=publish_override,
+    ) is None
 
 
 def should_descend_into_material_folder(name: str, is_generalized_course: bool) -> bool:
-    lowered = name.casefold()
+    lowered = normalize_material_title(name).casefold()
     if any(term in lowered for term in BLACKLISTED_NAME_TERMS):
         return False
     if is_generalized_course:
@@ -285,18 +354,28 @@ def infer_section(name: str, kind: str) -> str:
 
 
 def infer_sort_key(name: str, week: int | None) -> str:
-    lowered = name.lower()
+    lowered = normalize_material_title(name).lower()
     prefix = f"{week:02d}" if week is not None else "99"
     return f"{prefix}-{slugify(lowered)}"
 
 
-def material_from_drive_item(item: dict, is_generalized_course: bool = False) -> Material:
-    name = item.get("name", "")
+def material_from_drive_item(
+    item: dict,
+    is_generalized_course: bool = False,
+    *,
+    publish_override: bool = False,
+) -> Material:
+    name = normalize_material_title(item.get("name", ""))
     mime_type = item.get("mimeType", "")
     kind = classify_material_kind(name, mime_type)
     week = infer_week(name)
     url = item.get("webViewLink") or item.get("webContentLink") or ""
-    published = bool(url) and should_publish_material(name, kind, is_generalized_course)
+    published = bool(url) and should_publish_material(
+        name,
+        kind,
+        is_generalized_course,
+        publish_override=publish_override,
+    )
     return Material(
         title=name,
         url=url,
