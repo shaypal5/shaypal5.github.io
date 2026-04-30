@@ -43,8 +43,12 @@ python -m automation.cli courses backfill --publish-pr
 1. Export credentials through `direnv`.
 2. Run `courses backfill --dry-run` to inspect the planned changes.
 3. Review generated YAML and markdown output.
-4. Run `courses validate`.
-5. Run `courses backfill --publish-pr` when satisfied with the result.
+4. If the discovered output needs no manual curation, run `courses backfill --publish-pr` to publish that freshly generated output.
+5. If curation is needed, edit `data/teaching/` directly instead:
+   - Curate public-facing material labels with `public_title` while preserving source titles in `title`.
+   - Add `manual_overrides.materials_note` only when the public materials list needs reviewed explanatory context.
+   - Run `courses render`, `courses validate`, and `courses plan`.
+   - Open a normal reviewed PR for the curated YAML and generated markdown changes.
 
 ## Common Failure Cases
 - Exit code `2`: OAuth variables are missing or token refresh failed.
