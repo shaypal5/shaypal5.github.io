@@ -16,6 +16,7 @@ from automation.naming import (
     should_publish_material,
     slugify,
 )
+from automation.course_family_content import apply_concrete_course_content
 
 
 class NamingTests(unittest.TestCase):
@@ -135,8 +136,16 @@ class NamingTests(unittest.TestCase):
             "privacy-admin",
         )
         self.assertEqual(
+            classify_material_exclusion("Course Timeline", "slides", is_generalized_course=False),
+            "privacy-admin",
+        )
+        self.assertEqual(
             classify_material_exclusion("Home Exercise 2", "exercise", is_generalized_course=False),
             "disallowed-kind",
+        )
+        self.assertEqual(
+            classify_material_exclusion("Lecture Deck", "slides", is_generalized_course=False),
+            "low-signal",
         )
         self.assertIsNone(
             classify_material_exclusion(
@@ -173,6 +182,43 @@ class NamingTests(unittest.TestCase):
         self.assertEqual(material.week, 4)
         self.assertTrue(material.published)
         self.assertEqual(material.description, "Week 4 lecture notebook")
+
+    def test_apply_concrete_course_content_uses_template_for_generic_or_empty_summary(self) -> None:
+        generic = Course(
+            slug="data-vis-25a",
+            title="Data Vis",
+            subtitle="Course page for teaching materials, 25/26 (Semester A)",
+            institution="Unknown institution",
+            role="Instructor",
+            academic_period="25/26",
+            status="active",
+            source_drive_folder_id="folder-a",
+            source_drive_folder_name="Data Vis 25/26A CF",
+            summary="Teaching materials extracted from Google Drive folder 'Data Vis 25/26A CF'.",
+            visibility="public",
+            course_family="data-vis",
+            section="A",
+        )
+        enriched = apply_concrete_course_content(generic)
+        self.assertIn("This semester of Data Visualization focused on visual reasoning", enriched.summary)
+
+        empty_summary = Course(
+            slug="econml-24",
+            title="Intro to ML @ MTA",
+            subtitle="Course page for teaching materials, 24/25 (Semester A)",
+            institution="The Academic College of Tel Aviv-Yaffo",
+            role="Instructor",
+            academic_period="24/25",
+            status="active",
+            source_drive_folder_id="folder-b",
+            source_drive_folder_name="EconML 24/25A CF",
+            summary="",
+            visibility="public",
+            course_family="econml",
+            section="A",
+        )
+        enriched_empty = apply_concrete_course_content(empty_summary)
+        self.assertIn("This semester of Intro to ML @ MTA focused on applied machine-learning thinking", enriched_empty.summary)
 
     def test_material_from_drive_item_falls_back_to_content_link(self) -> None:
         material = material_from_drive_item(

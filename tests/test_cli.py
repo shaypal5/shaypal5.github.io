@@ -593,6 +593,77 @@ class CliTests(unittest.TestCase):
                 }
             )
 
+    def test_backfill_handles_tuple_discovery_and_logs_exclusions(self) -> None:
+        args = argparse.Namespace(
+            limit=None,
+            slug=None,
+            dry_run=True,
+            publish_pr=False,
+            branch="codex/test",
+            pr_title="PR",
+            pr_body="Body",
+            commit_message="Commit",
+        )
+        fake_client = mock.Mock()
+        fake_client.discover_course_folders.return_value = [{"id": "real-folder", "name": "Real Course 25 CF"}]
+        course = sample_course(slug="real-course-25", folder_id="real-folder")
+        excluded = [
+            SimpleNamespace(
+                course_slug="real-course-25",
+                title="Grades Timeline",
+                reason="privacy-admin",
+                source_file_id="grades-1",
+                url="https://example.com/grades",
+                mime_type="application/vnd.google-apps.spreadsheet",
+            )
+        ]
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_paths(Path(tmp))
+            paths.teaching_index.write_text(
+                "\n".join(
+                    [
+                        "---",
+                        "layout: page",
+                        "title: Teaching",
+                        "---",
+                        "",
+                        "<!-- BEGIN GENERATED: teaching-courses -->",
+                        "<!-- END GENERATED: teaching-courses -->",
+                        "",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+            preview_files = [
+                paths.preview_teaching_root / "real-course-25.md",
+                paths.preview_teaching_index,
+                paths.preview_excluded_materials,
+            ]
+            stderr = io.StringIO()
+            with mock.patch("automation.google_drive.DriveClient.from_env", return_value=fake_client), \
+                mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "load_courses", return_value=[]), \
+                mock.patch.object(cli, "_merged_course", return_value=course), \
+                mock.patch.object(cli, "_discover_materials", return_value=([sample_material()], excluded)), \
+                mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=["A teaching/real-course-25.md"])), \
+                mock.patch.object(cli, "write_preview_repository", return_value=[path.as_posix() for path in preview_files]), \
+                mock.patch.object(cli, "_print_json") as print_json, \
+                contextlib.redirect_stderr(stderr):
+                self.assertEqual(cli._backfill(args, incremental=False), 0)
+            self.assertIn("Excluded 1 item(s) for real-course-25 before persistence.", stderr.getvalue())
+            print_json.assert_called_with(
+                {
+                    "action": "backfill",
+                    "courses": ["real-course-25"],
+                    "changed_files": ["A teaching/real-course-25.md"],
+                    "excluded_count": 1,
+                    "excluded_by_course": {"real-course-25": 1},
+                    "excluded_audit_path": paths.preview_excluded_materials.as_posix(),
+                    "preview_root": paths.preview_root.as_posix(),
+                    "preview_files": [path.as_posix() for path in preview_files],
+                }
+            )
+
     def test_build_parser_and_main_dispatch(self) -> None:
         parser = cli.build_parser()
         args = parser.parse_args(["courses", "plan"])

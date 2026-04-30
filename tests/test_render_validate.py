@@ -16,6 +16,7 @@ from automation.rendering import (
     inject_managed_block,
     render_course_page,
     render_teaching_block,
+    should_render_course_page,
     visible_courses,
 )
 from automation.repository import clean_preview_repository, current_state, render_repository, write_data, write_preview_repository
@@ -353,6 +354,36 @@ class RenderValidateTests(unittest.TestCase):
         self.assertEqual(
             _render_lecture_item({"status": "planned", "description": "Soon"}),
             ["* Untitled session (planned)", "  Soon"],
+        )
+
+        generic_summary_course = Course(
+            slug="generic-25a",
+            title="Generic",
+            subtitle="Course page for teaching materials, 25/26 (Semester A)",
+            institution="Unknown institution",
+            role="Instructor",
+            academic_period="25/26",
+            status="active",
+            source_drive_folder_id="generic-folder",
+            source_drive_folder_name="Generic 25/26A CF",
+            summary="Teaching materials extracted from Google Drive folder 'Generic 25/26A CF'.",
+            visibility="public",
+        )
+        self.assertFalse(
+            should_render_course_page(
+                generic_summary_course,
+                [
+                    Material(
+                        title="Week 1 Slides",
+                        url="https://example.com/week-1",
+                        kind="slides",
+                        week=1,
+                        section="Course Materials",
+                        published=True,
+                        sort_key="01-week-1",
+                    )
+                ],
+            )
         )
 
     def test_syllabus_helpers(self) -> None:
@@ -885,3 +916,52 @@ class RenderValidateTests(unittest.TestCase):
         paths.teaching_index.write_text("no managed markers here", encoding="utf-8")
         errors = validate_generated_files(paths, courses, materials_by_slug)
         self.assertTrue(any("invalid managed block markers" in error for error in errors))
+
+    def test_validate_generated_files_rejects_generated_suppressed_page(self) -> None:
+        paths = build_paths(self.repo_root)
+        suppressed = Course(
+            slug="data-vis-23b",
+            title="Data Vis",
+            subtitle="Course page for teaching materials, 23/24 (Semester B)",
+            institution="Unknown institution",
+            role="Instructor",
+            academic_period="23/24",
+            status="active",
+            source_drive_folder_id="folder-b",
+            source_drive_folder_name="Data Vis 23/24B CF",
+            summary="Curated semester summary.",
+            visibility="public",
+            course_family="data-vis",
+            section="B",
+        )
+        materials_by_slug = {
+            suppressed.slug: [
+                Material(
+                    title="Course Syllabus",
+                    url="https://example.com/syllabus",
+                    kind="syllabus",
+                    published=True,
+                    section="Course Outline",
+                    sort_key="00-syllabus",
+                )
+            ]
+        }
+        target = paths.teaching_root / f"{suppressed.slug}.md"
+        target.write_text(
+            "\n".join(
+                [
+                    "---",
+                    "layout: page",
+                    "title: Suppressed",
+                    "---",
+                    "",
+                    GENERATED_HEADER,
+                    "",
+                    "stale suppressed page",
+                    "",
+                ]
+            ),
+            encoding="utf-8",
+        )
+        errors = validate_generated_files(paths, [suppressed], materials_by_slug)
+        self.assertTrue(any("suppressed course page should not be generated" in error for error in errors))
