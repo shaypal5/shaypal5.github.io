@@ -12,6 +12,7 @@ materials:
   sort_key: 99-t4-tableau-dashboards-data-vis-24-tau-shay-palachy-affek
   notes: ''
   description: Lecture slides
+  public_title: T4 - Tableau Dashboards
 - title: Data Vis 23-24A - Outline
   url: https://docs.google.com/spreadsheets/d/11DuK_yWVRueLXz3tAA4zQiNFmirYjN5gtTEdK5hfeok/edit?usp=drivesdk
   kind: outline
@@ -34,3 +35,4 @@ materials:
   sort_key: 99-cu-catch-up-week-data-vis-tau-shay-palachy-affek
   notes: ''
   description: Lecture slides
+  public_title: Catch-Up Week

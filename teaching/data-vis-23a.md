@@ -70,6 +70,8 @@ Data Vis (Semester A 23/24) introduces the purpose and foundations of data visua
 
 ## Course Materials
 
-**[T4 — Tableau Dashboards — Data Vis 24' @ TAU — Shay Palachy Affek](https://docs.google.com/presentation/d/16lIwvA6Ke1nGAkOwhKGnKRI2h4cwiA0PxhLmbEqBB7o/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
+This semester page intentionally exposes only a compact public subset of available materials. The fuller course framing lives in the outline above, while the shared Data Vis page collects reusable lecture materials across semesters.
 
-**[CU - Catch Up Week - Data Vis @ TAU - Shay Palachy Affek](https://docs.google.com/presentation/d/15bpS_u_i0QZCvV876GIylxaHXJCPwIZDosuv6f2FY10/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
+* **[T4 - Tableau Dashboards](https://docs.google.com/presentation/d/16lIwvA6Ke1nGAkOwhKGnKRI2h4cwiA0PxhLmbEqBB7o/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
+
+* **[Catch-Up Week](https://docs.google.com/presentation/d/15bpS_u_i0QZCvV876GIylxaHXJCPwIZDosuv6f2FY10/edit?usp=drivesdk){:target="_blank"}** - Lecture slides

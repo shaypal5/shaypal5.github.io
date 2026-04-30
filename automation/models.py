@@ -44,6 +44,7 @@ class Material:
     sort_key: str = ""
     notes: str = ""
     description: str = ""
+    public_title: str = ""
 
     @classmethod
     def from_dict(cls, payload: dict) -> "Material":
@@ -59,10 +60,11 @@ class Material:
             sort_key=str(payload.get("sort_key", "") or ""),
             notes=payload.get("notes", "") or "",
             description=payload.get("description", "") or "",
+            public_title=payload.get("public_title", "") or "",
         )
 
     def to_dict(self) -> dict:
-        return {
+        payload = {
             "title": self.title,
             "url": self.url,
             "kind": self.kind,
@@ -75,6 +77,9 @@ class Material:
             "notes": self.notes,
             "description": self.description,
         }
+        if self.public_title:
+            payload["public_title"] = self.public_title
+        return payload
 
 
 @dataclass
