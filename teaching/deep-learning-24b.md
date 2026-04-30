@@ -8,6 +8,8 @@ subtitle: Course page for teaching materials, 24/25 (Semester B)
 
 ## Deep Learning @ TAU
 
+<p class="course-meta"><span>Tel Aviv University</span><span class="course-meta-separator" aria-hidden="true">/</span><span>Instructor</span><span class="course-meta-separator" aria-hidden="true">/</span><span>24/25</span></p>
+
 This semester of Deep Learning focused on practical neural-network modeling in PyTorch, from optimization and core architectures through sequence models, transformers, and modern generative methods.
 
 ## Course Materials

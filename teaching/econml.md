@@ -8,6 +8,8 @@ subtitle: Course home across academic iterations
 
 ## Intro to ML @ MTA
 
+<p class="course-meta"><span>The Academic College of Tel Aviv-Yaffo</span><span class="course-meta-separator" aria-hidden="true">/</span><span>Instructor</span></p>
+
 I lecture on machine learning for B.Sc. students of Economics and Management at The Academic College of Tel Aviv-Yaffo.
 
 ## Course Iterations

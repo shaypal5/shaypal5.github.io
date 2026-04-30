@@ -12,6 +12,9 @@ layout: default
 	    <hr class="small">
 	    <span class="page-subheading">{{ page.subtitle }}</span>
 	    {% endif %}
+	    {% if page.updated %}
+	    <span class="page-updated">Updated {{ page.updated }}</span>
+	    {% endif %}
 	  </div>
     </div>
   </div>

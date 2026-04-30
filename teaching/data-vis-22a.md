@@ -8,6 +8,8 @@ subtitle: Course page for teaching materials, 22/23 (Semester A)
 
 ## Data Vis @ TAU
 
+<p class="course-meta"><span>Tel Aviv University</span><span class="course-meta-separator" aria-hidden="true">/</span><span>Instructor</span><span class="course-meta-separator" aria-hidden="true">/</span><span>22/23</span></p>
+
 This semester of Data Visualization focused on visual reasoning, chart design, dashboard construction, and applied storytelling with data using Tableau and iterative critique.
 
 ## Course Outline

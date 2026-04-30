@@ -1,10 +1,13 @@
 ---
 layout: page
 title: Research
-subtitle: Things I do in academia.
+subtitle: Archived academic and research work.
+description: Archived research talks and unpublished papers by Shay Palachy-Affek.
 ---
 
-### Talks 
+This is an archive of older academic and research work. It is intentionally not linked from the main navigation, but remains available for reference.
+
+### Talks
 
 Here is some unpublished research that ended up in presentation form:
 

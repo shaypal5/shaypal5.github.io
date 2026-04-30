@@ -8,6 +8,8 @@ subtitle: Course page for teaching materials, 25/26 (Semester B)
 
 ## Text Mining @ TAU
 
+<p class="course-meta"><span>Tel Aviv University</span><span class="course-meta-separator" aria-hidden="true">/</span><span>Instructor</span><span class="course-meta-separator" aria-hidden="true">/</span><span>25/26</span></p>
+
 This semester of Text Mining focused on practical NLP workflows, from preprocessing and classical representations through embeddings, transformers, and LLM-based applications.
 
 ## Course Outline

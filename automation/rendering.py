@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from html import escape
 from pathlib import Path
 import re
 from typing import Any
@@ -18,6 +19,7 @@ PINNED_TEACHING_INDEX_ORDER = {
 }
 
 GENERIC_SUMMARY_PREFIX = "Teaching materials extracted from Google Drive folder"
+UNKNOWN_METADATA_VALUES = {"", "unknown institution", "tbd"}
 
 MATERIAL_TITLE_SUFFIX_PATTERNS = (
     re.compile(r"\s+[-\u2013\u2014]\s+[^-\u2013\u2014]*@\s*[A-Z][A-Za-z. ]+\s*$"),
@@ -130,6 +132,28 @@ def _iteration_sort_key(course: Course) -> tuple[int, str]:
     return (1, f"{course.academic_period.lower()}::{course.title.lower()}::{course.section.lower()}")
 
 
+def _course_metadata_parts(course: Course) -> list[str]:
+    parts = []
+    institution = str(course.institution or "").strip()
+    if institution.casefold() not in UNKNOWN_METADATA_VALUES:
+        parts.append(institution)
+    role = str(course.role or "").strip()
+    if role.casefold() not in UNKNOWN_METADATA_VALUES:
+        parts.append(role)
+    academic_period = str(course.academic_period or "").strip()
+    if academic_period.casefold() not in UNKNOWN_METADATA_VALUES:
+        parts.append(academic_period)
+    return parts
+
+
+def _render_course_metadata(course: Course) -> str:
+    parts = _course_metadata_parts(course)
+    if not parts:
+        return ""
+    separator = '<span class="course-meta-separator" aria-hidden="true">/</span>'
+    return '<p class="course-meta">' + separator.join(f"<span>{escape(part)}</span>" for part in parts) + "</p>"
+
+
 def _render_named_list_item(item: Any) -> str:
     if isinstance(item, dict):
         name = str(item.get("name", "") or "").strip()
@@ -186,9 +210,11 @@ def render_course_page(
         "",
         f"## {course.title}",
         "",
-        course.summary,
-        "",
     ]
+    metadata = _render_course_metadata(course)
+    if metadata:
+        lines.extend([metadata, ""])
+    lines.extend([course.summary, ""])
     if course.is_generalized and courses:
         iterations = []
         for item in sort_courses(courses):
@@ -279,17 +305,32 @@ def render_course_page(
 
 
 def render_teaching_block(courses: list[Course], materials_by_slug: dict[str, list[Material]] | None = None) -> str:
-    rendered = [TEACHING_MARKER_START, "", "#### Courses", ""]
     ordered = visible_courses(courses, materials_by_slug)
-    for course in ordered:
-        rendered.append(f"* [{course.title}](/teaching/{course.slug})")
-    rendered.extend(["", "|", ""])
+    current_courses = [course for course in ordered if course.status == "active"]
+    archived_courses = [course for course in ordered if course.status != "active"]
+
+    rendered = [TEACHING_MARKER_START, ""]
+    if current_courses:
+        rendered.extend(["#### Current Courses", "", '<ul class="teaching-course-list">'])
+        for course in current_courses:
+            metadata = _render_course_metadata(course)
+            rendered.append(f'  <li><a href="/teaching/{course.slug}">{escape(course.title)}</a>{metadata}</li>')
+        rendered.extend(["</ul>", ""])
+    if archived_courses:
+        rendered.extend(["#### Archived Teaching", "", '<ul class="teaching-course-list">'])
+        for course in archived_courses:
+            metadata = _render_course_metadata(course)
+            rendered.append(f'  <li><a href="/teaching/{course.slug}">{escape(course.title)}</a>{metadata}</li>')
+        rendered.extend(["</ul>", ""])
+
+    rendered.extend(['<div class="teaching-course-summaries" markdown="1">', ""])
     for index, course in enumerate(ordered):
-        rendered.extend([f"## {course.title}", "", course.summary, "", f"[Course page is here](/teaching/{course.slug})"])
-        if index != len(ordered) - 1:
-            rendered.extend(["", "|", ""])
-        else:
-            rendered.append("")
+        metadata = _render_course_metadata(course)
+        rendered.extend([f'<section class="teaching-course-summary" id="{escape(course.slug)}" markdown="1">', f"## {course.title}", ""])
+        if metadata:
+            rendered.extend([metadata, ""])
+        rendered.extend([course.summary, "", f"[View course materials](/teaching/{course.slug})", "</section>", ""])
+    rendered.append("</div>")
     rendered.append(TEACHING_MARKER_END)
     return "\n".join(rendered).rstrip() + "\n"
 

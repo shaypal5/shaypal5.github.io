@@ -8,6 +8,8 @@ subtitle: Course page for Tel Aviv University, 22'-23'
 
 ## Big Data Technologies TA @ TAU
 
+<p class="course-meta"><span>Tel Aviv University</span><span class="course-meta-separator" aria-hidden="true">/</span><span>Teaching Assistant</span><span class="course-meta-separator" aria-hidden="true">/</span><span>22&#x27;-23&#x27;</span></p>
+
 I served as a Teaching Assistant for the Intro to Big Data Technologies course at Tel Aviv University during the 22'-23' academic year.
 
 ## Course Materials

@@ -2,6 +2,8 @@
 layout: page
 title: About
 subtitle: A little about me.
+description: Shay Palachy-Affek's work in AI, data science, teaching, open source, and community leadership.
+updated: April 2026
 ---
 
 {% include about.md %}

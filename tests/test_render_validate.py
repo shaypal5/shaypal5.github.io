@@ -109,7 +109,7 @@ class RenderValidateTests(unittest.TestCase):
         self.assertIn(TEACHING_MARKER_END, rendered)
 
         updated = inject_managed_block(paths.teaching_index.read_text(encoding="utf-8"), rendered)
-        self.assertIn("#### Courses", updated)
+        self.assertIn("#### Current Courses", updated)
         with self.assertRaises(ValueError):
             inject_managed_block("no markers here", rendered)
 

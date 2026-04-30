@@ -8,6 +8,8 @@ subtitle: DataNights program overview
 
 ## Managing Data Science Teams @ DataNights
 
+<p class="course-meta"><span>DataNights</span><span class="course-meta-separator" aria-hidden="true">/</span><span>Instructor</span></p>
+
 DataNights' Data Science Management program is a cohort-based course for current and aspiring data science leaders, built around real management challenges, experienced guest speakers, and practical frameworks for leading teams and projects.
 
 ## Course Iterations

@@ -45,7 +45,7 @@ hr.small {
 }
 @media only screen and (min-width: 768px) {
   .main-content {
-    padding-top: 130px;
+    padding-top: 115px;
   }
 }
 
@@ -305,6 +305,14 @@ header.header-page .page-heading .page-subheading {
   margin: 10px 0 0;
 }
 
+header.header-page .page-heading .page-updated {
+  color: #808080;
+  display: block;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
 header.header-post .post-heading .post-subheading {
   margin-bottom: 20px;
 }
@@ -437,4 +445,107 @@ header.header-post .post-heading .post-subheading {
 .compact-course-outline-table th:nth-child(3),
 .compact-course-outline-table td:nth-child(3) {
   width: 54%;
+}
+
+/* --- Content polish --- */
+
+.selected-highlights {
+  border-bottom: 1px solid #EAEAEA;
+  border-top: 1px solid #EAEAEA;
+  margin: 0 0 30px;
+  padding: 20px 0;
+}
+
+.selected-highlights h2 {
+  font-size: 24px;
+  margin: 0 0 15px;
+}
+
+.selected-highlights ul {
+  margin-bottom: 0;
+}
+
+.selected-highlights li {
+  margin-bottom: 8px;
+}
+
+.course-meta,
+.teaching-course-list .course-meta {
+  color: #777;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  margin: -10px 0 18px;
+}
+
+.teaching-course-list {
+  list-style: none;
+  margin: 0 0 30px;
+  padding: 0;
+}
+
+.teaching-course-list li {
+  border-bottom: 1px solid #EAEAEA;
+  padding: 12px 0;
+}
+
+.teaching-course-list .course-meta {
+  margin: 4px 0 0;
+}
+
+.course-meta-separator {
+  color: #AAA;
+  padding: 0 7px;
+}
+
+.teaching-course-summaries {
+  margin-top: 10px;
+}
+
+.teaching-course-summary {
+  border-top: 1px solid #EAEAEA;
+  padding: 24px 0 10px;
+}
+
+.teaching-course-summary h2 {
+  font-size: 30px;
+  margin-top: 0;
+}
+
+.talks-featured,
+.selected-projects,
+.selected-writing {
+  border-bottom: 1px solid #EAEAEA;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+}
+
+.talks-featured h2,
+.selected-projects h2,
+.selected-writing h2 {
+  font-size: 24px;
+}
+
+.talks-featured li,
+.selected-projects li,
+.selected-writing li {
+  margin-bottom: 8px;
+}
+
+@media only screen and (max-width: 767px) {
+  .talks-list p,
+  .talks-list > strong,
+  .talks-list > p {
+    overflow-wrap: anywhere;
+  }
+
+  .talks-list a {
+    overflow-wrap: anywhere;
+  }
+
+  .course-outline-table {
+    display: block;
+    overflow-x: auto;
+    white-space: normal;
+  }
 }

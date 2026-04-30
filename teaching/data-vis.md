@@ -8,6 +8,8 @@ subtitle: Course home across academic iterations
 
 ## Data Vis @ TAU
 
+<p class="course-meta"><span>Tel Aviv University</span><span class="course-meta-separator" aria-hidden="true">/</span><span>Instructor</span></p>
+
 I teach Data Visualization at Tel Aviv University, covering visual encoding, dashboard design, storytelling, and the practical craft of turning complex data into clear visual arguments.
 
 ## Course Iterations

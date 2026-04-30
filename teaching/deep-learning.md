@@ -8,6 +8,8 @@ subtitle: Course home across academic iterations
 
 ## Deep Learning @ TAU
 
+<p class="course-meta"><span>Tel Aviv University</span><span class="course-meta-separator" aria-hidden="true">/</span><span>Instructor</span></p>
+
 I teach Deep Learning at Tel Aviv University as a hands-on course on modern neural networks, spanning optimization, CNNs, sequence models, transformers, and generative modeling in PyTorch.
 
 ## Course Iterations
