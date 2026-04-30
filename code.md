@@ -6,6 +6,8 @@ description: Open-source projects by Shay Palachy-Affek, including Python packag
 updated: April 2026
 ---
 
+<!-- GENERATED: edit data/*.yml or automation sources instead of this file. -->
+
 <section class="selected-projects">
   <h2>Selected Projects</h2>
   <ul>
@@ -59,7 +61,6 @@ updated: April 2026
 **[leadforge](https://github.com/leadforge-dev/leadforge){:target="_blank"}** - An opinionated framework for generating narrative-grounded synthetic CRM and go-to-market datasets from simulated commercial worlds.
 
 **[splendor](https://github.com/splendor-dev/splendor){:target="_blank"}** - A local-first, git-native, schema-driven knowledge compiler for code and research repositories, keeping wiki pages, source manifests, runtime records, and planning objects in version control.
-
 
 <!--### Other research-related stuff
 

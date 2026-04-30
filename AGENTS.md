@@ -4,6 +4,8 @@
 - This repository is a Jekyll personal site with local Python automation for teaching-content workflows.
 - Treat `data/teaching/` as the canonical source for teaching content.
 - Treat `teaching/*.md` and the managed block in `teaching.md` as generated artifacts.
+- Treat `data/talks.yml`, `data/writing.yml`, and `data/projects.yml` as the canonical source for Talks, Blog, and Code page content.
+- Treat `talks.md`, `blog.md`, and `code.md` as generated artifacts.
 
 ## Required Commands
 - Install Python dependencies: `pip install .`
@@ -19,6 +21,9 @@
 - Prefer editing:
   - `data/teaching/courses.yml`
   - `data/teaching/materials/*.yml`
+  - `data/talks.yml`
+  - `data/writing.yml`
+  - `data/projects.yml`
   - `automation/*`
   - `docs/*` for internal process documentation
 - Keep Google Drive integration read-only.
