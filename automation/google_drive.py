@@ -91,11 +91,10 @@ class DriveClient:
         if roots:
             quoted = " or ".join(f"'{root}' in parents" for root in roots)
             queries.append(f"({quoted})")
-        page_size = 200 if limit is None else min(max(limit, 1), 200)
         params = {
             "q": " and ".join(queries),
             "fields": "nextPageToken,files(id,name,modifiedTime,webViewLink)",
-            "pageSize": page_size,
+            "pageSize": 200,
             "orderBy": "name_natural",
             "supportsAllDrives": "true",
             "includeItemsFromAllDrives": "true",

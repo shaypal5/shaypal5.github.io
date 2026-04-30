@@ -53,6 +53,11 @@ class NamingTests(unittest.TestCase):
         self.assertEqual(parsed["institution"], "Unknown institution")
         self.assertEqual(parsed["academic_period"], "24")
 
+    def test_parse_course_folder_name_does_not_use_internal_numeric_codes_as_year(self) -> None:
+        parsed = parse_course_folder_name("ML 101 Workshop CF")
+        self.assertEqual(parsed["title"], "ML 101 Workshop")
+        self.assertEqual(parsed["academic_period"], "TBD")
+
     def test_slugify_and_infer_course(self) -> None:
         self.assertEqual(slugify("Café & ML"), "cafe-ml")
         course = infer_course_from_folder("folder-1", "DataNights Leadership 24 CF")

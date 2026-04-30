@@ -11,7 +11,9 @@ COURSE_SUFFIX = " CF"
 ACADEMIC_RANGE_PATTERN = re.compile(
     r"(?P<start>(?:20)?\d{2})\s*[/\-]\s*(?P<end>(?:20)?\d{1,2})(?P<section>[A-Za-z])?$"
 )
-SINGLE_YEAR_PATTERN = re.compile(r"(20\d{2}|[0-9]{2}'-[0-9]{2}'|[0-9]{2}'?|[0-9]{2})")
+SINGLE_YEAR_PATTERN = re.compile(
+    r"(?<!\d)(20\d{2}|[0-9]{2}'-[0-9]{2}'|[0-9]{2}'?)(?=\s*[A-Za-z]?\s*$)"
+)
 GENERALIZED_SUFFIX_PATTERN = re.compile(r"\s*-\s*generalized$", re.IGNORECASE)
 MATERIAL_FOLDER_TERMS = (
     "slide",
@@ -160,9 +162,16 @@ def parse_course_folder_name(folder_name: str) -> dict[str, str]:
         section = (period_match.group("section") or "").upper()
         title_part = family_base[: period_match.start()].strip(" -_,")
     else:
-        single_year_match = SINGLE_YEAR_PATTERN.search(family_base)
+        single_year_match = None
+        for match in SINGLE_YEAR_PATTERN.finditer(family_base):
+            single_year_match = match
         academic_period = _normalize_year_token(single_year_match.group(1)) if single_year_match else "TBD"
-        title_part = SINGLE_YEAR_PATTERN.sub("", family_base).strip(" -_,")
+        if single_year_match:
+            title_part = (
+                family_base[: single_year_match.start()] + family_base[single_year_match.end() :]
+            ).strip(" -_,")
+        else:
+            title_part = family_base.strip(" -_,")
     no_year = title_part
     role = "Instructor"
     if " TA " in f" {base} " or base.upper().startswith("TA "):

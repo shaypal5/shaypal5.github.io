@@ -1,8 +1,10 @@
 import argparse
 import contextlib
 import io
+import subprocess
 import tempfile
 import unittest
+from dataclasses import replace
 from pathlib import Path
 from types import SimpleNamespace
 from unittest import mock
@@ -53,7 +55,7 @@ class CliTests(unittest.TestCase):
 
     def test_log_and_preview_helpers(self) -> None:
         buffer = io.StringIO()
-        with contextlib.redirect_stdout(buffer):
+        with contextlib.redirect_stderr(buffer):
             cli._log("hello")
         self.assertIn("[teaching-automation] hello", buffer.getvalue())
         self.assertEqual(cli._preview("short"), "short")
@@ -192,6 +194,23 @@ class CliTests(unittest.TestCase):
                 )
             self.assertIn("no preview", buffer.getvalue())
 
+            buffer = io.StringIO()
+            with mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "build_preview_site", side_effect=subprocess.CalledProcessError(1, ["bundle"])), \
+                contextlib.redirect_stderr(buffer):
+                self.assertEqual(
+                    cli.cmd_preview_site(
+                        argparse.Namespace(
+                            serve=False,
+                            host="127.0.0.1",
+                            port=4001,
+                            bundle_command="bundle",
+                        )
+                    ),
+                    1,
+                )
+            self.assertIn("returned non-zero exit status 1", buffer.getvalue())
+
     def test_merged_course_and_discover_materials(self) -> None:
         course = sample_course(summary="")
         merged = cli._merged_course({"folder-1": course}, {"id": "folder-1", "name": "Folder CF"})
@@ -200,6 +219,12 @@ class CliTests(unittest.TestCase):
 
         inferred = cli._merged_course({}, {"id": "folder-2", "name": "Other CF"})
         self.assertEqual(inferred.source_drive_folder_id, "folder-2")
+
+        kept_summary = cli._merged_course(
+            {"folder-1": sample_course(summary="Already set")},
+            {"id": "folder-1", "name": "Folder CF"},
+        )
+        self.assertEqual(kept_summary.summary, "Already set")
 
         generalized = cli._merged_course({}, {"id": "folder-3", "name": "Deep Learning - Generalized CF"})
         self.assertEqual(generalized.slug, "deep-learning")
@@ -254,6 +279,30 @@ class CliTests(unittest.TestCase):
             fallback = cli._attach_syllabus_content(client, course, materials)
         self.assertEqual(fallback.syllabus_url, "https://example.com/outline")
         self.assertNotIn("syllabus_markdown", fallback.manual_overrides)
+
+        generalized = sample_course(slug="data-vis", folder_id="generalized-folder")
+        generalized.is_generalized = True
+        self.assertIs(cli._attach_syllabus_content(client, generalized, materials), generalized)
+
+        prefilled = sample_course(slug="data-vis-22b")
+        prefilled.manual_overrides["syllabus_markdown"] = "Existing markdown"
+        self.assertEqual(
+            cli._attach_syllabus_content(client, prefilled, materials).manual_overrides["syllabus_markdown"],
+            "Existing markdown",
+        )
+
+        missing_source = Material(
+            title="Missing source",
+            url="https://example.com/no-source",
+            kind="outline",
+            source_file_id="",
+            source_mime_type="application/vnd.google-apps.document",
+            published=True,
+            sort_key="00-missing-source",
+        )
+        with mock.patch.dict("os.environ", {"OPENAI_API_KEY": ""}):
+            unchanged = cli._attach_syllabus_content(client, sample_course(slug="unknown-25"), [missing_source])
+        self.assertNotIn("syllabus_markdown", unchanged.manual_overrides)
 
     def test_attach_syllabus_content_falls_back_to_next_candidate(self) -> None:
         client = mock.Mock()
@@ -327,6 +376,18 @@ class CliTests(unittest.TestCase):
         self.assertIn("This semester covers the full workflow of data visualization", enriched.manual_overrides["syllabus_markdown"])
         self.assertEqual(client.read_syllabus_source_text.call_count, 2)
 
+    def test_ensure_generalized_parents_skips_existing_and_singleton_unknown_family(self) -> None:
+        existing_parent = sample_course(slug="data-vis")
+        existing_parent.course_family = "data-vis"
+        existing_parent.is_generalized = True
+        child = sample_course(slug="data-vis-25a", folder_id="folder-a")
+        child.course_family = "data-vis"
+        singleton = sample_course(slug="singleton-25", folder_id="folder-s")
+        singleton.course_family = "singleton"
+        courses = cli._ensure_generalized_parents([existing_parent, child, singleton])
+        self.assertEqual(len([course for course in courses if course.slug == "data-vis"]), 1)
+        self.assertFalse(any(course.slug == "singleton" for course in courses))
+
     def test_backfill_dry_run_incremental_and_publish(self) -> None:
         existing = sample_course(slug="existing", folder_id="existing-folder")
         discovered_course = sample_course(slug="fresh", folder_id="folder-1")
@@ -361,10 +422,19 @@ class CliTests(unittest.TestCase):
                 mock.patch.object(cli, "load_courses", return_value=[existing]), \
                 mock.patch.object(cli, "_merged_course", side_effect=[sample_course(slug="skip", folder_id="skip-folder"), discovered_course]), \
                 mock.patch.object(cli, "_discover_materials", return_value=[sample_material()]), \
+                mock.patch.object(
+                    cli,
+                    "_attach_syllabus_content",
+                    side_effect=lambda _client, course, _materials: replace(
+                        course,
+                        manual_overrides={"syllabus_markdown": "Inline syllabus"},
+                    ),
+                ), \
                 mock.patch.object(cli, "load_materials", return_value=[]), \
                 mock.patch.object(cli, "render_repository", return_value=RenderResult(changed_files=["A teaching/fresh.md"])), \
                 mock.patch.object(cli, "write_preview_repository", return_value=[path.as_posix() for path in preview_files]), \
-                mock.patch.object(cli, "_print_json") as print_json:
+                mock.patch.object(cli, "_print_json") as print_json, \
+                contextlib.redirect_stderr(io.StringIO()) as stderr:
                 self.assertEqual(cli._backfill(args, incremental=False), 0)
                 print_json.assert_called_with(
                     {
@@ -375,6 +445,7 @@ class CliTests(unittest.TestCase):
                         "preview_files": [path.as_posix() for path in preview_files],
                     }
                 )
+                self.assertIn("Extracted inline syllabus markdown for fresh.", stderr.getvalue())
 
         args.dry_run = False
         args.publish_pr = True

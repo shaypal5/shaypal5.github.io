@@ -3,7 +3,10 @@ from __future__ import annotations
 import os
 import sys
 
-from google_auth_oauthlib.flow import InstalledAppFlow
+try:
+    from google_auth_oauthlib.flow import InstalledAppFlow
+except ImportError:  # pragma: no cover - exercised via direct script invocation tests
+    InstalledAppFlow = None
 
 
 SCOPES = ["https://www.googleapis.com/auth/drive.readonly"]
@@ -20,6 +23,12 @@ def required_env(name: str) -> str:
 
 
 def main() -> int:
+    if InstalledAppFlow is None:
+        print(
+            "Missing dependency: google-auth-oauthlib. Install it with `python3 -m pip install google-auth-oauthlib`.",
+            file=sys.stderr,
+        )
+        return 1
     try:
         client_config = {
             "installed": {

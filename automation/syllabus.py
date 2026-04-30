@@ -191,8 +191,6 @@ def _doc_text_to_markdown(text: str) -> str:
         bullet = re.match(r"^(?:[*\-•]\s+|\d+[.)]\s+)(.+)$", line)
         candidate = f"* {bullet.group(1).strip()}" if bullet else line
         words = candidate.split()
-        if not words:
-            continue
         if len(words) > word_budget:
             candidate = " ".join(words[:word_budget]).rstrip() + "..."
             rendered.append(candidate)

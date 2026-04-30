@@ -4,12 +4,34 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
+from automation.course_family_content import apply_generalized_course_content
 from automation.config import GENERATED_HEADER, TEACHING_MARKER_END, TEACHING_MARKER_START, build_paths
 from automation.data_io import load_courses, load_materials
 from automation.models import Course, Material
-from automation.rendering import file_diff_summary, inject_managed_block, render_course_page, render_teaching_block, visible_courses
+from automation.rendering import (
+    _academic_period_sort_value,
+    _render_lecture_item,
+    _render_named_list_item,
+    file_diff_summary,
+    inject_managed_block,
+    render_course_page,
+    render_teaching_block,
+    visible_courses,
+)
 from automation.repository import clean_preview_repository, current_state, render_repository, write_data, write_preview_repository
-from automation.syllabus import render_syllabus_markdown, select_syllabus_material, syllabus_export_mime
+from automation.syllabus import (
+    _compact_family_markdown,
+    _doc_text_to_markdown,
+    _looks_like_admin_dump,
+    _maybe_rewrite_with_openai,
+    _normalize_text,
+    _sheet_needs_compaction,
+    _should_use_compact_family_outline,
+    _tsv_to_markdown,
+    render_syllabus_markdown,
+    select_syllabus_material,
+    syllabus_export_mime,
+)
 from automation.validation import validate_generated_files, validate_repository
 
 
@@ -308,6 +330,30 @@ class RenderValidateTests(unittest.TestCase):
             ]
         )
         self.assertEqual([course.slug for course in ordered_courses], ["deep-learning", "data-vis", "new-course"])
+        self.assertEqual(_academic_period_sort_value(Course(
+            slug="manual",
+            title="Manual",
+            subtitle="Manual",
+            institution="Unknown",
+            role="Instructor",
+            academic_period="TBD",
+            status="active",
+            source_drive_folder_id="manual",
+            source_drive_folder_name="Manual CF",
+            summary="Manual.",
+            visibility="public",
+        )), (1, 0, "tbd"))
+        self.assertEqual(_render_named_list_item({"name": "Only Name"}), "* Only Name")
+        self.assertEqual(_render_named_list_item({"role": "Program lead", "company": "DataNights"}), "* Program lead, DataNights")
+        self.assertEqual(_render_named_list_item({}), "")
+        self.assertEqual(_render_named_list_item("Plain item"), "* Plain item")
+        self.assertEqual(_render_named_list_item(""), "")
+        self.assertEqual(_render_lecture_item("Session 1"), ["* Session 1"])
+        self.assertEqual(_render_lecture_item(""), [])
+        self.assertEqual(
+            _render_lecture_item({"status": "planned", "description": "Soon"}),
+            ["* Untitled session (planned)", "  Soon"],
+        )
 
     def test_syllabus_helpers(self) -> None:
         doc_material = Material(
@@ -337,6 +383,12 @@ class RenderValidateTests(unittest.TestCase):
         self.assertIs(select_syllabus_material([sheet_material, doc_material]), doc_material)
         self.assertEqual(syllabus_export_mime(doc_material), "text/plain")
         self.assertEqual(syllabus_export_mime(sheet_material), "text/tab-separated-values")
+        self.assertIsNone(syllabus_export_mime(Material(
+            title="PDF outline",
+            url="https://example.com/pdf",
+            kind="outline",
+            source_mime_type="application/pdf",
+        )))
         self.assertEqual(
             render_syllabus_markdown(doc_material, "Intro\n\n• First topic\n2. Second topic\n\nhttps://example.com/form"),
             "Intro\n\n* First topic\n* Second topic",
@@ -394,6 +446,73 @@ class RenderValidateTests(unittest.TestCase):
             compact = render_syllabus_markdown(docx_material, "Raw doc text", course=data_vis_course)
         self.assertIn("compact-course-outline-table", compact)
         self.assertIn("Lecture", compact)
+        with mock.patch("automation.syllabus.rewrite_syllabus_markdown", return_value="LLM markdown"):
+            self.assertEqual(
+                render_syllabus_markdown(doc_material, "Raw doc text", course=data_vis_course),
+                "LLM markdown",
+            )
+        self.assertEqual(_normalize_text("a\r\nb\rc"), "a\nb\nc")
+        self.assertEqual(render_syllabus_markdown(doc_material, "   "), "")
+        low_signal_material = Material(
+            title="Outline",
+            url="https://example.com/low-signal",
+            kind="outline",
+            source_file_id="low-signal-id",
+            source_mime_type="application/vnd.google-apps.document",
+            sort_key="04-low-signal",
+        )
+        self.assertTrue(_looks_like_admin_dump(low_signal_material, "לינקים לדברים:\nfoo"))
+        self.assertTrue(_should_use_compact_family_outline(data_vis_course, sheet_material, "Week\tTopic\n1\tIntro"))
+        neutral_course = Course(
+            slug="neutral-25a",
+            title="Neutral",
+            subtitle="Neutral subtitle",
+            institution="Unknown institution",
+            role="Instructor",
+            academic_period="25/26",
+            status="active",
+            source_drive_folder_id="neutral-folder",
+            source_drive_folder_name="Neutral 25/6A CF",
+            summary="summary",
+            visibility="public",
+            course_family="neutral",
+            section="A",
+        )
+        self.assertTrue(_should_use_compact_family_outline(neutral_course, sheet_material, "Done?\tWhat\tDetails"))
+        self.assertFalse(_should_use_compact_family_outline(neutral_course, doc_material, "Topic list"))
+        self.assertTrue(_sheet_needs_compaction("Done?\tWhat\tDetails"))
+        self.assertTrue(_sheet_needs_compaction("Week \\ Axis\tA\tB\tC\tD\tE\tF"))
+        self.assertFalse(_sheet_needs_compaction(""))
+        self.assertEqual(render_syllabus_markdown(sheet_material, "Done?\tWhat\tDetails"), "")
+        self.assertEqual(_maybe_rewrite_with_openai(neutral_course, Material(
+            title="PDF outline",
+            url="https://example.com/pdf",
+            kind="outline",
+            source_mime_type="application/pdf",
+        ), "ignored"), None)
+        self.assertEqual(_compact_family_markdown(neutral_course), "")
+        self.assertEqual(
+            render_syllabus_markdown(
+                Material(
+                    title="Binary syllabus",
+                    url="https://example.com/bin",
+                    kind="syllabus",
+                    source_mime_type="application/octet-stream",
+                ),
+                "Some text",
+            ),
+            "",
+        )
+        self.assertEqual(_doc_text_to_markdown("https://example.com/only-link"), "")
+        self.assertEqual(_doc_text_to_markdown("1. Item"), "* Item")
+        budget_text = "\n".join(["one", "", "two"])
+        self.assertEqual(_doc_text_to_markdown(budget_text), "one\n\ntwo")
+        long_text = " ".join(f"word{i}" for i in range(260))
+        self.assertTrue(_doc_text_to_markdown(long_text).endswith("..."))
+        exact_budget = " ".join("word" for _ in range(250))
+        self.assertEqual(_doc_text_to_markdown(exact_budget), exact_budget)
+        self.assertEqual(_tsv_to_markdown(""), "")
+        self.assertIn("<br>", _tsv_to_markdown("Week\tTopic\n1\tIntro\n\tMore intro"))
 
         self.assertIsNone(select_syllabus_material([Material(
             title="Hidden outline",
@@ -479,6 +598,110 @@ class RenderValidateTests(unittest.TestCase):
         self.assertIn("## Course Iterations", generalized_without_materials)
         self.assertIn("Cohort 1 · Summer 2022", generalized_without_materials)
         self.assertNotIn("## Shared Course Materials", generalized_without_materials)
+        generalized_tba = render_course_page(
+            Course(
+                slug="orphan-generalized",
+                title="Orphan Generalized",
+                subtitle="Overview",
+                institution="Unknown institution",
+                role="Instructor",
+                academic_period="TBD",
+                status="active",
+                source_drive_folder_id="orphan",
+                source_drive_folder_name="Orphan - Generalized CF",
+                summary="No iterations yet.",
+                visibility="public",
+                course_family="orphan",
+                is_generalized=True,
+            ),
+            [],
+            courses=[],
+        )
+        self.assertNotIn("## Course Iterations", generalized_tba)
+        generalized_tba = render_course_page(
+            Course(
+                slug="orphan-generalized",
+                title="Orphan Generalized",
+                subtitle="Overview",
+                institution="Unknown institution",
+                role="Instructor",
+                academic_period="TBD",
+                status="active",
+                source_drive_folder_id="orphan",
+                source_drive_folder_name="Orphan - Generalized CF",
+                summary="No iterations yet.",
+                visibility="public",
+                course_family="orphan",
+                is_generalized=True,
+            ),
+            [],
+            courses=[
+                Course(
+                    slug="orphan-generalized",
+                    title="Orphan Generalized",
+                    subtitle="Overview",
+                    institution="Unknown institution",
+                    role="Instructor",
+                    academic_period="TBD",
+                    status="active",
+                    source_drive_folder_id="orphan",
+                    source_drive_folder_name="Orphan - Generalized CF",
+                    summary="No iterations yet.",
+                    visibility="public",
+                    course_family="orphan",
+                    is_generalized=True,
+                )
+            ],
+        )
+        self.assertIn("## Course Iterations", generalized_tba)
+        self.assertIn("TBA", generalized_tba)
+        lectures_tba_page = render_course_page(
+            Course(
+                slug="lectures-tba",
+                title="Lectures TBA",
+                subtitle="Overview",
+                institution="Unknown institution",
+                role="Instructor",
+                academic_period="25/26",
+                status="active",
+                source_drive_folder_id="lectures-tba",
+                source_drive_folder_name="Lectures TBA CF",
+                summary="Summary.",
+                visibility="public",
+                manual_overrides={"lectures_note": "Schedule coming soon."},
+            ),
+            [],
+        )
+        self.assertIn("Schedule coming soon.", lectures_tba_page)
+        self.assertIn("## Lectures", lectures_tba_page)
+        self.assertIn("TBA", lectures_tba_page)
+        notes_only_page = render_course_page(
+            Course(
+                slug="notes-only",
+                title="Notes Only",
+                subtitle="Overview",
+                institution="Unknown institution",
+                role="Instructor",
+                academic_period="25/26",
+                status="active",
+                source_drive_folder_id="notes-only",
+                source_drive_folder_name="Notes Only CF",
+                summary="Summary.",
+                visibility="public",
+            ),
+            [
+                Material(
+                    title="Notebook",
+                    url="https://example.com/notebook",
+                    kind="notebook",
+                    published=True,
+                    section="Course Materials",
+                    sort_key="01-notebook",
+                    notes="Bring laptop",
+                )
+            ],
+        )
+        self.assertIn("(Bring laptop)", notes_only_page)
 
         target = self.repo_root / "teaching" / "new-course.md"
         self.assertTrue(file_diff_summary(target, "content").startswith("A "))
@@ -501,12 +724,33 @@ class RenderValidateTests(unittest.TestCase):
         courses = load_courses(paths)
         materials_by_slug = {course.slug: load_materials(paths, course.slug) for course in courses}
         preview_files = write_preview_repository(paths, courses, materials_by_slug)
+        (paths.preview_root / "stale.txt").write_text("stale", encoding="utf-8")
+        preview_files = write_preview_repository(paths, courses, materials_by_slug)
         self.assertTrue((paths.preview_teaching_root / f"{courses[0].slug}.md").exists())
         self.assertTrue(paths.preview_teaching_index.exists())
         self.assertIn(paths.preview_teaching_index.as_posix(), preview_files)
+        self.assertFalse((paths.preview_root / "stale.txt").exists())
         self.assertTrue(clean_preview_repository(paths))
         self.assertFalse(paths.preview_root.exists())
         self.assertFalse(clean_preview_repository(paths))
+
+    def test_apply_generalized_course_content_leaves_unknown_family_unchanged(self) -> None:
+        course = Course(
+            slug="unknown",
+            title="Unknown",
+            subtitle="Subtitle",
+            institution="Unknown institution",
+            role="Instructor",
+            academic_period="TBD",
+            status="active",
+            source_drive_folder_id="unknown",
+            source_drive_folder_name="Unknown - Generalized CF",
+            summary="Summary.",
+            visibility="public",
+            course_family="unknown-family",
+            is_generalized=True,
+        )
+        self.assertIs(apply_generalized_course_content(course), course)
 
     def test_validate_generated_files_reports_missing_markers(self) -> None:
         paths = build_paths(self.repo_root)

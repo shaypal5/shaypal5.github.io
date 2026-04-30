@@ -44,7 +44,7 @@ def _print_json(payload: dict) -> None:
 
 
 def _log(message: str) -> None:
-    print(f"[teaching-automation] {message}")
+    print(f"[teaching-automation] {message}", file=sys.stderr)
 
 
 def _preview(value: str, limit: int = 120) -> str:

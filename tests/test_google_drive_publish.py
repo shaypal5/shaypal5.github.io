@@ -91,6 +91,7 @@ class GoogleDrivePublishTests(unittest.TestCase):
             )
             self.assertNotIn("pageToken", get.call_args_list[0].args[1])
             self.assertEqual(get.call_args_list[1].args[1]["pageToken"], "page-2")
+            self.assertEqual(get.call_args_list[0].args[1]["pageSize"], 200)
 
         with mock.patch.object(
             client,
@@ -166,6 +167,20 @@ class GoogleDrivePublishTests(unittest.TestCase):
         self.assertEqual(list_items.call_args_list[0].args[0], "folder-1")
         self.assertEqual(list_items.call_args_list[1].args[0], "slides-folder")
 
+        with mock.patch.object(
+            client,
+            "list_folder_items",
+            side_effect=[
+                [{"id": "slides-folder", "name": "Slides", "mimeType": "application/vnd.google-apps.folder"}],
+                [{"id": "folder-1", "name": "Root Loop", "mimeType": "application/vnd.google-apps.folder"}],
+            ],
+        ):
+            loop_items = client.list_folder_items_recursive(
+                "folder-1",
+                should_descend=lambda _item: True,
+            )
+        self.assertEqual(loop_items, [])
+
     def test_drive_client_export_file_text(self) -> None:
         client = DriveClient(access_token="token")
         ok = mock.Mock(status_code=200, text="garbled", content="hello".encode("utf-8"))
@@ -232,6 +247,27 @@ class GoogleDrivePublishTests(unittest.TestCase):
                     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                 ),
                 "Intro\n\nBullet 1",
+            )
+
+            buffer = BytesIO()
+            with ZipFile(buffer, "w") as archive:
+                archive.writestr(
+                    "word/document.xml",
+                    (
+                        '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+                        "<w:body>"
+                        "<w:p><w:r><w:t>Before</w:t></w:r><w:r><w:tab/></w:r><w:r><w:t>After</w:t></w:r></w:p>"
+                        "<w:p><w:r><w:t>Line 1</w:t></w:r><w:r><w:br/></w:r><w:r><w:t>Line 2</w:t></w:r></w:p>"
+                        "</w:body></w:document>"
+                    ),
+                )
+            download.return_value = buffer.getvalue()
+            self.assertEqual(
+                client.read_syllabus_source_text(
+                    "docx-2",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                ),
+                "Before\tAfter\n\nLine 1\nLine 2",
             )
 
         self.assertEqual(client.read_syllabus_source_text("x", "application/pdf"), "")
