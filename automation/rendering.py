@@ -16,6 +16,8 @@ PINNED_TEACHING_INDEX_ORDER = {
     "bigdata22": "06",
 }
 
+GENERIC_SUMMARY_PREFIX = "Teaching materials extracted from Google Drive folder"
+
 
 def sort_courses(courses: list[Course]) -> list[Course]:
     def key(course: Course) -> tuple[int, str, str]:
@@ -43,12 +45,35 @@ def _teaching_index_sort_key(course: Course) -> tuple[int, str, int, int, int, s
     return (1, "", current_rank, period_missing, period_value, f"{period_label}::{course.title.casefold()}")
 
 
-def visible_courses(courses: list[Course]) -> list[Course]:
+def _public_materials(materials: list[Material]) -> list[Material]:
+    return [
+        item
+        for item in sort_materials(materials)
+        if item.published and item.kind not in {"outline", "syllabus"}
+    ]
+
+
+def _published_lecture_materials(materials: list[Material]) -> list[Material]:
+    return [item for item in _public_materials(materials) if item.kind in {"slides", "notebook"}]
+
+
+def should_render_course_page(course: Course, materials: list[Material]) -> bool:
+    if course.is_generalized:
+        return True
+    if course.manual_overrides.get("lectures") or course.manual_overrides.get("organizing_team"):
+        return True
+    if course.summary.strip().startswith(GENERIC_SUMMARY_PREFIX):
+        return False
+    return bool(_published_lecture_materials(materials))
+
+
+def visible_courses(courses: list[Course], materials_by_slug: dict[str, list[Material]] | None = None) -> list[Course]:
     generalized_families = {course.course_family for course in courses if course.is_generalized and course.course_family}
     visible = [
         course
         for course in sort_courses(courses)
-        if not course.course_family or course.is_generalized or course.course_family not in generalized_families
+        if (materials_by_slug is None or should_render_course_page(course, materials_by_slug.get(course.slug, [])))
+        and (not course.course_family or course.is_generalized or course.course_family not in generalized_families)
     ]
     return sorted(visible, key=_teaching_index_sort_key)
 
@@ -123,7 +148,12 @@ def _render_lecture_item(item: Any) -> list[str]:
     return lines
 
 
-def render_course_page(course: Course, materials: list[Material], courses: list[Course] | None = None) -> str:
+def render_course_page(
+    course: Course,
+    materials: list[Material],
+    courses: list[Course] | None = None,
+    materials_by_slug: dict[str, list[Material]] | None = None,
+) -> str:
     lines = [
         "---",
         "layout: page",
@@ -139,11 +169,13 @@ def render_course_page(course: Course, materials: list[Material], courses: list[
         "",
     ]
     if course.is_generalized and courses:
-        iterations = [
-            item
-            for item in sort_courses(courses)
-            if item.course_family == course.course_family and not item.is_generalized
-        ]
+        iterations = []
+        for item in sort_courses(courses):
+            if item.course_family != course.course_family or item.is_generalized:
+                continue
+            if materials_by_slug is not None and not should_render_course_page(item, materials_by_slug.get(item.slug, [])):
+                continue
+            iterations.append(item)
         iterations = sorted(iterations, key=_iteration_sort_key)
         lines.extend(["## Course Iterations", ""])
         if iterations:
@@ -190,11 +222,7 @@ def render_course_page(course: Course, materials: list[Material], courses: list[
         elif syllabus_note:
             lines.extend([syllabus_note, ""])
     grouped: dict[tuple[int | None, str], list[Material]] = defaultdict(list)
-    for material in sort_materials(materials):
-        if not material.published:
-            continue
-        if material.kind in {"outline", "syllabus"}:
-            continue
+    for material in _public_materials(materials):
         grouped[(material.week, material.section or "Course Materials")].append(material)
     hide_empty_materials = bool(course.manual_overrides.get("hide_empty_materials", False))
     if not grouped and hide_empty_materials:
@@ -226,9 +254,9 @@ def render_course_page(course: Course, materials: list[Material], courses: list[
     return "\n".join(lines).rstrip() + "\n"
 
 
-def render_teaching_block(courses: list[Course]) -> str:
+def render_teaching_block(courses: list[Course], materials_by_slug: dict[str, list[Material]] | None = None) -> str:
     rendered = [TEACHING_MARKER_START, "", "#### Courses", ""]
-    ordered = visible_courses(courses)
+    ordered = visible_courses(courses, materials_by_slug)
     for course in ordered:
         rendered.append(f"* [{course.title}](/teaching/{course.slug})")
     rendered.extend(["", "|", ""])

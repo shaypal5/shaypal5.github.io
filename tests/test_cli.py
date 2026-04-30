@@ -234,11 +234,17 @@ class CliTests(unittest.TestCase):
         client = mock.Mock()
         client.list_folder_items_recursive.return_value = [
             {"mimeType": "application/vnd.google-apps.folder"},
-            {"id": "f", "name": "Deck", "mimeType": "application/pdf", "webViewLink": "https://example.com"},
+            {
+                "id": "f",
+                "name": "Week 1 - Deck",
+                "mimeType": "application/vnd.google-apps.presentation",
+                "webViewLink": "https://example.com",
+            },
         ]
-        materials = cli._discover_materials(client, sample_course(folder_id="folder-1"))
+        materials, excluded = cli._discover_materials(client, sample_course(folder_id="folder-1"))
         self.assertEqual(len(materials), 1)
-        self.assertEqual(materials[0].title, "Deck")
+        self.assertEqual(excluded, [])
+        self.assertEqual(materials[0].title, "Week 1 - Deck")
         client.list_folder_items.assert_not_called()
         client.list_folder_items_recursive.assert_called_once()
 
@@ -248,11 +254,37 @@ class CliTests(unittest.TestCase):
         client.list_folder_items_recursive.return_value = [
             {"id": "f", "name": "Lecture Deck", "mimeType": "application/vnd.google-apps.presentation", "webViewLink": "https://example.com/deck"},
         ]
-        materials = cli._discover_materials(client, generalized_course)
+        materials, excluded = cli._discover_materials(client, generalized_course)
         self.assertEqual(len(materials), 1)
+        self.assertEqual(excluded, [])
         self.assertEqual(materials[0].title, "Lecture Deck")
         client.list_folder_items.assert_not_called()
         client.list_folder_items_recursive.assert_called_once()
+
+    def test_discover_materials_separates_excluded_and_allows_exact_file_id_override(self) -> None:
+        client = mock.Mock()
+        client.list_folder_items_recursive.return_value = [
+            {
+                "id": "blocked-1",
+                "name": "Grades Timeline",
+                "mimeType": "application/vnd.google-apps.spreadsheet",
+                "webViewLink": "https://example.com/grades",
+            },
+            {
+                "id": "override-1",
+                "name": "Home Exercise 2",
+                "mimeType": "application/vnd.google-apps.document",
+                "webViewLink": "https://example.com/exercise",
+            },
+        ]
+        course = replace(
+            sample_course(folder_id="folder-1", summary="Curated semester summary."),
+            manual_overrides={"publish_material_file_ids": ["override-1"]},
+        )
+        materials, excluded = cli._discover_materials(client, course)
+        self.assertEqual([material.source_file_id for material in materials], ["override-1"])
+        self.assertEqual(materials[0].title, "Home Exercise 2")
+        self.assertEqual([(item.title, item.reason) for item in excluded], [("Grades Timeline", "privacy-admin")])
 
     def test_attach_syllabus_content(self) -> None:
         client = mock.Mock()
@@ -441,6 +473,9 @@ class CliTests(unittest.TestCase):
                         "action": "backfill",
                         "courses": ["skip", "fresh"],
                         "changed_files": ["A teaching/fresh.md"],
+                        "excluded_count": 0,
+                        "excluded_by_course": {"skip": 0, "fresh": 0},
+                        "excluded_audit_path": None,
                         "preview_root": paths.preview_root.as_posix(),
                         "preview_files": [path.as_posix() for path in preview_files],
                     }
@@ -468,6 +503,9 @@ class CliTests(unittest.TestCase):
                     {
                         "action": "backfill",
                         "courses": ["fresh"],
+                        "excluded_count": 0,
+                        "excluded_by_course": {"fresh": 0},
+                        "excluded_audit_path": None,
                         "published_branch": "codex/test",
                         "pr_url": "https://example.com/pr",
                     }
@@ -547,6 +585,9 @@ class CliTests(unittest.TestCase):
                     "action": "backfill",
                     "courses": ["real-course-25"],
                     "changed_files": ["A teaching/real-course-25.md"],
+                    "excluded_count": 0,
+                    "excluded_by_course": {"real-course-25": 0},
+                    "excluded_audit_path": None,
                     "preview_root": paths.preview_root.as_posix(),
                     "preview_files": [path.as_posix() for path in preview_files],
                 }

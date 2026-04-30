@@ -7,7 +7,13 @@ from urllib.parse import urlparse
 from automation.config import GENERATED_HEADER, Paths
 from automation.data_io import load_courses, load_materials
 from automation.models import REQUIRED_COURSE_FIELDS, REQUIRED_MATERIAL_FIELDS, Course, Material
-from automation.rendering import inject_managed_block, render_course_page, render_teaching_block, visible_courses
+from automation.rendering import (
+    inject_managed_block,
+    render_course_page,
+    render_teaching_block,
+    should_render_course_page,
+    visible_courses,
+)
 
 
 SUPPORTED_HOSTS = {
@@ -93,18 +99,29 @@ def validate_generated_files(paths: Paths, courses: list[Course], materials_by_s
     errors: list[str] = []
     for course in courses:
         target = paths.teaching_root / f"{course.slug}.md"
+        if not should_render_course_page(course, materials_by_slug.get(course.slug, [])):
+            if target.exists():
+                content = target.read_text(encoding="utf-8")
+                if GENERATED_HEADER in content:
+                    errors.append(f"{target}: suppressed course page should not be generated.")
+            continue
         if not target.exists():
             errors.append(f"Missing generated page for {course.slug}: {target}")
             continue
         content = target.read_text(encoding="utf-8")
         if GENERATED_HEADER not in content:
             errors.append(f"{target}: missing generated file header.")
-        expected = render_course_page(course, materials_by_slug.get(course.slug, []), courses=courses)
+        expected = render_course_page(
+            course,
+            materials_by_slug.get(course.slug, []),
+            courses=courses,
+            materials_by_slug=materials_by_slug,
+        )
         if content != expected:
             errors.append(f"{target}: stale generated content. Run courses render.")
     teaching_current = paths.teaching_index.read_text(encoding="utf-8")
     try:
-        teaching_expected = inject_managed_block(teaching_current, render_teaching_block(courses))
+        teaching_expected = inject_managed_block(teaching_current, render_teaching_block(courses, materials_by_slug))
     except ValueError as exc:
         errors.append(f"{paths.teaching_index}: invalid managed block markers: {exc}")
     else:
@@ -116,7 +133,8 @@ def validate_generated_files(paths: Paths, courses: list[Course], materials_by_s
 def validate_internal_links(paths: Paths, courses: list[Course]) -> list[str]:
     errors: list[str] = []
     teaching_content = paths.teaching_index.read_text(encoding="utf-8")
-    linked_courses = visible_courses(courses)
+    materials_by_slug = {course.slug: load_materials(paths, course.slug) for course in courses}
+    linked_courses = visible_courses(courses, materials_by_slug)
     for course in linked_courses:
         expected = f"/teaching/{course.slug}"
         if expected not in teaching_content:

@@ -5,7 +5,7 @@ from pathlib import Path
 import yaml
 
 from automation.config import Paths
-from automation.models import Course, Material
+from automation.models import Course, ExcludedMaterial, Material
 
 
 def _read_yaml(path: Path) -> dict:
@@ -55,3 +55,8 @@ def save_materials(paths: Paths, slug: str, materials: list[Material]) -> None:
     )
     payload = {"course": slug, "materials": [item.to_dict() for item in ordered]}
     _write_yaml(paths.materials_root / f"{slug}.yml", payload)
+
+
+def save_excluded_materials(path: Path, items: list[ExcludedMaterial]) -> None:
+    payload = {"excluded_materials": [item.to_dict() for item in items]}
+    _write_yaml(path, payload)

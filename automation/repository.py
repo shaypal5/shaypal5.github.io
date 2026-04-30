@@ -5,9 +5,15 @@ from pathlib import Path
 import shutil
 
 from automation.config import Paths
-from automation.data_io import load_courses, load_materials, save_courses, save_materials
-from automation.models import Course, Material
-from automation.rendering import file_diff_summary, inject_managed_block, render_course_page, render_teaching_block
+from automation.data_io import load_courses, load_materials, save_courses, save_excluded_materials, save_materials
+from automation.models import Course, ExcludedMaterial, Material
+from automation.rendering import (
+    file_diff_summary,
+    inject_managed_block,
+    render_course_page,
+    render_teaching_block,
+    should_render_course_page,
+)
 
 
 @dataclass
@@ -45,9 +51,17 @@ def render_repository(
     dry_run: bool = False,
 ) -> RenderResult:
     changes: list[str] = []
-    active_slugs = {course.slug for course in courses}
-    for course in courses:
-        rendered = render_course_page(course, materials_by_slug.get(course.slug, []), courses=courses)
+    renderable_courses = [
+        course for course in courses if should_render_course_page(course, materials_by_slug.get(course.slug, []))
+    ]
+    active_slugs = {course.slug for course in renderable_courses}
+    for course in renderable_courses:
+        rendered = render_course_page(
+            course,
+            materials_by_slug.get(course.slug, []),
+            courses=courses,
+            materials_by_slug=materials_by_slug,
+        )
         target = paths.teaching_root / f"{course.slug}.md"
         summary = file_diff_summary(target, rendered)
         if summary:
@@ -62,7 +76,7 @@ def render_repository(
             stale_path.unlink()
 
     teaching_existing = paths.teaching_index.read_text(encoding="utf-8")
-    teaching_rendered = inject_managed_block(teaching_existing, render_teaching_block(courses))
+    teaching_rendered = inject_managed_block(teaching_existing, render_teaching_block(courses, materials_by_slug))
     summary = file_diff_summary(paths.teaching_index, teaching_rendered)
     if summary:
         changes.append(summary)
@@ -75,19 +89,34 @@ def write_preview_repository(
     paths: Paths,
     courses: list[Course],
     materials_by_slug: dict[str, list[Material]],
+    excluded_materials: list[ExcludedMaterial] | None = None,
 ) -> list[str]:
     preview_changes: list[str] = []
     if paths.preview_root.exists():
         shutil.rmtree(paths.preview_root)
     paths.preview_teaching_root.mkdir(parents=True, exist_ok=True)
-    for course in courses:
-        rendered = render_course_page(course, materials_by_slug.get(course.slug, []), courses=courses)
+    renderable_courses = [
+        course for course in courses if should_render_course_page(course, materials_by_slug.get(course.slug, []))
+    ]
+    for course in renderable_courses:
+        rendered = render_course_page(
+            course,
+            materials_by_slug.get(course.slug, []),
+            courses=courses,
+            materials_by_slug=materials_by_slug,
+        )
         target = paths.preview_teaching_root / f"{course.slug}.md"
         target.write_text(rendered, encoding="utf-8")
         preview_changes.append(target.as_posix())
-    teaching_rendered = inject_managed_block(paths.teaching_index.read_text(encoding="utf-8"), render_teaching_block(courses))
+    teaching_rendered = inject_managed_block(
+        paths.teaching_index.read_text(encoding="utf-8"),
+        render_teaching_block(courses, materials_by_slug),
+    )
     paths.preview_teaching_index.write_text(teaching_rendered, encoding="utf-8")
     preview_changes.append(paths.preview_teaching_index.as_posix())
+    if excluded_materials:
+        save_excluded_materials(paths.preview_excluded_materials, excluded_materials)
+        preview_changes.append(paths.preview_excluded_materials.as_posix())
     return preview_changes
 
 

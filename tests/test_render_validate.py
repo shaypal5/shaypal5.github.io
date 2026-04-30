@@ -7,7 +7,7 @@ from unittest import mock
 from automation.course_family_content import apply_generalized_course_content
 from automation.config import GENERATED_HEADER, TEACHING_MARKER_END, TEACHING_MARKER_START, build_paths
 from automation.data_io import load_courses, load_materials
-from automation.models import Course, Material
+from automation.models import Course, ExcludedMaterial, Material
 from automation.rendering import (
     _academic_period_sort_value,
     _render_lecture_item,
@@ -733,6 +733,131 @@ class RenderValidateTests(unittest.TestCase):
         self.assertTrue(clean_preview_repository(paths))
         self.assertFalse(paths.preview_root.exists())
         self.assertFalse(clean_preview_repository(paths))
+
+    def test_write_preview_repository_writes_excluded_material_audit(self) -> None:
+        paths = build_paths(self.repo_root)
+        courses = load_courses(paths)
+        materials_by_slug = {course.slug: load_materials(paths, course.slug) for course in courses}
+        excluded = [
+            ExcludedMaterial(
+                course_slug="econml-24",
+                title="Grades Timeline",
+                reason="privacy-admin",
+                source_file_id="grades-1",
+                url="https://example.com/grades",
+                mime_type="application/vnd.google-apps.spreadsheet",
+            )
+        ]
+        preview_files = write_preview_repository(paths, courses, materials_by_slug, excluded)
+        self.assertIn(paths.preview_excluded_materials.as_posix(), preview_files)
+        audit = paths.preview_excluded_materials.read_text(encoding="utf-8")
+        self.assertIn("excluded_materials:", audit)
+        self.assertIn("Grades Timeline", audit)
+        self.assertIn("privacy-admin", audit)
+
+    def test_suppressed_semester_pages_are_hidden_everywhere(self) -> None:
+        paths = build_paths(self.repo_root)
+        generalized = Course(
+            slug="data-vis",
+            title="Data Vis",
+            subtitle="Shared materials",
+            institution="Unknown institution",
+            role="Instructor",
+            academic_period="TBD",
+            status="active",
+            source_drive_folder_id="generalized-folder",
+            source_drive_folder_name="Data Vis - Generalized CF",
+            summary="Shared materials across iterations.",
+            visibility="public",
+            course_family="data-vis",
+            is_generalized=True,
+        )
+        suppressed = Course(
+            slug="data-vis-23b",
+            title="Data Vis",
+            subtitle="Course page for teaching materials, 23/24 (Semester B)",
+            institution="Unknown institution",
+            role="Instructor",
+            academic_period="23/24",
+            status="active",
+            source_drive_folder_id="folder-b",
+            source_drive_folder_name="Data Vis 23/24B CF",
+            summary="Curated semester summary.",
+            visibility="public",
+            course_family="data-vis",
+            section="B",
+        )
+        visible = Course(
+            slug="data-vis-24a",
+            title="Data Vis",
+            subtitle="Course page for teaching materials, 24/25 (Semester A)",
+            institution="Unknown institution",
+            role="Instructor",
+            academic_period="24/25",
+            status="active",
+            source_drive_folder_id="folder-a",
+            source_drive_folder_name="Data Vis 24/25A CF",
+            summary="Curated semester summary.",
+            visibility="public",
+            course_family="data-vis",
+            section="A",
+        )
+        courses = [generalized, suppressed, visible]
+        materials_by_slug = {
+            "data-vis": [
+                Material(
+                    title="Week 1 Slides",
+                    url="https://example.com/shared",
+                    kind="slides",
+                    week=1,
+                    section="Course Materials",
+                    published=True,
+                    sort_key="01-shared",
+                )
+            ],
+            "data-vis-23b": [
+                Material(
+                    title="Course Syllabus",
+                    url="https://example.com/syllabus",
+                    kind="syllabus",
+                    published=True,
+                    section="Course Outline",
+                    sort_key="00-syllabus",
+                )
+            ],
+            "data-vis-24a": [
+                Material(
+                    title="Week 1 Slides",
+                    url="https://example.com/week-1",
+                    kind="slides",
+                    week=1,
+                    section="Course Materials",
+                    published=True,
+                    sort_key="01-week-1",
+                )
+            ],
+        }
+
+        self.assertEqual(
+            [course.slug for course in visible_courses(courses, materials_by_slug)],
+            ["data-vis"],
+        )
+
+        render_repository(paths, courses, materials_by_slug, dry_run=False)
+        self.assertTrue((paths.teaching_root / "data-vis.md").exists())
+        self.assertTrue((paths.teaching_root / "data-vis-24a.md").exists())
+        self.assertFalse((paths.teaching_root / "data-vis-23b.md").exists())
+
+        generalized_page = (paths.teaching_root / "data-vis.md").read_text(encoding="utf-8")
+        self.assertIn("/teaching/data-vis-24a", generalized_page)
+        self.assertNotIn("/teaching/data-vis-23b", generalized_page)
+
+        teaching_index = paths.teaching_index.read_text(encoding="utf-8")
+        self.assertIn("/teaching/data-vis", teaching_index)
+        self.assertNotIn("/teaching/data-vis-24a", teaching_index)
+        self.assertNotIn("/teaching/data-vis-23b", teaching_index)
+
+        self.assertEqual(validate_generated_files(paths, courses, materials_by_slug), [])
 
     def test_apply_generalized_course_content_leaves_unknown_family_unchanged(self) -> None:
         course = Course(

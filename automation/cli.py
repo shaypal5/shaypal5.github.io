@@ -14,13 +14,19 @@ from automation.config import (
     ValidationError,
     build_paths,
 )
-from automation.course_family_content import GENERALIZED_COURSE_CONTENT, apply_generalized_course_content
+from automation.course_family_content import (
+    GENERALIZED_COURSE_CONTENT,
+    apply_concrete_course_content,
+    apply_generalized_course_content,
+)
 from automation.data_io import load_courses, load_materials
 from automation.naming import (
     COURSE_SUFFIX,
+    classify_material_exclusion,
     infer_course_from_folder,
     is_valid_course_folder_name,
     material_from_drive_item,
+    normalize_material_title,
     should_descend_into_material_folder,
 )
 from automation.publish import publish_changes
@@ -36,7 +42,7 @@ from automation.validation import validate_repository
 
 if TYPE_CHECKING:
     from automation.google_drive import DriveClient
-    from automation.models import Course, Material
+    from automation.models import Course, ExcludedMaterial, Material
 
 
 def _print_json(payload: dict) -> None:
@@ -136,7 +142,7 @@ def cmd_preview_site(args: argparse.Namespace) -> int:
 
 def _merged_course(existing_by_id: dict[str, "Course"], folder: dict[str, str]) -> "Course":
     current = existing_by_id.get(folder["id"])
-    inferred = infer_course_from_folder(folder["id"], folder["name"])
+    inferred = apply_concrete_course_content(infer_course_from_folder(folder["id"], folder["name"]))
     if current is None:
         return inferred
     current = replace(
@@ -146,19 +152,49 @@ def _merged_course(existing_by_id: dict[str, "Course"], folder: dict[str, str]) 
     )
     if not current.summary:
         current = replace(current, summary=inferred.summary)
-    return apply_generalized_course_content(current)
+    return apply_concrete_course_content(apply_generalized_course_content(current))
 
 
-def _discover_materials(client: "DriveClient", course: "Course") -> list["Material"]:
+def _discover_materials(client: "DriveClient", course: "Course") -> tuple[list["Material"], list["ExcludedMaterial"]]:
+    from automation.models import ExcludedMaterial
+
+    publish_override_ids = set(course.manual_overrides.get("publish_material_file_ids", []) or [])
     items = client.list_folder_items_recursive(
         course.source_drive_folder_id,
         should_descend=lambda item: should_descend_into_material_folder(item.get("name", ""), course.is_generalized),
     )
-    return [
-        material_from_drive_item(item, is_generalized_course=course.is_generalized)
-        for item in items
-        if item.get("mimeType") != "application/vnd.google-apps.folder"
-    ]
+    materials: list["Material"] = []
+    excluded: list[ExcludedMaterial] = []
+    for item in items:
+        if item.get("mimeType") == "application/vnd.google-apps.folder":
+            continue
+        normalized_title = normalize_material_title(item.get("name", ""))
+        publish_override = item.get("id", "") in publish_override_ids
+        material = material_from_drive_item(
+            item,
+            is_generalized_course=course.is_generalized,
+            publish_override=publish_override,
+        )
+        exclusion_reason = classify_material_exclusion(
+            normalized_title,
+            material.kind,
+            course.is_generalized,
+            publish_override=publish_override,
+        )
+        if exclusion_reason is not None:
+            excluded.append(
+                ExcludedMaterial(
+                    course_slug=course.slug,
+                    title=normalized_title,
+                    reason=exclusion_reason,
+                    source_file_id=item.get("id", ""),
+                    url=item.get("webViewLink") or item.get("webContentLink") or "",
+                    mime_type=item.get("mimeType", ""),
+                )
+            )
+            continue
+        materials.append(material)
+    return materials, excluded
 
 
 def _attach_syllabus_content(client: "DriveClient", course: "Course", materials: list["Material"]) -> "Course":
@@ -281,12 +317,20 @@ def _backfill(args: argparse.Namespace, incremental: bool = False) -> int:
         selected.append(course)
     _log(f"Selected {len(selected)} course(s) for processing.")
     materials_by_slug = {}
+    excluded_materials = []
+    excluded_by_course: dict[str, int] = {}
     selected_with_syllabus = []
     for course in selected:
         _log(f"Listing materials for {course.slug} from folder {course.source_drive_folder_id}.")
-        materials = _discover_materials(client, course)
+        discovered_materials = _discover_materials(client, course)
+        if isinstance(discovered_materials, tuple):
+            materials, excluded = discovered_materials
+        else:
+            materials, excluded = discovered_materials, []
         course = _attach_syllabus_content(client, course, materials)
         materials_by_slug[course.slug] = materials
+        excluded_materials.extend(excluded)
+        excluded_by_course[course.slug] = len(excluded)
         selected_with_syllabus.append(course)
         _log(f"Found {len(materials)} material item(s) for {course.slug}.")
         for index, material in enumerate(materials, start=1):
@@ -297,6 +341,8 @@ def _backfill(args: argparse.Namespace, incremental: bool = False) -> int:
             )
         if course.manual_overrides.get("syllabus_markdown"):
             _log(f"Extracted inline syllabus markdown for {course.slug}.")
+        if excluded:
+            _log(f"Excluded {len(excluded)} item(s) for {course.slug} before persistence.")
     selected = selected_with_syllabus
     if incremental:
         selected_slugs = {course.slug for course in selected}
@@ -337,6 +383,11 @@ def _backfill(args: argparse.Namespace, incremental: bool = False) -> int:
                 {
                     "action": "backfill",
                     "courses": [course.slug for course in selected],
+                    "excluded_count": len(excluded_materials),
+                    "excluded_by_course": excluded_by_course,
+                    "excluded_audit_path": (
+                        paths.preview_excluded_materials.as_posix() if excluded_materials else None
+                    ),
                     "published_branch": publish.branch,
                     "pr_url": publish.pr_url,
                 }
@@ -344,13 +395,18 @@ def _backfill(args: argparse.Namespace, incremental: bool = False) -> int:
             return 0
     _log("Computing dry-run render diff.")
     result = render_repository(paths, courses, materials_by_slug, dry_run=True)
-    preview_files = write_preview_repository(paths, courses, materials_by_slug)
+    preview_files = write_preview_repository(paths, courses, materials_by_slug, excluded_materials)
     _log(f"Wrote {len(preview_files)} preview file(s) under {paths.preview_root}.")
     _print_json(
         {
             "action": "backfill",
             "courses": [course.slug for course in selected],
             "changed_files": result.changed_files,
+            "excluded_count": len(excluded_materials),
+            "excluded_by_course": excluded_by_course,
+            "excluded_audit_path": (
+                paths.preview_excluded_materials.as_posix() if excluded_materials else None
+            ),
             "preview_root": paths.preview_root.as_posix(),
             "preview_files": preview_files,
         }
