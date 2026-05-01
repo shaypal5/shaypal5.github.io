@@ -12,6 +12,7 @@ from automation.validation import (
     _missing_fields,
     _supported_google_pattern,
     _valid_url,
+    validate_blank_target_rel,
     validate_courses,
     validate_generated_files,
     validate_internal_links,
@@ -222,6 +223,29 @@ class ValidationTests(unittest.TestCase):
         writing_data.write_text("front_matter: []\nwriting: []\n", encoding="utf-8")
         errors = validate_redirects(paths, courses)
         self.assertTrue(any("data/projects.yml: redirect_from must not point to its own URL: /code.html" in error for error in errors))
+
+    def test_blank_target_links_require_rel_hardening(self) -> None:
+        paths = build_paths(self.repo_root)
+        page = self.repo_root / "manual.md"
+        page.write_text(
+            "\n".join(
+                [
+                    "---",
+                    "layout: page",
+                    "title: Manual",
+                    "---",
+                    "",
+                    '[safe](https://example.com){:target="_blank" rel="noopener noreferrer"}',
+                    '[unsafe](https://example.com){:target="_blank"}',
+                ]
+            ),
+            encoding="utf-8",
+        )
+
+        errors = validate_blank_target_rel(paths)
+
+        self.assertTrue(any("manual.md:7" in error for error in errors))
+        self.assertFalse(any("manual.md:6" in error for error in errors))
 
     def test_generated_file_and_internal_link_validation(self) -> None:
         paths = build_paths(self.repo_root)

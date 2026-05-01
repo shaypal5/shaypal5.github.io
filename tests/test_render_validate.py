@@ -14,6 +14,7 @@ from automation.rendering import (
     _render_lecture_item,
     _render_named_list_item,
     file_diff_summary,
+    harden_blank_target_markdown,
     inject_managed_block,
     public_material_title,
     render_course_page,
@@ -177,8 +178,16 @@ class RenderValidateTests(unittest.TestCase):
 
         rendered_html = render_kramdown_html(public_page.split(PUBLIC_PAGE_GENERATED_HEADER, 1)[1])
         self.assertIn('<section class="archive-entry" id="demo">', rendered_html)
-        self.assertIn('<strong><a href="https://example.com" target="_blank">demo</a></strong> - Example.', rendered_html)
+        self.assertIn(
+            '<strong><a href="https://example.com" target="_blank" rel="noopener noreferrer">demo</a></strong> - Example.',
+            rendered_html,
+        )
         self.assertIn('<a href="#tools-2-2">Tools 2</a>', rendered_html)
+
+        self.assertEqual(
+            harden_blank_target_markdown('[demo](https://example.com){:target="_blank" rel="nofollow"}'),
+            '[demo](https://example.com){:target="_blank" rel="nofollow noopener noreferrer"}',
+        )
 
         course = courses[0]
         materials = materials_by_slug[course.slug] + [

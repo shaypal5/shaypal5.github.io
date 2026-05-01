@@ -14,7 +14,7 @@ This semester of Data Visualization focused on visual reasoning, chart design, d
 
 ## Course Outline
 
-**[Course Syllabus](https://docs.google.com/spreadsheets/d/11DuK_yWVRueLXz3tAA4zQiNFmirYjN5gtTEdK5hfeok/edit?usp=drivesdk){:target="_blank"}**
+**[Course Syllabus](https://docs.google.com/spreadsheets/d/11DuK_yWVRueLXz3tAA4zQiNFmirYjN5gtTEdK5hfeok/edit?usp=drivesdk){:target="_blank" rel="noopener noreferrer"}**
 
 Data Vis (Semester A 23/24) introduces the purpose and foundations of data visualization and builds practical skills in Tableau. You’ll move from defining visualization and its history to data abstraction, task abstraction, and encoding with marks and channels. The course then focuses on chart types, perception and Gestalt principles, interaction, manipulation, and dashboard design. Along the way you’ll practice chart critique, decoding, and iterative building, culminating in a final project and (optional) data-driven storytelling.
 
@@ -74,6 +74,6 @@ Data Vis (Semester A 23/24) introduces the purpose and foundations of data visua
 
 This semester's page intentionally exposes only a compact public subset of available materials. The fuller course framing lives in the outline above, while the shared Data Vis page collects reusable lecture materials across semesters.
 
-* **[T4 - Tableau Dashboards](https://docs.google.com/presentation/d/16lIwvA6Ke1nGAkOwhKGnKRI2h4cwiA0PxhLmbEqBB7o/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
+* **[T4 - Tableau Dashboards](https://docs.google.com/presentation/d/16lIwvA6Ke1nGAkOwhKGnKRI2h4cwiA0PxhLmbEqBB7o/edit?usp=drivesdk){:target="_blank" rel="noopener noreferrer"}** - Lecture slides
 
-* **[Catch-Up Week](https://docs.google.com/presentation/d/15bpS_u_i0QZCvV876GIylxaHXJCPwIZDosuv6f2FY10/edit?usp=drivesdk){:target="_blank"}** - Lecture slides
+* **[Catch-Up Week](https://docs.google.com/presentation/d/15bpS_u_i0QZCvV876GIylxaHXJCPwIZDosuv6f2FY10/edit?usp=drivesdk){:target="_blank" rel="noopener noreferrer"}** - Lecture slides

@@ -28,6 +28,19 @@ fail before Jekyll starts if Bundler 2.7.2 is not installed for that Ruby.
 Redirects use the GitHub Pages-supported `jekyll-redirect-from` plugin. See
 `docs/redirects.md` before renaming any public page or adding URL aliases.
 
+## External Link Attributes
+Links that open a new tab must include Kramdown attributes for both the tab
+target and opener hardening:
+
+```markdown
+[Example](https://example.com){:target="_blank" rel="noopener noreferrer"}
+```
+
+The renderer emits those attributes for generated course links and hardens
+blank-target Kramdown links in generated public pages. Validation fails if
+authored or generated public Markdown adds a blank-target link without
+`rel="noopener noreferrer"`.
+
 ## Common Commands
 ```bash
 python -m automation.cli courses plan

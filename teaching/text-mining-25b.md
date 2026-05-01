@@ -14,7 +14,7 @@ This semester of Text Mining focused on practical NLP workflows, from preprocess
 
 ## Course Outline
 
-**[Course Syllabus](https://docs.google.com/document/d/13gdR0otJNi67VFowwkvfcpVKjP6kPNcf/edit?usp=drivesdk&ouid=117394243753980860683&rtpof=true&sd=true){:target="_blank"}**
+**[Course Syllabus](https://docs.google.com/document/d/13gdR0otJNi67VFowwkvfcpVKjP6kPNcf/edit?usp=drivesdk&ouid=117394243753980860683&rtpof=true&sd=true){:target="_blank" rel="noopener noreferrer"}**
 
 Text Mining (Semester B) introduces text analysis and NLP from classical methods to modern Transformers and large language models. You will learn how to turn raw text into usable data, clean and preprocess corpora, and build representations such as Bag-of-Words, TF-IDF, n-grams, and embeddings. The course covers supervised and unsupervised analysis (including clustering and topic modeling), model evaluation and error analysis, and moves on to attention, Transformers, BERT/SBERT, prompting, and retrieval-augmented generation (RAG) for practical NLP systems.
 
@@ -74,28 +74,28 @@ Text Mining (Semester B) introduces text analysis and NLP from classical methods
 
 ### Week 0
 
-* **[Text Mining 25/6 - S0: Course Intro](https://docs.google.com/presentation/d/1fLmycJU6iEromcH3d5RTOacjC0B2eCH5Hx6OpMtW4nk/edit?usp=drivesdk){:target="_blank"}** - Week 0 lecture slides
+* **[Text Mining 25/6 - S0: Course Intro](https://docs.google.com/presentation/d/1fLmycJU6iEromcH3d5RTOacjC0B2eCH5Hx6OpMtW4nk/edit?usp=drivesdk){:target="_blank" rel="noopener noreferrer"}** - Week 0 lecture slides
 
 ### Week 1
 
-* **[Text Mining 24/5 - S1: Text Processing](https://docs.google.com/presentation/d/1FaG3MsrH-JhtycIsWUpuj7uI2-JIXkl5ahnB1qtSiVw/edit?usp=drivesdk){:target="_blank"}** - Week 1 lecture slides
+* **[Text Mining 24/5 - S1: Text Processing](https://docs.google.com/presentation/d/1FaG3MsrH-JhtycIsWUpuj7uI2-JIXkl5ahnB1qtSiVw/edit?usp=drivesdk){:target="_blank" rel="noopener noreferrer"}** - Week 1 lecture slides
 
 ### Week 2
 
-* **[Text Mining 24/5 - S2: Word2Vec](https://docs.google.com/presentation/d/1sSJBMM98Dfus6AKy57yQNJbQ59NREBJxFtZSEQcEwRE/edit?usp=drivesdk){:target="_blank"}** - Week 2 lecture slides
+* **[Text Mining 24/5 - S2: Word2Vec](https://docs.google.com/presentation/d/1sSJBMM98Dfus6AKy57yQNJbQ59NREBJxFtZSEQcEwRE/edit?usp=drivesdk){:target="_blank" rel="noopener noreferrer"}** - Week 2 lecture slides
 
 ### Week 3
 
-* **[Text Mining 24/5 - S3: Unsupervised Text Mining & Visualization](https://docs.google.com/presentation/d/19XxGtcr7TLS8Im54ELe-P1olYOj-i_XjHIZSuiVjU28/edit?usp=drivesdk){:target="_blank"}** - Week 3 lecture slides
+* **[Text Mining 24/5 - S3: Unsupervised Text Mining & Visualization](https://docs.google.com/presentation/d/19XxGtcr7TLS8Im54ELe-P1olYOj-i_XjHIZSuiVjU28/edit?usp=drivesdk){:target="_blank" rel="noopener noreferrer"}** - Week 3 lecture slides
 
 ### Week 4
 
-* **[Text Mining 24/5 - S4: Supervised Text Mining](https://docs.google.com/presentation/d/1gAHTCuGt2CrHyyYyAack_Y8254XPzbc2xPpxZVepI6U/edit?usp=drivesdk){:target="_blank"}** - Week 4 lecture slides
+* **[Text Mining 24/5 - S4: Supervised Text Mining](https://docs.google.com/presentation/d/1gAHTCuGt2CrHyyYyAack_Y8254XPzbc2xPpxZVepI6U/edit?usp=drivesdk){:target="_blank" rel="noopener noreferrer"}** - Week 4 lecture slides
 
 ### Week 5
 
-* **[Text Mining 24/5 - S5: Attention to SBERT](https://docs.google.com/presentation/d/1bW-yobDC_BdAfG5PyboxonMbr9nCxTN0WsEaGwEVVsI/edit?usp=drivesdk){:target="_blank"}** - Week 5 lecture slides
+* **[Text Mining 24/5 - S5: Attention to SBERT](https://docs.google.com/presentation/d/1bW-yobDC_BdAfG5PyboxonMbr9nCxTN0WsEaGwEVVsI/edit?usp=drivesdk){:target="_blank" rel="noopener noreferrer"}** - Week 5 lecture slides
 
 ### Week 6
 
-* **[Text Mining 24/5 - S6: LLMs](https://docs.google.com/presentation/d/1uL7xmBEv5txUtZCgIHoHRoK7NYg6kAUtjrBLzIzqW0Q/edit?usp=drivesdk){:target="_blank"}** - Week 6 lecture slides
+* **[Text Mining 24/5 - S6: LLMs](https://docs.google.com/presentation/d/1uL7xmBEv5txUtZCgIHoHRoK7NYg6kAUtjrBLzIzqW0Q/edit?usp=drivesdk){:target="_blank" rel="noopener noreferrer"}** - Week 6 lecture slides
