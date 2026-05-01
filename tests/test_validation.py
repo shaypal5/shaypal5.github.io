@@ -6,7 +6,7 @@ from unittest import mock
 
 from automation.config import TEACHING_MARKER_END, TEACHING_MARKER_START, build_paths
 from automation.data_io import load_courses, load_materials, save_courses
-from automation.models import Material
+from automation.models import Course, Material
 from automation.repository import render_repository
 from automation.validation import (
     _missing_fields,
@@ -17,6 +17,7 @@ from automation.validation import (
     validate_internal_links,
     validate_materials,
     validate_public_page_data,
+    validate_redirects,
     validate_repository,
 )
 
@@ -141,6 +142,86 @@ class ValidationTests(unittest.TestCase):
         self.assertTrue(any("invalid anchor format" in error for error in errors))
         self.assertTrue(any("missing markdown" in error for error in errors))
         self.assertTrue(any("points to missing anchor" in error for error in errors))
+
+        errors = validate_public_page_data(
+            "projects",
+            {
+                "front_matter": {"redirect_from": ["code.html"]},
+                "selected": {"items": []},
+                "groups": [],
+            },
+        )
+        self.assertTrue(any("redirect_from path must start with '/'" in error for error in errors))
+
+        errors = validate_public_page_data(
+            "projects",
+            {
+                "front_matter": {"redirect_from": 7},
+                "selected": {"items": []},
+                "groups": [],
+            },
+        )
+        self.assertTrue(any("redirect_from must be a string or list" in error for error in errors))
+
+        course = Course(
+            slug="demo",
+            title="Demo",
+            subtitle="Demo",
+            institution="Example",
+            role="Instructor",
+            academic_period="2026",
+            status="active",
+            source_drive_folder_id="manual-demo",
+            source_drive_folder_name="Demo CF",
+            summary="Demo summary.",
+            visibility="public",
+            redirect_from=["teaching/old-demo"],
+        )
+        errors = validate_courses([course])
+        self.assertTrue(any("redirect_from path must start with '/'" in error for error in errors))
+        self.assertEqual(Course.from_dict({"redirect_from": "/old-course"}).redirect_from, ["/old-course"])
+        self.assertEqual(Course.from_dict({"redirect_from": 7}).redirect_from, [])
+
+    def test_redirect_validation_rejects_collisions(self) -> None:
+        paths = build_paths(self.repo_root)
+        (self.repo_root / "index.md").write_text("---\ntitle: Home\n---\n", encoding="utf-8")
+        (self.repo_root / "README.md").write_text("Excluded from public URL ownership.\n", encoding="utf-8")
+        courses = load_courses(paths)
+        courses[0].redirect_from = ["/code.html"]
+        errors = validate_redirects(paths, courses)
+        self.assertTrue(any("points to an existing public URL: /code.html" in error for error in errors))
+
+        courses[0].redirect_from = ["/shared-old-url"]
+        courses[1].redirect_from = ["/shared-old-url"]
+        errors = validate_redirects(paths, courses)
+        self.assertTrue(any("Duplicate redirect_from path /shared-old-url" in error for error in errors))
+
+        courses[1].redirect_from = []
+        courses[0].redirect_from = [f"/teaching/{courses[0].slug}"]
+        errors = validate_redirects(paths, courses)
+        self.assertTrue(any("redirect_from must not point to its own URL" in error for error in errors))
+
+        courses[0].redirect_from = ["/"]
+        errors = validate_redirects(paths, courses)
+        self.assertTrue(any("points to an existing public URL: /" in error for error in errors))
+
+        projects_data = paths.site_data_root / "projects.yml"
+        projects_data.write_text(
+            projects_data.read_text(encoding="utf-8").replace(
+                "front_matter:\n  layout: page\n",
+                "front_matter:\n  layout: page\n  redirect_from: /code.html\n",
+                1,
+            ),
+            encoding="utf-8",
+        )
+        courses[0].redirect_from = []
+        errors = validate_redirects(paths, courses)
+        self.assertTrue(any("data/projects.yml: redirect_from must not point to its own URL: /code.html" in error for error in errors))
+
+        writing_data = paths.site_data_root / "writing.yml"
+        writing_data.write_text("front_matter: []\nwriting: []\n", encoding="utf-8")
+        errors = validate_redirects(paths, courses)
+        self.assertTrue(any("data/projects.yml: redirect_from must not point to its own URL: /code.html" in error for error in errors))
 
     def test_generated_file_and_internal_link_validation(self) -> None:
         paths = build_paths(self.repo_root)

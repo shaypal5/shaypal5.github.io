@@ -23,6 +23,12 @@ Optional fields:
 - `course_family`
 - `section`
 - `is_generalized`
+- `redirect_from`
+
+`redirect_from` stores old public paths for renamed generated course pages. Use
+absolute site paths such as `/teaching/old-slug` or `/teaching/old-slug.html`.
+Validation rejects duplicate aliases and aliases that collide with current
+public URLs.
 
 ### Course Manual Overrides
 `manual_overrides` contains reviewed presentation controls that should stay with
@@ -101,6 +107,10 @@ and the markdown entries rendered into the public page. The generated pages are:
 - `talks.md`
 - `blog.md`
 - `code.md`
+
+If a generated public page is renamed, add `redirect_from` aliases to its
+`front_matter` block in the data file so the old URL keeps working. See
+`docs/redirects.md` for the redirect policy.
 
 Selected sections are structured as `selected.heading` plus `selected.items`.
 Each selected item must point to an anchor owned by a rendered talk, writing item,

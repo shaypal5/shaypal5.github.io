@@ -165,6 +165,16 @@ class RenderValidateTests(unittest.TestCase):
         self.assertIn('<section class="archive-entry" id="demo" markdown="1">', public_page)
         self.assertNotIn('<span id="demo"></span>', public_page)
 
+        redirected_public_page = render_public_page(
+            "projects",
+            {
+                "front_matter": {"layout": "page", "title": "Projects", "redirect_from": ["/code.html"]},
+                "selected": {"items": []},
+                "groups": [],
+            },
+        )
+        self.assertIn("redirect_from:\n- /code.html", redirected_public_page)
+
         rendered_html = render_kramdown_html(public_page.split(PUBLIC_PAGE_GENERATED_HEADER, 1)[1])
         self.assertIn('<section class="archive-entry" id="demo">', rendered_html)
         self.assertIn('<strong><a href="https://example.com" target="_blank">demo</a></strong> - Example.', rendered_html)
@@ -212,6 +222,23 @@ class RenderValidateTests(unittest.TestCase):
 
         empty_course_page = render_course_page(courses[0], [])
         self.assertIn("TBA", empty_course_page)
+
+        redirect_course = Course(
+            slug="renamed-course",
+            title="Renamed Course",
+            subtitle="Current URL",
+            institution="Example",
+            role="Instructor",
+            academic_period="2026",
+            status="active",
+            source_drive_folder_id="manual-renamed-course",
+            source_drive_folder_name="Renamed Course CF",
+            summary="Renamed course summary.",
+            visibility="public",
+            redirect_from=["/teaching/old-course"],
+        )
+        redirect_course_page = render_course_page(redirect_course, [])
+        self.assertIn("redirect_from:\n- /teaching/old-course", redirect_course_page)
 
         override_course = Course(
             slug="datanights23",

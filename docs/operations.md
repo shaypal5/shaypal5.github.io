@@ -24,6 +24,10 @@ RBENV_VERSION=3.3.0 bundle exec jekyll build
 Plain `bundle exec jekyll build` may use macOS system Ruby instead, which can
 fail before Jekyll starts if Bundler 2.7.2 is not installed for that Ruby.
 
+## Redirects
+Redirects use the GitHub Pages-supported `jekyll-redirect-from` plugin. See
+`docs/redirects.md` before renaming any public page or adding URL aliases.
+
 ## Common Commands
 ```bash
 python -m automation.cli courses plan

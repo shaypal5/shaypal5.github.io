@@ -6,6 +6,8 @@ from pathlib import Path
 import re
 from typing import Any
 
+import yaml
+
 from automation.config import GENERATED_HEADER, PUBLIC_PAGE_GENERATED_HEADER, TEACHING_MARKER_END, TEACHING_MARKER_START
 from automation.models import Course, Material
 
@@ -204,13 +206,15 @@ def render_course_page(
     courses: list[Course] | None = None,
     materials_by_slug: dict[str, list[Material]] | None = None,
 ) -> str:
+    front_matter = {
+        "layout": "page",
+        "title": course.title,
+        "subtitle": course.subtitle,
+    }
+    if course.redirect_from:
+        front_matter["redirect_from"] = course.redirect_from
     lines = [
-        "---",
-        "layout: page",
-        f"title: {course.title}",
-        f"subtitle: {course.subtitle}",
-        "---",
-        "",
+        *_render_front_matter(front_matter),
         GENERATED_HEADER,
         "",
         f"## {course.title}",
@@ -379,13 +383,21 @@ def _render_section_nav(items: list[dict[str, str]]) -> list[str]:
     return lines
 
 
-def _front_matter(page_data: dict) -> list[str]:
-    front_matter = dict(page_data.get("front_matter", {}) or {})
+def _render_front_matter(front_matter: dict) -> list[str]:
     lines = ["---"]
     for key, value in front_matter.items():
-        lines.append(f"{key}: {value}")
+        if isinstance(value, str):
+            lines.append(f"{key}: {value}")
+            continue
+        rendered = yaml.safe_dump({key: value}, sort_keys=False, allow_unicode=False).rstrip()
+        lines.extend(rendered.splitlines())
     lines.extend(["---", ""])
     return lines
+
+
+def _front_matter(page_data: dict) -> list[str]:
+    front_matter = dict(page_data.get("front_matter", {}) or {})
+    return _render_front_matter(front_matter)
 
 
 def render_talks_page(page_data: dict) -> str:

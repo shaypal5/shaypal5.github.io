@@ -85,6 +85,9 @@ highlighter: rouge
 permalink: /blog/:year/:month/:day/:title.html  #/:year-:month-:day-:title
 paginate: 5
 
+plugins:
+  - jekyll-redirect-from
+
 # Default YAML values (more information on Jekyll's site)
 defaults:
   -
