@@ -71,7 +71,7 @@ python -m automation.cli courses check-links
 ```
 
 ## External Link Checks
-`courses check-links` scans rendered `_site/**/*.html` for external `href` and `src` links by default. Build the site first, then run the checker:
+`courses check-links` scans rendered `_site/**/*.html` for external `href`, `src`, selected SEO metadata image/canonical URL fields, and HTTP(S) URL strings in JSON-LD by default. Build the site first, then run the checker:
 
 ```bash
 RBENV_VERSION=3.3.0 bundle exec jekyll build

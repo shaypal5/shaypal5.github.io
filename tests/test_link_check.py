@@ -9,6 +9,7 @@ from automation.config import build_paths
 from automation.link_check import (
     AllowlistRule,
     LinkCheckConfig,
+    LinkHTMLParser,
     check_external_links,
     collect_external_links,
     collect_rendered_external_links,
@@ -84,6 +85,78 @@ class LinkCheckTests(unittest.TestCase):
             )
             links = collect_rendered_external_links(build_paths(root))
         self.assertEqual(list(links), ["https://other.example/page", "https://www.example.com/about.html"])
+
+    def test_collect_rendered_external_links_from_seo_metadata(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            site_root = root / "_site"
+            site_root.mkdir()
+            (root / "_config.yml").write_text(
+                'url: "https://example.com"\n',
+                encoding="utf-8",
+            )
+            (site_root / "index.html").write_text(
+                '<meta property="og:url" content="https://example.com/">'
+                '<meta property="og:image" content="https://cdn.example/og.png">'
+                '<meta property="og:image:secure_url" content="https://secure.example/og.png">'
+                '<meta name="twitter:image" content="https://cdn.example/twitter.png">'
+                '<meta name="twitter:image:src" content="https://cdn.example/twitter-src.png">'
+                '<meta name="description" content="https://ignored.example/description">',
+                encoding="utf-8",
+            )
+            links = collect_rendered_external_links(build_paths(root))
+        self.assertEqual(
+            list(links),
+            [
+                "https://cdn.example/og.png",
+                "https://cdn.example/twitter-src.png",
+                "https://cdn.example/twitter.png",
+                "https://secure.example/og.png",
+            ],
+        )
+
+    def test_collect_rendered_external_links_from_json_ld_strings(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            site_root = root / "_site"
+            site_root.mkdir()
+            (root / "_config.yml").write_text(
+                'url: "https://example.com"\n',
+                encoding="utf-8",
+            )
+            (site_root / "index.html").write_text(
+                '<script type="application/ld+json">'
+                "{"
+                '"url": "https://www.example.com/author",'
+                '"image": "https://example.com/internal-image.png",'
+                '"sameAs": ["https://profile.example/user"],'
+                '"nested": {"id": "https://nested.example/id"},'
+                '"notUrl": "mailto:user@example.com"'
+                "}"
+                "</script>"
+                '<script type="application/json">{"url": "https://ignored.example/script"}</script>'
+                '<script type="application/ld+json">https://ignored.example/not-json</script>',
+                encoding="utf-8",
+            )
+            links = collect_rendered_external_links(build_paths(root))
+        self.assertEqual(
+            list(links),
+            [
+                "https://nested.example/id",
+                "https://profile.example/user",
+                "https://www.example.com/author",
+            ],
+        )
+
+    def test_json_ld_parser_buffers_split_script_data(self) -> None:
+        parser = LinkHTMLParser()
+        parser.feed('<script type="application/ld+json">{"url": "https://split.')
+        parser.feed('example/page", "sameAs": ["https://profile.example/user"]}')
+        parser.feed("</script>")
+        self.assertEqual(
+            sorted(url for url, _ in parser.urls),
+            ["https://profile.example/user", "https://split.example/page"],
+        )
 
     def test_allowlist_rule_matching_and_loading(self) -> None:
         self.assertTrue(AllowlistRule("domain", "example.com", "reason").matches("https://www.example.com/a"))
