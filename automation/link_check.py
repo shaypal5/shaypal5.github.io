@@ -138,6 +138,19 @@ class LinkHTMLParser(HTMLParser):
             return
         self._script_data.append(data)
 
+    def close(self) -> None:
+        super().close()
+        if self._script_type == JSON_LD_SCRIPT_TYPE:
+            self.json_ld_failures.append(
+                (
+                    self._script_line or 1,
+                    "unterminated JSON-LD script tag",
+                )
+            )
+        self._script_type = None
+        self._script_line = None
+        self._script_data = []
+
     def _extract_json_ld_urls(self, data: str) -> None:
         line = self._script_line or 1
         try:
@@ -257,6 +270,7 @@ def collect_rendered_external_link_result(paths: Paths, site_root: Path | None =
     for path in _rendered_content_paths(root):
         parser = LinkHTMLParser()
         parser.feed(path.read_text(encoding="utf-8"))
+        parser.close()
         for url, line_number in parser.urls:
             _record_url(links, url, path, line_number, site_hosts)
         for line_number, message in parser.json_ld_failures:

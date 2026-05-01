@@ -199,6 +199,26 @@ class LinkCheckTests(unittest.TestCase):
         self.assertEqual(failure.line, 3)
         self.assertIn("malformed JSON-LD script could not be parsed", failure.message)
 
+    def test_collect_rendered_external_link_result_reports_unterminated_json_ld(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            site_root = root / "_site"
+            site_root.mkdir()
+            (site_root / "index.html").write_text(
+                "<html>\n"
+                "<body>\n"
+                '<script type="application/ld+json">\n'
+                '{"url": "https://broken.example/page"}\n',
+                encoding="utf-8",
+            )
+            result = collect_rendered_external_link_result(build_paths(root))
+        self.assertEqual(result.links, {})
+        self.assertEqual(len(result.failures), 1)
+        failure = result.failures[0]
+        self.assertEqual(failure.path, site_root / "index.html")
+        self.assertEqual(failure.line, 3)
+        self.assertEqual(failure.message, "unterminated JSON-LD script tag")
+
     def test_check_external_links_fails_malformed_rendered_json_ld(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -231,6 +251,28 @@ class LinkCheckTests(unittest.TestCase):
         self.assertEqual(len(summary.failures), 1)
         self.assertIn("_site/index.html:3: malformed JSON-LD script could not be parsed", summary.failures[0])
         session.head.assert_not_called()
+
+    def test_check_external_links_reports_collection_failure_outside_repo_root(self) -> None:
+        with tempfile.TemporaryDirectory() as repo_tmp, tempfile.TemporaryDirectory() as site_tmp:
+            root = Path(repo_tmp)
+            site_root = Path(site_tmp)
+            (site_root / "index.html").write_text(
+                '<script type="application/ld+json">{"url": "https://broken.example/page",}</script>',
+                encoding="utf-8",
+            )
+            summary = check_external_links(
+                build_paths(root),
+                LinkCheckConfig(
+                    allowlist_path=root / "missing.yml",
+                    timeout_seconds=0.1,
+                    retries=0,
+                    max_workers=1,
+                    site_root=site_root,
+                ),
+            )
+        self.assertEqual(summary.checked, 0)
+        self.assertEqual(len(summary.failures), 1)
+        self.assertIn(f"{site_root / 'index.html'}:1: malformed JSON-LD script could not be parsed", summary.failures[0])
 
     def test_allowlist_rule_matching_and_loading(self) -> None:
         self.assertTrue(AllowlistRule("domain", "example.com", "reason").matches("https://www.example.com/a"))
