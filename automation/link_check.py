@@ -3,6 +3,7 @@ from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from html.parser import HTMLParser
+import json
 from pathlib import Path
 import re
 from urllib.parse import urlparse
@@ -22,6 +23,9 @@ SOFT_SUCCESS_STATUSES = {401, 403, 429}
 PUBLIC_ROOT_MARKDOWN_EXCLUDES = {"AGENTS.md", "README.md", "llms.txt", ".agent-plan.md"}
 TRAILING_URL_CHARS = ".,;:"
 LINK_ATTRS = {"href", "src"}
+URL_META_PROPERTIES = {"og:url", "og:image", "og:image:secure_url"}
+URL_META_NAMES = {"twitter:image", "twitter:image:src"}
+JSON_LD_SCRIPT_TYPE = "application/ld+json"
 
 MARKDOWN_URL_RE = re.compile(r"\]\((https?://[^)\s]+)")
 RAW_URL_RE = re.compile(r"https?://[^\s<>'\"\])}]+")
@@ -83,12 +87,58 @@ class LinkHTMLParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.urls: list[tuple[str, int]] = []
+        self._script_type: str | None = None
+        self._script_line: int | None = None
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         line, _ = self.getpos()
+        attr_map = {name.lower(): value for name, value in attrs if value}
         for name, value in attrs:
             if name in LINK_ATTRS and value:
                 self.urls.append((value, line))
+        if tag == "meta":
+            content = attr_map.get("content")
+            property_name = attr_map.get("property", "").lower()
+            meta_name = attr_map.get("name", "").lower()
+            if content and (
+                property_name in URL_META_PROPERTIES or meta_name in URL_META_NAMES
+            ):
+                self.urls.append((content, line))
+        if tag == "script":
+            script_type = attr_map.get("type", "").split(";", maxsplit=1)[0].strip().lower()
+            self._script_type = script_type or None
+            self._script_line = line
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag == "script":
+            self._script_type = None
+            self._script_line = None
+
+    def handle_data(self, data: str) -> None:
+        if self._script_type != JSON_LD_SCRIPT_TYPE:
+            return
+        try:
+            payload = json.loads(data)
+        except json.JSONDecodeError:
+            return
+        line = self._script_line or self.getpos()[0]
+        for url in _json_string_urls(payload):
+            self.urls.append((url, line))
+
+
+def _json_string_urls(value: object) -> set[str]:
+    urls: set[str] = set()
+    if isinstance(value, str):
+        parsed = urlparse(value)
+        if parsed.scheme in {"http", "https"} and parsed.netloc:
+            urls.add(value)
+    elif isinstance(value, list):
+        for item in value:
+            urls.update(_json_string_urls(item))
+    elif isinstance(value, dict):
+        for item in value.values():
+            urls.update(_json_string_urls(item))
+    return urls
 
 
 def _source_content_paths(paths: Paths) -> list[Path]:
