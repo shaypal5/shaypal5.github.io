@@ -13,6 +13,7 @@ from automation.rendering import (
     _academic_period_sort_value,
     _render_lecture_item,
     _render_named_list_item,
+    BLANK_TARGET_ATTRIBUTES,
     file_diff_summary,
     inject_managed_block,
     public_material_title,
@@ -145,7 +146,7 @@ class RenderValidateTests(unittest.TestCase):
                         "projects": [
                             {
                                 "anchor": "demo",
-                                "markdown": '**[demo](https://example.com){:target="_blank"}** - Example.',
+                                "markdown": f"**[demo](https://example.com){BLANK_TARGET_ATTRIBUTES}** - Example.",
                             }
                         ],
                     },
@@ -177,7 +178,10 @@ class RenderValidateTests(unittest.TestCase):
 
         rendered_html = render_kramdown_html(public_page.split(PUBLIC_PAGE_GENERATED_HEADER, 1)[1])
         self.assertIn('<section class="archive-entry" id="demo">', rendered_html)
-        self.assertIn('<strong><a href="https://example.com" target="_blank">demo</a></strong> - Example.', rendered_html)
+        self.assertIn(
+            '<strong><a href="https://example.com" target="_blank" rel="noopener noreferrer">demo</a></strong> - Example.',
+            rendered_html,
+        )
         self.assertIn('<a href="#tools-2-2">Tools 2</a>', rendered_html)
 
         course = courses[0]

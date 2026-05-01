@@ -65,4 +65,4 @@ The second cohort ran from May 10, 2023 through June 21, 2023 in weekly evening 
 
 ## Course Outline
 
-**[Course Syllabus](https://docs.google.com/document/d/1SQeJBjjXsgcNDgIQsD0-_JLRkd0q86ScUbhOvdC6Vcg/edit){:target="_blank"}**
+**[Course Syllabus](https://docs.google.com/document/d/1SQeJBjjXsgcNDgIQsD0-_JLRkd0q86ScUbhOvdC6Vcg/edit){:target="_blank" rel="noopener noreferrer"}**

@@ -6,7 +6,7 @@ description: Teaching materials and course pages for Shay Palachy-Affek's data s
 updated: April 2026
 ---
 
-I teach Deep Learning, Text Mining, and Data Visualization at the [Coller School of Management](https://en-coller.tau.ac.il/){:target="_blank"} at Tel Aviv University, Intro to Machine Learning at [The Academic College of Tel Aviv-Yaffo](https://www.mta.ac.il/program/management_economics_ba){:target="_blank"}, and data science management through [DataNights](https://datanights-il.github.io/dsmgmt/){:target="_blank"}.
+I teach Deep Learning, Text Mining, and Data Visualization at the [Coller School of Management](https://en-coller.tau.ac.il/){:target="_blank" rel="noopener noreferrer"} at Tel Aviv University, Intro to Machine Learning at [The Academic College of Tel Aviv-Yaffo](https://www.mta.ac.il/program/management_economics_ba){:target="_blank" rel="noopener noreferrer"}, and data science management through [DataNights](https://datanights-il.github.io/dsmgmt/){:target="_blank" rel="noopener noreferrer"}.
 
 <!-- BEGIN GENERATED: teaching-courses -->
 

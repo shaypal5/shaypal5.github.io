@@ -28,6 +28,7 @@ SUPPORTED_HOSTS = {
 ALLOW_EMPTY_REQUIRED_FIELDS = {"notes"}
 ALLOW_NULL_REQUIRED_FIELDS = {"week"}
 PUBLIC_ROOT_MARKDOWN_EXCLUDES = {"AGENTS.md", "README.md", "llms.txt", ".agent-plan.md"}
+BLANK_TARGET_ATTR_PATTERN = re.compile(r"\{:[^}\n]*target=[\"']_blank[\"'][^}\n]*\}")
 
 
 SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -227,6 +228,10 @@ def validate_public_page_data(page: str, page_data: dict) -> list[str]:
             anchors.add(anchor)
         if not str(item.get("markdown", "") or "").strip():
             errors.append(f"data/{page}.yml: entry with anchor {anchor or '<none>'} is missing markdown.")
+        errors.extend(
+            error.replace(f"data/{page}.yml:1", f"data/{page}.yml: entry {anchor or '<none>'}")
+            for error in _blank_target_rel_errors(Path(f"data/{page}.yml"), str(item.get("markdown", "") or ""))
+        )
     for item in selected_items or []:
         anchor = str(item.get("anchor", "") or "").strip()
         title = str(item.get("title", "") or "").strip()
@@ -290,6 +295,43 @@ def validate_public_pages(paths: Paths) -> list[str]:
     return errors
 
 
+def _blank_target_rel_errors(path: Path, content: str) -> list[str]:
+    errors: list[str] = []
+    for line_number, line in enumerate(content.splitlines(), start=1):
+        for match in BLANK_TARGET_ATTR_PATTERN.finditer(line):
+            attribute_block = match.group(0)
+            rel_match = re.search(r"rel=[\"']([^\"']*)[\"']", attribute_block)
+            rel_tokens = set(rel_match.group(1).split()) if rel_match else set()
+            if {"noopener", "noreferrer"}.issubset(rel_tokens):
+                continue
+            errors.append(
+                f"{path}:{line_number}: target=\"_blank\" link is missing rel=\"noopener noreferrer\"."
+            )
+    return errors
+
+
+def validate_blank_target_rel(paths: Paths) -> list[str]:
+    errors: list[str] = []
+    markdown_paths = [
+        path
+        for path in paths.repo_root.glob("*.md")
+        if path.name not in PUBLIC_ROOT_MARKDOWN_EXCLUDES
+    ]
+    markdown_paths.extend(sorted((paths.repo_root / "_includes").glob("*.md")))
+    markdown_paths.extend(sorted(paths.teaching_root.glob("*.md")))
+    data_paths = [
+        paths.repo_root / "data" / "talks.yml",
+        paths.repo_root / "data" / "writing.yml",
+        paths.repo_root / "data" / "projects.yml",
+    ]
+    data_paths.extend(sorted((paths.repo_root / "data" / "teaching").glob("**/*.yml")))
+    for path in sorted(set(markdown_paths + data_paths)):
+        if not path.exists():
+            continue
+        errors.extend(_blank_target_rel_errors(path, path.read_text(encoding="utf-8")))
+    return errors
+
+
 def validate_repository(paths: Paths) -> list[str]:
     courses = load_courses(paths)
     materials_by_slug = {course.slug: load_materials(paths, course.slug) for course in courses}
@@ -300,4 +342,5 @@ def validate_repository(paths: Paths) -> list[str]:
     errors.extend(validate_internal_links(paths, courses))
     errors.extend(validate_public_pages(paths))
     errors.extend(validate_redirects(paths, courses))
+    errors.extend(validate_blank_target_rel(paths))
     return errors

@@ -21,71 +21,71 @@ groups:
 - title: Data & ML Tools
   projects:
   - anchor: pdpipe
-    markdown: '**[pdpipe](https://pdpipe.readthedocs.io/en/latest/){:target="_blank"}**
+    markdown: '**[pdpipe](https://pdpipe.readthedocs.io/en/latest/){:target="_blank" rel="noopener noreferrer"}**
       - A composable pipeline library for pandas DataFrames, with reusable stages
-      for column operations, encoding, and data-preparation workflows. [[website](https://pdpipe.readthedocs.io/en/latest/){:target="_blank"}]
-      [[GitHub](https://github.com/pdpipe/pdpipe){:target="_blank"}]'
+      for column operations, encoding, and data-preparation workflows. [[website](https://pdpipe.readthedocs.io/en/latest/){:target="_blank" rel="noopener noreferrer"}]
+      [[GitHub](https://github.com/pdpipe/pdpipe){:target="_blank" rel="noopener noreferrer"}]'
   - anchor: pulearn
-    markdown: '**[pulearn](https://pulearn.github.io/pulearn/){:target="_blank"}**
+    markdown: '**[pulearn](https://pulearn.github.io/pulearn/){:target="_blank" rel="noopener noreferrer"}**
       - Python estimators, metrics, guides, and examples for learning from positive
-      and unlabeled data, including scikit-learn-compatible PU classifiers. [[website](https://pulearn.github.io/pulearn/){:target="_blank"}]
-      [[documentation](https://pulearn.github.io/pulearn/doc/pulearn/){:target="_blank"}]
-      [[GitHub](https://github.com/pulearn/pulearn){:target="_blank"}]'
-  - markdown: '**[skift](https://github.com/shaypal5/skift){:target="_blank"}** -
+      and unlabeled data, including scikit-learn-compatible PU classifiers. [[website](https://pulearn.github.io/pulearn/){:target="_blank" rel="noopener noreferrer"}]
+      [[documentation](https://pulearn.github.io/pulearn/doc/pulearn/){:target="_blank" rel="noopener noreferrer"}]
+      [[GitHub](https://github.com/pulearn/pulearn){:target="_blank" rel="noopener noreferrer"}]'
+  - markdown: '**[skift](https://github.com/shaypal5/skift){:target="_blank" rel="noopener noreferrer"}** -
       scikit-learn-compatible wrappers for Python fastText, including DataFrame-friendly
       classifiers and stacking-friendly text-model adapters.'
-  - markdown: '**[awesome-twitter-data](https://github.com/shaypal5/awesome-twitter-data){:target="_blank"}**
+  - markdown: '**[awesome-twitter-data](https://github.com/shaypal5/awesome-twitter-data){:target="_blank" rel="noopener noreferrer"}**
       - A curated, CC0 awesome-list of Twitter/X datasets and related resources, with
       license and dataset-size notes where available.'
-  - markdown: '**[stationarizer](https://github.com/shaypal5/stationarizer){:target="_blank"}**
+  - markdown: '**[stationarizer](https://github.com/shaypal5/stationarizer){:target="_blank" rel="noopener noreferrer"}**
       - A pandas-friendly time-series utility that applies ADF/KPSS unit-root checks,
       multiple-testing correction, differencing, and detrending to stationarize numeric
       series automatically.'
 - title: Python & AI Workflow Utilities
   projects:
   - anchor: cachier
-    markdown: '**[cachier](https://github.com/python-cachier/cachier){:target="_blank"}**
+    markdown: '**[cachier](https://github.com/python-cachier/cachier){:target="_blank" rel="noopener noreferrer"}**
       - Persistent, stale-aware caching decorators for Python functions, with local
       files, memory, MongoDB, SQL, Redis, and S3 backends plus async support and cache
       analytics.'
-  - markdown: '**[foldermix](https://github.com/foldermix/foldermix){:target="_blank"}**
+  - markdown: '**[foldermix](https://github.com/foldermix/foldermix){:target="_blank" rel="noopener noreferrer"}**
       - A CLI that packs a folder into one LLM-friendly context file, with optional
       PDF, OCR, Office-document, and Markdown-conversion support.'
-  - markdown: '**[pr-agent-context](https://github.com/shaypal5/pr-agent-context){:target="_blank"}**
+  - markdown: '**[pr-agent-context](https://github.com/shaypal5/pr-agent-context){:target="_blank" rel="noopener noreferrer"}**
       - A reusable GitHub Actions workflow that publishes managed PR handoff comments
       for coding agents, combining unresolved review threads, failing checks, log
       excerpts, and patch coverage.'
-  - markdown: '**[birch](https://github.com/shaypal5/birch){:target="_blank"}** -
+  - markdown: '**[birch](https://github.com/shaypal5/birch){:target="_blank" rel="noopener noreferrer"}** -
       Hierarchical configuration for Python packages and applications, reading namespaced
       settings from environment variables and JSON/YAML config files.'
-  - markdown: '**[s3bp](https://github.com/shaypal5/s3bp){:target="_blank"}** - S3-backed
+  - markdown: '**[s3bp](https://github.com/shaypal5/s3bp){:target="_blank" rel="noopener noreferrer"}** - S3-backed
       persistence for Python objects, with local disk caching to avoid unnecessary
       downloads and special attention to pandas DataFrames.'
-  - markdown: '**[morejson](https://github.com/shaypal5/morejson){:target="_blank"}**
+  - markdown: '**[morejson](https://github.com/shaypal5/morejson){:target="_blank" rel="noopener noreferrer"}**
       - A drop-in wrapper around Python''s `json` API that adds encoding support for
       sets, complex numbers, dates, times, datetimes, timedeltas, and timezones.'
 - title: Community & Hebrew NLP
   projects:
-  - markdown: '**[NLPH](https://github.com/NLPH/NLPH){:target="_blank"}** - The Open
+  - markdown: '**[NLPH](https://github.com/NLPH/NLPH){:target="_blank" rel="noopener noreferrer"}** - The Open
       Natural Language Processing in Hebrew initiative, promoting open tools, resources,
       datasets, and collaboration for production-ready Hebrew NLP.'
-  - markdown: '**[DataTalks](https://github.com/DataHackIL/DataTalks){:target="_blank"}**
+  - markdown: '**[DataTalks](https://github.com/DataHackIL/DataTalks){:target="_blank" rel="noopener noreferrer"}**
       - A public archive of the Datahack DataTalks meetup series, collecting talks
       on machine learning, statistics, data engineering, and applied data science.'
 - title: Recent & Experimental
   projects:
-  - markdown: '**[SynthBanshee](https://github.com/DataHackIL/SynthBanshee){:target="_blank"}**
+  - markdown: '**[SynthBanshee](https://github.com/DataHackIL/SynthBanshee){:target="_blank" rel="noopener noreferrer"}**
       - A config-driven Datahack pipeline for generating synthetic Hebrew audio datasets,
       including dialogue generation, TTS rendering, acoustic augmentation, labeling,
       and QA.'
-  - markdown: '**[hocrgen](https://github.com/HeOCR/hocrgen){:target="_blank"}** -
+  - markdown: '**[hocrgen](https://github.com/HeOCR/hocrgen){:target="_blank" rel="noopener noreferrer"}** -
       Dataset operations tooling for HeOCR, covering source ingestion, rights filtering,
       normalization, review queues, deterministic splits, and benchmark/release assembly
       for Hebrew OCR data.'
-  - markdown: '**[leadforge](https://github.com/leadforge-dev/leadforge){:target="_blank"}**
+  - markdown: '**[leadforge](https://github.com/leadforge-dev/leadforge){:target="_blank" rel="noopener noreferrer"}**
       - An opinionated framework for generating narrative-grounded synthetic CRM and
       go-to-market datasets from simulated commercial worlds.'
-  - markdown: '**[splendor](https://github.com/splendor-dev/splendor){:target="_blank"}**
+  - markdown: '**[splendor](https://github.com/splendor-dev/splendor){:target="_blank" rel="noopener noreferrer"}**
       - A local-first, git-native, schema-driven knowledge compiler for code and research
       repositories, keeping wiki pages, source manifests, runtime records, and planning
       objects in version control.'
@@ -93,4 +93,4 @@ footer_markdown:
 - '<!--### Other research-related stuff
 
 
-  * [Aalto homepage](http://users.ics.aalto.fi/japarkki/){:target="_blank"}-->'
+  * [Aalto homepage](http://users.ics.aalto.fi/japarkki/){:target="_blank" rel="noopener noreferrer"}-->'

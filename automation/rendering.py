@@ -27,6 +27,7 @@ PUBLIC_PAGE_TARGETS = {
     "writing": "blog.md",
     "projects": "code.md",
 }
+BLANK_TARGET_ATTRIBUTES = '{:target="_blank" rel="noopener noreferrer"}'
 
 MATERIAL_TITLE_SUFFIX_PATTERNS = (
     re.compile(r"\s+[-\u2013\u2014]\s+[^-\u2013\u2014]*@\s*[A-Z][A-Za-z. ]+\s*$"),
@@ -189,7 +190,7 @@ def _render_lecture_item(item: Any) -> list[str]:
     status = str(item.get("status", "") or "").strip()
     label = title or "Untitled session"
     if link:
-        label = f"[{label}]({link}){{:target=\"_blank\"}}"
+        label = f"[{label}]({link}){BLANK_TARGET_ATTRIBUTES}"
     if speaker:
         label = f"{label} - {speaker}"
     if status:
@@ -271,7 +272,7 @@ def render_course_page(
     if course.syllabus_url or syllabus_markdown or syllabus_note:
         lines.extend(["## Course Outline", ""])
         if course.syllabus_url:
-            lines.extend([f"**[Course Syllabus]({course.syllabus_url}){{:target=\"_blank\"}}**", ""])
+            lines.extend([f"**[Course Syllabus]({course.syllabus_url}){BLANK_TARGET_ATTRIBUTES}**", ""])
         if syllabus_markdown:
             lines.extend(syllabus_markdown.splitlines())
             lines.append("")
@@ -308,7 +309,7 @@ def render_course_page(
                 trailing = f" - {item.description}"
             elif item.notes:
                 trailing = f" ({item.notes})"
-            lines.append(f"* **[{public_material_title(item)}]({item.url}){{:target=\"_blank\"}}**{trailing}")
+            lines.append(f"* **[{public_material_title(item)}]({item.url}){BLANK_TARGET_ATTRIBUTES}**{trailing}")
             lines.append("")
     return "\n".join(lines).rstrip() + "\n"
 

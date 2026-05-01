@@ -5,7 +5,7 @@
 - `automation/naming.py`: infers slugs, course metadata, and material classification from Drive names.
 - `automation/data_io.py`: loads and writes normalized YAML.
 - `automation/rendering.py`: generates deterministic markdown for course pages and the teaching index.
-- `automation/validation.py`: checks schema presence, link validity, generated-file freshness, and internal references.
+- `automation/validation.py`: checks schema presence, link validity, generated-file freshness, internal references, and blank-target link hardening.
 - `automation/publish.py`: wraps local git plus `gh` PR creation for end-to-end local publishing.
 - `.github/workflows/teaching-validation.yml`: acts as the CI producer for validation, coverage artifacts, and PR agent context generation.
 - `.github/workflows/pr-agent-context-refresh.yml`: reruns PR context assembly on later review and check signals using append-mode refreshes and a scheduled fallback dispatcher for approval-gated refresh events.
@@ -17,6 +17,7 @@
 - Markdown under `teaching/` and the managed block in `teaching.md` are generated artifacts.
 - Material `title` preserves reviewed source identity; optional `public_title` controls rendered public link text.
 - Course `manual_overrides.materials_note` renders reviewed context before the public materials list.
+- Generated and authored Kramdown links that use `target="_blank"` must carry `rel="noopener noreferrer"` at render time; the site does not rely on runtime JavaScript to add it.
 - CI validates; it does not discover or sync from Drive.
 - `pr-agent-context` consumes CI coverage artifacts and GitHub PR state; it does not mutate repository files.
 - Scheduled `pr-agent-context` fallback dispatches are repo-owned GitHub Actions control flow only; they do not change repository contents.
