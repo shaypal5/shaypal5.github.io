@@ -11,6 +11,8 @@ from automation.link_check import (
     LinkCheckConfig,
     check_external_links,
     collect_external_links,
+    collect_rendered_external_links,
+    collect_source_external_links,
     load_allowlist,
 )
 
@@ -41,12 +43,29 @@ class LinkCheckTests(unittest.TestCase):
                 "courses:\n- syllabus_url: https://docs.example/course\n",
                 encoding="utf-8",
             )
-            links = collect_external_links(build_paths(root))
+            links = collect_source_external_links(build_paths(root))
         self.assertIn("https://example.com/page", links)
         self.assertIn("https://include.example/about", links)
         self.assertIn("https://talks.example/item", links)
         self.assertIn("https://docs.example/course", links)
         self.assertNotIn("https://ignored.example", links)
+
+    def test_collect_external_links_defaults_to_rendered_site(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            site_root = root / "_site"
+            site_root.mkdir()
+            (root / "index.md").write_text("[Source](https://source.example/page)", encoding="utf-8")
+            (site_root / "index.html").write_text(
+                '<a href="https://rendered.example/page">Rendered</a>',
+                encoding="utf-8",
+            )
+            paths = build_paths(root)
+            links = collect_external_links(paths)
+            rendered_links = collect_rendered_external_links(paths)
+        self.assertIn("https://rendered.example/page", links)
+        self.assertEqual(links, rendered_links)
+        self.assertNotIn("https://source.example/page", links)
 
     def test_allowlist_rule_matching_and_loading(self) -> None:
         self.assertTrue(AllowlistRule("domain", "example.com", "reason").matches("https://www.example.com/a"))
@@ -90,12 +109,19 @@ class LinkCheckTests(unittest.TestCase):
             )
             session = mock.Mock()
             session.head.side_effect = lambda url, **_: DummyResponse(404 if "broken" in url else 200)
+            session.get.side_effect = lambda url, **_: DummyResponse(404 if "broken" in url else 200)
             session.headers = {}
             session.close = mock.Mock()
             with mock.patch("automation.link_check.requests.Session", return_value=session):
                 summary = check_external_links(
                     build_paths(root),
-                    LinkCheckConfig(allowlist_path=allowlist, timeout_seconds=0.1, retries=0, max_workers=1),
+                    LinkCheckConfig(
+                        allowlist_path=allowlist,
+                        timeout_seconds=0.1,
+                        retries=0,
+                        max_workers=1,
+                        source="source",
+                    ),
                 )
         self.assertEqual(summary.checked, 2)
         self.assertEqual(summary.skipped, 1)
@@ -122,6 +148,32 @@ class LinkCheckTests(unittest.TestCase):
                         timeout_seconds=0.1,
                         retries=0,
                         max_workers=1,
+                        source="source",
+                    ),
+                )
+        self.assertEqual(summary.failures, [])
+        session.get.assert_called_once()
+
+    def test_check_external_links_retries_get_after_failed_head_status(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "data" / "teaching" / "materials").mkdir(parents=True)
+            (root / "teaching").mkdir()
+            (root / "index.md").write_text("[OK](https://ok.example/page)", encoding="utf-8")
+            session = mock.Mock()
+            session.head.return_value = DummyResponse(404)
+            session.get.return_value = DummyResponse(200)
+            session.headers = {}
+            session.close = mock.Mock()
+            with mock.patch("automation.link_check.requests.Session", return_value=session):
+                summary = check_external_links(
+                    build_paths(root),
+                    LinkCheckConfig(
+                        allowlist_path=root / "missing.yml",
+                        timeout_seconds=0.1,
+                        retries=0,
+                        max_workers=1,
+                        source="source",
                     ),
                 )
         self.assertEqual(summary.failures, [])

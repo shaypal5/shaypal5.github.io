@@ -1,0 +1,37 @@
+name: External Link Check
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 6 * * 1"
+
+jobs:
+  check-links:
+    name: "Check external links"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install automation dependencies
+        run: pip install .
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: false
+
+      - name: Build Jekyll site
+        run: |
+          mv Gemfile.lock Gemfile.lock.ci.bak
+          bundle install
+          bundle exec jekyll build
+
+      - name: Check rendered external links
+        run: python -m automation.cli courses check-links

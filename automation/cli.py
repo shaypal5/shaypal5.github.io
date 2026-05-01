@@ -95,15 +95,24 @@ def cmd_check_links(args: argparse.Namespace) -> int:
     allowlist_path = args.allowlist
     if not allowlist_path.is_absolute():
         allowlist_path = paths.repo_root / allowlist_path
-    summary = check_external_links(
-        paths,
-        LinkCheckConfig(
-            allowlist_path=allowlist_path,
-            timeout_seconds=args.timeout,
-            retries=args.retries,
-            max_workers=args.workers,
-        ),
-    )
+    site_root = args.site_root
+    if site_root is not None and not site_root.is_absolute():
+        site_root = paths.repo_root / site_root
+    try:
+        summary = check_external_links(
+            paths,
+            LinkCheckConfig(
+                allowlist_path=allowlist_path,
+                timeout_seconds=args.timeout,
+                retries=args.retries,
+                max_workers=args.workers,
+                source=args.source,
+                site_root=site_root,
+            ),
+        )
+    except (FileNotFoundError, ValueError) as exc:
+        print(str(exc), file=sys.stderr)
+        return 1
     payload = {
         "action": "check-links",
         "checked": summary.checked,
@@ -492,6 +501,8 @@ def build_parser() -> argparse.ArgumentParser:
     check_links.add_argument("--timeout", type=float, default=10.0)
     check_links.add_argument("--retries", type=int, default=1)
     check_links.add_argument("--workers", type=int, default=8)
+    check_links.add_argument("--source", choices=["rendered", "source"], default="rendered")
+    check_links.add_argument("--site-root", type=Path)
     check_links.set_defaults(handler=cmd_check_links)
 
     clean_preview = course_cmds.add_parser("clean-preview")

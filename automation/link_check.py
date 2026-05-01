@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
+from html.parser import HTMLParser
 from pathlib import Path
 import re
 from urllib.parse import urlparse
@@ -16,9 +17,11 @@ DEFAULT_ALLOWLIST_PATH = Path("automation/external_link_allowlist.yml")
 DEFAULT_TIMEOUT_SECONDS = 10.0
 DEFAULT_RETRIES = 1
 DEFAULT_MAX_WORKERS = 8
+DEFAULT_SOURCE = "rendered"
 SOFT_SUCCESS_STATUSES = {401, 403, 429}
 PUBLIC_ROOT_MARKDOWN_EXCLUDES = {"AGENTS.md", "README.md", "llms.txt", ".agent-plan.md"}
 TRAILING_URL_CHARS = ".,;:"
+LINK_ATTRS = {"href", "src"}
 
 MARKDOWN_URL_RE = re.compile(r"\]\((https?://[^)\s]+)")
 RAW_URL_RE = re.compile(r"https?://[^\s<>'\"\])}]+")
@@ -64,6 +67,8 @@ class LinkCheckConfig:
     timeout_seconds: float = DEFAULT_TIMEOUT_SECONDS
     retries: int = DEFAULT_RETRIES
     max_workers: int = DEFAULT_MAX_WORKERS
+    source: str = DEFAULT_SOURCE
+    site_root: Path | None = None
 
 
 @dataclass
@@ -74,7 +79,19 @@ class LinkCheckSummary:
     skipped_by_rule: dict[str, int]
 
 
-def _content_paths(paths: Paths) -> list[Path]:
+class LinkHTMLParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.urls: list[tuple[str, int]] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        line, _ = self.getpos()
+        for name, value in attrs:
+            if name in LINK_ATTRS and value:
+                self.urls.append((value, line))
+
+
+def _source_content_paths(paths: Paths) -> list[Path]:
     root_markdown = [
         path
         for path in paths.repo_root.glob("*.md")
@@ -87,6 +104,12 @@ def _content_paths(paths: Paths) -> list[Path]:
     return sorted({*root_markdown, *include_markdown, *teaching_markdown, *data_yaml, *teaching_yaml})
 
 
+def _rendered_content_paths(site_root: Path) -> list[Path]:
+    if not site_root.exists():
+        raise FileNotFoundError(f"Rendered site not found: {site_root}. Run the Jekyll build first.")
+    return sorted(site_root.rglob("*.html"))
+
+
 def _normalize_url(url: str) -> str:
     return url.rstrip(TRAILING_URL_CHARS)
 
@@ -97,19 +120,43 @@ def _extract_urls(line: str) -> set[str]:
     return urls
 
 
-def collect_external_links(paths: Paths) -> dict[str, ExternalLink]:
+def _record_url(links: dict[str, ExternalLink], url: str, path: Path, line_number: int) -> None:
+    url = _normalize_url(url)
+    parsed = urlparse(url)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        return
+    link = links.setdefault(url, ExternalLink(url=url))
+    link.occurrences.append(LinkOccurrence(path=path, line=line_number))
+
+
+def collect_source_external_links(paths: Paths) -> dict[str, ExternalLink]:
     links: dict[str, ExternalLink] = {}
-    for path in _content_paths(paths):
+    for path in _source_content_paths(paths):
         if not path.exists():
             continue
         for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
             for url in sorted(_extract_urls(line)):
-                parsed = urlparse(url)
-                if parsed.scheme not in {"http", "https"} or not parsed.netloc:
-                    continue
-                link = links.setdefault(url, ExternalLink(url=url))
-                link.occurrences.append(LinkOccurrence(path=path, line=line_number))
+                _record_url(links, url, path, line_number)
     return dict(sorted(links.items()))
+
+
+def collect_rendered_external_links(paths: Paths, site_root: Path | None = None) -> dict[str, ExternalLink]:
+    root = site_root or paths.repo_root / "_site"
+    links: dict[str, ExternalLink] = {}
+    for path in _rendered_content_paths(root):
+        parser = LinkHTMLParser()
+        parser.feed(path.read_text(encoding="utf-8"))
+        for url, line_number in parser.urls:
+            _record_url(links, url, path, line_number)
+    return dict(sorted(links.items()))
+
+
+def collect_external_links(paths: Paths, *, source: str = DEFAULT_SOURCE, site_root: Path | None = None) -> dict[str, ExternalLink]:
+    if source == "rendered":
+        return collect_rendered_external_links(paths, site_root=site_root)
+    if source == "source":
+        return collect_source_external_links(paths)
+    raise ValueError(f"Unsupported link source: {source}")
 
 
 def load_allowlist(path: Path) -> list[AllowlistRule]:
@@ -175,7 +222,7 @@ def _request_url(session: requests.Session, url: str, timeout_seconds: float) ->
     except requests.RequestException:
         response = session.get(url, allow_redirects=True, timeout=timeout_seconds, stream=True)
     else:
-        if response.status_code in {405, 501} or response.status_code >= 500:
+        if response.status_code >= 400 and response.status_code not in SOFT_SUCCESS_STATUSES:
             response.close()
             response = session.get(url, allow_redirects=True, timeout=timeout_seconds, stream=True)
     return response
@@ -207,7 +254,7 @@ def _check_url(url: str, link: ExternalLink, paths: Paths, config: LinkCheckConf
 
 
 def check_external_links(paths: Paths, config: LinkCheckConfig) -> LinkCheckSummary:
-    links = collect_external_links(paths)
+    links = collect_external_links(paths, source=config.source, site_root=config.site_root)
     rules = load_allowlist(config.allowlist_path)
     failures: list[str] = []
     skipped_by_rule: dict[str, int] = {}

@@ -48,9 +48,6 @@ jobs:
       - name: Run teaching validation
         run: python -m automation.cli courses validate
 
-      - name: Check external links
-        run: python -m automation.cli courses check-links
-
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:

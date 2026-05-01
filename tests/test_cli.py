@@ -111,6 +111,8 @@ class CliTests(unittest.TestCase):
                         timeout=0.1,
                         retries=0,
                         workers=1,
+                        source="rendered",
+                        site_root=None,
                     )
                 )
         self.assertEqual(result, 0)
@@ -144,6 +146,8 @@ class CliTests(unittest.TestCase):
                         timeout=0.1,
                         retries=0,
                         workers=1,
+                        source="rendered",
+                        site_root=None,
                     )
                 )
         self.assertEqual(result, 1)

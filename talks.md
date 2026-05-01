@@ -68,7 +68,7 @@ updated: April 2026
 </section>
 
 <section class="archive-entry" markdown="1">
-**[Text Embedding & Representation](https://docs.google.com/presentation/d/1tt42ltykxvo7suyckoyrstjt77k3t0uwmj32z7ddiea/edit?usp=sharing){:target="_blank"} @ Harmonya, 25/01/2023** - An overview of classic methods for word and document embedding in NLP, and the basic concepts of text representation in machine learning. [[Google Slides](https://docs.google.com/presentation/d/1Tt42LTyKxvo7SuyCkOYRsTJt77k3T0uwMJ32z7ddieA/edit?usp=sharing){:target="_blank"}]
+**[Text Embedding & Representation](https://docs.google.com/presentation/d/1Tt42LTyKxvo7SuyCkOYRsTJt77k3T0uwMJ32z7ddieA/edit?usp=sharing){:target="_blank"} @ Harmonya, 25/01/2023** - An overview of classic methods for word and document embedding in NLP, and the basic concepts of text representation in machine learning. [[Google Slides](https://docs.google.com/presentation/d/1Tt42LTyKxvo7SuyCkOYRsTJt77k3T0uwMJ32z7ddieA/edit?usp=sharing){:target="_blank"}]
 </section>
 
 <section class="archive-entry" markdown="1">
