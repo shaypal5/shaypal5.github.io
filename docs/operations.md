@@ -36,10 +36,10 @@ target and opener hardening:
 [Example](https://example.com){:target="_blank" rel="noopener noreferrer"}
 ```
 
-The teaching renderer emits those attributes for generated course links, and
-canonical public-page YAML should include them in Markdown snippets that use
-`target="_blank"`. Validation fails if public Markdown or canonical YAML adds a
-blank-target link without `rel="noopener noreferrer"`.
+The renderer emits those attributes for generated course links and hardens
+blank-target Kramdown links in generated public pages. Validation fails if
+authored or generated public Markdown adds a blank-target link without
+`rel="noopener noreferrer"`.
 
 ## Common Commands
 ```bash

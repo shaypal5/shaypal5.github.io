@@ -13,8 +13,8 @@ from automation.rendering import (
     _academic_period_sort_value,
     _render_lecture_item,
     _render_named_list_item,
-    BLANK_TARGET_ATTRIBUTES,
     file_diff_summary,
+    harden_blank_target_markdown,
     inject_managed_block,
     public_material_title,
     render_course_page,
@@ -146,7 +146,7 @@ class RenderValidateTests(unittest.TestCase):
                         "projects": [
                             {
                                 "anchor": "demo",
-                                "markdown": f"**[demo](https://example.com){BLANK_TARGET_ATTRIBUTES}** - Example.",
+                                "markdown": '**[demo](https://example.com){:target="_blank"}** - Example.',
                             }
                         ],
                     },
@@ -183,6 +183,11 @@ class RenderValidateTests(unittest.TestCase):
             rendered_html,
         )
         self.assertIn('<a href="#tools-2-2">Tools 2</a>', rendered_html)
+
+        self.assertEqual(
+            harden_blank_target_markdown('[demo](https://example.com){:target="_blank" rel="nofollow"}'),
+            '[demo](https://example.com){:target="_blank" rel="nofollow noopener noreferrer"}',
+        )
 
         course = courses[0]
         materials = materials_by_slug[course.slug] + [

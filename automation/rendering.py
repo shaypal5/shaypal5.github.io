@@ -28,6 +28,7 @@ PUBLIC_PAGE_TARGETS = {
     "projects": "code.md",
 }
 BLANK_TARGET_ATTRIBUTES = '{:target="_blank" rel="noopener noreferrer"}'
+BLANK_TARGET_ATTR_PATTERN = re.compile(r"\{:(?P<attrs>[^}\n]*target=[\"']_blank[\"'][^}\n]*)\}")
 
 MATERIAL_TITLE_SUFFIX_PATTERNS = (
     re.compile(r"\s+[-\u2013\u2014]\s+[^-\u2013\u2014]*@\s*[A-Z][A-Za-z. ]+\s*$"),
@@ -122,6 +123,23 @@ def public_material_title(material: Material) -> str:
     return title or source_title
 
 
+def harden_blank_target_markdown(markdown: str) -> str:
+    def replace(match: re.Match[str]) -> str:
+        attrs = match.group("attrs")
+        rel_match = re.search(r"rel=(?P<quote>[\"'])(?P<value>[^\"']*)(?P=quote)", attrs)
+        if rel_match:
+            rel_tokens = rel_match.group("value").split()
+            missing_tokens = [token for token in ("noopener", "noreferrer") if token not in rel_tokens]
+            if not missing_tokens:
+                return match.group(0)
+            quote = rel_match.group("quote")
+            hardened_rel = f"rel={quote}{' '.join([*rel_tokens, *missing_tokens])}{quote}"
+            return "{:" + attrs[: rel_match.start()] + hardened_rel + attrs[rel_match.end() :] + "}"
+        return "{:" + attrs.rstrip() + ' rel="noopener noreferrer"}'
+
+    return BLANK_TARGET_ATTR_PATTERN.sub(replace, markdown)
+
+
 def _iteration_label(course: Course) -> str:
     manual_label = str(course.manual_overrides.get("iteration_label", "") or "").strip()
     if manual_label:
@@ -197,7 +215,7 @@ def _render_lecture_item(item: Any) -> list[str]:
         label = f"{label} ({status})"
     lines = [f"* {label}"]
     if description:
-        lines.append(f"  {description}")
+        lines.append(f"  {harden_blank_target_markdown(description)}")
     return lines
 
 
@@ -224,7 +242,7 @@ def render_course_page(
     metadata = _render_course_metadata(course)
     if metadata:
         lines.extend([metadata, ""])
-    lines.extend([course.summary, ""])
+    lines.extend([harden_blank_target_markdown(course.summary), ""])
     if course.is_generalized and courses:
         iterations = []
         for item in sort_courses(courses):
@@ -243,9 +261,9 @@ def render_course_page(
             lines.extend(["TBA", ""])
     opening_paragraph = str(course.manual_overrides.get("opening_paragraph", "") or "").strip()
     if opening_paragraph:
-        lines.extend([opening_paragraph, ""])
+        lines.extend([harden_blank_target_markdown(opening_paragraph), ""])
     if course.hero_note:
-        lines.extend([course.hero_note, ""])
+        lines.extend([harden_blank_target_markdown(course.hero_note), ""])
     organizing_team = course.manual_overrides.get("organizing_team", []) or []
     if organizing_team:
         lines.extend(["## Organizing Team", ""])
@@ -260,7 +278,7 @@ def render_course_page(
     if lectures or lectures_note:
         lines.extend([lectures_heading, ""])
         if lectures_note:
-            lines.extend([lectures_note, ""])
+            lines.extend([harden_blank_target_markdown(lectures_note), ""])
         if lectures:
             for item in lectures:
                 lines.extend(_render_lecture_item(item))
@@ -274,10 +292,10 @@ def render_course_page(
         if course.syllabus_url:
             lines.extend([f"**[Course Syllabus]({course.syllabus_url}){BLANK_TARGET_ATTRIBUTES}**", ""])
         if syllabus_markdown:
-            lines.extend(syllabus_markdown.splitlines())
+            lines.extend(harden_blank_target_markdown(syllabus_markdown).splitlines())
             lines.append("")
         elif syllabus_note:
-            lines.extend([syllabus_note, ""])
+            lines.extend([harden_blank_target_markdown(syllabus_note), ""])
     grouped: dict[tuple[int | None, str], list[Material]] = defaultdict(list)
     for material in _public_materials(materials):
         grouped[(material.week, material.section or "Course Materials")].append(material)
@@ -288,7 +306,7 @@ def render_course_page(
     lines.extend([material_heading, ""])
     materials_note = str(course.manual_overrides.get("materials_note", "") or "").strip()
     if materials_note:
-        lines.extend([materials_note, ""])
+        lines.extend([harden_blank_target_markdown(materials_note), ""])
     if not grouped:
         lines.append("TBA")
         lines.append("")
@@ -369,6 +387,7 @@ def _render_archive_entry(item: dict) -> list[str]:
     lines = [f'<section class="archive-entry"{id_attribute} markdown="1">']
     markdown = str(item.get("markdown", "") or "").rstrip()
     if markdown:
+        markdown = harden_blank_target_markdown(markdown)
         lines.extend(markdown.splitlines())
     lines.append("</section>")
     return lines
@@ -426,7 +445,7 @@ def render_writing_page(page_data: dict) -> str:
     lines.append("</div>")
     lines.append("")
     for line in page_data.get("footer_markdown", []) or []:
-        lines.append(str(line))
+        lines.append(harden_blank_target_markdown(str(line)))
     return "\n".join(lines).rstrip() + "\n"
 
 
@@ -470,7 +489,7 @@ def render_projects_page(page_data: dict) -> str:
     lines.append("</div>")
     lines.append("")
     for line in page_data.get("footer_markdown", []) or []:
-        lines.append(str(line))
+        lines.append(harden_blank_target_markdown(str(line)))
     return "\n".join(lines).rstrip() + "\n"
 
 

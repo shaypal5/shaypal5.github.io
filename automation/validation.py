@@ -228,10 +228,6 @@ def validate_public_page_data(page: str, page_data: dict) -> list[str]:
             anchors.add(anchor)
         if not str(item.get("markdown", "") or "").strip():
             errors.append(f"data/{page}.yml: entry with anchor {anchor or '<none>'} is missing markdown.")
-        errors.extend(
-            error.replace(f"data/{page}.yml:1", f"data/{page}.yml: entry {anchor or '<none>'}")
-            for error in _blank_target_rel_errors(Path(f"data/{page}.yml"), str(item.get("markdown", "") or ""))
-        )
     for item in selected_items or []:
         anchor = str(item.get("anchor", "") or "").strip()
         title = str(item.get("title", "") or "").strip()
@@ -319,13 +315,7 @@ def validate_blank_target_rel(paths: Paths) -> list[str]:
     ]
     markdown_paths.extend(sorted((paths.repo_root / "_includes").glob("*.md")))
     markdown_paths.extend(sorted(paths.teaching_root.glob("*.md")))
-    data_paths = [
-        paths.repo_root / "data" / "talks.yml",
-        paths.repo_root / "data" / "writing.yml",
-        paths.repo_root / "data" / "projects.yml",
-    ]
-    data_paths.extend(sorted((paths.repo_root / "data" / "teaching").glob("**/*.yml")))
-    for path in sorted(set(markdown_paths + data_paths)):
+    for path in sorted(set(markdown_paths)):
         if not path.exists():
             continue
         errors.extend(_blank_target_rel_errors(path, path.read_text(encoding="utf-8")))
