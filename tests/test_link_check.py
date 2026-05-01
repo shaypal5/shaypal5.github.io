@@ -11,6 +11,7 @@ from automation.link_check import (
     LinkCheckConfig,
     LinkHTMLParser,
     check_external_links,
+    collect_rendered_external_link_result,
     collect_external_links,
     collect_rendered_external_links,
     collect_source_external_links,
@@ -135,7 +136,7 @@ class LinkCheckTests(unittest.TestCase):
                 "}"
                 "</script>"
                 '<script type="application/json">{"url": "https://ignored.example/script"}</script>'
-                '<script type="application/ld+json">https://ignored.example/not-json</script>',
+                '<script type="application/ld+json">{"name": "Not a URL"}</script>',
                 encoding="utf-8",
             )
             links = collect_rendered_external_links(build_paths(root))
@@ -174,6 +175,29 @@ class LinkCheckTests(unittest.TestCase):
         line, message = parser.json_ld_failures[0]
         self.assertEqual(line, 3)
         self.assertIn("malformed JSON-LD script could not be parsed", message)
+
+    def test_collect_rendered_external_link_result_reports_malformed_json_ld(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            site_root = root / "_site"
+            site_root.mkdir()
+            (site_root / "index.html").write_text(
+                "<html>\n"
+                "<body>\n"
+                '<script type="application/ld+json">\n'
+                '{"url": "https://broken.example/page",}\n'
+                "</script>\n"
+                "</body>\n"
+                "</html>",
+                encoding="utf-8",
+            )
+            result = collect_rendered_external_link_result(build_paths(root))
+        self.assertEqual(result.links, {})
+        self.assertEqual(len(result.failures), 1)
+        failure = result.failures[0]
+        self.assertEqual(failure.path, site_root / "index.html")
+        self.assertEqual(failure.line, 3)
+        self.assertIn("malformed JSON-LD script could not be parsed", failure.message)
 
     def test_check_external_links_fails_malformed_rendered_json_ld(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

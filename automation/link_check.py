@@ -249,11 +249,7 @@ def collect_source_external_links(paths: Paths) -> dict[str, ExternalLink]:
     return dict(sorted(links.items()))
 
 
-def collect_rendered_external_links(paths: Paths, site_root: Path | None = None) -> dict[str, ExternalLink]:
-    return _collect_rendered_external_links(paths, site_root=site_root).links
-
-
-def _collect_rendered_external_links(paths: Paths, site_root: Path | None = None) -> LinkCollectionResult:
+def collect_rendered_external_link_result(paths: Paths, site_root: Path | None = None) -> LinkCollectionResult:
     root = site_root or paths.repo_root / "_site"
     links: dict[str, ExternalLink] = {}
     failures: list[LinkCollectionFailure] = []
@@ -268,16 +264,20 @@ def _collect_rendered_external_links(paths: Paths, site_root: Path | None = None
     return LinkCollectionResult(links=dict(sorted(links.items())), failures=failures)
 
 
-def _collect_external_links(paths: Paths, *, source: str = DEFAULT_SOURCE, site_root: Path | None = None) -> LinkCollectionResult:
+def collect_rendered_external_links(paths: Paths, site_root: Path | None = None) -> dict[str, ExternalLink]:
+    return collect_rendered_external_link_result(paths, site_root=site_root).links
+
+
+def collect_external_link_result(paths: Paths, *, source: str = DEFAULT_SOURCE, site_root: Path | None = None) -> LinkCollectionResult:
     if source == "rendered":
-        return _collect_rendered_external_links(paths, site_root=site_root)
+        return collect_rendered_external_link_result(paths, site_root=site_root)
     if source == "source":
         return LinkCollectionResult(links=collect_source_external_links(paths))
     raise ValueError(f"Unsupported link source: {source}")
 
 
 def collect_external_links(paths: Paths, *, source: str = DEFAULT_SOURCE, site_root: Path | None = None) -> dict[str, ExternalLink]:
-    return _collect_external_links(paths, source=source, site_root=site_root).links
+    return collect_external_link_result(paths, source=source, site_root=site_root).links
 
 
 def load_allowlist(path: Path) -> list[AllowlistRule]:
@@ -383,7 +383,7 @@ def _check_url(url: str, link: ExternalLink, paths: Paths, config: LinkCheckConf
 
 
 def check_external_links(paths: Paths, config: LinkCheckConfig) -> LinkCheckSummary:
-    collection = _collect_external_links(paths, source=config.source, site_root=config.site_root)
+    collection = collect_external_link_result(paths, source=config.source, site_root=config.site_root)
     links = collection.links
     rules = load_allowlist(config.allowlist_path)
     failures = [_collection_failure_message(failure, paths.repo_root) for failure in collection.failures]
