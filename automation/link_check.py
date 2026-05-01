@@ -114,16 +114,45 @@ def _normalize_url(url: str) -> str:
     return url.rstrip(TRAILING_URL_CHARS)
 
 
+def _site_hosts(paths: Paths) -> set[str]:
+    config_path = paths.repo_root / "_config.yml"
+    if not config_path.exists():
+        return set()
+    payload = yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
+    if not isinstance(payload, dict):
+        return set()
+    hosts: set[str] = set()
+    for key in ("url",):
+        parsed = urlparse(str(payload.get(key, "")).strip())
+        if parsed.hostname:
+            hosts.add(parsed.hostname.lower())
+    return hosts
+
+
+def _is_internal_site_url(url: str, site_hosts: set[str]) -> bool:
+    parsed = urlparse(url)
+    host = (parsed.hostname or "").lower()
+    return bool(host and host in site_hosts)
+
+
 def _extract_urls(line: str) -> set[str]:
     urls = {_normalize_url(match) for match in MARKDOWN_URL_RE.findall(line)}
     urls.update(_normalize_url(match) for match in RAW_URL_RE.findall(line))
     return urls
 
 
-def _record_url(links: dict[str, ExternalLink], url: str, path: Path, line_number: int) -> None:
+def _record_url(
+    links: dict[str, ExternalLink],
+    url: str,
+    path: Path,
+    line_number: int,
+    site_hosts: set[str],
+) -> None:
     url = _normalize_url(url)
     parsed = urlparse(url)
     if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        return
+    if _is_internal_site_url(url, site_hosts):
         return
     link = links.setdefault(url, ExternalLink(url=url))
     link.occurrences.append(LinkOccurrence(path=path, line=line_number))
@@ -131,23 +160,25 @@ def _record_url(links: dict[str, ExternalLink], url: str, path: Path, line_numbe
 
 def collect_source_external_links(paths: Paths) -> dict[str, ExternalLink]:
     links: dict[str, ExternalLink] = {}
+    site_hosts = _site_hosts(paths)
     for path in _source_content_paths(paths):
         if not path.exists():
             continue
         for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
             for url in sorted(_extract_urls(line)):
-                _record_url(links, url, path, line_number)
+                _record_url(links, url, path, line_number, site_hosts)
     return dict(sorted(links.items()))
 
 
 def collect_rendered_external_links(paths: Paths, site_root: Path | None = None) -> dict[str, ExternalLink]:
     root = site_root or paths.repo_root / "_site"
     links: dict[str, ExternalLink] = {}
+    site_hosts = _site_hosts(paths)
     for path in _rendered_content_paths(root):
         parser = LinkHTMLParser()
         parser.feed(path.read_text(encoding="utf-8"))
         for url, line_number in parser.urls:
-            _record_url(links, url, path, line_number)
+            _record_url(links, url, path, line_number, site_hosts)
     return dict(sorted(links.items()))
 
 
