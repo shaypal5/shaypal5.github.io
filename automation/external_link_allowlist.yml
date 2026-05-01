@@ -1,0 +1,64 @@
+allowlist:
+  - match: domain
+    value: docs.google.com
+    reason: Public Google document links often return auth or bot-protection responses in headless CI.
+  - match: domain
+    value: drive.google.com
+    reason: Public Google Drive files often return auth or bot-protection responses in headless CI.
+  - match: domain
+    value: dropbox.com
+    reason: Legacy Dropbox-hosted PDFs are intentionally kept but can throttle automated requests.
+  - match: domain
+    value: dl.dropboxusercontent.com
+    reason: Legacy Dropbox-hosted PDFs are intentionally kept but can throttle automated requests.
+  - match: domain
+    value: meetup.com
+    reason: Meetup event pages frequently block or redirect automated CI probes.
+  - match: domain
+    value: medium.com
+    reason: Medium friend links can return bot-protection responses in CI.
+  - match: domain
+    value: towardsdatascience.com
+    reason: Medium publication pages can return bot-protection responses in CI.
+  - match: domain
+    value: youtube.com
+    reason: YouTube often returns bot-protection or consent responses to automated probes.
+  - match: domain
+    value: youtu.be
+    reason: YouTube short links often return bot-protection or consent responses to automated probes.
+  - match: domain
+    value: linkedin.com
+    reason: LinkedIn returns non-standard bot-protection responses to automated CI probes.
+  - match: domain
+    value: aidatasummit.com
+    reason: Archived conference pages are retained for historical talk records but are no longer reliably online.
+  - match: domain
+    value: datahack-il.com
+    reason: Archived DataHack event microsites are retained for historical talk records but no longer resolve reliably.
+  - match: domain
+    value: odsl.github.io
+    reason: Archived project talk links are retained for historical context even when the old site is gone.
+  - match: domain
+    value: pmsphere.com
+    reason: Archived course-provider links are retained for historical talk records but no longer resolve reliably.
+  - match: domain
+    value: teldan.com
+    reason: Archived conference pages are retained for historical talk records but are no longer reliably online.
+  - match: domain
+    value: transdisciplinary-innovation.com
+    reason: Archived conference pages are retained for historical talk records but no longer resolve reliably.
+  - match: domain
+    value: xing-events.com
+    reason: Archived conference pages are retained for historical talk records but no longer resolve reliably.
+  - match: exact
+    value: http://law.haifa.ac.il/images/eventDocs/hofeshPROG.jpg
+    reason: Historical event-program image for an archived talk record no longer resolves reliably.
+  - match: exact
+    value: https://www.datahack.org.il/datalearn
+    reason: Historical DataLearn program page is retained for talk context but no longer resolves reliably.
+  - match: prefix
+    value: https://www.kaggle.com/c/ashrae-energy-prediction
+    reason: Legacy Kaggle competition URL redirects inconsistently for automated CI probes.
+  - match: prefix
+    value: https://www.kaggle.com/competitions/feedback-prize-effectiveness
+    reason: Legacy Kaggle competition URL redirects inconsistently for automated CI probes.

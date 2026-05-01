@@ -5,6 +5,7 @@ import json
 import subprocess
 import sys
 from dataclasses import replace
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 from automation.config import (
@@ -20,6 +21,7 @@ from automation.course_family_content import (
     apply_generalized_course_content,
 )
 from automation.data_io import load_courses, load_materials
+from automation.link_check import DEFAULT_ALLOWLIST_PATH, LinkCheckConfig, check_external_links
 from automation.naming import (
     COURSE_SUFFIX,
     classify_material_exclusion,
@@ -85,6 +87,37 @@ def cmd_validate(_: argparse.Namespace) -> int:
             print(error, file=sys.stderr)
         return 1
     _print_json({"action": "validate", "status": "ok"})
+    return 0
+
+
+def cmd_check_links(args: argparse.Namespace) -> int:
+    paths = build_paths()
+    allowlist_path = args.allowlist
+    if not allowlist_path.is_absolute():
+        allowlist_path = paths.repo_root / allowlist_path
+    summary = check_external_links(
+        paths,
+        LinkCheckConfig(
+            allowlist_path=allowlist_path,
+            timeout_seconds=args.timeout,
+            retries=args.retries,
+            max_workers=args.workers,
+        ),
+    )
+    payload = {
+        "action": "check-links",
+        "checked": summary.checked,
+        "skipped": summary.skipped,
+        "skipped_by_rule": summary.skipped_by_rule,
+        "status": "ok" if not summary.failures else "failed",
+    }
+    if summary.failures:
+        for failure in summary.failures:
+            print(failure, file=sys.stderr)
+        payload["failures"] = len(summary.failures)
+        _print_json(payload)
+        return 1
+    _print_json(payload)
     return 0
 
 
@@ -453,6 +486,13 @@ def build_parser() -> argparse.ArgumentParser:
 
     validate = course_cmds.add_parser("validate")
     validate.set_defaults(handler=cmd_validate)
+
+    check_links = course_cmds.add_parser("check-links")
+    check_links.add_argument("--allowlist", type=Path, default=DEFAULT_ALLOWLIST_PATH)
+    check_links.add_argument("--timeout", type=float, default=10.0)
+    check_links.add_argument("--retries", type=int, default=1)
+    check_links.add_argument("--workers", type=int, default=8)
+    check_links.set_defaults(handler=cmd_check_links)
 
     clean_preview = course_cmds.add_parser("clean-preview")
     clean_preview.set_defaults(handler=cmd_clean_preview)

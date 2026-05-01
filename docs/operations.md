@@ -33,10 +33,24 @@ Redirects use the GitHub Pages-supported `jekyll-redirect-from` plugin. See
 python -m automation.cli courses plan
 python -m automation.cli courses render
 python -m automation.cli courses validate
+python -m automation.cli courses check-links
 python -m automation.cli courses backfill --dry-run
 python -m automation.cli courses backfill --publish-pr
 RBENV_VERSION=3.3.0 bundle exec jekyll build
 ```
+
+## External Link Checks
+`courses check-links` scans public Markdown pages, generated teaching pages, public-page YAML data, and teaching YAML data for `http` and `https` links. It de-duplicates URLs before checking them and reports the first source location for each failure.
+
+```bash
+python -m automation.cli courses check-links
+```
+
+The checker uses `automation/external_link_allowlist.yml` by default. Add a rule there when a domain or URL is intentionally excluded from automated checks, for example because the provider blocks CI, rate-limits headless probes, or requires auth while the public link remains intentionally published. Supported `match` values are `domain`, `prefix`, `exact`, and `regex`; every entry must include a `reason`.
+
+The checker treats HTTP `401`, `403`, and `429` as soft successes because those responses usually mean the URL exists but the remote service requires auth or throttled the CI probe. Other `4xx` responses fail the command. Use `--timeout`, `--retries`, `--workers`, and `--allowlist` to tune CI or one-off local runs.
+
+`CI` runs the default command on pushes and pull requests. If CI fails on an external link, first decide whether the link should be fixed in the canonical content data or whether the remote service is intentionally excluded from automated probing. Only update the allowlist for the second case, and keep the reason specific enough for later cleanup.
 
 ## PR Agent Context
 - `CI` uploads raw `.coverage*` data, combines it into `coverage.xml`, and publishes both artifact outputs for downstream PR context analysis.
