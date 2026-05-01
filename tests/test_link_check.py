@@ -11,6 +11,7 @@ from automation.link_check import (
     LinkCheckConfig,
     LinkHTMLParser,
     check_external_links,
+    collect_rendered_external_link_result,
     collect_external_links,
     collect_rendered_external_links,
     collect_source_external_links,
@@ -135,7 +136,7 @@ class LinkCheckTests(unittest.TestCase):
                 "}"
                 "</script>"
                 '<script type="application/json">{"url": "https://ignored.example/script"}</script>'
-                '<script type="application/ld+json">https://ignored.example/not-json</script>',
+                '<script type="application/ld+json">{"name": "Not a URL"}</script>',
                 encoding="utf-8",
             )
             links = collect_rendered_external_links(build_paths(root))
@@ -157,6 +158,121 @@ class LinkCheckTests(unittest.TestCase):
             sorted(url for url, _ in parser.urls),
             ["https://profile.example/user", "https://split.example/page"],
         )
+
+    def test_json_ld_parser_reports_malformed_script_start_line(self) -> None:
+        parser = LinkHTMLParser()
+        parser.feed(
+            "<html>\n"
+            "<body>\n"
+            '<script type="application/ld+json">\n'
+            '{"url": "https://broken.example/page",}\n'
+            "</script>\n"
+            "</body>\n"
+            "</html>"
+        )
+        self.assertEqual(parser.urls, [])
+        self.assertEqual(len(parser.json_ld_failures), 1)
+        line, message = parser.json_ld_failures[0]
+        self.assertEqual(line, 3)
+        self.assertIn("malformed JSON-LD script could not be parsed", message)
+
+    def test_collect_rendered_external_link_result_reports_malformed_json_ld(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            site_root = root / "_site"
+            site_root.mkdir()
+            (site_root / "index.html").write_text(
+                "<html>\n"
+                "<body>\n"
+                '<script type="application/ld+json">\n'
+                '{"url": "https://broken.example/page",}\n'
+                "</script>\n"
+                "</body>\n"
+                "</html>",
+                encoding="utf-8",
+            )
+            result = collect_rendered_external_link_result(build_paths(root))
+        self.assertEqual(result.links, {})
+        self.assertEqual(len(result.failures), 1)
+        failure = result.failures[0]
+        self.assertEqual(failure.path, site_root / "index.html")
+        self.assertEqual(failure.line, 3)
+        self.assertIn("malformed JSON-LD script could not be parsed", failure.message)
+
+    def test_collect_rendered_external_link_result_reports_unterminated_json_ld(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            site_root = root / "_site"
+            site_root.mkdir()
+            (site_root / "index.html").write_text(
+                "<html>\n"
+                "<body>\n"
+                '<script type="application/ld+json">\n'
+                '{"url": "https://broken.example/page"}\n',
+                encoding="utf-8",
+            )
+            result = collect_rendered_external_link_result(build_paths(root))
+        self.assertEqual(result.links, {})
+        self.assertEqual(len(result.failures), 1)
+        failure = result.failures[0]
+        self.assertEqual(failure.path, site_root / "index.html")
+        self.assertEqual(failure.line, 3)
+        self.assertEqual(failure.message, "unterminated JSON-LD script tag")
+
+    def test_check_external_links_fails_malformed_rendered_json_ld(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            site_root = root / "_site"
+            site_root.mkdir()
+            (site_root / "index.html").write_text(
+                "<html>\n"
+                "<body>\n"
+                '<script type="application/ld+json">\n'
+                '{"url": "https://broken.example/page",}\n'
+                "</script>\n"
+                "</body>\n"
+                "</html>",
+                encoding="utf-8",
+            )
+            session = mock.Mock()
+            session.headers = {}
+            session.close = mock.Mock()
+            with mock.patch("automation.link_check.requests.Session", return_value=session):
+                summary = check_external_links(
+                    build_paths(root),
+                    LinkCheckConfig(
+                        allowlist_path=root / "missing.yml",
+                        timeout_seconds=0.1,
+                        retries=0,
+                        max_workers=1,
+                    ),
+                )
+        self.assertEqual(summary.checked, 0)
+        self.assertEqual(len(summary.failures), 1)
+        self.assertIn("_site/index.html:3: malformed JSON-LD script could not be parsed", summary.failures[0])
+        session.head.assert_not_called()
+
+    def test_check_external_links_reports_collection_failure_outside_repo_root(self) -> None:
+        with tempfile.TemporaryDirectory() as repo_tmp, tempfile.TemporaryDirectory() as site_tmp:
+            root = Path(repo_tmp)
+            site_root = Path(site_tmp)
+            (site_root / "index.html").write_text(
+                '<script type="application/ld+json">{"url": "https://broken.example/page",}</script>',
+                encoding="utf-8",
+            )
+            summary = check_external_links(
+                build_paths(root),
+                LinkCheckConfig(
+                    allowlist_path=root / "missing.yml",
+                    timeout_seconds=0.1,
+                    retries=0,
+                    max_workers=1,
+                    site_root=site_root,
+                ),
+            )
+        self.assertEqual(summary.checked, 0)
+        self.assertEqual(len(summary.failures), 1)
+        self.assertIn(f"{site_root / 'index.html'}:1: malformed JSON-LD script could not be parsed", summary.failures[0])
 
     def test_allowlist_rule_matching_and_loading(self) -> None:
         self.assertTrue(AllowlistRule("domain", "example.com", "reason").matches("https://www.example.com/a"))

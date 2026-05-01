@@ -44,6 +44,19 @@ class ExternalLink:
 
 
 @dataclass(frozen=True)
+class LinkCollectionFailure:
+    path: Path
+    line: int
+    message: str
+
+
+@dataclass
+class LinkCollectionResult:
+    links: dict[str, ExternalLink]
+    failures: list[LinkCollectionFailure] = field(default_factory=list)
+
+
+@dataclass(frozen=True)
 class AllowlistRule:
     match: str
     value: str
@@ -87,6 +100,7 @@ class LinkHTMLParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.urls: list[tuple[str, int]] = []
+        self.json_ld_failures: list[tuple[int, str]] = []
         self._script_type: str | None = None
         self._script_line: int | None = None
         self._script_data: list[str] = []
@@ -124,12 +138,32 @@ class LinkHTMLParser(HTMLParser):
             return
         self._script_data.append(data)
 
+    def close(self) -> None:
+        super().close()
+        if self._script_type == JSON_LD_SCRIPT_TYPE:
+            self.json_ld_failures.append(
+                (
+                    self._script_line or 1,
+                    "unterminated JSON-LD script tag",
+                )
+            )
+        self._script_type = None
+        self._script_line = None
+        self._script_data = []
+
     def _extract_json_ld_urls(self, data: str) -> None:
+        line = self._script_line or 1
         try:
             payload = json.loads(data)
-        except json.JSONDecodeError:
+        except json.JSONDecodeError as exc:
+            self.json_ld_failures.append(
+                (
+                    line,
+                    "malformed JSON-LD script could not be parsed: "
+                    f"{exc.msg} at JSON line {exc.lineno} column {exc.colno}",
+                )
+            )
             return
-        line = self._script_line or 1
         for url in _json_string_urls(payload):
             self.urls.append((url, line))
 
@@ -228,24 +262,36 @@ def collect_source_external_links(paths: Paths) -> dict[str, ExternalLink]:
     return dict(sorted(links.items()))
 
 
-def collect_rendered_external_links(paths: Paths, site_root: Path | None = None) -> dict[str, ExternalLink]:
+def collect_rendered_external_link_result(paths: Paths, site_root: Path | None = None) -> LinkCollectionResult:
     root = site_root or paths.repo_root / "_site"
     links: dict[str, ExternalLink] = {}
+    failures: list[LinkCollectionFailure] = []
     site_hosts = _site_hosts(paths)
     for path in _rendered_content_paths(root):
         parser = LinkHTMLParser()
         parser.feed(path.read_text(encoding="utf-8"))
+        parser.close()
         for url, line_number in parser.urls:
             _record_url(links, url, path, line_number, site_hosts)
-    return dict(sorted(links.items()))
+        for line_number, message in parser.json_ld_failures:
+            failures.append(LinkCollectionFailure(path=path, line=line_number, message=message))
+    return LinkCollectionResult(links=dict(sorted(links.items())), failures=failures)
+
+
+def collect_rendered_external_links(paths: Paths, site_root: Path | None = None) -> dict[str, ExternalLink]:
+    return collect_rendered_external_link_result(paths, site_root=site_root).links
+
+
+def collect_external_link_result(paths: Paths, *, source: str = DEFAULT_SOURCE, site_root: Path | None = None) -> LinkCollectionResult:
+    if source == "rendered":
+        return collect_rendered_external_link_result(paths, site_root=site_root)
+    if source == "source":
+        return LinkCollectionResult(links=collect_source_external_links(paths))
+    raise ValueError(f"Unsupported link source: {source}")
 
 
 def collect_external_links(paths: Paths, *, source: str = DEFAULT_SOURCE, site_root: Path | None = None) -> dict[str, ExternalLink]:
-    if source == "rendered":
-        return collect_rendered_external_links(paths, site_root=site_root)
-    if source == "source":
-        return collect_source_external_links(paths)
-    raise ValueError(f"Unsupported link source: {source}")
+    return collect_external_link_result(paths, source=source, site_root=site_root).links
 
 
 def load_allowlist(path: Path) -> list[AllowlistRule]:
@@ -292,6 +338,14 @@ def _first_location(link: ExternalLink, repo_root: Path) -> str:
         display_path = occurrence.path
     suffix = "" if len(link.occurrences) == 1 else f" (+{len(link.occurrences) - 1} more)"
     return f"{display_path}:{occurrence.line}{suffix}"
+
+
+def _collection_failure_message(failure: LinkCollectionFailure, repo_root: Path) -> str:
+    try:
+        display_path = failure.path.relative_to(repo_root)
+    except ValueError:
+        display_path = failure.path
+    return f"{display_path}:{failure.line}: {failure.message}"
 
 
 def _session() -> requests.Session:
@@ -343,9 +397,10 @@ def _check_url(url: str, link: ExternalLink, paths: Paths, config: LinkCheckConf
 
 
 def check_external_links(paths: Paths, config: LinkCheckConfig) -> LinkCheckSummary:
-    links = collect_external_links(paths, source=config.source, site_root=config.site_root)
+    collection = collect_external_link_result(paths, source=config.source, site_root=config.site_root)
+    links = collection.links
     rules = load_allowlist(config.allowlist_path)
-    failures: list[str] = []
+    failures = [_collection_failure_message(failure, paths.repo_root) for failure in collection.failures]
     skipped_by_rule: dict[str, int] = {}
     checked = 0
     skipped = 0
