@@ -51,3 +51,18 @@ redirect_from:
 ```
 
 Prefer `.html` aliases for existing top-level pages because the current public URLs use that form in navigation. Add slash-form aliases only if that slash URL was also public or externally shared.
+
+## Generated Teaching Pages
+
+`teaching/*.md` pages are generated from `data/teaching/courses.yml`. For a renamed course slug, add aliases to the course entry:
+
+```yaml
+courses:
+  - slug: deep-learning
+    title: Deep Learning @ TAU
+    redirect_from:
+      - /teaching/deep-learning-legacy
+      - /teaching/deep-learning-legacy.html
+```
+
+Do not add aliases that point at an existing public page. Validation rejects duplicate aliases and aliases that collide with live generated URLs.

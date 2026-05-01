@@ -23,6 +23,12 @@ Optional fields:
 - `course_family`
 - `section`
 - `is_generalized`
+- `redirect_from`
+
+`redirect_from` stores old public paths for renamed generated course pages. Use
+absolute site paths such as `/teaching/old-slug` or `/teaching/old-slug.html`.
+Validation rejects duplicate aliases and aliases that collide with current
+public URLs.
 
 ### Course Manual Overrides
 `manual_overrides` contains reviewed presentation controls that should stay with

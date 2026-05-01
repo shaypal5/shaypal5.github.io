@@ -31,6 +31,14 @@ REQUIRED_MATERIAL_FIELDS = [
 ]
 
 
+def _string_list(value: object) -> list[str]:
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, list):
+        return value
+    return []
+
+
 @dataclass
 class Material:
     title: str
@@ -124,6 +132,7 @@ class Course:
     course_family: str = ""
     section: str = ""
     is_generalized: bool = False
+    redirect_from: list[str] = field(default_factory=list)
 
     @classmethod
     def from_dict(cls, payload: dict) -> "Course":
@@ -147,10 +156,11 @@ class Course:
             course_family=payload.get("course_family", "") or "",
             section=payload.get("section", "") or "",
             is_generalized=bool(payload.get("is_generalized", False)),
+            redirect_from=_string_list(payload.get("redirect_from", []) or []),
         )
 
     def to_dict(self) -> dict:
-        return {
+        payload = {
             "slug": self.slug,
             "title": self.title,
             "subtitle": self.subtitle,
@@ -171,3 +181,6 @@ class Course:
             "section": self.section,
             "is_generalized": self.is_generalized,
         }
+        if self.redirect_from:
+            payload["redirect_from"] = self.redirect_from
+        return payload

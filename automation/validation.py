@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import defaultdict
 from pathlib import Path
 import re
 from urllib.parse import urlparse
@@ -26,6 +27,7 @@ SUPPORTED_HOSTS = {
 }
 ALLOW_EMPTY_REQUIRED_FIELDS = {"notes"}
 ALLOW_NULL_REQUIRED_FIELDS = {"week"}
+PUBLIC_ROOT_MARKDOWN_EXCLUDES = {"AGENTS.md", "README.md", "llms.txt", ".agent-plan.md"}
 
 
 SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -62,6 +64,53 @@ def _supported_google_pattern(url: str) -> bool:
     return True
 
 
+def _normalize_redirect_values(owner: str, redirect_from: object) -> tuple[list[str], list[str]]:
+    errors: list[str] = []
+    if not redirect_from:
+        return [], []
+    if isinstance(redirect_from, str):
+        redirect_paths = [redirect_from]
+    elif isinstance(redirect_from, list):
+        redirect_paths = redirect_from
+    else:
+        return [], [f"{owner}: redirect_from must be a string or list."]
+    normalized = []
+    for redirect_path in redirect_paths:
+        if not isinstance(redirect_path, str) or not redirect_path.startswith("/"):
+            errors.append(f"{owner}: redirect_from path must start with '/': {redirect_path}")
+            continue
+        normalized.append(redirect_path)
+    return normalized, errors
+
+
+def _public_markdown_urls(paths: Paths) -> set[str]:
+    urls: set[str] = set()
+    for path in paths.repo_root.glob("*.md"):
+        if path.name in PUBLIC_ROOT_MARKDOWN_EXCLUDES:
+            continue
+        stem = path.stem
+        if stem == "index":
+            urls.update({"/", "/index.html"})
+            continue
+        urls.add(f"/{stem}.html")
+    return urls
+
+
+def _teaching_page_urls(course: Course) -> set[str]:
+    return {f"/teaching/{course.slug}", f"/teaching/{course.slug}.html"}
+
+
+def _course_redirects(course: Course) -> tuple[list[str], list[str]]:
+    return _normalize_redirect_values(f"{course.slug}: redirect_from", course.redirect_from)
+
+
+def _public_page_redirects(page: str, page_data: dict) -> tuple[list[str], list[str]]:
+    front_matter = page_data.get("front_matter", {})
+    if not isinstance(front_matter, dict):
+        return [], []
+    return _normalize_redirect_values(f"data/{page}.yml: front_matter.redirect_from", front_matter.get("redirect_from", []))
+
+
 def validate_courses(courses: list[Course]) -> list[str]:
     errors: list[str] = []
     seen: set[str] = set()
@@ -81,6 +130,8 @@ def validate_courses(courses: list[Course]) -> list[str]:
             errors.append(f"{course.slug}: only public courses are supported in the published registry.")
         if course.syllabus_url and not _valid_url(course.syllabus_url):
             errors.append(f"{course.slug}: invalid syllabus_url {course.syllabus_url}")
+        _, redirect_errors = _course_redirects(course)
+        errors.extend(redirect_errors)
     return errors
 
 
@@ -155,18 +206,8 @@ def validate_public_page_data(page: str, page_data: dict) -> list[str]:
     if not isinstance(front_matter, dict):
         errors.append(f"data/{page}.yml: front_matter must be a mapping.")
     else:
-        redirect_from = front_matter.get("redirect_from", [])
-        if redirect_from:
-            if isinstance(redirect_from, str):
-                redirect_paths = [redirect_from]
-            elif isinstance(redirect_from, list):
-                redirect_paths = redirect_from
-            else:
-                errors.append(f"data/{page}.yml: front_matter.redirect_from must be a string or list.")
-                redirect_paths = []
-            for redirect_path in redirect_paths:
-                if not isinstance(redirect_path, str) or not redirect_path.startswith("/"):
-                    errors.append(f"data/{page}.yml: redirect_from path must start with '/': {redirect_path}")
+        _, redirect_errors = _public_page_redirects(page, page_data)
+        errors.extend(redirect_errors)
     selected = page_data.get("selected", {}) or {}
     selected_items = selected.get("items", []) if isinstance(selected, dict) else []
     anchors: set[str] = set()
@@ -193,6 +234,41 @@ def validate_public_page_data(page: str, page_data: dict) -> list[str]:
             errors.append(f"data/{page}.yml: selected item {title or '<untitled>'} is missing an anchor.")
         elif anchor not in anchors:
             errors.append(f"data/{page}.yml: selected item {title or anchor} points to missing anchor {anchor}.")
+    return errors
+
+
+def validate_redirects(paths: Paths, courses: list[Course]) -> list[str]:
+    errors: list[str] = []
+    live_urls = _public_markdown_urls(paths)
+    for course in courses:
+        if should_render_course_page(course, load_materials(paths, course.slug)):
+            live_urls.update(_teaching_page_urls(course))
+
+    redirect_owners: dict[str, list[str]] = defaultdict(list)
+    for course in courses:
+        redirects, redirect_errors = _course_redirects(course)
+        errors.extend(redirect_errors)
+        target_urls = _teaching_page_urls(course)
+        for redirect_path in redirects:
+            redirect_owners[redirect_path].append(f"course {course.slug}")
+            if redirect_path in target_urls:
+                errors.append(f"{course.slug}: redirect_from must not point to its own URL: {redirect_path}")
+
+    for page, target_name in PUBLIC_PAGE_TARGETS.items():
+        page_data = load_public_page_data(paths, page)
+        redirects, redirect_errors = _public_page_redirects(page, page_data)
+        errors.extend(redirect_errors)
+        target_url = f"/{Path(target_name).with_suffix('.html').name}"
+        for redirect_path in redirects:
+            redirect_owners[redirect_path].append(f"data/{page}.yml")
+            if redirect_path == target_url:
+                errors.append(f"data/{page}.yml: redirect_from must not point to its own URL: {redirect_path}")
+
+    for redirect_path, owners in sorted(redirect_owners.items()):
+        if len(owners) > 1:
+            errors.append(f"Duplicate redirect_from path {redirect_path}: {', '.join(owners)}")
+        if redirect_path in live_urls:
+            errors.append(f"redirect_from path points to an existing public URL: {redirect_path}")
     return errors
 
 
@@ -223,4 +299,5 @@ def validate_repository(paths: Paths) -> list[str]:
     errors.extend(validate_generated_files(paths, courses, materials_by_slug))
     errors.extend(validate_internal_links(paths, courses))
     errors.extend(validate_public_pages(paths))
+    errors.extend(validate_redirects(paths, courses))
     return errors
