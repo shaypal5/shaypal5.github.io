@@ -55,10 +55,6 @@ author:
   linkedin: shaypalachy  # eg. "pub/dean-attali/8/946/143"
   twitter: shaypal5   # eg. daattalis
   # facebook: yourname  # eg. daattali
-  same_as:
-    - "https://github.com/shaypal5"
-    - "https://www.linkedin.com/in/shaypalachy/"
-    - "https://twitter.com/shaypal5"
 
 # Select which links to show in the footer
 footer-links-active:

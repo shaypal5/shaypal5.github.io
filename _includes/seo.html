@@ -1,6 +1,15 @@
 {% assign seo_title = page.title | default: site.title %}
 {% assign meta_description = page.description | default: page.subtitle | default: site.description %}
-{% assign canonical_url = page.canonical_url | default: page.url | absolute_url %}
+{% assign canonical_path = page.canonical_url | default: page.url %}
+{% if canonical_path contains "://" %}
+  {% assign canonical_url = canonical_path %}
+{% else %}
+  {% assign canonical_last_segment = canonical_path | split: "/" | last %}
+  {% unless page.canonical_url or canonical_path == "/" or canonical_path contains "." or canonical_last_segment == "" %}
+    {% assign canonical_path = canonical_path | append: ".html" %}
+  {% endunless %}
+  {% assign canonical_url = canonical_path | prepend: site.url %}
+{% endif %}
 {% assign seo_image = page.image | default: page.fb-img | default: site.social_image | default: site.avatar %}
 {% if seo_image %}
   {% if seo_image contains "://" %}
@@ -56,9 +65,21 @@
   "jobTitle": {{ site.author.job_title | jsonify }},
   "description": {{ meta_description | strip | jsonify }},
   "sameAs": [
-    {% for profile_url in site.author.same_as %}
-    {{ profile_url | jsonify }}{% unless forloop.last %},{% endunless %}
-    {% endfor %}
+    {% assign same_as_separator = "" %}
+    {% if site.author.github %}
+    {{ same_as_separator }}"https://github.com/{{ site.author.github }}"{% assign same_as_separator = "," %}
+    {% endif %}
+    {% if site.author.linkedin %}
+    {{ same_as_separator }}"https://www.linkedin.com/in/{{ site.author.linkedin }}/"{% assign same_as_separator = "," %}
+    {% endif %}
+    {% if site.author.twitter %}
+    {{ same_as_separator }}"https://twitter.com/{{ site.author.twitter }}"{% assign same_as_separator = "," %}
+    {% endif %}
+    {% if site.author.same_as_extra %}
+      {% for profile_url in site.author.same_as_extra %}
+    {{ same_as_separator }}{{ profile_url | jsonify }}{% assign same_as_separator = "," %}
+      {% endfor %}
+    {% endif %}
   ]
 }
 </script>
