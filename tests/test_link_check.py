@@ -67,6 +67,27 @@ class LinkCheckTests(unittest.TestCase):
         self.assertEqual(links, rendered_links)
         self.assertNotIn("https://source.example/page", links)
 
+    def test_collect_rendered_external_links_ignores_absolute_site_urls(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            site_root = root / "_site"
+            site_root.mkdir()
+            (root / "_config.yml").write_text(
+                'url: "https://example.com"\n'
+                "author:\n"
+                '  url: "https://www.example.com/"\n',
+                encoding="utf-8",
+            )
+            (site_root / "index.html").write_text(
+                '<link rel="canonical" href="https://example.com/">'
+                '<meta property="og:url" content="https://example.com/page.html">'
+                '<a href="https://other.example/page">External</a>'
+                '<a href="https://www.example.com/about.html">Author URL</a>',
+                encoding="utf-8",
+            )
+            links = collect_rendered_external_links(build_paths(root))
+        self.assertEqual(list(links), ["https://other.example/page"])
+
     def test_allowlist_rule_matching_and_loading(self) -> None:
         self.assertTrue(AllowlistRule("domain", "example.com", "reason").matches("https://www.example.com/a"))
         self.assertFalse(
