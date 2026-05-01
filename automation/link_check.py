@@ -126,11 +126,6 @@ def _site_hosts(paths: Paths) -> set[str]:
         parsed = urlparse(str(payload.get(key, "")).strip())
         if parsed.hostname:
             hosts.add(parsed.hostname.lower())
-    author = payload.get("author")
-    if isinstance(author, dict):
-        parsed = urlparse(str(author.get("url", "")).strip())
-        if parsed.hostname:
-            hosts.add(parsed.hostname.lower())
     return hosts
 
 
