@@ -480,6 +480,45 @@ class RenderValidateTests(unittest.TestCase):
             )
         )
 
+    def test_teaching_index_summary_links_are_hardened(self) -> None:
+        link_course = Course(
+            slug="rel-guard",
+            title="Rel Guard",
+            subtitle="",
+            institution="Example University",
+            role="Instructor",
+            academic_period="2026",
+            status="active",
+            source_drive_folder_id="folder-rel-guard",
+            source_drive_folder_name="Rel Guard",
+            summary='See [external notes](https://example.com){:target="_blank"}.',
+            visibility="public",
+        )
+        link_materials = [
+            Material(
+                title="Week 1",
+                url="https://example.com/week-1",
+                kind="slides",
+                week=1,
+                section="Course Materials",
+                published=True,
+                sort_key="01-week-1",
+            )
+        ]
+        rendered_with_summary_link = render_teaching_block([link_course], {"rel-guard": link_materials})
+        self.assertIn(
+            '[external notes](https://example.com){:target="_blank" rel="noopener noreferrer"}',
+            rendered_with_summary_link,
+        )
+        self.assertNotIn(
+            '[external notes](https://example.com){:target="_blank"}.',
+            rendered_with_summary_link,
+        )
+        self.assertIn(
+            '<a href="https://example.com" target="_blank" rel="noopener noreferrer">external notes</a>',
+            render_kramdown_html(rendered_with_summary_link),
+        )
+
     def test_syllabus_helpers(self) -> None:
         doc_material = Material(
             title="Course details",

@@ -357,7 +357,15 @@ def render_teaching_block(courses: list[Course], materials_by_slug: dict[str, li
         rendered.extend([f'<section class="teaching-course-summary" id="{escape(course.slug)}" markdown="1">', f"## {course.title}", ""])
         if metadata:
             rendered.extend([metadata, ""])
-        rendered.extend([course.summary, "", f"[View course materials](/teaching/{course.slug})", "</section>", ""])
+        rendered.extend(
+            [
+                harden_blank_target_markdown(course.summary),
+                "",
+                f"[View course materials](/teaching/{course.slug})",
+                "</section>",
+                "",
+            ]
+        )
     rendered.append("</div>")
     rendered.append(TEACHING_MARKER_END)
     return "\n".join(rendered).rstrip() + "\n"
