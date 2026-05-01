@@ -9,6 +9,7 @@ from automation.config import build_paths
 from automation.link_check import (
     AllowlistRule,
     LinkCheckConfig,
+    LinkHTMLParser,
     check_external_links,
     collect_external_links,
     collect_rendered_external_links,
@@ -145,6 +146,16 @@ class LinkCheckTests(unittest.TestCase):
                 "https://profile.example/user",
                 "https://www.example.com/author",
             ],
+        )
+
+    def test_json_ld_parser_buffers_split_script_data(self) -> None:
+        parser = LinkHTMLParser()
+        parser.feed('<script type="application/ld+json">{"url": "https://split.')
+        parser.feed('example/page", "sameAs": ["https://profile.example/user"]}')
+        parser.feed("</script>")
+        self.assertEqual(
+            sorted(url for url, _ in parser.urls),
+            ["https://profile.example/user", "https://split.example/page"],
         )
 
     def test_allowlist_rule_matching_and_loading(self) -> None:

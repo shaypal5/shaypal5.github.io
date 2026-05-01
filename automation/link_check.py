@@ -89,6 +89,7 @@ class LinkHTMLParser(HTMLParser):
         self.urls: list[tuple[str, int]] = []
         self._script_type: str | None = None
         self._script_line: int | None = None
+        self._script_data: list[str] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         line, _ = self.getpos()
@@ -108,20 +109,27 @@ class LinkHTMLParser(HTMLParser):
             script_type = attr_map.get("type", "").split(";", maxsplit=1)[0].strip().lower()
             self._script_type = script_type or None
             self._script_line = line
+            self._script_data = []
 
     def handle_endtag(self, tag: str) -> None:
         if tag == "script":
+            if self._script_type == JSON_LD_SCRIPT_TYPE:
+                self._extract_json_ld_urls("".join(self._script_data))
             self._script_type = None
             self._script_line = None
+            self._script_data = []
 
     def handle_data(self, data: str) -> None:
         if self._script_type != JSON_LD_SCRIPT_TYPE:
             return
+        self._script_data.append(data)
+
+    def _extract_json_ld_urls(self, data: str) -> None:
         try:
             payload = json.loads(data)
         except json.JSONDecodeError:
             return
-        line = self._script_line or self.getpos()[0]
+        line = self._script_line or 1
         for url in _json_string_urls(payload):
             self.urls.append((url, line))
 
