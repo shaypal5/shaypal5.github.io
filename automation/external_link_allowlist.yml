@@ -1,0 +1,70 @@
+allowlist:
+  - match: domain
+    value: youtube.com
+    reason: YouTube often returns bot-protection or consent responses to automated probes.
+  - match: domain
+    value: youtu.be
+    reason: YouTube short links often return bot-protection or consent responses to automated probes.
+  - match: domain
+    value: linkedin.com
+    reason: LinkedIn returns non-standard bot-protection responses to automated CI probes.
+  - match: domain
+    value: aidatasummit.com
+    reason: Archived conference pages are retained for historical talk records but are no longer reliably online.
+  - match: domain
+    value: datahack-il.com
+    reason: Archived DataHack event microsites are retained for historical talk records but no longer resolve reliably.
+  - match: domain
+    value: odsl.github.io
+    reason: Archived project talk links are retained for historical context even when the old site is gone.
+  - match: domain
+    value: pmsphere.com
+    reason: Archived course-provider links are retained for historical talk records but no longer resolve reliably.
+  - match: domain
+    value: teldan.com
+    reason: Archived conference pages are retained for historical talk records but are no longer reliably online.
+  - match: domain
+    value: transdisciplinary-innovation.com
+    reason: Archived conference pages are retained for historical talk records but no longer resolve reliably.
+  - match: domain
+    value: xing-events.com
+    reason: Archived conference pages are retained for historical talk records but no longer resolve reliably.
+  - match: exact
+    value: http://law.haifa.ac.il/images/eventDocs/hofeshPROG.jpg
+    reason: Historical event-program image for an archived talk record no longer resolves reliably.
+  - match: exact
+    value: https://www.datahack.org.il/datalearn
+    reason: Historical DataLearn program page is retained for talk context but no longer resolves reliably.
+  - match: exact
+    value: https://towardsdatascience.com/data-science-project-flow-for-startups-282a93d4508d?source=friends_link&sk=7c29bb9683e4c3564d92d89d31a666d1
+    reason: Historical Medium friend link returns 404 to automated probes while retained as published writing history.
+  - match: exact
+    value: https://towardsdatascience.com/document-embedding-techniques-fed3e7a6a25d?source=friends_link&sk=158194696b5fe4cad9605f4648eb2a83
+    reason: Historical Medium friend link returns 404 to automated probes while retained as published writing history.
+  - match: exact
+    value: https://towardsdatascience.com/understanding-the-scaling-of-l%C2%B2-regularization-in-the-context-of-neural-networks-e3d25f8b50db?source=friends_link&sk=134172b5e9624f873ba6421197fb7bd6
+    reason: Historical Medium friend link returns 404 to automated probes while retained as published writing history.
+  - match: exact
+    value: https://towardsdatascience.com/stationarity-in-time-series-analysis-90c94f27322?source=friends_link&sk=df86eb7d8554c811da2e5dc77b72f53b
+    reason: Historical Medium friend link returns 404 to automated probes while retained as published writing history.
+  - match: exact
+    value: https://towardsdatascience.com/detecting-stationarity-in-time-series-data-d29e0a21e638?source=friends_link&sk=20318fcda95bc6be337f3d0740bc97d0
+    reason: Historical Medium friend link returns 404 to automated probes while retained as published writing history.
+  - match: exact
+    value: https://towardsdatascience.com/extensive-python-testing-on-travis-ci-4c24db9bf961?source=friends_link&sk=1f802db87726e285bc92b2f78c523045
+    reason: Historical Medium friend link returns 404 to automated probes while retained as published writing history.
+  - match: exact
+    value: https://towardsdatascience.com/publishing-your-own-python-package-3762f0d268ec?source=friends_link&sk=2367f72c162c26862b1b843aa3b0ed95
+    reason: Historical Medium friend link returns 404 to automated probes while retained as published writing history.
+  - match: exact
+    value: https://towardsdatascience.com/inferring-causality-in-time-series-data-b8b75fe52c46?source=friends_link&sk=37de8f0c1ab78e04d3a5cf1cdc5f3282
+    reason: Historical Medium friend link returns 404 to automated probes while retained as published talk context.
+  - match: exact
+    value: https://u4070062.dl.dropboxusercontent.com/u/4070062/Presentations/Teldan%20Conf%202016%20-%20Hackathons%20as%20a%20tool%20for%20knowledge%20transfer.pdf
+    reason: Historical Dropbox PDF link for an archived talk record no longer resolves reliably.
+  - match: prefix
+    value: https://www.kaggle.com/c/ashrae-energy-prediction
+    reason: Legacy Kaggle competition URL redirects inconsistently for automated CI probes.
+  - match: prefix
+    value: https://www.kaggle.com/competitions/feedback-prize-effectiveness
+    reason: Legacy Kaggle competition URL redirects inconsistently for automated CI probes.

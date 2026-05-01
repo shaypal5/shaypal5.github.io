@@ -98,6 +98,63 @@ class CliTests(unittest.TestCase):
                 self.assertEqual(cli.cmd_validate(argparse.Namespace()), 1)
         self.assertIn("bad data", buffer.getvalue())
 
+    def test_cmd_check_links(self) -> None:
+        summary = mock.Mock(checked=2, skipped=1, failures=[], skipped_by_rule={"domain:example.com": 1})
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_paths(Path(tmp))
+            with mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "check_external_links", return_value=summary) as check_links, \
+                mock.patch.object(cli, "_print_json") as print_json:
+                result = cli.cmd_check_links(
+                    argparse.Namespace(
+                        allowlist=Path("automation/external_link_allowlist.yml"),
+                        timeout=0.1,
+                        retries=0,
+                        workers=1,
+                        source="rendered",
+                        site_root=None,
+                    )
+                )
+        self.assertEqual(result, 0)
+        check_links.assert_called_once()
+        print_json.assert_called_with(
+            {
+                "action": "check-links",
+                "checked": 2,
+                "skipped": 1,
+                "skipped_by_rule": {"domain:example.com": 1},
+                "status": "ok",
+            }
+        )
+
+        failing_summary = mock.Mock(
+            checked=1,
+            skipped=0,
+            failures=["index.md:1: https://example.com failed: HTTP 404"],
+            skipped_by_rule={},
+        )
+        buffer = io.StringIO()
+        with tempfile.TemporaryDirectory() as tmp:
+            paths = build_paths(Path(tmp))
+            with mock.patch.object(cli, "build_paths", return_value=paths), \
+                mock.patch.object(cli, "check_external_links", return_value=failing_summary), \
+                mock.patch.object(cli, "_print_json") as print_json, \
+                contextlib.redirect_stderr(buffer):
+                result = cli.cmd_check_links(
+                    argparse.Namespace(
+                        allowlist=Path("automation/external_link_allowlist.yml"),
+                        timeout=0.1,
+                        retries=0,
+                        workers=1,
+                        source="rendered",
+                        site_root=None,
+                    )
+                )
+        self.assertEqual(result, 1)
+        self.assertIn("HTTP 404", buffer.getvalue())
+        self.assertEqual(print_json.call_args.args[0]["status"], "failed")
+        self.assertEqual(print_json.call_args.args[0]["failures"], 1)
+
     def test_cmd_clean_preview(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             paths = build_paths(Path(tmp))
