@@ -4,7 +4,7 @@
 # baseurl is the website's URL without the hostname
 
 # If you are building a simple GitHub user page (username.github.io) then use these settings:
-url: ""
+url: "https://shaypalachy.com"
 baseurl: ""
 
 # If you are building a GitHub project page then use these settings:
@@ -18,6 +18,9 @@ title: "Shay Palachy-Affek"
 
 # Short description of your site
 description: "Shay's personal web page"
+
+# Default image for social previews and structured data.
+social_image: /images/prof_200_200.png
 
 # --- Navigation bar options --- #
 
@@ -45,6 +48,8 @@ navbar-links:
 author:
   name: Shay Palachy-Affek
   email: "shay.palachy@gmail.com"
+  url: "https://shaypalachy.com/"
+  job_title: "Head of AI & Data"
   github: shaypal5    # eg. daattali
   # stackoverflow: 781531/shaypal5  # eg. "users/3943160/daattali"
   linkedin: shaypalachy  # eg. "pub/dean-attali/8/946/143"

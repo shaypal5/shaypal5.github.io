@@ -28,6 +28,24 @@ fail before Jekyll starts if Bundler 2.7.2 is not installed for that Ruby.
 Redirects use the GitHub Pages-supported `jekyll-redirect-from` plugin. See
 `docs/redirects.md` before renaming any public page or adding URL aliases.
 
+## SEO Metadata
+Common SEO, OpenGraph, Twitter card, canonical URL, and Person JSON-LD metadata
+is emitted by `_includes/seo.html` through the shared head include.
+
+Keep stable identity fields in `_config.yml`, especially `url`, `social_image`,
+`author.url`, `author.job_title`, and the profile handles under `author`. The
+Person JSON-LD `sameAs` list is derived from `author.github`,
+`author.linkedin`, and `author.twitter`; use `author.same_as_extra` only for
+additional profile URLs that cannot be derived from those handles. Page
+descriptions should stay in page front matter; for generated archive pages, edit
+the matching `data/*.yml` `front_matter.description` value instead of the
+generated Markdown.
+
+Optional page front matter:
+- `image`: page-specific social preview image. Relative paths are expanded to
+  absolute URLs.
+- `og_type`: page-specific OpenGraph type. Defaults to `website`.
+
 ## External Link Attributes
 Links that open a new tab must include Kramdown attributes for both the tab
 target and opener hardening:
