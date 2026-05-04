@@ -10,7 +10,7 @@ materials:
   published: true
   sort_key: 00-deep-learning-24-5-s0-course-intro
   notes: ''
-  description: Week 0 lecture slides
+  description: During the first lecture
 - title: 'Deep Learning 24/5 - S1: Introduction to Deep Learning'
   url: https://docs.google.com/presentation/d/1XVGCVHkjxG74iOIZvyaSN7Hw4YX2uC4YUx2uD14wbIE/edit?usp=drivesdk
   kind: slides
@@ -21,7 +21,7 @@ materials:
   published: true
   sort_key: 01-deep-learning-24-5-s1-introduction-to-deep-learning
   notes: ''
-  description: Week 1 lecture slides
+  description: Week 1 +2 lecture slides
 - title: 'Deep Learning 24/5 - S2: Deep Neural Networks'
   url: https://docs.google.com/presentation/d/1YiRU014LGUecxVHzYZr41ueY6CP4AWtRsupeSL86wLI/edit?usp=drivesdk
   kind: slides
@@ -32,7 +32,7 @@ materials:
   published: true
   sort_key: 02-deep-learning-24-5-s2-deep-neural-networks
   notes: ''
-  description: Week 2 lecture slides
+  description: Week 3 +4-ish lecture slides
 - title: 'Deep Learning 24/5 - S3: Convolutional Neural Networks'
   url: https://docs.google.com/presentation/d/1k06zscIaGeA3_6JZYvBv3_QO__zEq__BiY34c9xaIZQ/edit?usp=drivesdk
   kind: slides
@@ -43,7 +43,7 @@ materials:
   published: true
   sort_key: 03-deep-learning-24-5-s3-convolutional-neural-networks
   notes: ''
-  description: Week 3 lecture slides
+  description: Week 5 lecture slides
 - title: 'Deep Learning 24/5 - S4: Sequences, RNNs & Transformers'
   url: https://docs.google.com/presentation/d/1NDRYrXj4QtQpMIYPe5IiRe_AZd7IIrMrxudhTTFgGjU/edit?usp=drivesdk
   kind: slides
@@ -54,4 +54,4 @@ materials:
   published: true
   sort_key: 04-deep-learning-24-5-s4-sequences-rnns-transformers
   notes: ''
-  description: Week 4 lecture slides
+  description: Week 6+7 lecture slides
